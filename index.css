@@ -1,0 +1,67 @@
+/* Nexus OS - Global Styles */
+
+/* Custom scrollbar hiding for horizontal scroll areas */
+.hide-scrollbar::-webkit-scrollbar {
+  display: none;
+}
+.hide-scrollbar {
+  -ms-overflow-style: none;
+  scrollbar-width: none;
+}
+
+/* Glass morphism background classes */
+.bg-glass {
+  background: var(--c-bg-plate);
+  backdrop-filter: blur(var(--blur-plate));
+}
+
+.border-glassBorder {
+  border-color: var(--c-border-plate);
+}
+
+/* Animation keyframes */
+@keyframes fadeIn {
+  0% {
+    opacity: 0;
+    transform: translateY(10px);
+  }
+  100% {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes float {
+  0%, 100% {
+    transform: translateY(0);
+  }
+  50% {
+    transform: translateY(-10px);
+  }
+}
+
+.animate-fade-in {
+  animation: fadeIn 0.5s ease-out;
+}
+
+.animate-float {
+  animation: float 6s ease-in-out infinite;
+}
+
+/* Safe area padding for iOS */
+@supports (padding-bottom: env(safe-area-inset-bottom)) {
+  .safe-area-bottom {
+    padding-bottom: env(safe-area-inset-bottom);
+  }
+}
+
+/* Prevent overscroll bounce on iOS */
+html, body {
+  overscroll-behavior: none;
+}
+
+/* Selection styling */
+::selection {
+  background-color: rgba(99, 102, 241, 0.2);
+  color: #4338ca;
+}

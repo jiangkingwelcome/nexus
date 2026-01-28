@@ -1,0 +1,94 @@
+import React from 'react';
+
+// ==================== 导航相关 ====================
+
+export enum NavTab {
+  HOME = 'home',
+  LIBRARY = 'library',     // 图书馆
+  CINEMA = 'cinema',       // 电影院
+  FILES = 'files',         // 文件管理
+  SETTINGS = 'settings'
+}
+
+// ==================== 文件系统 ====================
+
+export type FileCategory = 'video' | 'audio' | 'image' | 'document' | 'ebook' | 'folder' | 'other';
+
+export interface FileItem {
+  name: string;
+  path: string;
+  size: number;
+  isDir: boolean;
+  modified: string;
+  category: FileCategory;
+  thumb?: string;
+  rawUrl?: string;
+}
+
+// ==================== 功能入口 ====================
+
+export interface AppEntry {
+  id: string;
+  name: string;
+  icon: React.ReactNode;
+  color: string;
+  tab: NavTab;
+  description: string;
+}
+
+// ==================== 最近访问 ====================
+
+export interface RecentItem {
+  id: string;
+  name: string;
+  path: string;
+  type: 'book' | 'video' | 'file';
+  progress: number;       // 0-100
+  lastAccess: string;
+  thumbnailUrl?: string;
+}
+
+// ==================== 阅读器 ====================
+
+export interface ReaderState {
+  filePath: string;
+  progress: number;
+  currentPage?: number;
+  totalPages?: number;
+  currentTime?: number;   // 视频用
+  duration?: number;      // 视频用
+}
+
+// ==================== 旧类型 (兼容) ====================
+
+export interface WidgetItem {
+  id: string;
+  name: string;
+  icon: React.ReactNode;
+  color: string;
+  route: string;
+}
+
+export interface LearningItem {
+  id: string;
+  title: string;
+  type: 'Book' | 'Video' | 'Course';
+  progress: number;
+  total: number;
+  current: number;
+  unit: string;
+  thumbnailUrl: string;
+}
+
+export type FileType = 'folder' | 'pdf' | 'video' | 'image' | 'app' | 'html' | 'doc' | 'book' | 'course';
+
+export interface FileSystemItem {
+  id: string;
+  name: string;
+  type: FileType;
+  size: string;
+  modified: string;
+  thumbnailUrl?: string;
+  appBadge?: string;
+  path?: string;
+}

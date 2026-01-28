@@ -1,0 +1,119 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover" />
+    <title>Knowledge OS</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+    <style>
+      /* Nexus Design System Tokens */
+      :root {
+        /* Base Colors - Light Mode */
+        --c-bg-base: #F1F5F9; /* Slate 100 */
+        --c-bg-plate: rgba(255, 255, 255, 0.65);
+        --c-border-plate: rgba(255, 255, 255, 0.6);
+        --c-text-primary: #1E293B; /* Slate 800 */
+        --c-text-secondary: #64748B; /* Slate 500 */
+        --c-accent: #4F46E5; /* Indigo 600 */
+        --c-accent-glow: rgba(79, 70, 229, 0.3);
+        
+        /* Effects */
+        --blur-plate: 20px;
+        --shadow-plate: 0 8px 32px 0 rgba(31, 38, 135, 0.07);
+      }
+
+      @media (prefers-color-scheme: dark) {
+        :root {
+          /* Base Colors - Dark Mode */
+          --c-bg-base: #0F172A; /* Slate 900 */
+          --c-bg-plate: rgba(30, 41, 59, 0.70); /* Slate 800 @ 70% */
+          --c-border-plate: rgba(255, 255, 255, 0.1);
+          --c-text-primary: #F8FAFC; /* Slate 50 */
+          --c-text-secondary: #94A3B8; /* Slate 400 */
+          --c-accent: #6366F1; /* Indigo 500 */
+          --c-accent-glow: rgba(99, 102, 241, 0.3);
+          
+          --shadow-plate: 0 8px 32px 0 rgba(0, 0, 0, 0.3);
+        }
+      }
+
+      /* Custom scrollbar hiding for horizontal scroll areas */
+      .hide-scrollbar::-webkit-scrollbar {
+        display: none;
+      }
+      .hide-scrollbar {
+        -ms-overflow-style: none;
+        scrollbar-width: none;
+      }
+      body {
+        font-family: 'Inter', sans-serif;
+        background-color: var(--c-bg-base);
+        color: var(--c-text-primary);
+        -webkit-tap-highlight-color: transparent;
+        transition: background-color 0.3s ease, color 0.3s ease;
+      }
+    </style>
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        nexus: {
+                            base: 'var(--c-bg-base)',
+                            plate: 'var(--c-bg-plate)',
+                            border: 'var(--c-border-plate)',
+                            primary: 'var(--c-text-primary)',
+                            secondary: 'var(--c-text-secondary)',
+                            accent: 'var(--c-accent)',
+                        }
+                    },
+                    boxShadow: {
+                        'glass': 'var(--shadow-plate)',
+                        'glow': '0 0 20px var(--c-accent-glow)',
+                        'glow-sm': '0 0 10px var(--c-accent-glow)',
+                    },
+                    backdropBlur: {
+                        'xs': '2px',
+                        'nexus': 'var(--blur-plate)',
+                    },
+                    borderRadius: {
+                        '3xl': '1.5rem',
+                        '4xl': '2rem',
+                    },
+                    animation: {
+                        'fade-in': 'fadeIn 0.5s ease-out',
+                        'float': 'float 6s ease-in-out infinite',
+                    },
+                    keyframes: {
+                        fadeIn: {
+                            '0%': { opacity: '0', transform: 'translateY(10px)' },
+                            '100%': { opacity: '1', transform: 'translateY(0)' },
+                        },
+                        float: {
+                            '0%, 100%': { transform: 'translateY(0)' },
+                            '50%': { transform: 'translateY(-10px)' },
+                        }
+                    }
+                }
+            }
+        }
+    </script>
+  <script type="importmap">
+{
+  "imports": {
+    "react/": "https://esm.sh/react@^19.2.4/",
+    "react": "https://esm.sh/react@^19.2.4",
+    "react-dom/": "https://esm.sh/react-dom@^19.2.4/"
+  }
+}
+</script>
+<link rel="stylesheet" href="/index.css">
+</head>
+  <body>
+    <div id="root"></div>
+  <script type="module" src="/index.tsx"></script>
+</body>
+</html>
