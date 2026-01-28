@@ -34,6 +34,7 @@ export interface AppEntry {
   color: string;
   tab: NavTab;
   description: string;
+  basePath: string;  // 该功能的根目录路径
 }
 
 // ==================== 最近访问 ====================

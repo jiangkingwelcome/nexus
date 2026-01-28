@@ -1,0 +1,303 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>微信读书风格图标</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+SC:wght@400;500;700&display=swap" rel="stylesheet">
+  <style>
+    * { font-family: 'Noto Sans SC', sans-serif; }
+    .icon-box { transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1); }
+    .icon-box:hover { transform: translateY(-6px) scale(1.05); }
+    .glass { backdrop-filter: blur(10px); background: rgba(255,255,255,0.7); }
+    
+    /* 微信读书同款渐变 */
+    .wx-gradient-1 { background: linear-gradient(135deg, #FFB347 0%, #FF6B6B 100%); }
+    .wx-gradient-2 { background: linear-gradient(135deg, #A8E6CF 0%, #56CCF2 100%); }
+    .wx-gradient-3 { background: linear-gradient(135deg, #667EEA 0%, #764BA2 100%); }
+    .wx-gradient-4 { background: linear-gradient(135deg, #FF9A9E 0%, #FECFEF 100%); }
+    .wx-gradient-5 { background: linear-gradient(135deg, #4FACFE 0%, #00F2FE 100%); }
+    .wx-gradient-6 { background: linear-gradient(135deg, #43E97B 0%, #38F9D7 100%); }
+    .wx-gradient-7 { background: linear-gradient(135deg, #FA709A 0%, #FEE140 100%); }
+    .wx-gradient-8 { background: linear-gradient(135deg, #a18cd1 0%, #fbc2eb 100%); }
+  </style>
+</head>
+<body class="bg-gradient-to-br from-gray-50 to-gray-100 min-h-screen p-6">
+  
+  <div class="max-w-5xl mx-auto">
+    <div class="text-center mb-10">
+      <h1 class="text-3xl font-bold text-gray-800 mb-3">📚 微信读书风格图标</h1>
+      <p class="text-gray-500">精致渐变 · 彩色图标 · 高级质感</p>
+    </div>
+
+    <!-- ==================== 微信读书原版风格 ==================== -->
+    <div class="bg-white rounded-3xl p-8 shadow-xl mb-8">
+      <h2 class="text-xl font-bold text-gray-800 mb-2">🎨 微信读书原版风格</h2>
+      <p class="text-sm text-gray-500 mb-6">渐变背景 + 白色图标 + 圆角矩形</p>
+      
+      <div class="grid grid-cols-4 md:grid-cols-8 gap-5">
+        <!-- 技术 -->
+        <div class="flex flex-col items-center gap-2">
+          <div class="icon-box w-16 h-16 rounded-2xl wx-gradient-1 flex items-center justify-center shadow-lg shadow-orange-300/50">
+            <svg class="w-8 h-8 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 20l4-16m4 4l4 4-4 4M6 16l-4-4 4-4"/>
+            </svg>
+          </div>
+          <span class="text-xs text-gray-600 font-medium">技术</span>
+        </div>
+        
+        <!-- 小说 -->
+        <div class="flex flex-col items-center gap-2">
+          <div class="icon-box w-16 h-16 rounded-2xl wx-gradient-2 flex items-center justify-center shadow-lg shadow-teal-300/50">
+            <svg class="w-8 h-8 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 6.253v13m0-13C10.832 5.477 9.246 5 7.5 5S4.168 5.477 3 6.253v13C4.168 18.477 5.754 18 7.5 18s3.332.477 4.5 1.253m0-13C13.168 5.477 14.754 5 16.5 5c1.747 0 3.332.477 4.5 1.253v13C19.832 18.477 18.247 18 16.5 18c-1.746 0-3.332.477-4.5 1.253"/>
+            </svg>
+          </div>
+          <span class="text-xs text-gray-600 font-medium">小说</span>
+        </div>
+        
+        <!-- 历史 -->
+        <div class="flex flex-col items-center gap-2">
+          <div class="icon-box w-16 h-16 rounded-2xl wx-gradient-3 flex items-center justify-center shadow-lg shadow-purple-300/50">
+            <svg class="w-8 h-8 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z"/>
+            </svg>
+          </div>
+          <span class="text-xs text-gray-600 font-medium">历史</span>
+        </div>
+        
+        <!-- 心理 -->
+        <div class="flex flex-col items-center gap-2">
+          <div class="icon-box w-16 h-16 rounded-2xl wx-gradient-4 flex items-center justify-center shadow-lg shadow-pink-300/50">
+            <svg class="w-8 h-8 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9.663 17h4.673M12 3v1m6.364 1.636l-.707.707M21 12h-1M4 12H3m3.343-5.657l-.707-.707m2.828 9.9a5 5 0 117.072 0l-.548.547A3.374 3.374 0 0014 18.469V19a2 2 0 11-4 0v-.531c0-.895-.356-1.754-.988-2.386l-.548-.547z"/>
+            </svg>
+          </div>
+          <span class="text-xs text-gray-600 font-medium">心理</span>
+        </div>
+        
+        <!-- 商业 -->
+        <div class="flex flex-col items-center gap-2">
+          <div class="icon-box w-16 h-16 rounded-2xl wx-gradient-5 flex items-center justify-center shadow-lg shadow-blue-300/50">
+            <svg class="w-8 h-8 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 13.255A23.931 23.931 0 0112 15c-3.183 0-6.22-.62-9-1.745M16 6V4a2 2 0 00-2-2h-4a2 2 0 00-2 2v2m4 6h.01M5 20h14a2 2 0 002-2V8a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z"/>
+            </svg>
+          </div>
+          <span class="text-xs text-gray-600 font-medium">商业</span>
+        </div>
+        
+        <!-- 设计 -->
+        <div class="flex flex-col items-center gap-2">
+          <div class="icon-box w-16 h-16 rounded-2xl wx-gradient-6 flex items-center justify-center shadow-lg shadow-green-300/50">
+            <svg class="w-8 h-8 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M7 21a4 4 0 01-4-4V5a2 2 0 012-2h4a2 2 0 012 2v12a4 4 0 01-4 4zm0 0h12a2 2 0 002-2v-4a2 2 0 00-2-2h-2.343M11 7.343l1.657-1.657a2 2 0 012.828 0l2.829 2.829a2 2 0 010 2.828l-8.486 8.485M7 17h.01"/>
+            </svg>
+          </div>
+          <span class="text-xs text-gray-600 font-medium">设计</span>
+        </div>
+        
+        <!-- 科学 -->
+        <div class="flex flex-col items-center gap-2">
+          <div class="icon-box w-16 h-16 rounded-2xl wx-gradient-7 flex items-center justify-center shadow-lg shadow-yellow-300/50">
+            <svg class="w-8 h-8 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19.428 15.428a2 2 0 00-1.022-.547l-2.387-.477a6 6 0 00-3.86.517l-.318.158a6 6 0 01-3.86.517L6.05 15.21a2 2 0 00-1.806.547M8 4h8l-1 1v5.172a2 2 0 00.586 1.414l5 5c1.26 1.26.367 3.414-1.415 3.414H4.828c-1.782 0-2.674-2.154-1.414-3.414l5-5A2 2 0 009 10.172V5L8 4z"/>
+            </svg>
+          </div>
+          <span class="text-xs text-gray-600 font-medium">科学</span>
+        </div>
+        
+        <!-- 全部 -->
+        <div class="flex flex-col items-center gap-2">
+          <div class="icon-box w-16 h-16 rounded-2xl wx-gradient-8 flex items-center justify-center shadow-lg shadow-purple-300/50">
+            <svg class="w-8 h-8 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6a2 2 0 012-2h2a2 2 0 012 2v2a2 2 0 01-2 2H6a2 2 0 01-2-2V6zM14 6a2 2 0 012-2h2a2 2 0 012 2v2a2 2 0 01-2 2h-2a2 2 0 01-2-2V6zM4 16a2 2 0 012-2h2a2 2 0 012 2v2a2 2 0 01-2 2H6a2 2 0 01-2-2v-2zM14 16a2 2 0 012-2h2a2 2 0 012 2v2a2 2 0 01-2 2h-2a2 2 0 01-2-2v-2z"/>
+            </svg>
+          </div>
+          <span class="text-xs text-gray-600 font-medium">全部</span>
+        </div>
+      </div>
+    </div>
+
+    <!-- ==================== 底部导航栏图标 ==================== -->
+    <div class="bg-white rounded-3xl p-8 shadow-xl mb-8">
+      <h2 class="text-xl font-bold text-gray-800 mb-2">📱 底部导航栏</h2>
+      <p class="text-sm text-gray-500 mb-6">微信读书底部 Tab 栏风格</p>
+      
+      <!-- 模拟底部导航 -->
+      <div class="bg-gray-50 rounded-2xl p-4">
+        <div class="flex justify-around items-end">
+          <!-- 书架 - 选中状态 -->
+          <div class="flex flex-col items-center gap-1">
+            <div class="w-7 h-7 flex items-center justify-center">
+              <svg class="w-6 h-6" viewBox="0 0 24 24" fill="none">
+                <defs>
+                  <linearGradient id="grad1" x1="0%" y1="0%" x2="100%" y2="100%">
+                    <stop offset="0%" style="stop-color:#FFB347"/>
+                    <stop offset="100%" style="stop-color:#FF6B6B"/>
+                  </linearGradient>
+                </defs>
+                <path fill="url(#grad1)" d="M12 6.253v13m0-13C10.832 5.477 9.246 5 7.5 5S4.168 5.477 3 6.253v13C4.168 18.477 5.754 18 7.5 18s3.332.477 4.5 1.253m0-13C13.168 5.477 14.754 5 16.5 5c1.747 0 3.332.477 4.5 1.253v13C19.832 18.477 18.247 18 16.5 18c-1.746 0-3.332.477-4.5 1.253"/>
+              </svg>
+            </div>
+            <span class="text-xs font-medium bg-gradient-to-r from-orange-400 to-red-400 bg-clip-text text-transparent">书架</span>
+          </div>
+          
+          <!-- 书城 -->
+          <div class="flex flex-col items-center gap-1">
+            <div class="w-7 h-7 flex items-center justify-center">
+              <svg class="w-6 h-6 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M8 14v3m4-3v3m4-3v3M3 21h18M3 10h18M3 7l9-4 9 4M4 10h16v11H4V10z"/>
+              </svg>
+            </div>
+            <span class="text-xs text-gray-400">书城</span>
+          </div>
+          
+          <!-- 统计 -->
+          <div class="flex flex-col items-center gap-1">
+            <div class="w-7 h-7 flex items-center justify-center">
+              <svg class="w-6 h-6 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M9 19v-6a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2a2 2 0 002-2zm0 0V9a2 2 0 012-2h2a2 2 0 012 2v10m-6 0a2 2 0 002 2h2a2 2 0 002-2m0 0V5a2 2 0 012-2h2a2 2 0 012 2v14a2 2 0 01-2 2h-2a2 2 0 01-2-2z"/>
+              </svg>
+            </div>
+            <span class="text-xs text-gray-400">统计</span>
+          </div>
+          
+          <!-- 我的 -->
+          <div class="flex flex-col items-center gap-1">
+            <div class="w-7 h-7 flex items-center justify-center">
+              <svg class="w-6 h-6 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z"/>
+              </svg>
+            </div>
+            <span class="text-xs text-gray-400">我的</span>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- ==================== 主应用入口图标 ==================== -->
+    <div class="bg-white rounded-3xl p-8 shadow-xl mb-8">
+      <h2 class="text-xl font-bold text-gray-800 mb-2">🏠 应用入口图标</h2>
+      <p class="text-sm text-gray-500 mb-6">Nexus 首页三大功能入口</p>
+      
+      <div class="flex justify-center gap-8">
+        <!-- 图书馆 -->
+        <div class="flex flex-col items-center gap-3">
+          <div class="icon-box w-20 h-20 rounded-[1.75rem] bg-gradient-to-br from-amber-400 via-orange-400 to-red-400 flex items-center justify-center shadow-2xl shadow-orange-400/40 relative overflow-hidden">
+            <div class="absolute inset-0 bg-white/10 rounded-[1.75rem]"></div>
+            <svg class="w-10 h-10 text-white relative z-10" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 6.253v13m0-13C10.832 5.477 9.246 5 7.5 5S4.168 5.477 3 6.253v13C4.168 18.477 5.754 18 7.5 18s3.332.477 4.5 1.253m0-13C13.168 5.477 14.754 5 16.5 5c1.747 0 3.332.477 4.5 1.253v13C19.832 18.477 18.247 18 16.5 18c-1.746 0-3.332.477-4.5 1.253"/>
+            </svg>
+          </div>
+          <span class="text-sm font-semibold text-gray-700">图书馆</span>
+        </div>
+        
+        <!-- 电影院 -->
+        <div class="flex flex-col items-center gap-3">
+          <div class="icon-box w-20 h-20 rounded-[1.75rem] bg-gradient-to-br from-purple-400 via-pink-400 to-rose-400 flex items-center justify-center shadow-2xl shadow-purple-400/40 relative overflow-hidden">
+            <div class="absolute inset-0 bg-white/10 rounded-[1.75rem]"></div>
+            <svg class="w-10 h-10 text-white relative z-10" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M7 4v16M17 4v16M3 8h4m10 0h4M3 12h18M3 16h4m10 0h4M4 20h16a1 1 0 001-1V5a1 1 0 00-1-1H4a1 1 0 00-1 1v14a1 1 0 001 1z"/>
+            </svg>
+          </div>
+          <span class="text-sm font-semibold text-gray-700">电影院</span>
+        </div>
+        
+        <!-- 文件管理 -->
+        <div class="flex flex-col items-center gap-3">
+          <div class="icon-box w-20 h-20 rounded-[1.75rem] bg-gradient-to-br from-blue-400 via-indigo-400 to-violet-500 flex items-center justify-center shadow-2xl shadow-blue-400/40 relative overflow-hidden">
+            <div class="absolute inset-0 bg-white/10 rounded-[1.75rem]"></div>
+            <svg class="w-10 h-10 text-white relative z-10" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 7v10a2 2 0 002 2h14a2 2 0 002-2V9a2 2 0 00-2-2h-6l-2-2H5a2 2 0 00-2 2z"/>
+            </svg>
+          </div>
+          <span class="text-sm font-semibold text-gray-700">文件管理</span>
+        </div>
+      </div>
+    </div>
+
+    <!-- ==================== 3D/玻璃拟态风格 ==================== -->
+    <div class="bg-gradient-to-br from-indigo-500 via-purple-500 to-pink-500 rounded-3xl p-8 shadow-xl mb-8">
+      <h2 class="text-xl font-bold text-white mb-2">✨ 3D 玻璃拟态风格</h2>
+      <p class="text-sm text-white/70 mb-6">Glassmorphism - 更现代的视觉效果</p>
+      
+      <div class="flex justify-center gap-6">
+        <div class="flex flex-col items-center gap-3">
+          <div class="icon-box w-20 h-20 rounded-[1.75rem] glass border border-white/30 flex items-center justify-center shadow-xl">
+            <svg class="w-10 h-10 text-white drop-shadow-lg" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 6.253v13m0-13C10.832 5.477 9.246 5 7.5 5S4.168 5.477 3 6.253v13C4.168 18.477 5.754 18 7.5 18s3.332.477 4.5 1.253m0-13C13.168 5.477 14.754 5 16.5 5c1.747 0 3.332.477 4.5 1.253v13C19.832 18.477 18.247 18 16.5 18c-1.746 0-3.332.477-4.5 1.253"/>
+            </svg>
+          </div>
+          <span class="text-sm font-semibold text-white">图书馆</span>
+        </div>
+        
+        <div class="flex flex-col items-center gap-3">
+          <div class="icon-box w-20 h-20 rounded-[1.75rem] glass border border-white/30 flex items-center justify-center shadow-xl">
+            <svg class="w-10 h-10 text-white drop-shadow-lg" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M7 4v16M17 4v16M3 8h4m10 0h4M3 12h18M3 16h4m10 0h4M4 20h16a1 1 0 001-1V5a1 1 0 00-1-1H4a1 1 0 00-1 1v14a1 1 0 001 1z"/>
+            </svg>
+          </div>
+          <span class="text-sm font-semibold text-white">电影院</span>
+        </div>
+        
+        <div class="flex flex-col items-center gap-3">
+          <div class="icon-box w-20 h-20 rounded-[1.75rem] glass border border-white/30 flex items-center justify-center shadow-xl">
+            <svg class="w-10 h-10 text-white drop-shadow-lg" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 7v10a2 2 0 002 2h14a2 2 0 002-2V9a2 2 0 00-2-2h-6l-2-2H5a2 2 0 00-2 2z"/>
+            </svg>
+          </div>
+          <span class="text-sm font-semibold text-white">文件管理</span>
+        </div>
+      </div>
+    </div>
+
+    <!-- ==================== 图标资源推荐 ==================== -->
+    <div class="bg-white rounded-3xl p-8 shadow-xl mb-8">
+      <h2 class="text-xl font-bold text-gray-800 mb-2">🔗 获取更多精美图标</h2>
+      <p class="text-sm text-gray-500 mb-6">推荐的高质量图标资源网站</p>
+      
+      <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+        <a href="https://www.iconfont.cn/" target="_blank" class="flex items-center gap-4 p-4 bg-gradient-to-r from-blue-50 to-indigo-50 rounded-2xl hover:shadow-lg transition-all group">
+          <div class="w-14 h-14 rounded-2xl bg-gradient-to-br from-blue-500 to-indigo-600 flex items-center justify-center text-white font-bold text-xl shadow-lg">阿</div>
+          <div>
+            <h3 class="font-bold text-gray-800 group-hover:text-blue-600">iconfont (阿里巴巴)</h3>
+            <p class="text-sm text-gray-500">国内最大图标库，免费，支持彩色</p>
+          </div>
+        </a>
+        
+        <a href="https://iconpark.oceanengine.com/" target="_blank" class="flex items-center gap-4 p-4 bg-gradient-to-r from-cyan-50 to-teal-50 rounded-2xl hover:shadow-lg transition-all group">
+          <div class="w-14 h-14 rounded-2xl bg-gradient-to-br from-cyan-500 to-teal-600 flex items-center justify-center text-white font-bold text-xl shadow-lg">字</div>
+          <div>
+            <h3 class="font-bold text-gray-800 group-hover:text-teal-600">IconPark (字节跳动)</h3>
+            <p class="text-sm text-gray-500">2600+ 图标，4种风格，设计精美</p>
+          </div>
+        </a>
+        
+        <a href="https://www.flaticon.com/" target="_blank" class="flex items-center gap-4 p-4 bg-gradient-to-r from-green-50 to-emerald-50 rounded-2xl hover:shadow-lg transition-all group">
+          <div class="w-14 h-14 rounded-2xl bg-gradient-to-br from-green-500 to-emerald-600 flex items-center justify-center text-white font-bold text-xl shadow-lg">F</div>
+          <div>
+            <h3 class="font-bold text-gray-800 group-hover:text-emerald-600">Flaticon</h3>
+            <p class="text-sm text-gray-500">全球最大图标库，1100万+ 图标</p>
+          </div>
+        </a>
+        
+        <a href="https://icons8.com/" target="_blank" class="flex items-center gap-4 p-4 bg-gradient-to-r from-purple-50 to-pink-50 rounded-2xl hover:shadow-lg transition-all group">
+          <div class="w-14 h-14 rounded-2xl bg-gradient-to-br from-purple-500 to-pink-600 flex items-center justify-center text-white font-bold text-xl shadow-lg">8</div>
+          <div>
+            <h3 class="font-bold text-gray-800 group-hover:text-purple-600">Icons8</h3>
+            <p class="text-sm text-gray-500">精美 3D/动画图标，专业设计</p>
+          </div>
+        </a>
+      </div>
+    </div>
+
+    <!-- 选择提示 -->
+    <div class="bg-gradient-to-r from-amber-50 to-orange-50 rounded-3xl p-6 border-2 border-amber-200 text-center">
+      <h3 class="text-xl font-bold text-amber-800 mb-2">💡 我的建议</h3>
+      <p class="text-amber-700">直接使用 <strong>CSS 渐变 + SVG 图标</strong> 的方式（如上面展示），无需下载额外图标库，效果跟微信读书一样精美！</p>
+    </div>
+  </div>
+
+</body>
+</html>

@@ -1,0 +1,430 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>图标库预览 - 选择你喜欢的风格</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+SC:wght@400;500;700&display=swap" rel="stylesheet">
+  <!-- 图标库 CDN -->
+  <script src="https://unpkg.com/lucide@latest"></script>
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@phosphor-icons/web@2.0.3/src/regular/style.css">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@tabler/icons-webfont@2.44.0/tabler-icons.min.css">
+  <style>
+    * { font-family: 'Noto Sans SC', sans-serif; }
+    .icon-card { transition: all 0.2s; }
+    .icon-card:hover { transform: translateY(-2px); box-shadow: 0 8px 25px rgba(0,0,0,0.1); }
+    .selected-lib { ring: 3px; ring-color: #f59e0b; background: #fffbeb; }
+  </style>
+</head>
+<body class="bg-slate-50 min-h-screen p-6">
+  
+  <div class="max-w-6xl mx-auto">
+    <h1 class="text-2xl font-bold text-slate-800 mb-2">🎨 图标库预览</h1>
+    <p class="text-slate-500 mb-6">选择你喜欢的图标风格，我来集成到项目中</p>
+
+    <!-- ==================== Lucide Icons ==================== -->
+    <div class="bg-white rounded-2xl p-6 shadow-sm mb-6 icon-card cursor-pointer" onclick="selectLibrary('lucide')">
+      <div class="flex items-center justify-between mb-4">
+        <div>
+          <h2 class="text-lg font-bold text-slate-800">Lucide Icons</h2>
+          <p class="text-sm text-slate-500">1,500+ 图标 · 简洁现代 · MIT 开源</p>
+        </div>
+        <a href="https://lucide.dev/icons/" target="_blank" class="text-xs text-amber-600 hover:underline">查看全部 →</a>
+      </div>
+      
+      <div class="grid grid-cols-8 md:grid-cols-12 gap-4">
+        <div class="flex flex-col items-center gap-1">
+          <div class="w-12 h-12 rounded-xl bg-slate-100 flex items-center justify-center">
+            <i data-lucide="book-open" class="w-6 h-6 text-slate-700"></i>
+          </div>
+          <span class="text-[10px] text-slate-500">书籍</span>
+        </div>
+        <div class="flex flex-col items-center gap-1">
+          <div class="w-12 h-12 rounded-xl bg-slate-100 flex items-center justify-center">
+            <i data-lucide="library" class="w-6 h-6 text-slate-700"></i>
+          </div>
+          <span class="text-[10px] text-slate-500">图书馆</span>
+        </div>
+        <div class="flex flex-col items-center gap-1">
+          <div class="w-12 h-12 rounded-xl bg-slate-100 flex items-center justify-center">
+            <i data-lucide="home" class="w-6 h-6 text-slate-700"></i>
+          </div>
+          <span class="text-[10px] text-slate-500">首页</span>
+        </div>
+        <div class="flex flex-col items-center gap-1">
+          <div class="w-12 h-12 rounded-xl bg-slate-100 flex items-center justify-center">
+            <i data-lucide="folder" class="w-6 h-6 text-slate-700"></i>
+          </div>
+          <span class="text-[10px] text-slate-500">文件夹</span>
+        </div>
+        <div class="flex flex-col items-center gap-1">
+          <div class="w-12 h-12 rounded-xl bg-slate-100 flex items-center justify-center">
+            <i data-lucide="film" class="w-6 h-6 text-slate-700"></i>
+          </div>
+          <span class="text-[10px] text-slate-500">电影</span>
+        </div>
+        <div class="flex flex-col items-center gap-1">
+          <div class="w-12 h-12 rounded-xl bg-slate-100 flex items-center justify-center">
+            <i data-lucide="bar-chart-3" class="w-6 h-6 text-slate-700"></i>
+          </div>
+          <span class="text-[10px] text-slate-500">统计</span>
+        </div>
+        <div class="flex flex-col items-center gap-1">
+          <div class="w-12 h-12 rounded-xl bg-slate-100 flex items-center justify-center">
+            <i data-lucide="user" class="w-6 h-6 text-slate-700"></i>
+          </div>
+          <span class="text-[10px] text-slate-500">用户</span>
+        </div>
+        <div class="flex flex-col items-center gap-1">
+          <div class="w-12 h-12 rounded-xl bg-slate-100 flex items-center justify-center">
+            <i data-lucide="settings" class="w-6 h-6 text-slate-700"></i>
+          </div>
+          <span class="text-[10px] text-slate-500">设置</span>
+        </div>
+        <div class="flex flex-col items-center gap-1">
+          <div class="w-12 h-12 rounded-xl bg-slate-100 flex items-center justify-center">
+            <i data-lucide="search" class="w-6 h-6 text-slate-700"></i>
+          </div>
+          <span class="text-[10px] text-slate-500">搜索</span>
+        </div>
+        <div class="flex flex-col items-center gap-1">
+          <div class="w-12 h-12 rounded-xl bg-slate-100 flex items-center justify-center">
+            <i data-lucide="plus" class="w-6 h-6 text-slate-700"></i>
+          </div>
+          <span class="text-[10px] text-slate-500">添加</span>
+        </div>
+        <div class="flex flex-col items-center gap-1">
+          <div class="w-12 h-12 rounded-xl bg-slate-100 flex items-center justify-center">
+            <i data-lucide="bookmark" class="w-6 h-6 text-slate-700"></i>
+          </div>
+          <span class="text-[10px] text-slate-500">书签</span>
+        </div>
+        <div class="flex flex-col items-center gap-1">
+          <div class="w-12 h-12 rounded-xl bg-slate-100 flex items-center justify-center">
+            <i data-lucide="clock" class="w-6 h-6 text-slate-700"></i>
+          </div>
+          <span class="text-[10px] text-slate-500">时钟</span>
+        </div>
+      </div>
+      
+      <!-- 彩色预览 -->
+      <div class="mt-4 pt-4 border-t border-slate-100">
+        <p class="text-xs text-slate-400 mb-3">彩色效果</p>
+        <div class="flex gap-3">
+          <div class="w-14 h-14 rounded-2xl bg-gradient-to-br from-amber-400 to-orange-500 flex items-center justify-center shadow-lg">
+            <i data-lucide="book-open" class="w-7 h-7 text-white"></i>
+          </div>
+          <div class="w-14 h-14 rounded-2xl bg-gradient-to-br from-purple-400 to-pink-500 flex items-center justify-center shadow-lg">
+            <i data-lucide="film" class="w-7 h-7 text-white"></i>
+          </div>
+          <div class="w-14 h-14 rounded-2xl bg-gradient-to-br from-blue-400 to-indigo-500 flex items-center justify-center shadow-lg">
+            <i data-lucide="folder" class="w-7 h-7 text-white"></i>
+          </div>
+          <div class="w-14 h-14 rounded-2xl bg-gradient-to-br from-emerald-400 to-teal-500 flex items-center justify-center shadow-lg">
+            <i data-lucide="bar-chart-3" class="w-7 h-7 text-white"></i>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- ==================== Tabler Icons ==================== -->
+    <div class="bg-white rounded-2xl p-6 shadow-sm mb-6 icon-card cursor-pointer" onclick="selectLibrary('tabler')">
+      <div class="flex items-center justify-between mb-4">
+        <div>
+          <h2 class="text-lg font-bold text-slate-800">Tabler Icons</h2>
+          <p class="text-sm text-slate-500">4,700+ 图标 · 手绘风格 · MIT 开源</p>
+        </div>
+        <a href="https://tabler.io/icons" target="_blank" class="text-xs text-amber-600 hover:underline">查看全部 →</a>
+      </div>
+      
+      <div class="grid grid-cols-8 md:grid-cols-12 gap-4">
+        <div class="flex flex-col items-center gap-1">
+          <div class="w-12 h-12 rounded-xl bg-slate-100 flex items-center justify-center">
+            <i class="ti ti-book text-2xl text-slate-700"></i>
+          </div>
+          <span class="text-[10px] text-slate-500">书籍</span>
+        </div>
+        <div class="flex flex-col items-center gap-1">
+          <div class="w-12 h-12 rounded-xl bg-slate-100 flex items-center justify-center">
+            <i class="ti ti-books text-2xl text-slate-700"></i>
+          </div>
+          <span class="text-[10px] text-slate-500">图书馆</span>
+        </div>
+        <div class="flex flex-col items-center gap-1">
+          <div class="w-12 h-12 rounded-xl bg-slate-100 flex items-center justify-center">
+            <i class="ti ti-home text-2xl text-slate-700"></i>
+          </div>
+          <span class="text-[10px] text-slate-500">首页</span>
+        </div>
+        <div class="flex flex-col items-center gap-1">
+          <div class="w-12 h-12 rounded-xl bg-slate-100 flex items-center justify-center">
+            <i class="ti ti-folder text-2xl text-slate-700"></i>
+          </div>
+          <span class="text-[10px] text-slate-500">文件夹</span>
+        </div>
+        <div class="flex flex-col items-center gap-1">
+          <div class="w-12 h-12 rounded-xl bg-slate-100 flex items-center justify-center">
+            <i class="ti ti-movie text-2xl text-slate-700"></i>
+          </div>
+          <span class="text-[10px] text-slate-500">电影</span>
+        </div>
+        <div class="flex flex-col items-center gap-1">
+          <div class="w-12 h-12 rounded-xl bg-slate-100 flex items-center justify-center">
+            <i class="ti ti-chart-bar text-2xl text-slate-700"></i>
+          </div>
+          <span class="text-[10px] text-slate-500">统计</span>
+        </div>
+        <div class="flex flex-col items-center gap-1">
+          <div class="w-12 h-12 rounded-xl bg-slate-100 flex items-center justify-center">
+            <i class="ti ti-user text-2xl text-slate-700"></i>
+          </div>
+          <span class="text-[10px] text-slate-500">用户</span>
+        </div>
+        <div class="flex flex-col items-center gap-1">
+          <div class="w-12 h-12 rounded-xl bg-slate-100 flex items-center justify-center">
+            <i class="ti ti-settings text-2xl text-slate-700"></i>
+          </div>
+          <span class="text-[10px] text-slate-500">设置</span>
+        </div>
+        <div class="flex flex-col items-center gap-1">
+          <div class="w-12 h-12 rounded-xl bg-slate-100 flex items-center justify-center">
+            <i class="ti ti-search text-2xl text-slate-700"></i>
+          </div>
+          <span class="text-[10px] text-slate-500">搜索</span>
+        </div>
+        <div class="flex flex-col items-center gap-1">
+          <div class="w-12 h-12 rounded-xl bg-slate-100 flex items-center justify-center">
+            <i class="ti ti-plus text-2xl text-slate-700"></i>
+          </div>
+          <span class="text-[10px] text-slate-500">添加</span>
+        </div>
+        <div class="flex flex-col items-center gap-1">
+          <div class="w-12 h-12 rounded-xl bg-slate-100 flex items-center justify-center">
+            <i class="ti ti-bookmark text-2xl text-slate-700"></i>
+          </div>
+          <span class="text-[10px] text-slate-500">书签</span>
+        </div>
+        <div class="flex flex-col items-center gap-1">
+          <div class="w-12 h-12 rounded-xl bg-slate-100 flex items-center justify-center">
+            <i class="ti ti-clock text-2xl text-slate-700"></i>
+          </div>
+          <span class="text-[10px] text-slate-500">时钟</span>
+        </div>
+      </div>
+      
+      <!-- 彩色预览 -->
+      <div class="mt-4 pt-4 border-t border-slate-100">
+        <p class="text-xs text-slate-400 mb-3">彩色效果</p>
+        <div class="flex gap-3">
+          <div class="w-14 h-14 rounded-2xl bg-gradient-to-br from-amber-400 to-orange-500 flex items-center justify-center shadow-lg">
+            <i class="ti ti-book text-2xl text-white"></i>
+          </div>
+          <div class="w-14 h-14 rounded-2xl bg-gradient-to-br from-purple-400 to-pink-500 flex items-center justify-center shadow-lg">
+            <i class="ti ti-movie text-2xl text-white"></i>
+          </div>
+          <div class="w-14 h-14 rounded-2xl bg-gradient-to-br from-blue-400 to-indigo-500 flex items-center justify-center shadow-lg">
+            <i class="ti ti-folder text-2xl text-white"></i>
+          </div>
+          <div class="w-14 h-14 rounded-2xl bg-gradient-to-br from-emerald-400 to-teal-500 flex items-center justify-center shadow-lg">
+            <i class="ti ti-chart-bar text-2xl text-white"></i>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- ==================== Phosphor Icons ==================== -->
+    <div class="bg-white rounded-2xl p-6 shadow-sm mb-6 icon-card cursor-pointer" onclick="selectLibrary('phosphor')">
+      <div class="flex items-center justify-between mb-4">
+        <div>
+          <h2 class="text-lg font-bold text-slate-800">Phosphor Icons</h2>
+          <p class="text-sm text-slate-500">1,200+ 图标 · 6种粗细 · MIT 开源</p>
+        </div>
+        <a href="https://phosphoricons.com/" target="_blank" class="text-xs text-amber-600 hover:underline">查看全部 →</a>
+      </div>
+      
+      <div class="grid grid-cols-8 md:grid-cols-12 gap-4">
+        <div class="flex flex-col items-center gap-1">
+          <div class="w-12 h-12 rounded-xl bg-slate-100 flex items-center justify-center">
+            <i class="ph ph-book-open text-2xl text-slate-700"></i>
+          </div>
+          <span class="text-[10px] text-slate-500">书籍</span>
+        </div>
+        <div class="flex flex-col items-center gap-1">
+          <div class="w-12 h-12 rounded-xl bg-slate-100 flex items-center justify-center">
+            <i class="ph ph-books text-2xl text-slate-700"></i>
+          </div>
+          <span class="text-[10px] text-slate-500">图书馆</span>
+        </div>
+        <div class="flex flex-col items-center gap-1">
+          <div class="w-12 h-12 rounded-xl bg-slate-100 flex items-center justify-center">
+            <i class="ph ph-house text-2xl text-slate-700"></i>
+          </div>
+          <span class="text-[10px] text-slate-500">首页</span>
+        </div>
+        <div class="flex flex-col items-center gap-1">
+          <div class="w-12 h-12 rounded-xl bg-slate-100 flex items-center justify-center">
+            <i class="ph ph-folder text-2xl text-slate-700"></i>
+          </div>
+          <span class="text-[10px] text-slate-500">文件夹</span>
+        </div>
+        <div class="flex flex-col items-center gap-1">
+          <div class="w-12 h-12 rounded-xl bg-slate-100 flex items-center justify-center">
+            <i class="ph ph-film-strip text-2xl text-slate-700"></i>
+          </div>
+          <span class="text-[10px] text-slate-500">电影</span>
+        </div>
+        <div class="flex flex-col items-center gap-1">
+          <div class="w-12 h-12 rounded-xl bg-slate-100 flex items-center justify-center">
+            <i class="ph ph-chart-bar text-2xl text-slate-700"></i>
+          </div>
+          <span class="text-[10px] text-slate-500">统计</span>
+        </div>
+        <div class="flex flex-col items-center gap-1">
+          <div class="w-12 h-12 rounded-xl bg-slate-100 flex items-center justify-center">
+            <i class="ph ph-user text-2xl text-slate-700"></i>
+          </div>
+          <span class="text-[10px] text-slate-500">用户</span>
+        </div>
+        <div class="flex flex-col items-center gap-1">
+          <div class="w-12 h-12 rounded-xl bg-slate-100 flex items-center justify-center">
+            <i class="ph ph-gear text-2xl text-slate-700"></i>
+          </div>
+          <span class="text-[10px] text-slate-500">设置</span>
+        </div>
+        <div class="flex flex-col items-center gap-1">
+          <div class="w-12 h-12 rounded-xl bg-slate-100 flex items-center justify-center">
+            <i class="ph ph-magnifying-glass text-2xl text-slate-700"></i>
+          </div>
+          <span class="text-[10px] text-slate-500">搜索</span>
+        </div>
+        <div class="flex flex-col items-center gap-1">
+          <div class="w-12 h-12 rounded-xl bg-slate-100 flex items-center justify-center">
+            <i class="ph ph-plus text-2xl text-slate-700"></i>
+          </div>
+          <span class="text-[10px] text-slate-500">添加</span>
+        </div>
+        <div class="flex flex-col items-center gap-1">
+          <div class="w-12 h-12 rounded-xl bg-slate-100 flex items-center justify-center">
+            <i class="ph ph-bookmark-simple text-2xl text-slate-700"></i>
+          </div>
+          <span class="text-[10px] text-slate-500">书签</span>
+        </div>
+        <div class="flex flex-col items-center gap-1">
+          <div class="w-12 h-12 rounded-xl bg-slate-100 flex items-center justify-center">
+            <i class="ph ph-clock text-2xl text-slate-700"></i>
+          </div>
+          <span class="text-[10px] text-slate-500">时钟</span>
+        </div>
+      </div>
+      
+      <!-- 彩色预览 -->
+      <div class="mt-4 pt-4 border-t border-slate-100">
+        <p class="text-xs text-slate-400 mb-3">彩色效果</p>
+        <div class="flex gap-3">
+          <div class="w-14 h-14 rounded-2xl bg-gradient-to-br from-amber-400 to-orange-500 flex items-center justify-center shadow-lg">
+            <i class="ph ph-book-open text-2xl text-white"></i>
+          </div>
+          <div class="w-14 h-14 rounded-2xl bg-gradient-to-br from-purple-400 to-pink-500 flex items-center justify-center shadow-lg">
+            <i class="ph ph-film-strip text-2xl text-white"></i>
+          </div>
+          <div class="w-14 h-14 rounded-2xl bg-gradient-to-br from-blue-400 to-indigo-500 flex items-center justify-center shadow-lg">
+            <i class="ph ph-folder text-2xl text-white"></i>
+          </div>
+          <div class="w-14 h-14 rounded-2xl bg-gradient-to-br from-emerald-400 to-teal-500 flex items-center justify-center shadow-lg">
+            <i class="ph ph-chart-bar text-2xl text-white"></i>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- ==================== 图标库对比 ==================== -->
+    <div class="bg-white rounded-2xl p-6 shadow-sm mb-6">
+      <h2 class="text-lg font-bold text-slate-800 mb-4">📊 图标库对比</h2>
+      <div class="overflow-x-auto">
+        <table class="w-full text-sm">
+          <thead>
+            <tr class="border-b border-slate-100">
+              <th class="text-left py-3 px-2 text-slate-500 font-medium">图标库</th>
+              <th class="text-left py-3 px-2 text-slate-500 font-medium">数量</th>
+              <th class="text-left py-3 px-2 text-slate-500 font-medium">风格</th>
+              <th class="text-left py-3 px-2 text-slate-500 font-medium">特点</th>
+              <th class="text-left py-3 px-2 text-slate-500 font-medium">推荐度</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr class="border-b border-slate-50">
+              <td class="py-3 px-2 font-semibold text-slate-700">Lucide</td>
+              <td class="py-3 px-2 text-slate-600">1,500+</td>
+              <td class="py-3 px-2 text-slate-600">简洁现代</td>
+              <td class="py-3 px-2 text-slate-600">树摇优化、React 友好</td>
+              <td class="py-3 px-2"><span class="text-amber-500">⭐⭐⭐⭐⭐</span></td>
+            </tr>
+            <tr class="border-b border-slate-50">
+              <td class="py-3 px-2 font-semibold text-slate-700">Tabler</td>
+              <td class="py-3 px-2 text-slate-600">4,700+</td>
+              <td class="py-3 px-2 text-slate-600">手绘优雅</td>
+              <td class="py-3 px-2 text-slate-600">数量最多、适合仪表盘</td>
+              <td class="py-3 px-2"><span class="text-amber-500">⭐⭐⭐⭐⭐</span></td>
+            </tr>
+            <tr class="border-b border-slate-50">
+              <td class="py-3 px-2 font-semibold text-slate-700">Phosphor</td>
+              <td class="py-3 px-2 text-slate-600">1,200+</td>
+              <td class="py-3 px-2 text-slate-600">6种粗细</td>
+              <td class="py-3 px-2 text-slate-600">风格可选、设计感强</td>
+              <td class="py-3 px-2"><span class="text-amber-500">⭐⭐⭐⭐</span></td>
+            </tr>
+            <tr>
+              <td class="py-3 px-2 font-semibold text-slate-700">Heroicons</td>
+              <td class="py-3 px-2 text-slate-600">300+</td>
+              <td class="py-3 px-2 text-slate-600">Tailwind 风格</td>
+              <td class="py-3 px-2 text-slate-600">官方推荐、质量高</td>
+              <td class="py-3 px-2"><span class="text-amber-500">⭐⭐⭐⭐</span></td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+
+    <!-- 选择结果 -->
+    <div id="selection-result" class="hidden bg-amber-50 rounded-2xl p-6 border-2 border-amber-200">
+      <h3 class="font-bold text-amber-800 mb-2">已选择: <span id="selected-lib-name"></span></h3>
+      <p class="text-sm text-amber-700 mb-4">告诉我你选择了这个图标库，我会帮你集成到项目中！</p>
+      <div class="flex gap-2">
+        <button onclick="copySelection()" class="px-4 py-2 bg-amber-500 text-white text-sm font-medium rounded-lg hover:bg-amber-600 transition-colors">
+          复制选择
+        </button>
+      </div>
+    </div>
+  </div>
+
+  <script>
+    // 初始化 Lucide 图标
+    lucide.createIcons();
+
+    let selectedLibrary = null;
+
+    function selectLibrary(lib) {
+      const cards = document.querySelectorAll('.icon-card');
+      cards.forEach(card => card.classList.remove('selected-lib'));
+      
+      event.currentTarget.classList.add('selected-lib');
+      selectedLibrary = lib;
+      
+      const names = {
+        'lucide': 'Lucide Icons',
+        'tabler': 'Tabler Icons',
+        'phosphor': 'Phosphor Icons'
+      };
+      
+      document.getElementById('selected-lib-name').textContent = names[lib];
+      document.getElementById('selection-result').classList.remove('hidden');
+    }
+
+    function copySelection() {
+      navigator.clipboard.writeText(`我选择 ${selectedLibrary} 图标库`);
+      alert('已复制！直接粘贴告诉我就行');
+    }
+  </script>
+</body>
+</html>

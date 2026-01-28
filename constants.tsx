@@ -1,5 +1,6 @@
 import React from 'react';
 import { AppEntry, RecentItem, NavTab } from './types';
+import { PATH_CONFIG } from './src/config';
 
 // ==================== 功能入口图标 ====================
 
@@ -31,6 +32,7 @@ export const APP_ENTRIES: AppEntry[] = [
     color: 'bg-gradient-to-br from-amber-400 to-orange-500',
     tab: NavTab.LIBRARY,
     description: '阅读 PDF、EPUB、Markdown 文档',
+    basePath: PATH_CONFIG.library.basePath,
   },
   {
     id: 'cinema',
@@ -39,6 +41,7 @@ export const APP_ENTRIES: AppEntry[] = [
     color: 'bg-gradient-to-br from-purple-500 to-pink-500',
     tab: NavTab.CINEMA,
     description: '观看视频，支持进度记忆',
+    basePath: PATH_CONFIG.cinema.basePath,
   },
   {
     id: 'files',
@@ -47,6 +50,7 @@ export const APP_ENTRIES: AppEntry[] = [
     color: 'bg-gradient-to-br from-blue-400 to-indigo-500',
     tab: NavTab.FILES,
     description: '浏览和管理网盘文件',
+    basePath: PATH_CONFIG.files.basePath,
   },
 ];
 

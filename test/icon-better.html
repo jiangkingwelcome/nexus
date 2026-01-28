@@ -1,0 +1,381 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>高质量图标库对比</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+SC:wght@400;500;700&display=swap" rel="stylesheet">
+  <!-- IconPark -->
+  <script src="https://lf1-cdn-tos.bytegoofy.com/obj/iconpark/icons_19361_5.8c0c79db0322889d8f498f668fdaeda1.js"></script>
+  <!-- Remix Icon -->
+  <link href="https://cdn.jsdelivr.net/npm/remixicon@4.2.0/fonts/remixicon.css" rel="stylesheet">
+  <!-- Boxicons -->
+  <link href="https://unpkg.com/boxicons@2.1.4/css/boxicons.min.css" rel="stylesheet">
+  <style>
+    * { font-family: 'Noto Sans SC', sans-serif; }
+    .icon-card { transition: all 0.2s; cursor: pointer; }
+    .icon-card:hover { transform: translateY(-4px); box-shadow: 0 12px 30px rgba(0,0,0,0.12); }
+    .selected { ring: 3px; ring-color: #f59e0b; background: linear-gradient(135deg, #fffbeb 0%, #fef3c7 100%); }
+  </style>
+</head>
+<body class="bg-gradient-to-br from-slate-50 to-slate-100 min-h-screen p-6">
+  
+  <div class="max-w-6xl mx-auto">
+    <div class="text-center mb-8">
+      <h1 class="text-3xl font-bold text-slate-800 mb-2">🎨 高质量图标库推荐</h1>
+      <p class="text-slate-500">选择你喜欢的风格，点击卡片查看效果</p>
+    </div>
+
+    <!-- ==================== 1. IconPark (字节跳动) ==================== -->
+    <div class="icon-card bg-white rounded-3xl p-6 shadow-lg mb-6" onclick="selectLib('iconpark')">
+      <div class="flex items-center justify-between mb-4">
+        <div class="flex items-center gap-3">
+          <div class="w-12 h-12 rounded-2xl bg-gradient-to-br from-blue-500 to-indigo-600 flex items-center justify-center">
+            <span class="text-white text-2xl font-bold">IP</span>
+          </div>
+          <div>
+            <h2 class="text-xl font-bold text-slate-800">IconPark</h2>
+            <p class="text-sm text-slate-500">字节跳动出品 · 2,600+ 图标 · 4种风格</p>
+          </div>
+        </div>
+        <a href="https://iconpark.oceanengine.com/official" target="_blank" class="px-4 py-2 bg-blue-50 text-blue-600 text-sm font-medium rounded-full hover:bg-blue-100 transition-colors">
+          官网 →
+        </a>
+      </div>
+      
+      <div class="bg-slate-50 rounded-2xl p-4 mb-4">
+        <p class="text-xs text-slate-400 mb-3">线条风格 (Outline)</p>
+        <div class="flex gap-4 flex-wrap">
+          <div class="flex flex-col items-center gap-2">
+            <div class="w-14 h-14 rounded-2xl bg-white shadow-sm flex items-center justify-center">
+              <iconpark-icon name="book-open" size="28" color="#334155"></iconpark-icon>
+            </div>
+            <span class="text-[10px] text-slate-500">书籍</span>
+          </div>
+          <div class="flex flex-col items-center gap-2">
+            <div class="w-14 h-14 rounded-2xl bg-white shadow-sm flex items-center justify-center">
+              <iconpark-icon name="home" size="28" color="#334155"></iconpark-icon>
+            </div>
+            <span class="text-[10px] text-slate-500">首页</span>
+          </div>
+          <div class="flex flex-col items-center gap-2">
+            <div class="w-14 h-14 rounded-2xl bg-white shadow-sm flex items-center justify-center">
+              <iconpark-icon name="folder" size="28" color="#334155"></iconpark-icon>
+            </div>
+            <span class="text-[10px] text-slate-500">文件夹</span>
+          </div>
+          <div class="flex flex-col items-center gap-2">
+            <div class="w-14 h-14 rounded-2xl bg-white shadow-sm flex items-center justify-center">
+              <iconpark-icon name="film" size="28" color="#334155"></iconpark-icon>
+            </div>
+            <span class="text-[10px] text-slate-500">电影</span>
+          </div>
+          <div class="flex flex-col items-center gap-2">
+            <div class="w-14 h-14 rounded-2xl bg-white shadow-sm flex items-center justify-center">
+              <iconpark-icon name="chart-histogram" size="28" color="#334155"></iconpark-icon>
+            </div>
+            <span class="text-[10px] text-slate-500">统计</span>
+          </div>
+          <div class="flex flex-col items-center gap-2">
+            <div class="w-14 h-14 rounded-2xl bg-white shadow-sm flex items-center justify-center">
+              <iconpark-icon name="user" size="28" color="#334155"></iconpark-icon>
+            </div>
+            <span class="text-[10px] text-slate-500">用户</span>
+          </div>
+          <div class="flex flex-col items-center gap-2">
+            <div class="w-14 h-14 rounded-2xl bg-white shadow-sm flex items-center justify-center">
+              <iconpark-icon name="setting-two" size="28" color="#334155"></iconpark-icon>
+            </div>
+            <span class="text-[10px] text-slate-500">设置</span>
+          </div>
+          <div class="flex flex-col items-center gap-2">
+            <div class="w-14 h-14 rounded-2xl bg-white shadow-sm flex items-center justify-center">
+              <iconpark-icon name="search" size="28" color="#334155"></iconpark-icon>
+            </div>
+            <span class="text-[10px] text-slate-500">搜索</span>
+          </div>
+        </div>
+      </div>
+
+      <!-- 彩色效果 -->
+      <p class="text-xs text-slate-400 mb-3">彩色渐变效果</p>
+      <div class="flex gap-3">
+        <div class="w-16 h-16 rounded-2xl bg-gradient-to-br from-amber-400 to-orange-500 flex items-center justify-center shadow-lg shadow-orange-500/30">
+          <iconpark-icon name="book-open" size="32" color="#fff"></iconpark-icon>
+        </div>
+        <div class="w-16 h-16 rounded-2xl bg-gradient-to-br from-purple-400 to-pink-500 flex items-center justify-center shadow-lg shadow-purple-500/30">
+          <iconpark-icon name="film" size="32" color="#fff"></iconpark-icon>
+        </div>
+        <div class="w-16 h-16 rounded-2xl bg-gradient-to-br from-blue-400 to-indigo-500 flex items-center justify-center shadow-lg shadow-blue-500/30">
+          <iconpark-icon name="folder" size="32" color="#fff"></iconpark-icon>
+        </div>
+        <div class="w-16 h-16 rounded-2xl bg-gradient-to-br from-emerald-400 to-teal-500 flex items-center justify-center shadow-lg shadow-emerald-500/30">
+          <iconpark-icon name="chart-histogram" size="32" color="#fff"></iconpark-icon>
+        </div>
+      </div>
+      
+      <div class="mt-4 flex gap-2">
+        <span class="px-2 py-1 bg-blue-100 text-blue-600 text-xs rounded-full">React/Vue 支持</span>
+        <span class="px-2 py-1 bg-green-100 text-green-600 text-xs rounded-full">4 种风格</span>
+        <span class="px-2 py-1 bg-purple-100 text-purple-600 text-xs rounded-full">字节出品</span>
+      </div>
+    </div>
+
+    <!-- ==================== 2. Remix Icon ==================== -->
+    <div class="icon-card bg-white rounded-3xl p-6 shadow-lg mb-6" onclick="selectLib('remix')">
+      <div class="flex items-center justify-between mb-4">
+        <div class="flex items-center gap-3">
+          <div class="w-12 h-12 rounded-2xl bg-gradient-to-br from-rose-500 to-pink-600 flex items-center justify-center">
+            <span class="text-white text-2xl font-bold">Ri</span>
+          </div>
+          <div>
+            <h2 class="text-xl font-bold text-slate-800">Remix Icon</h2>
+            <p class="text-sm text-slate-500">中性风格 · 2,800+ 图标 · 线条+填充</p>
+          </div>
+        </div>
+        <a href="https://remixicon.com/" target="_blank" class="px-4 py-2 bg-rose-50 text-rose-600 text-sm font-medium rounded-full hover:bg-rose-100 transition-colors">
+          官网 →
+        </a>
+      </div>
+      
+      <div class="bg-slate-50 rounded-2xl p-4 mb-4">
+        <p class="text-xs text-slate-400 mb-3">线条风格 (Line)</p>
+        <div class="flex gap-4 flex-wrap">
+          <div class="flex flex-col items-center gap-2">
+            <div class="w-14 h-14 rounded-2xl bg-white shadow-sm flex items-center justify-center">
+              <i class="ri-book-open-line text-3xl text-slate-700"></i>
+            </div>
+            <span class="text-[10px] text-slate-500">书籍</span>
+          </div>
+          <div class="flex flex-col items-center gap-2">
+            <div class="w-14 h-14 rounded-2xl bg-white shadow-sm flex items-center justify-center">
+              <i class="ri-home-5-line text-3xl text-slate-700"></i>
+            </div>
+            <span class="text-[10px] text-slate-500">首页</span>
+          </div>
+          <div class="flex flex-col items-center gap-2">
+            <div class="w-14 h-14 rounded-2xl bg-white shadow-sm flex items-center justify-center">
+              <i class="ri-folder-3-line text-3xl text-slate-700"></i>
+            </div>
+            <span class="text-[10px] text-slate-500">文件夹</span>
+          </div>
+          <div class="flex flex-col items-center gap-2">
+            <div class="w-14 h-14 rounded-2xl bg-white shadow-sm flex items-center justify-center">
+              <i class="ri-movie-line text-3xl text-slate-700"></i>
+            </div>
+            <span class="text-[10px] text-slate-500">电影</span>
+          </div>
+          <div class="flex flex-col items-center gap-2">
+            <div class="w-14 h-14 rounded-2xl bg-white shadow-sm flex items-center justify-center">
+              <i class="ri-bar-chart-box-line text-3xl text-slate-700"></i>
+            </div>
+            <span class="text-[10px] text-slate-500">统计</span>
+          </div>
+          <div class="flex flex-col items-center gap-2">
+            <div class="w-14 h-14 rounded-2xl bg-white shadow-sm flex items-center justify-center">
+              <i class="ri-user-3-line text-3xl text-slate-700"></i>
+            </div>
+            <span class="text-[10px] text-slate-500">用户</span>
+          </div>
+          <div class="flex flex-col items-center gap-2">
+            <div class="w-14 h-14 rounded-2xl bg-white shadow-sm flex items-center justify-center">
+              <i class="ri-settings-4-line text-3xl text-slate-700"></i>
+            </div>
+            <span class="text-[10px] text-slate-500">设置</span>
+          </div>
+          <div class="flex flex-col items-center gap-2">
+            <div class="w-14 h-14 rounded-2xl bg-white shadow-sm flex items-center justify-center">
+              <i class="ri-search-line text-3xl text-slate-700"></i>
+            </div>
+            <span class="text-[10px] text-slate-500">搜索</span>
+          </div>
+        </div>
+      </div>
+
+      <div class="bg-slate-50 rounded-2xl p-4 mb-4">
+        <p class="text-xs text-slate-400 mb-3">填充风格 (Fill) - 更适合彩色背景</p>
+        <div class="flex gap-3">
+          <div class="w-16 h-16 rounded-2xl bg-gradient-to-br from-amber-400 to-orange-500 flex items-center justify-center shadow-lg shadow-orange-500/30">
+            <i class="ri-book-open-fill text-3xl text-white"></i>
+          </div>
+          <div class="w-16 h-16 rounded-2xl bg-gradient-to-br from-purple-400 to-pink-500 flex items-center justify-center shadow-lg shadow-purple-500/30">
+            <i class="ri-movie-fill text-3xl text-white"></i>
+          </div>
+          <div class="w-16 h-16 rounded-2xl bg-gradient-to-br from-blue-400 to-indigo-500 flex items-center justify-center shadow-lg shadow-blue-500/30">
+            <i class="ri-folder-3-fill text-3xl text-white"></i>
+          </div>
+          <div class="w-16 h-16 rounded-2xl bg-gradient-to-br from-emerald-400 to-teal-500 flex items-center justify-center shadow-lg shadow-emerald-500/30">
+            <i class="ri-bar-chart-box-fill text-3xl text-white"></i>
+          </div>
+        </div>
+      </div>
+      
+      <div class="flex gap-2">
+        <span class="px-2 py-1 bg-rose-100 text-rose-600 text-xs rounded-full">中性风格</span>
+        <span class="px-2 py-1 bg-green-100 text-green-600 text-xs rounded-full">商用免费</span>
+        <span class="px-2 py-1 bg-blue-100 text-blue-600 text-xs rounded-full">2800+ 图标</span>
+      </div>
+    </div>
+
+    <!-- ==================== 3. Boxicons ==================== -->
+    <div class="icon-card bg-white rounded-3xl p-6 shadow-lg mb-6" onclick="selectLib('boxicons')">
+      <div class="flex items-center justify-between mb-4">
+        <div class="flex items-center gap-3">
+          <div class="w-12 h-12 rounded-2xl bg-gradient-to-br from-cyan-500 to-blue-600 flex items-center justify-center">
+            <span class="text-white text-2xl font-bold">Bx</span>
+          </div>
+          <div>
+            <h2 class="text-xl font-bold text-slate-800">Boxicons</h2>
+            <p class="text-sm text-slate-500">1,600+ 图标 · 3种风格 · 圆润可爱</p>
+          </div>
+        </div>
+        <a href="https://boxicons.com/" target="_blank" class="px-4 py-2 bg-cyan-50 text-cyan-600 text-sm font-medium rounded-full hover:bg-cyan-100 transition-colors">
+          官网 →
+        </a>
+      </div>
+      
+      <div class="bg-slate-50 rounded-2xl p-4 mb-4">
+        <p class="text-xs text-slate-400 mb-3">Regular 风格</p>
+        <div class="flex gap-4 flex-wrap">
+          <div class="flex flex-col items-center gap-2">
+            <div class="w-14 h-14 rounded-2xl bg-white shadow-sm flex items-center justify-center">
+              <i class="bx bx-book-open text-3xl text-slate-700"></i>
+            </div>
+            <span class="text-[10px] text-slate-500">书籍</span>
+          </div>
+          <div class="flex flex-col items-center gap-2">
+            <div class="w-14 h-14 rounded-2xl bg-white shadow-sm flex items-center justify-center">
+              <i class="bx bx-home text-3xl text-slate-700"></i>
+            </div>
+            <span class="text-[10px] text-slate-500">首页</span>
+          </div>
+          <div class="flex flex-col items-center gap-2">
+            <div class="w-14 h-14 rounded-2xl bg-white shadow-sm flex items-center justify-center">
+              <i class="bx bx-folder text-3xl text-slate-700"></i>
+            </div>
+            <span class="text-[10px] text-slate-500">文件夹</span>
+          </div>
+          <div class="flex flex-col items-center gap-2">
+            <div class="w-14 h-14 rounded-2xl bg-white shadow-sm flex items-center justify-center">
+              <i class="bx bx-movie text-3xl text-slate-700"></i>
+            </div>
+            <span class="text-[10px] text-slate-500">电影</span>
+          </div>
+          <div class="flex flex-col items-center gap-2">
+            <div class="w-14 h-14 rounded-2xl bg-white shadow-sm flex items-center justify-center">
+              <i class="bx bx-bar-chart-alt-2 text-3xl text-slate-700"></i>
+            </div>
+            <span class="text-[10px] text-slate-500">统计</span>
+          </div>
+          <div class="flex flex-col items-center gap-2">
+            <div class="w-14 h-14 rounded-2xl bg-white shadow-sm flex items-center justify-center">
+              <i class="bx bx-user text-3xl text-slate-700"></i>
+            </div>
+            <span class="text-[10px] text-slate-500">用户</span>
+          </div>
+          <div class="flex flex-col items-center gap-2">
+            <div class="w-14 h-14 rounded-2xl bg-white shadow-sm flex items-center justify-center">
+              <i class="bx bx-cog text-3xl text-slate-700"></i>
+            </div>
+            <span class="text-[10px] text-slate-500">设置</span>
+          </div>
+          <div class="flex flex-col items-center gap-2">
+            <div class="w-14 h-14 rounded-2xl bg-white shadow-sm flex items-center justify-center">
+              <i class="bx bx-search text-3xl text-slate-700"></i>
+            </div>
+            <span class="text-[10px] text-slate-500">搜索</span>
+          </div>
+        </div>
+      </div>
+
+      <div class="bg-slate-50 rounded-2xl p-4 mb-4">
+        <p class="text-xs text-slate-400 mb-3">Solid 填充风格</p>
+        <div class="flex gap-3">
+          <div class="w-16 h-16 rounded-2xl bg-gradient-to-br from-amber-400 to-orange-500 flex items-center justify-center shadow-lg shadow-orange-500/30">
+            <i class="bx bxs-book-open text-3xl text-white"></i>
+          </div>
+          <div class="w-16 h-16 rounded-2xl bg-gradient-to-br from-purple-400 to-pink-500 flex items-center justify-center shadow-lg shadow-purple-500/30">
+            <i class="bx bxs-movie text-3xl text-white"></i>
+          </div>
+          <div class="w-16 h-16 rounded-2xl bg-gradient-to-br from-blue-400 to-indigo-500 flex items-center justify-center shadow-lg shadow-blue-500/30">
+            <i class="bx bxs-folder text-3xl text-white"></i>
+          </div>
+          <div class="w-16 h-16 rounded-2xl bg-gradient-to-br from-emerald-400 to-teal-500 flex items-center justify-center shadow-lg shadow-emerald-500/30">
+            <i class="bx bxs-bar-chart-alt-2 text-3xl text-white"></i>
+          </div>
+        </div>
+      </div>
+      
+      <div class="flex gap-2">
+        <span class="px-2 py-1 bg-cyan-100 text-cyan-600 text-xs rounded-full">圆润风格</span>
+        <span class="px-2 py-1 bg-green-100 text-green-600 text-xs rounded-full">MIT 开源</span>
+        <span class="px-2 py-1 bg-purple-100 text-purple-600 text-xs rounded-full">含 Logo 图标</span>
+      </div>
+    </div>
+
+    <!-- ==================== 对比表格 ==================== -->
+    <div class="bg-white rounded-3xl p-6 shadow-lg mb-6">
+      <h2 class="text-xl font-bold text-slate-800 mb-4">📊 图标库对比</h2>
+      <div class="overflow-x-auto">
+        <table class="w-full text-sm">
+          <thead>
+            <tr class="border-b-2 border-slate-100">
+              <th class="text-left py-3 px-3 text-slate-500 font-semibold">图标库</th>
+              <th class="text-left py-3 px-3 text-slate-500 font-semibold">数量</th>
+              <th class="text-left py-3 px-3 text-slate-500 font-semibold">风格</th>
+              <th class="text-left py-3 px-3 text-slate-500 font-semibold">特点</th>
+              <th class="text-left py-3 px-3 text-slate-500 font-semibold">推荐</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr class="border-b border-slate-50 hover:bg-slate-50">
+              <td class="py-3 px-3 font-semibold text-slate-700">IconPark</td>
+              <td class="py-3 px-3 text-slate-600">2,600+</td>
+              <td class="py-3 px-3 text-slate-600">4种 (线/填/双色/多色)</td>
+              <td class="py-3 px-3 text-slate-600">字节出品，设计统一</td>
+              <td class="py-3 px-3"><span class="text-amber-500 text-lg">⭐⭐⭐⭐⭐</span></td>
+            </tr>
+            <tr class="border-b border-slate-50 hover:bg-slate-50">
+              <td class="py-3 px-3 font-semibold text-slate-700">Remix Icon</td>
+              <td class="py-3 px-3 text-slate-600">2,800+</td>
+              <td class="py-3 px-3 text-slate-600">2种 (线/填充)</td>
+              <td class="py-3 px-3 text-slate-600">中性精致，商用友好</td>
+              <td class="py-3 px-3"><span class="text-amber-500 text-lg">⭐⭐⭐⭐⭐</span></td>
+            </tr>
+            <tr class="hover:bg-slate-50">
+              <td class="py-3 px-3 font-semibold text-slate-700">Boxicons</td>
+              <td class="py-3 px-3 text-slate-600">1,600+</td>
+              <td class="py-3 px-3 text-slate-600">3种 (线/填/Logo)</td>
+              <td class="py-3 px-3 text-slate-600">圆润可爱，易于辨识</td>
+              <td class="py-3 px-3"><span class="text-amber-500 text-lg">⭐⭐⭐⭐</span></td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+
+    <!-- 选择结果 -->
+    <div id="result" class="hidden bg-gradient-to-r from-amber-50 to-orange-50 rounded-3xl p-6 border-2 border-amber-200">
+      <h3 class="text-xl font-bold text-amber-800 mb-2">✅ 已选择: <span id="lib-name"></span></h3>
+      <p class="text-amber-700 mb-4">告诉我你选的图标库，我来更新原型！</p>
+    </div>
+  </div>
+
+  <script>
+    function selectLib(lib) {
+      document.querySelectorAll('.icon-card').forEach(c => c.classList.remove('selected'));
+      event.currentTarget.classList.add('selected');
+      
+      const names = {
+        'iconpark': 'IconPark (字节跳动)',
+        'remix': 'Remix Icon',
+        'boxicons': 'Boxicons'
+      };
+      
+      document.getElementById('lib-name').textContent = names[lib];
+      document.getElementById('result').classList.remove('hidden');
+    }
+  </script>
+</body>
+</html>

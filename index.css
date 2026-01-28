@@ -1,5 +1,14 @@
 /* Nexus OS - Global Styles */
 
+/* 全局隐藏滚动条 */
+*::-webkit-scrollbar {
+  display: none;
+}
+* {
+  -ms-overflow-style: none;
+  scrollbar-width: none;
+}
+
 /* Custom scrollbar hiding for horizontal scroll areas */
 .hide-scrollbar::-webkit-scrollbar {
   display: none;

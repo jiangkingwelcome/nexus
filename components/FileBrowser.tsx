@@ -5,6 +5,7 @@ import { SearchIcon, GridIcon, ListIcon } from './Icons';
 
 interface FileBrowserProps {
   path: string;
+  basePath?: string;       // 该功能的根目录路径，面包屑不会显示比这更上层的路径
   filter?: FileCategory[];
   title?: string;
   emptyMessage?: string;
@@ -15,6 +16,7 @@ interface FileBrowserProps {
 
 const FileBrowser: React.FC<FileBrowserProps> = ({
   path,
+  basePath = '/',
   filter,
   title = '文件',
   emptyMessage = '这里还没有文件',
@@ -81,16 +83,36 @@ const FileBrowser: React.FC<FileBrowserProps> = ({
     f.name.toLowerCase().includes(searchQuery.toLowerCase())
   );
 
-  // 解析面包屑路径
-  const breadcrumbs = path === '/' 
-    ? [{ name: '根目录', path: '/' }]
-    : [
-        { name: '根目录', path: '/' },
-        ...path.split('/').filter(Boolean).map((segment, index, arr) => ({
-          name: segment,
-          path: '/' + arr.slice(0, index + 1).join('/'),
-        })),
-      ];
+  // 解析面包屑路径 (相对于 basePath)
+  const getBreadcrumbs = () => {
+    // 获取 basePath 的名称作为根目录显示名
+    const basePathName = basePath === '/' ? '根目录' : basePath.split('/').filter(Boolean).pop() || '根目录';
+    
+    // 如果当前路径就是 basePath
+    if (path === basePath || path === '/') {
+      return [{ name: basePathName, path: basePath }];
+    }
+    
+    // 计算相对于 basePath 的路径
+    const relativePath = path.startsWith(basePath) 
+      ? path.slice(basePath.length) 
+      : path;
+    
+    const segments = relativePath.split('/').filter(Boolean);
+    
+    return [
+      { name: basePathName, path: basePath },
+      ...segments.map((segment, index, arr) => ({
+        name: segment,
+        path: basePath + '/' + arr.slice(0, index + 1).join('/'),
+      })),
+    ];
+  };
+  
+  const breadcrumbs = getBreadcrumbs();
+  
+  // 检查是否可以返回上级 (不能超过 basePath)
+  const canNavigateUp = path !== basePath && path !== '/';
 
   // 获取文件图标
   const getFileIcon = (category: FileCategory) => {
@@ -145,12 +167,16 @@ const FileBrowser: React.FC<FileBrowserProps> = ({
           <div className="flex bg-white border border-slate-200 rounded-lg p-0.5">
             <button 
               onClick={() => setViewMode('grid')}
+              title="网格视图"
+              aria-label="切换到网格视图"
               className={`p-1.5 rounded-md transition-all ${viewMode === 'grid' ? 'bg-indigo-500 text-white shadow-sm' : 'text-slate-400 hover:text-slate-600'}`}
             >
               <GridIcon className="w-4 h-4" />
             </button>
             <button 
               onClick={() => setViewMode('list')}
+              title="列表视图"
+              aria-label="切换到列表视图"
               className={`p-1.5 rounded-md transition-all ${viewMode === 'list' ? 'bg-indigo-500 text-white shadow-sm' : 'text-slate-400 hover:text-slate-600'}`}
             >
               <ListIcon className="w-4 h-4" />
@@ -172,6 +198,19 @@ const FileBrowser: React.FC<FileBrowserProps> = ({
 
         {/* 面包屑导航 */}
         <div className="flex items-center gap-2 text-xs font-medium text-slate-500 overflow-x-auto hide-scrollbar">
+          {/* 返回按钮 */}
+          {canNavigateUp && (
+            <button
+              onClick={onNavigateUp}
+              className="flex items-center gap-1 px-2 py-1 rounded-lg bg-slate-100 hover:bg-slate-200 text-slate-600 transition-colors mr-2"
+            >
+              <svg className="w-3 h-3" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 19l-7-7 7-7" />
+              </svg>
+              返回
+            </button>
+          )}
+          
           {breadcrumbs.map((crumb, index) => (
             <React.Fragment key={crumb.path}>
               {index > 0 && <span className="text-slate-300">/</span>}

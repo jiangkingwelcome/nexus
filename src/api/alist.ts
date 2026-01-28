@@ -4,8 +4,11 @@
  */
 
 // Alist 服务器配置
+// 开发环境使用代理（避免 CORS），生产环境直接访问
+const isDev = import.meta.env.DEV;
 const ALIST_CONFIG = {
-  baseUrl: import.meta.env.VITE_ALIST_URL || 'http://localhost:5244',
+  baseUrl: isDev ? '' : (import.meta.env.VITE_ALIST_URL || 'http://localhost:5244'),
+  remoteUrl: import.meta.env.VITE_ALIST_URL || 'https://jiangking.v3cu.com:3004',
   token: import.meta.env.VITE_ALIST_TOKEN || '', // 优先使用环境变量中的 Token
 };
 
@@ -71,7 +74,8 @@ export function clearToken(): void {
  */
 export async function login(username: string, password: string): Promise<string> {
   try {
-    const response = await fetch(`${ALIST_CONFIG.baseUrl}/api/auth/login`, {
+    const baseUrl = getBaseUrl();
+    const response = await fetch(`${baseUrl}/api/auth/login`, {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify({ username, password }),
@@ -97,7 +101,8 @@ export async function login(username: string, password: string): Promise<string>
  */
 export async function getCurrentUser(): Promise<AlistUserInfo['data'] | null> {
   try {
-    const response = await fetch(`${ALIST_CONFIG.baseUrl}/api/me`, {
+    const baseUrl = getBaseUrl();
+    const response = await fetch(`${baseUrl}/api/me`, {
       method: 'GET',
       headers: getHeaders(),
     });
@@ -201,8 +206,12 @@ export function setBaseUrl(url: string): void {
 
 /**
  * 获取 Alist 服务器地址
+ * 开发环境返回空字符串（使用 Vite 代理）
  */
 export function getBaseUrl(): string {
+  if (isDev) {
+    return ''; // 开发环境使用代理
+  }
   const saved = localStorage.getItem('alist_url');
   if (saved) {
     ALIST_CONFIG.baseUrl = saved;
@@ -215,7 +224,8 @@ export function getBaseUrl(): string {
  */
 export async function listFiles(path: string = '/'): Promise<AlistFile[]> {
   try {
-    const response = await fetch(`${ALIST_CONFIG.baseUrl}/api/fs/list`, {
+    const baseUrl = getBaseUrl();
+    const response = await fetch(`${baseUrl}/api/fs/list`, {
       method: 'POST',
       headers: getHeaders(),
       body: JSON.stringify({
@@ -245,7 +255,8 @@ export async function listFiles(path: string = '/'): Promise<AlistFile[]> {
  */
 export async function getFileInfo(path: string): Promise<AlistGetResponse['data']> {
   try {
-    const response = await fetch(`${ALIST_CONFIG.baseUrl}/api/fs/get`, {
+    const baseUrl = getBaseUrl();
+    const response = await fetch(`${baseUrl}/api/fs/get`, {
       method: 'POST',
       headers: getHeaders(),
       body: JSON.stringify({
@@ -269,10 +280,47 @@ export async function getFileInfo(path: string): Promise<AlistGetResponse['data'
 
 /**
  * 获取文件直链 URL
+ * 对于需要授权的存储（如百度网盘），使用 Alist 代理下载
  */
-export async function getFileUrl(path: string): Promise<string> {
+export async function getFileUrl(path: string, useProxy: boolean = true): Promise<string> {
+  // 获取文件信息（包含 sign）
   const fileInfo = await getFileInfo(path);
+  
+  if (useProxy) {
+    // 使用 Alist 代理下载（更可靠，支持百度网盘等需要授权的存储）
+    const baseUrl = getBaseUrl();
+    // 编码路径，但保留斜杠
+    const encodedPath = path.split('/').map(p => encodeURIComponent(p)).join('/');
+    // 如果有签名，添加 sign 参数
+    const signParam = fileInfo.sign ? `?sign=${fileInfo.sign}` : '';
+    return `${baseUrl}/d${encodedPath}${signParam}`;
+  }
+  
+  // 直接获取 raw_url（某些存储可能不支持）
   return fileInfo.raw_url;
+}
+
+/**
+ * 获取文件代理下载 URL（用于读取文件内容）
+ * 对于百度网盘等需要授权的存储，使用 /d/ 代理下载
+ */
+export async function getProxyUrl(path: string): Promise<string> {
+  const fileInfo = await getFileInfo(path);
+  const baseUrl = getBaseUrl();
+  const encodedPath = path.split('/').map(p => encodeURIComponent(p)).join('/');
+  const signParam = fileInfo.sign ? `?sign=${fileInfo.sign}` : '';
+  // 使用 /d/ 路径代理下载（支持百度网盘）
+  return `${baseUrl}/d${encodedPath}${signParam}`;
+}
+
+/**
+ * 获取 Alist 预览页面 URL（用于嵌入 iframe）
+ */
+export function getPreviewUrl(path: string): string {
+  // 使用远程 URL（Alist 自带的预览界面）
+  const remoteUrl = ALIST_CONFIG.remoteUrl;
+  const encodedPath = path.split('/').map(p => encodeURIComponent(p)).join('/');
+  return `${remoteUrl}${encodedPath}`;
 }
 
 /**

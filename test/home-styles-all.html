@@ -1,0 +1,837 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Nexus - 主页风格大全</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=Playfair+Display:wght@400;500;600;700&family=Poppins:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+  <style>
+    * { font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif; }
+    .tab-btn { transition: all 0.2s ease; }
+    .tab-btn.active { background: linear-gradient(135deg, #6366f1, #8b5cf6); color: white; }
+    .style-panel { display: none; animation: fadeIn 0.3s ease; }
+    .style-panel.active { display: block; }
+    @keyframes fadeIn { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
+    
+    /* 各风格专属样式 */
+    .font-display { font-family: 'Playfair Display', Georgia, serif; }
+    .font-poppins { font-family: 'Poppins', sans-serif; }
+    
+    /* 毛玻璃 */
+    .glass { background: rgba(255, 255, 255, 0.05); backdrop-filter: blur(20px); border: 1px solid rgba(255, 255, 255, 0.1); }
+    .glass-strong { background: rgba(255, 255, 255, 0.08); backdrop-filter: blur(30px); border: 1px solid rgba(255, 255, 255, 0.15); }
+    .orb { position: absolute; border-radius: 50%; filter: blur(80px); opacity: 0.4; pointer-events: none; }
+    
+    /* Bento */
+    .shadow-soft { box-shadow: 0 2px 20px rgba(0,0,0,0.06); }
+    .shadow-soft:hover { box-shadow: 0 8px 30px rgba(0,0,0,0.1); }
+    
+    /* 渐变 */
+    .text-gradient { background: linear-gradient(135deg, #ec4899, #8b5cf6, #06b6d4); -webkit-background-clip: text; -webkit-text-fill-color: transparent; }
+    .gradient-border { position: relative; background: white; }
+    .gradient-border::before { content: ''; position: absolute; inset: -2px; border-radius: inherit; background: linear-gradient(135deg, #f472b6, #818cf8, #38bdf8); z-index: -1; opacity: 0; transition: opacity 0.3s ease; }
+    .gradient-border:hover::before { opacity: 1; }
+    
+    /* iOS */
+    .ios-blur { backdrop-filter: saturate(180%) blur(20px); -webkit-backdrop-filter: saturate(180%) blur(20px); }
+    .ios-divider { height: 0.5px; background: rgba(60, 60, 67, 0.12); }
+    
+    /* 通用卡片动画 */
+    .card-hover { transition: all 0.25s cubic-bezier(0.4, 0, 0.2, 1); }
+    .card-hover:hover { transform: translateY(-4px) scale(1.02); }
+    .card-hover:active { transform: scale(0.98); }
+    
+    /* 滚动条隐藏 */
+    .hide-scrollbar::-webkit-scrollbar { display: none; }
+    .hide-scrollbar { -ms-overflow-style: none; scrollbar-width: none; }
+  </style>
+</head>
+<body class="bg-slate-100 min-h-screen">
+  
+  <!-- 顶部导航栏 -->
+  <header class="sticky top-0 z-50 bg-white/80 backdrop-blur-xl border-b border-slate-200 px-4 py-3">
+    <div class="max-w-6xl mx-auto flex items-center justify-between">
+      <div class="flex items-center gap-3">
+        <div class="w-10 h-10 rounded-xl bg-gradient-to-br from-indigo-500 to-purple-600 flex items-center justify-center shadow-lg">
+          <span class="text-white font-bold">N</span>
+        </div>
+        <div>
+          <h1 class="font-bold text-slate-800">Nexus 主页风格</h1>
+          <p class="text-xs text-slate-400">选择你喜欢的设计风格</p>
+        </div>
+      </div>
+      <div class="text-sm text-slate-500">
+        共 <span class="font-bold text-indigo-600">5</span> 种风格
+      </div>
+    </div>
+  </header>
+
+  <!-- 风格选择标签 -->
+  <nav class="sticky top-[73px] z-40 bg-slate-100 px-4 py-4 border-b border-slate-200">
+    <div class="max-w-6xl mx-auto">
+      <div class="flex gap-2 overflow-x-auto hide-scrollbar pb-1">
+        <button onclick="showStyle(1)" class="tab-btn active flex-shrink-0 px-4 py-2 rounded-full text-sm font-semibold bg-slate-200 text-slate-600 hover:bg-slate-300">
+          🌙 毛玻璃暗黑
+        </button>
+        <button onclick="showStyle(2)" class="tab-btn flex-shrink-0 px-4 py-2 rounded-full text-sm font-semibold bg-slate-200 text-slate-600 hover:bg-slate-300">
+          ☀️ Bento 现代
+        </button>
+        <button onclick="showStyle(3)" class="tab-btn flex-shrink-0 px-4 py-2 rounded-full text-sm font-semibold bg-slate-200 text-slate-600 hover:bg-slate-300">
+          ✨ 极简优雅
+        </button>
+        <button onclick="showStyle(4)" class="tab-btn flex-shrink-0 px-4 py-2 rounded-full text-sm font-semibold bg-slate-200 text-slate-600 hover:bg-slate-300">
+          🌈 渐变活力
+        </button>
+        <button onclick="showStyle(5)" class="tab-btn flex-shrink-0 px-4 py-2 rounded-full text-sm font-semibold bg-slate-200 text-slate-600 hover:bg-slate-300">
+          📱 iOS 原生
+        </button>
+      </div>
+    </div>
+  </nav>
+
+  <!-- 风格预览区域 -->
+  <main class="max-w-6xl mx-auto px-4 py-8">
+    <div class="grid grid-cols-1 lg:grid-cols-2 gap-8">
+      
+      <!-- 左侧：手机预览 -->
+      <div class="flex justify-center">
+        <div class="w-[375px] h-[812px] bg-black rounded-[50px] p-3 shadow-2xl">
+          <div class="w-full h-full bg-white rounded-[40px] overflow-hidden relative">
+            <!-- 刘海 -->
+            <div class="absolute top-0 left-1/2 -translate-x-1/2 w-32 h-7 bg-black rounded-b-2xl z-50"></div>
+            
+            <!-- 风格内容 -->
+            <div class="w-full h-full overflow-y-auto hide-scrollbar">
+              
+              <!-- ========== 风格1: 毛玻璃暗黑 ========== -->
+              <div id="style-1" class="style-panel active min-h-full" style="background: linear-gradient(135deg, #0f0f23 0%, #1a1a2e 50%, #16213e 100%);">
+                <div class="orb w-48 h-48 bg-purple-600 top-[-10%] left-[-10%]"></div>
+                <div class="orb w-40 h-40 bg-blue-600 bottom-[20%] right-[-5%]"></div>
+                
+                <div class="relative z-10 px-5 pt-12 pb-24">
+                  <!-- Header -->
+                  <div class="glass rounded-2xl p-4 mb-5 flex items-center justify-between">
+                    <div class="flex items-center gap-3">
+                      <div class="w-11 h-11 rounded-xl bg-gradient-to-br from-violet-500 to-fuchsia-500 flex items-center justify-center shadow-lg">
+                        <span class="text-white font-bold">N</span>
+                      </div>
+                      <div>
+                        <h1 class="text-white font-bold">Nexus</h1>
+                        <p class="text-[10px] text-white/50">个人媒体中心</p>
+                      </div>
+                    </div>
+                    <div class="w-9 h-9 rounded-full bg-gradient-to-br from-cyan-400 to-blue-500"></div>
+                  </div>
+
+                  <!-- 搜索 -->
+                  <div class="glass rounded-2xl p-3 mb-5 flex items-center gap-3">
+                    <svg class="w-4 h-4 text-white/40" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"/></svg>
+                    <span class="text-white/40 text-sm">搜索...</span>
+                  </div>
+
+                  <!-- 功能入口 -->
+                  <p class="text-xs text-white/50 mb-3 px-1">快捷入口</p>
+                  <div class="grid grid-cols-3 gap-3 mb-6">
+                    <div class="card-hover glass-strong rounded-2xl p-3 flex flex-col items-center">
+                      <div class="w-12 h-12 rounded-xl bg-gradient-to-br from-amber-400 to-orange-500 flex items-center justify-center mb-2 shadow-lg">
+                        <svg class="w-6 h-6 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 6.253v13m0-13C10.832 5.477 9.246 5 7.5 5S4.168 5.477 3 6.253v13C4.168 18.477 5.754 18 7.5 18s3.332.477 4.5 1.253m0-13C13.168 5.477 14.754 5 16.5 5c1.747 0 3.332.477 4.5 1.253v13C19.832 18.477 18.247 18 16.5 18c-1.746 0-3.332.477-4.5 1.253"/></svg>
+                      </div>
+                      <span class="text-xs text-white/80">图书馆</span>
+                    </div>
+                    <div class="card-hover glass-strong rounded-2xl p-3 flex flex-col items-center">
+                      <div class="w-12 h-12 rounded-xl bg-gradient-to-br from-purple-500 to-pink-500 flex items-center justify-center mb-2 shadow-lg">
+                        <svg class="w-6 h-6 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M7 4v16M17 4v16M3 8h4m10 0h4M3 12h18M3 16h4m10 0h4M4 20h16a1 1 0 001-1V5a1 1 0 00-1-1H4a1 1 0 00-1 1v14a1 1 0 001 1z"/></svg>
+                      </div>
+                      <span class="text-xs text-white/80">电影院</span>
+                    </div>
+                    <div class="card-hover glass-strong rounded-2xl p-3 flex flex-col items-center">
+                      <div class="w-12 h-12 rounded-xl bg-gradient-to-br from-blue-400 to-indigo-500 flex items-center justify-center mb-2 shadow-lg">
+                        <svg class="w-6 h-6 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 7v10a2 2 0 002 2h14a2 2 0 002-2V9a2 2 0 00-2-2h-6l-2-2H5a2 2 0 00-2 2z"/></svg>
+                      </div>
+                      <span class="text-xs text-white/80">文件</span>
+                    </div>
+                  </div>
+
+                  <!-- 继续阅读 -->
+                  <p class="text-xs text-white/50 mb-3 px-1">继续阅读</p>
+                  <div class="glass-strong rounded-2xl p-4 mb-4">
+                    <div class="flex gap-3">
+                      <div class="w-14 h-[70px] rounded-xl bg-gradient-to-br from-rose-400 to-orange-400 flex-shrink-0 shadow-lg"></div>
+                      <div class="flex-1">
+                        <h3 class="font-bold text-white text-sm">代码整洁之道</h3>
+                        <p class="text-[10px] text-white/40 mt-1">Robert C. Martin</p>
+                        <div class="mt-3 h-1.5 bg-white/10 rounded-full overflow-hidden">
+                          <div class="h-full w-[45%] bg-gradient-to-r from-violet-500 to-fuchsia-500 rounded-full"></div>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+
+                  <!-- 存储 -->
+                  <div class="glass rounded-2xl p-4">
+                    <div class="flex justify-between mb-2">
+                      <span class="text-xs text-white/50">存储空间</span>
+                      <span class="text-xs text-violet-400">128GB / 256GB</span>
+                    </div>
+                    <div class="h-1.5 bg-white/10 rounded-full overflow-hidden">
+                      <div class="h-full w-[50%] bg-gradient-to-r from-violet-500 via-fuchsia-500 to-pink-500 rounded-full"></div>
+                    </div>
+                  </div>
+                </div>
+
+                <!-- 底部导航 -->
+                <div class="absolute bottom-0 left-0 right-0 glass border-t border-white/10 px-4 py-3">
+                  <div class="flex justify-around">
+                    <div class="flex flex-col items-center gap-0.5 text-violet-400">
+                      <svg class="w-5 h-5" fill="currentColor" viewBox="0 0 24 24"><path d="M10 20v-6h4v6h5v-8h3L12 3 2 12h3v8z"/></svg>
+                      <span class="text-[9px]">首页</span>
+                    </div>
+                    <div class="flex flex-col items-center gap-0.5 text-white/40">
+                      <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 6.253v13m0-13C10.832 5.477 9.246 5 7.5 5S4.168 5.477 3 6.253v13C4.168 18.477 5.754 18 7.5 18s3.332.477 4.5 1.253m0-13C13.168 5.477 14.754 5 16.5 5c1.747 0 3.332.477 4.5 1.253v13C19.832 18.477 18.247 18 16.5 18c-1.746 0-3.332.477-4.5 1.253"/></svg>
+                      <span class="text-[9px]">图书</span>
+                    </div>
+                    <div class="flex flex-col items-center gap-0.5 text-white/40">
+                      <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M7 4v16M17 4v16M3 8h4m10 0h4M3 12h18M3 16h4m10 0h4M4 20h16a1 1 0 001-1V5a1 1 0 00-1-1H4a1 1 0 00-1 1v14a1 1 0 001 1z"/></svg>
+                      <span class="text-[9px]">电影</span>
+                    </div>
+                    <div class="flex flex-col items-center gap-0.5 text-white/40">
+                      <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10.325 4.317c.426-1.756 2.924-1.756 3.35 0a1.724 1.724 0 002.573 1.066c1.543-.94 3.31.826 2.37 2.37a1.724 1.724 0 001.065 2.572c1.756.426 1.756 2.924 0 3.35a1.724 1.724 0 00-1.066 2.573c.94 1.543-.826 3.31-2.37 2.37a1.724 1.724 0 00-2.572 1.065c-.426 1.756-2.924 1.756-3.35 0a1.724 1.724 0 00-2.573-1.066c-1.543.94-3.31-.826-2.37-2.37a1.724 1.724 0 00-1.065-2.572c-1.756-.426-1.756-2.924 0-3.35a1.724 1.724 0 001.066-2.573c-.94-1.543.826-3.31 2.37-2.37.996.608 2.296.07 2.572-1.065z"/><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z"/></svg>
+                      <span class="text-[9px]">设置</span>
+                    </div>
+                  </div>
+                </div>
+              </div>
+
+              <!-- ========== 风格2: Bento 现代 ========== -->
+              <div id="style-2" class="style-panel min-h-full bg-[#f8f9fc]">
+                <div class="px-5 pt-12 pb-24">
+                  <!-- Header -->
+                  <div class="flex items-center justify-between mb-6">
+                    <div>
+                      <p class="text-slate-400 text-xs">欢迎回来 👋</p>
+                      <h1 class="text-xl font-bold text-slate-800 mt-0.5">Jiangking</h1>
+                    </div>
+                    <div class="flex items-center gap-2">
+                      <div class="w-9 h-9 rounded-xl bg-white shadow-soft flex items-center justify-center">
+                        <svg class="w-4 h-4 text-slate-500" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"/></svg>
+                      </div>
+                      <div class="w-9 h-9 rounded-xl bg-gradient-to-br from-indigo-500 to-purple-600 shadow-lg"></div>
+                    </div>
+                  </div>
+
+                  <!-- Bento Grid -->
+                  <div class="grid grid-cols-2 gap-3 mb-6">
+                    <div class="col-span-2 card-hover bg-gradient-to-br from-amber-400 via-orange-400 to-orange-500 rounded-2xl p-4 shadow-lg">
+                      <div class="w-10 h-10 rounded-xl bg-white/20 flex items-center justify-center mb-3">
+                        <svg class="w-5 h-5 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 6.253v13m0-13C10.832 5.477 9.246 5 7.5 5S4.168 5.477 3 6.253v13C4.168 18.477 5.754 18 7.5 18s3.332.477 4.5 1.253m0-13C13.168 5.477 14.754 5 16.5 5c1.747 0 3.332.477 4.5 1.253v13C19.832 18.477 18.247 18 16.5 18c-1.746 0-3.332.477-4.5 1.253"/></svg>
+                      </div>
+                      <h2 class="text-lg font-bold text-white">图书馆</h2>
+                      <p class="text-white/70 text-xs mt-0.5">12 本书 · 3 正在阅读</p>
+                    </div>
+                    <div class="card-hover bg-gradient-to-br from-violet-500 to-purple-600 rounded-2xl p-3 aspect-square flex flex-col justify-between shadow-lg">
+                      <div class="w-8 h-8 rounded-lg bg-white/20 flex items-center justify-center">
+                        <svg class="w-4 h-4 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M7 4v16M17 4v16M3 8h4m10 0h4M3 12h18M3 16h4m10 0h4M4 20h16a1 1 0 001-1V5a1 1 0 00-1-1H4a1 1 0 00-1 1v14a1 1 0 001 1z"/></svg>
+                      </div>
+                      <div>
+                        <h3 class="font-bold text-white">电影院</h3>
+                        <p class="text-white/60 text-[10px]">8 部电影</p>
+                      </div>
+                    </div>
+                    <div class="card-hover bg-gradient-to-br from-blue-400 to-indigo-500 rounded-2xl p-3 aspect-square flex flex-col justify-between shadow-lg">
+                      <div class="w-8 h-8 rounded-lg bg-white/20 flex items-center justify-center">
+                        <svg class="w-4 h-4 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 7v10a2 2 0 002 2h14a2 2 0 002-2V9a2 2 0 00-2-2h-6l-2-2H5a2 2 0 00-2 2z"/></svg>
+                      </div>
+                      <div>
+                        <h3 class="font-bold text-white">文件</h3>
+                        <p class="text-white/60 text-[10px]">浏览全部</p>
+                      </div>
+                    </div>
+                  </div>
+
+                  <!-- 继续 -->
+                  <div class="flex items-center justify-between mb-3">
+                    <h2 class="font-bold text-slate-800">继续</h2>
+                    <button class="text-xs font-semibold text-indigo-500">查看全部</button>
+                  </div>
+                  <div class="card-hover bg-white rounded-2xl p-3 shadow-soft flex gap-3 mb-3">
+                    <div class="w-14 h-[70px] rounded-xl bg-gradient-to-br from-rose-400 to-orange-500 shadow-md flex items-center justify-center">
+                      <svg class="w-5 h-5 text-white/80" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 6.253v13m0-13C10.832 5.477 9.246 5 7.5 5S4.168 5.477 3 6.253v13C4.168 18.477 5.754 18 7.5 18s3.332.477 4.5 1.253m0-13C13.168 5.477 14.754 5 16.5 5c1.747 0 3.332.477 4.5 1.253v13C19.832 18.477 18.247 18 16.5 18c-1.746 0-3.332.477-4.5 1.253"/></svg>
+                    </div>
+                    <div class="flex-1 flex flex-col justify-between py-0.5">
+                      <div>
+                        <h3 class="font-bold text-slate-800 text-sm">代码整洁之道</h3>
+                        <p class="text-[10px] text-slate-400 mt-0.5">昨天阅读 · 还剩 3 小时</p>
+                      </div>
+                      <div class="h-1.5 bg-slate-100 rounded-full overflow-hidden">
+                        <div class="h-full w-[45%] bg-gradient-to-r from-indigo-500 to-purple-500 rounded-full"></div>
+                      </div>
+                    </div>
+                  </div>
+
+                  <!-- 快捷操作 -->
+                  <h2 class="font-bold text-slate-800 mb-3">快捷操作</h2>
+                  <div class="grid grid-cols-4 gap-2">
+                    <div class="card-hover bg-white rounded-xl p-2 shadow-soft flex flex-col items-center gap-1">
+                      <div class="w-8 h-8 rounded-lg bg-emerald-100 flex items-center justify-center">
+                        <svg class="w-4 h-4 text-emerald-600" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4v16m8-8H4"/></svg>
+                      </div>
+                      <span class="text-[9px] text-slate-600">添加</span>
+                    </div>
+                    <div class="card-hover bg-white rounded-xl p-2 shadow-soft flex flex-col items-center gap-1">
+                      <div class="w-8 h-8 rounded-lg bg-blue-100 flex items-center justify-center">
+                        <svg class="w-4 h-4 text-blue-600" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-8l-4-4m0 0L8 8m4-4v12"/></svg>
+                      </div>
+                      <span class="text-[9px] text-slate-600">上传</span>
+                    </div>
+                    <div class="card-hover bg-white rounded-xl p-2 shadow-soft flex flex-col items-center gap-1">
+                      <div class="w-8 h-8 rounded-lg bg-amber-100 flex items-center justify-center">
+                        <svg class="w-4 h-4 text-amber-600" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 5a2 2 0 012-2h10a2 2 0 012 2v16l-7-3.5L5 21V5z"/></svg>
+                      </div>
+                      <span class="text-[9px] text-slate-600">收藏</span>
+                    </div>
+                    <div class="card-hover bg-white rounded-xl p-2 shadow-soft flex flex-col items-center gap-1">
+                      <div class="w-8 h-8 rounded-lg bg-rose-100 flex items-center justify-center">
+                        <svg class="w-4 h-4 text-rose-600" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z"/></svg>
+                      </div>
+                      <span class="text-[9px] text-slate-600">历史</span>
+                    </div>
+                  </div>
+                </div>
+
+                <!-- 底部导航 -->
+                <div class="absolute bottom-0 left-0 right-0 bg-white border-t border-slate-100 px-4 py-2 pb-6">
+                  <div class="flex justify-around">
+                    <div class="flex flex-col items-center gap-0.5 px-3 py-1.5 rounded-xl bg-indigo-50">
+                      <svg class="w-5 h-5 text-indigo-600" fill="currentColor" viewBox="0 0 24 24"><path d="M10 20v-6h4v6h5v-8h3L12 3 2 12h3v8z"/></svg>
+                      <span class="text-[9px] font-bold text-indigo-600">首页</span>
+                    </div>
+                    <div class="flex flex-col items-center gap-0.5 px-3 py-1.5">
+                      <svg class="w-5 h-5 text-slate-400" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 6.253v13m0-13C10.832 5.477 9.246 5 7.5 5S4.168 5.477 3 6.253v13C4.168 18.477 5.754 18 7.5 18s3.332.477 4.5 1.253m0-13C13.168 5.477 14.754 5 16.5 5c1.747 0 3.332.477 4.5 1.253v13C19.832 18.477 18.247 18 16.5 18c-1.746 0-3.332.477-4.5 1.253"/></svg>
+                      <span class="text-[9px] text-slate-400">图书</span>
+                    </div>
+                    <div class="flex flex-col items-center gap-0.5 px-3 py-1.5">
+                      <svg class="w-5 h-5 text-slate-400" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M7 4v16M17 4v16M3 8h4m10 0h4M3 12h18M3 16h4m10 0h4M4 20h16a1 1 0 001-1V5a1 1 0 00-1-1H4a1 1 0 00-1 1v14a1 1 0 001 1z"/></svg>
+                      <span class="text-[9px] text-slate-400">电影</span>
+                    </div>
+                    <div class="flex flex-col items-center gap-0.5 px-3 py-1.5">
+                      <svg class="w-5 h-5 text-slate-400" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10.325 4.317c.426-1.756 2.924-1.756 3.35 0a1.724 1.724 0 002.573 1.066c1.543-.94 3.31.826 2.37 2.37a1.724 1.724 0 001.065 2.572c1.756.426 1.756 2.924 0 3.35a1.724 1.724 0 00-1.066 2.573c.94 1.543-.826 3.31-2.37 2.37a1.724 1.724 0 00-2.572 1.065c-.426 1.756-2.924 1.756-3.35 0a1.724 1.724 0 00-2.573-1.066c-1.543.94-3.31-.826-2.37-2.37a1.724 1.724 0 00-1.065-2.572c-1.756-.426-1.756-2.924 0-3.35a1.724 1.724 0 001.066-2.573c-.94-1.543.826-3.31 2.37-2.37.996.608 2.296.07 2.572-1.065z"/><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z"/></svg>
+                      <span class="text-[9px] text-slate-400">设置</span>
+                    </div>
+                  </div>
+                </div>
+              </div>
+
+              <!-- ========== 风格3: 极简优雅 ========== -->
+              <div id="style-3" class="style-panel min-h-full bg-stone-50">
+                <div class="px-5 pt-12 pb-24">
+                  <!-- Header -->
+                  <div class="flex items-center justify-between mb-10">
+                    <div>
+                      <h1 class="font-display text-2xl font-semibold text-stone-800">Nexus</h1>
+                      <p class="text-stone-400 text-xs mt-0.5">你的个人媒体空间</p>
+                    </div>
+                    <div class="w-9 h-9 rounded-full bg-stone-900 flex items-center justify-center">
+                      <svg class="w-4 h-4 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"/></svg>
+                    </div>
+                  </div>
+
+                  <!-- 功能列表 -->
+                  <p class="text-[10px] text-stone-400 uppercase tracking-widest mb-4">浏览</p>
+                  <div class="space-y-3 mb-10">
+                    <div class="card-hover flex items-center justify-between p-4 bg-white rounded-xl border border-stone-100">
+                      <div class="flex items-center gap-3">
+                        <div class="w-10 h-10 rounded-lg bg-amber-50 flex items-center justify-center">
+                          <svg class="w-4 h-4 text-amber-600" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M12 6.253v13m0-13C10.832 5.477 9.246 5 7.5 5S4.168 5.477 3 6.253v13C4.168 18.477 5.754 18 7.5 18s3.332.477 4.5 1.253m0-13C13.168 5.477 14.754 5 16.5 5c1.747 0 3.332.477 4.5 1.253v13C19.832 18.477 18.247 18 16.5 18c-1.746 0-3.332.477-4.5 1.253"/></svg>
+                        </div>
+                        <div>
+                          <h3 class="font-medium text-stone-800 text-sm">图书馆</h3>
+                          <p class="text-[10px] text-stone-400">12 本书籍</p>
+                        </div>
+                      </div>
+                      <svg class="w-4 h-4 text-stone-300" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"/></svg>
+                    </div>
+                    <div class="card-hover flex items-center justify-between p-4 bg-white rounded-xl border border-stone-100">
+                      <div class="flex items-center gap-3">
+                        <div class="w-10 h-10 rounded-lg bg-violet-50 flex items-center justify-center">
+                          <svg class="w-4 h-4 text-violet-600" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M7 4v16M17 4v16M3 8h4m10 0h4M3 12h18M3 16h4m10 0h4M4 20h16a1 1 0 001-1V5a1 1 0 00-1-1H4a1 1 0 00-1 1v14a1 1 0 001 1z"/></svg>
+                        </div>
+                        <div>
+                          <h3 class="font-medium text-stone-800 text-sm">电影院</h3>
+                          <p class="text-[10px] text-stone-400">8 部影片</p>
+                        </div>
+                      </div>
+                      <svg class="w-4 h-4 text-stone-300" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"/></svg>
+                    </div>
+                    <div class="card-hover flex items-center justify-between p-4 bg-white rounded-xl border border-stone-100">
+                      <div class="flex items-center gap-3">
+                        <div class="w-10 h-10 rounded-lg bg-blue-50 flex items-center justify-center">
+                          <svg class="w-4 h-4 text-blue-600" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M3 7v10a2 2 0 002 2h14a2 2 0 002-2V9a2 2 0 00-2-2h-6l-2-2H5a2 2 0 00-2 2z"/></svg>
+                        </div>
+                        <div>
+                          <h3 class="font-medium text-stone-800 text-sm">文件管理</h3>
+                          <p class="text-[10px] text-stone-400">浏览全部</p>
+                        </div>
+                      </div>
+                      <svg class="w-4 h-4 text-stone-300" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"/></svg>
+                    </div>
+                  </div>
+
+                  <!-- 继续阅读 -->
+                  <p class="text-[10px] text-stone-400 uppercase tracking-widest mb-4">继续阅读</p>
+                  <div class="card-hover bg-white rounded-2xl overflow-hidden border border-stone-100">
+                    <div class="h-24 bg-gradient-to-br from-amber-100 via-orange-50 to-rose-100 flex items-center justify-center">
+                      <div class="w-16 h-20 bg-white rounded-lg shadow-lg flex items-center justify-center transform -rotate-3">
+                        <div class="w-12 h-16 bg-gradient-to-br from-amber-400 to-orange-500 rounded"></div>
+                      </div>
+                    </div>
+                    <div class="p-4">
+                      <h3 class="font-display text-lg font-semibold text-stone-800">代码整洁之道</h3>
+                      <p class="text-xs text-stone-400 mt-0.5">Robert C. Martin</p>
+                      <div class="mt-3 flex items-center gap-3">
+                        <div class="flex-1 h-1 bg-stone-100 rounded-full overflow-hidden">
+                          <div class="h-full w-[45%] bg-stone-800 rounded-full"></div>
+                        </div>
+                        <span class="text-[10px] text-stone-500">45%</span>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+
+                <!-- 底部导航 -->
+                <div class="absolute bottom-0 left-0 right-0 bg-white/80 backdrop-blur-xl border-t border-stone-100 px-4 py-3 pb-7">
+                  <div class="flex justify-around">
+                    <div class="flex flex-col items-center gap-1">
+                      <div class="w-1 h-1 rounded-full bg-stone-800"></div>
+                      <span class="text-[10px] text-stone-800">首页</span>
+                    </div>
+                    <div class="flex flex-col items-center gap-1">
+                      <div class="w-1 h-1 rounded-full bg-transparent"></div>
+                      <span class="text-[10px] text-stone-400">图书</span>
+                    </div>
+                    <div class="flex flex-col items-center gap-1">
+                      <div class="w-1 h-1 rounded-full bg-transparent"></div>
+                      <span class="text-[10px] text-stone-400">电影</span>
+                    </div>
+                    <div class="flex flex-col items-center gap-1">
+                      <div class="w-1 h-1 rounded-full bg-transparent"></div>
+                      <span class="text-[10px] text-stone-400">设置</span>
+                    </div>
+                  </div>
+                </div>
+              </div>
+
+              <!-- ========== 风格4: 渐变活力 ========== -->
+              <div id="style-4" class="style-panel min-h-full font-poppins" style="background: linear-gradient(180deg, #fef3f2 0%, #fef9ff 50%, #f0f9ff 100%);">
+                <div class="absolute top-[-20%] right-[-20%] w-48 h-32 bg-pink-200 rounded-full blur-[60px] opacity-50"></div>
+                <div class="absolute bottom-[30%] left-[-10%] w-32 h-24 bg-blue-200 rounded-full blur-[40px] opacity-50"></div>
+                
+                <div class="relative z-10 px-5 pt-12 pb-28">
+                  <!-- Header -->
+                  <div class="flex items-center gap-3 mb-6">
+                    <div class="w-11 h-11 rounded-xl bg-gradient-to-br from-pink-500 via-purple-500 to-indigo-500 flex items-center justify-center shadow-lg">
+                      <span class="text-white font-bold">N</span>
+                    </div>
+                    <div>
+                      <h1 class="font-bold text-slate-800">Hi, Jiangking!</h1>
+                      <p class="text-xs text-slate-400">今天想看点什么？</p>
+                    </div>
+                  </div>
+
+                  <!-- 搜索 -->
+                  <div class="bg-white rounded-xl p-3 mb-6 shadow-sm flex items-center gap-2 border border-slate-100">
+                    <svg class="w-4 h-4 text-slate-400" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"/></svg>
+                    <span class="text-sm text-slate-400">搜索书籍、电影...</span>
+                  </div>
+
+                  <!-- 功能入口 -->
+                  <p class="font-bold text-slate-800 mb-3">探索</p>
+                  <div class="grid grid-cols-2 gap-3 mb-6">
+                    <div class="card-hover gradient-border rounded-2xl p-4 shadow-md">
+                      <div class="w-11 h-11 rounded-xl bg-gradient-to-br from-orange-400 via-pink-500 to-rose-500 flex items-center justify-center mb-3 shadow-lg">
+                        <svg class="w-5 h-5 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 6.253v13m0-13C10.832 5.477 9.246 5 7.5 5S4.168 5.477 3 6.253v13C4.168 18.477 5.754 18 7.5 18s3.332.477 4.5 1.253m0-13C13.168 5.477 14.754 5 16.5 5c1.747 0 3.332.477 4.5 1.253v13C19.832 18.477 18.247 18 16.5 18c-1.746 0-3.332.477-4.5 1.253"/></svg>
+                      </div>
+                      <h3 class="font-bold text-slate-800">图书馆</h3>
+                      <p class="text-[10px] text-slate-400 mt-0.5">12 本书籍</p>
+                    </div>
+                    <div class="card-hover gradient-border rounded-2xl p-4 shadow-md">
+                      <div class="w-11 h-11 rounded-xl bg-gradient-to-br from-violet-500 via-purple-500 to-fuchsia-500 flex items-center justify-center mb-3 shadow-lg">
+                        <svg class="w-5 h-5 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M14.752 11.168l-3.197-2.132A1 1 0 0010 9.87v4.263a1 1 0 001.555.832l3.197-2.132a1 1 0 000-1.664z"/><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 12a9 9 0 11-18 0 9 9 0 0118 0z"/></svg>
+                      </div>
+                      <h3 class="font-bold text-slate-800">电影院</h3>
+                      <p class="text-[10px] text-slate-400 mt-0.5">8 部影片</p>
+                    </div>
+                    <div class="col-span-2 card-hover gradient-border rounded-2xl p-4 shadow-md flex items-center justify-between">
+                      <div class="flex items-center gap-3">
+                        <div class="w-11 h-11 rounded-xl bg-gradient-to-br from-cyan-400 via-blue-500 to-indigo-500 flex items-center justify-center shadow-lg">
+                          <svg class="w-5 h-5 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 7v10a2 2 0 002 2h14a2 2 0 002-2V9a2 2 0 00-2-2h-6l-2-2H5a2 2 0 00-2 2z"/></svg>
+                        </div>
+                        <div>
+                          <h3 class="font-bold text-slate-800">文件管理</h3>
+                          <p class="text-[10px] text-slate-400">浏览全部</p>
+                        </div>
+                      </div>
+                      <svg class="w-5 h-5 text-slate-300" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"/></svg>
+                    </div>
+                  </div>
+
+                  <!-- 继续 -->
+                  <div class="flex items-center justify-between mb-3">
+                    <p class="font-bold text-slate-800">继续</p>
+                    <button class="text-xs font-semibold text-gradient">查看全部</button>
+                  </div>
+                  <div class="flex gap-3 overflow-x-auto hide-scrollbar -mx-5 px-5 pb-2">
+                    <div class="card-hover flex-shrink-0 w-32 bg-white rounded-2xl overflow-hidden shadow-md">
+                      <div class="h-20 bg-gradient-to-br from-rose-400 via-pink-500 to-orange-400 flex items-center justify-center">
+                        <svg class="w-8 h-8 text-white/80" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M12 6.253v13m0-13C10.832 5.477 9.246 5 7.5 5S4.168 5.477 3 6.253v13C4.168 18.477 5.754 18 7.5 18s3.332.477 4.5 1.253m0-13C13.168 5.477 14.754 5 16.5 5c1.747 0 3.332.477 4.5 1.253v13C19.832 18.477 18.247 18 16.5 18c-1.746 0-3.332.477-4.5 1.253"/></svg>
+                      </div>
+                      <div class="p-3">
+                        <h4 class="font-semibold text-slate-800 text-xs truncate">代码整洁之道</h4>
+                        <div class="mt-1.5 h-1 bg-slate-100 rounded-full overflow-hidden">
+                          <div class="h-full w-[45%] bg-gradient-to-r from-pink-500 to-orange-400 rounded-full"></div>
+                        </div>
+                      </div>
+                    </div>
+                    <div class="card-hover flex-shrink-0 w-32 bg-white rounded-2xl overflow-hidden shadow-md">
+                      <div class="h-20 bg-gradient-to-br from-violet-500 via-purple-600 to-indigo-600 flex items-center justify-center">
+                        <div class="w-8 h-8 rounded-full bg-white/20 flex items-center justify-center">
+                          <svg class="w-3 h-3 text-white ml-0.5" fill="currentColor" viewBox="0 0 24 24"><path d="M8 5v14l11-7z"/></svg>
+                        </div>
+                      </div>
+                      <div class="p-3">
+                        <h4 class="font-semibold text-slate-800 text-xs truncate">星际穿越</h4>
+                        <div class="mt-1.5 h-1 bg-slate-100 rounded-full overflow-hidden">
+                          <div class="h-full w-[62%] bg-gradient-to-r from-violet-500 to-purple-600 rounded-full"></div>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+
+                <!-- 底部导航 -->
+                <div class="absolute bottom-4 left-1/2 -translate-x-1/2 bg-white rounded-full px-2 py-2 shadow-xl flex gap-1">
+                  <div class="flex items-center gap-1.5 px-4 py-2 rounded-full bg-gradient-to-r from-pink-500 via-purple-500 to-indigo-500 text-white">
+                    <svg class="w-4 h-4" fill="currentColor" viewBox="0 0 24 24"><path d="M10 20v-6h4v6h5v-8h3L12 3 2 12h3v8z"/></svg>
+                    <span class="text-xs font-semibold">首页</span>
+                  </div>
+                  <div class="flex items-center justify-center w-10 h-10 rounded-full text-slate-400">
+                    <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 6.253v13m0-13C10.832 5.477 9.246 5 7.5 5S4.168 5.477 3 6.253v13C4.168 18.477 5.754 18 7.5 18s3.332.477 4.5 1.253m0-13C13.168 5.477 14.754 5 16.5 5c1.747 0 3.332.477 4.5 1.253v13C19.832 18.477 18.247 18 16.5 18c-1.746 0-3.332.477-4.5 1.253"/></svg>
+                  </div>
+                  <div class="flex items-center justify-center w-10 h-10 rounded-full text-slate-400">
+                    <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M14.752 11.168l-3.197-2.132A1 1 0 0010 9.87v4.263a1 1 0 001.555.832l3.197-2.132a1 1 0 000-1.664z"/><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 12a9 9 0 11-18 0 9 9 0 0118 0z"/></svg>
+                  </div>
+                  <div class="flex items-center justify-center w-10 h-10 rounded-full text-slate-400">
+                    <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10.325 4.317c.426-1.756 2.924-1.756 3.35 0a1.724 1.724 0 002.573 1.066c1.543-.94 3.31.826 2.37 2.37a1.724 1.724 0 001.065 2.572c1.756.426 1.756 2.924 0 3.35a1.724 1.724 0 00-1.066 2.573c.94 1.543-.826 3.31-2.37 2.37a1.724 1.724 0 00-2.572 1.065c-.426 1.756-2.924 1.756-3.35 0a1.724 1.724 0 00-2.573-1.066c-1.543.94-3.31-.826-2.37-2.37a1.724 1.724 0 00-1.065-2.572c-1.756-.426-1.756-2.924 0-3.35a1.724 1.724 0 001.066-2.573c-.94-1.543.826-3.31 2.37-2.37.996.608 2.296.07 2.572-1.065z"/><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z"/></svg>
+                  </div>
+                </div>
+              </div>
+
+              <!-- ========== 风格5: iOS 原生 ========== -->
+              <div id="style-5" class="style-panel min-h-full bg-[#f2f2f7]">
+                <div class="px-5 pt-12 pb-24">
+                  <!-- Header -->
+                  <h1 class="text-[28px] font-bold text-slate-900 mb-4">资料库</h1>
+                  
+                  <!-- 搜索 -->
+                  <div class="bg-[rgba(118,118,128,0.12)] rounded-xl py-2 px-3 mb-4 flex items-center gap-2">
+                    <svg class="w-4 h-4 text-[rgba(60,60,67,0.6)]" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"/></svg>
+                    <span class="text-sm text-[rgba(60,60,67,0.6)]">搜索</span>
+                  </div>
+
+                  <!-- 功能列表 -->
+                  <div class="bg-white rounded-xl overflow-hidden shadow-sm mb-6">
+                    <div class="flex items-center gap-3 px-4 py-2.5">
+                      <div class="w-7 h-7 rounded-md bg-gradient-to-br from-orange-400 to-orange-500 flex items-center justify-center">
+                        <svg class="w-3.5 h-3.5 text-white" fill="currentColor" viewBox="0 0 24 24"><path d="M18 2H6c-1.1 0-2 .9-2 2v16c0 1.1.9 2 2 2h12c1.1 0 2-.9 2-2V4c0-1.1-.9-2-2-2zM6 4h5v8l-2.5-1.5L6 12V4z"/></svg>
+                      </div>
+                      <span class="flex-1 text-sm text-slate-900">图书馆</span>
+                      <span class="text-sm text-[rgba(60,60,67,0.6)]">12</span>
+                      <svg class="w-4 h-4 text-[rgba(60,60,67,0.3)]" fill="currentColor" viewBox="0 0 24 24"><path d="M10 6L8.59 7.41 13.17 12l-4.58 4.59L10 18l6-6z"/></svg>
+                    </div>
+                    <div class="ios-divider ml-14"></div>
+                    <div class="flex items-center gap-3 px-4 py-2.5">
+                      <div class="w-7 h-7 rounded-md bg-gradient-to-br from-purple-500 to-purple-600 flex items-center justify-center">
+                        <svg class="w-3.5 h-3.5 text-white" fill="currentColor" viewBox="0 0 24 24"><path d="M18 4l2 4h-3l-2-4h-2l2 4h-3l-2-4H8l2 4H7L5 4H4c-1.1 0-1.99.9-1.99 2L2 18c0 1.1.9 2 2 2h16c1.1 0 2-.9 2-2V4h-4z"/></svg>
+                      </div>
+                      <span class="flex-1 text-sm text-slate-900">电影院</span>
+                      <span class="text-sm text-[rgba(60,60,67,0.6)]">8</span>
+                      <svg class="w-4 h-4 text-[rgba(60,60,67,0.3)]" fill="currentColor" viewBox="0 0 24 24"><path d="M10 6L8.59 7.41 13.17 12l-4.58 4.59L10 18l6-6z"/></svg>
+                    </div>
+                    <div class="ios-divider ml-14"></div>
+                    <div class="flex items-center gap-3 px-4 py-2.5">
+                      <div class="w-7 h-7 rounded-md bg-gradient-to-br from-blue-400 to-blue-500 flex items-center justify-center">
+                        <svg class="w-3.5 h-3.5 text-white" fill="currentColor" viewBox="0 0 24 24"><path d="M10 4H4c-1.1 0-1.99.9-1.99 2L2 18c0 1.1.9 2 2 2h16c1.1 0 2-.9 2-2V8c0-1.1-.9-2-2-2h-8l-2-2z"/></svg>
+                      </div>
+                      <span class="flex-1 text-sm text-slate-900">文件</span>
+                      <svg class="w-4 h-4 text-[rgba(60,60,67,0.3)]" fill="currentColor" viewBox="0 0 24 24"><path d="M10 6L8.59 7.41 13.17 12l-4.58 4.59L10 18l6-6z"/></svg>
+                    </div>
+                  </div>
+
+                  <!-- 最近 -->
+                  <h2 class="text-lg font-bold text-slate-900 mb-3">最近</h2>
+                  <div class="bg-white rounded-xl overflow-hidden shadow-sm mb-6">
+                    <div class="flex items-center gap-3 px-4 py-2.5">
+                      <div class="w-12 h-[60px] rounded-lg bg-gradient-to-br from-rose-400 to-orange-400 shadow-sm flex items-center justify-center">
+                        <svg class="w-5 h-5 text-white/80" fill="currentColor" viewBox="0 0 24 24"><path d="M18 2H6c-1.1 0-2 .9-2 2v16c0 1.1.9 2 2 2h12c1.1 0 2-.9 2-2V4c0-1.1-.9-2-2-2zM6 4h5v8l-2.5-1.5L6 12V4z"/></svg>
+                      </div>
+                      <div class="flex-1 min-w-0">
+                        <h3 class="text-sm font-medium text-slate-900 truncate">代码整洁之道</h3>
+                        <p class="text-xs text-[rgba(60,60,67,0.6)] mt-0.5">Robert C. Martin · 45%</p>
+                        <div class="mt-1.5 h-1 bg-[rgba(118,118,128,0.12)] rounded-full overflow-hidden">
+                          <div class="h-full w-[45%] bg-[#007AFF] rounded-full"></div>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+
+                  <!-- 推荐 -->
+                  <div class="flex items-center justify-between mb-3">
+                    <h2 class="text-lg font-bold text-slate-900">为你推荐</h2>
+                    <button class="text-sm font-medium text-[#007AFF]">查看全部</button>
+                  </div>
+                  <div class="flex gap-2.5 overflow-x-auto hide-scrollbar -mx-5 px-5 pb-2">
+                    <div class="card-hover flex-shrink-0 w-28">
+                      <div class="aspect-[3/4] rounded-lg overflow-hidden shadow-md mb-2 bg-gradient-to-br from-violet-400 to-purple-600 flex items-center justify-center">
+                        <svg class="w-8 h-8 text-white/70" fill="currentColor" viewBox="0 0 24 24"><path d="M18 2H6c-1.1 0-2 .9-2 2v16c0 1.1.9 2 2 2h12c1.1 0 2-.9 2-2V4c0-1.1-.9-2-2-2zM6 4h5v8l-2.5-1.5L6 12V4z"/></svg>
+                      </div>
+                      <h4 class="text-xs font-medium text-slate-900 truncate">深入理解计算机</h4>
+                      <p class="text-[10px] text-[rgba(60,60,67,0.6)]">技术</p>
+                    </div>
+                    <div class="card-hover flex-shrink-0 w-28">
+                      <div class="aspect-[3/4] rounded-lg overflow-hidden shadow-md mb-2 bg-gradient-to-br from-emerald-400 to-teal-600 flex items-center justify-center">
+                        <svg class="w-8 h-8 text-white/70" fill="currentColor" viewBox="0 0 24 24"><path d="M18 2H6c-1.1 0-2 .9-2 2v16c0 1.1.9 2 2 2h12c1.1 0 2-.9 2-2V4c0-1.1-.9-2-2-2zM6 4h5v8l-2.5-1.5L6 12V4z"/></svg>
+                      </div>
+                      <h4 class="text-xs font-medium text-slate-900 truncate">三体</h4>
+                      <p class="text-[10px] text-[rgba(60,60,67,0.6)]">科幻</p>
+                    </div>
+                  </div>
+                </div>
+
+                <!-- 底部导航 -->
+                <div class="absolute bottom-0 left-0 right-0 ios-blur bg-[rgba(249,249,249,0.94)] border-t border-[rgba(60,60,67,0.12)] px-4 pt-1.5 pb-7">
+                  <div class="flex justify-around">
+                    <div class="flex flex-col items-center gap-0.5">
+                      <svg class="w-6 h-6 text-[#007AFF]" fill="currentColor" viewBox="0 0 24 24"><path d="M10 20v-6h4v6h5v-8h3L12 3 2 12h3v8z"/></svg>
+                      <span class="text-[9px] text-[#007AFF]">首页</span>
+                    </div>
+                    <div class="flex flex-col items-center gap-0.5">
+                      <svg class="w-6 h-6 text-[rgba(60,60,67,0.6)]" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M12 6.253v13m0-13C10.832 5.477 9.246 5 7.5 5S4.168 5.477 3 6.253v13C4.168 18.477 5.754 18 7.5 18s3.332.477 4.5 1.253m0-13C13.168 5.477 14.754 5 16.5 5c1.747 0 3.332.477 4.5 1.253v13C19.832 18.477 18.247 18 16.5 18c-1.746 0-3.332.477-4.5 1.253"/></svg>
+                      <span class="text-[9px] text-[rgba(60,60,67,0.6)]">图书</span>
+                    </div>
+                    <div class="flex flex-col items-center gap-0.5">
+                      <svg class="w-6 h-6 text-[rgba(60,60,67,0.6)]" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M7 4v16M17 4v16M3 8h4m10 0h4M3 12h18M3 16h4m10 0h4M4 20h16a1 1 0 001-1V5a1 1 0 00-1-1H4a1 1 0 00-1 1v14a1 1 0 001 1z"/></svg>
+                      <span class="text-[9px] text-[rgba(60,60,67,0.6)]">电影</span>
+                    </div>
+                    <div class="flex flex-col items-center gap-0.5">
+                      <svg class="w-6 h-6 text-[rgba(60,60,67,0.6)]" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M10.325 4.317c.426-1.756 2.924-1.756 3.35 0a1.724 1.724 0 002.573 1.066c1.543-.94 3.31.826 2.37 2.37a1.724 1.724 0 001.065 2.572c1.756.426 1.756 2.924 0 3.35a1.724 1.724 0 00-1.066 2.573c.94 1.543-.826 3.31-2.37 2.37a1.724 1.724 0 00-2.572 1.065c-.426 1.756-2.924 1.756-3.35 0a1.724 1.724 0 00-2.573-1.066c-1.543.94-3.31-.826-2.37-2.37a1.724 1.724 0 00-1.065-2.572c-1.756-.426-1.756-2.924 0-3.35a1.724 1.724 0 001.066-2.573c-.94-1.543.826-3.31 2.37-2.37.996.608 2.296.07 2.572-1.065z"/><path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z"/></svg>
+                      <span class="text-[9px] text-[rgba(60,60,67,0.6)]">设置</span>
+                    </div>
+                  </div>
+                </div>
+              </div>
+
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- 右侧：风格说明 -->
+      <div class="space-y-6">
+        <!-- 风格1说明 -->
+        <div id="info-1" class="style-panel active bg-white rounded-2xl p-6 shadow-lg">
+          <div class="flex items-center gap-3 mb-4">
+            <span class="text-4xl">🌙</span>
+            <div>
+              <h2 class="text-2xl font-bold text-slate-800">毛玻璃暗黑</h2>
+              <p class="text-slate-400">Glass Dark Mode</p>
+            </div>
+          </div>
+          <div class="space-y-4">
+            <div>
+              <h3 class="font-semibold text-slate-700 mb-2">设计特点</h3>
+              <ul class="space-y-2 text-slate-600 text-sm">
+                <li class="flex items-center gap-2"><span class="w-1.5 h-1.5 rounded-full bg-violet-500"></span>深色背景 + Glassmorphism 毛玻璃效果</li>
+                <li class="flex items-center gap-2"><span class="w-1.5 h-1.5 rounded-full bg-violet-500"></span>渐变光效装饰营造氛围</li>
+                <li class="flex items-center gap-2"><span class="w-1.5 h-1.5 rounded-full bg-violet-500"></span>半透明卡片层次分明</li>
+                <li class="flex items-center gap-2"><span class="w-1.5 h-1.5 rounded-full bg-violet-500"></span>紫色系主色调</li>
+              </ul>
+            </div>
+            <div>
+              <h3 class="font-semibold text-slate-700 mb-2">适合场景</h3>
+              <p class="text-slate-600 text-sm">夜间使用、沉浸式体验、科技感强的应用</p>
+            </div>
+            <div class="flex gap-2">
+              <div class="w-10 h-10 rounded-xl bg-[#1a1a2e] shadow-inner"></div>
+              <div class="w-10 h-10 rounded-xl bg-gradient-to-br from-violet-500 to-fuchsia-500 shadow-lg"></div>
+              <div class="w-10 h-10 rounded-xl bg-gradient-to-br from-amber-400 to-orange-500 shadow-lg"></div>
+              <div class="w-10 h-10 rounded-xl bg-gradient-to-br from-blue-400 to-indigo-500 shadow-lg"></div>
+            </div>
+          </div>
+        </div>
+
+        <!-- 风格2说明 -->
+        <div id="info-2" class="style-panel bg-white rounded-2xl p-6 shadow-lg">
+          <div class="flex items-center gap-3 mb-4">
+            <span class="text-4xl">☀️</span>
+            <div>
+              <h2 class="text-2xl font-bold text-slate-800">Bento 现代</h2>
+              <p class="text-slate-400">Modern Bento Grid</p>
+            </div>
+          </div>
+          <div class="space-y-4">
+            <div>
+              <h3 class="font-semibold text-slate-700 mb-2">设计特点</h3>
+              <ul class="space-y-2 text-slate-600 text-sm">
+                <li class="flex items-center gap-2"><span class="w-1.5 h-1.5 rounded-full bg-indigo-500"></span>Apple 风格 Bento Grid 布局</li>
+                <li class="flex items-center gap-2"><span class="w-1.5 h-1.5 rounded-full bg-indigo-500"></span>浅色背景，清新明亮</li>
+                <li class="flex items-center gap-2"><span class="w-1.5 h-1.5 rounded-full bg-indigo-500"></span>大圆角卡片，柔和阴影</li>
+                <li class="flex items-center gap-2"><span class="w-1.5 h-1.5 rounded-full bg-indigo-500"></span>多彩渐变图标</li>
+              </ul>
+            </div>
+            <div>
+              <h3 class="font-semibold text-slate-700 mb-2">适合场景</h3>
+              <p class="text-slate-600 text-sm">日常使用、专业工具、清新简约的应用</p>
+            </div>
+            <div class="flex gap-2">
+              <div class="w-10 h-10 rounded-xl bg-[#f8f9fc] border border-slate-200"></div>
+              <div class="w-10 h-10 rounded-xl bg-gradient-to-br from-amber-400 to-orange-500 shadow-lg"></div>
+              <div class="w-10 h-10 rounded-xl bg-gradient-to-br from-violet-500 to-purple-600 shadow-lg"></div>
+              <div class="w-10 h-10 rounded-xl bg-gradient-to-br from-indigo-500 to-purple-600 shadow-lg"></div>
+            </div>
+          </div>
+        </div>
+
+        <!-- 风格3说明 -->
+        <div id="info-3" class="style-panel bg-white rounded-2xl p-6 shadow-lg">
+          <div class="flex items-center gap-3 mb-4">
+            <span class="text-4xl">✨</span>
+            <div>
+              <h2 class="text-2xl font-bold text-slate-800">极简优雅</h2>
+              <p class="text-slate-400">Minimal Elegant</p>
+            </div>
+          </div>
+          <div class="space-y-4">
+            <div>
+              <h3 class="font-semibold text-slate-700 mb-2">设计特点</h3>
+              <ul class="space-y-2 text-slate-600 text-sm">
+                <li class="flex items-center gap-2"><span class="w-1.5 h-1.5 rounded-full bg-stone-500"></span>衬线字体，优雅气质</li>
+                <li class="flex items-center gap-2"><span class="w-1.5 h-1.5 rounded-full bg-stone-500"></span>大量留白，专注内容</li>
+                <li class="flex items-center gap-2"><span class="w-1.5 h-1.5 rounded-full bg-stone-500"></span>细线边框，轻量感</li>
+                <li class="flex items-center gap-2"><span class="w-1.5 h-1.5 rounded-full bg-stone-500"></span>中性色调 (stone)</li>
+              </ul>
+            </div>
+            <div>
+              <h3 class="font-semibold text-slate-700 mb-2">适合场景</h3>
+              <p class="text-slate-600 text-sm">阅读类应用、文档管理、高端品牌</p>
+            </div>
+            <div class="flex gap-2">
+              <div class="w-10 h-10 rounded-xl bg-stone-50 border border-stone-200"></div>
+              <div class="w-10 h-10 rounded-xl bg-stone-800 shadow-lg"></div>
+              <div class="w-10 h-10 rounded-xl bg-amber-50 border border-amber-200"></div>
+              <div class="w-10 h-10 rounded-xl bg-violet-50 border border-violet-200"></div>
+            </div>
+          </div>
+        </div>
+
+        <!-- 风格4说明 -->
+        <div id="info-4" class="style-panel bg-white rounded-2xl p-6 shadow-lg">
+          <div class="flex items-center gap-3 mb-4">
+            <span class="text-4xl">🌈</span>
+            <div>
+              <h2 class="text-2xl font-bold text-slate-800">渐变活力</h2>
+              <p class="text-slate-400">Gradient Vibrant</p>
+            </div>
+          </div>
+          <div class="space-y-4">
+            <div>
+              <h3 class="font-semibold text-slate-700 mb-2">设计特点</h3>
+              <ul class="space-y-2 text-slate-600 text-sm">
+                <li class="flex items-center gap-2"><span class="w-1.5 h-1.5 rounded-full bg-pink-500"></span>多彩渐变背景和元素</li>
+                <li class="flex items-center gap-2"><span class="w-1.5 h-1.5 rounded-full bg-pink-500"></span>浮动胶囊式底部导航</li>
+                <li class="flex items-center gap-2"><span class="w-1.5 h-1.5 rounded-full bg-pink-500"></span>活泼的 Poppins 字体</li>
+                <li class="flex items-center gap-2"><span class="w-1.5 h-1.5 rounded-full bg-pink-500"></span>悬浮光效装饰</li>
+              </ul>
+            </div>
+            <div>
+              <h3 class="font-semibold text-slate-700 mb-2">适合场景</h3>
+              <p class="text-slate-600 text-sm">年轻用户、创意类应用、娱乐平台</p>
+            </div>
+            <div class="flex gap-2">
+              <div class="w-10 h-10 rounded-xl bg-gradient-to-br from-pink-500 to-rose-500 shadow-lg"></div>
+              <div class="w-10 h-10 rounded-xl bg-gradient-to-br from-violet-500 to-purple-600 shadow-lg"></div>
+              <div class="w-10 h-10 rounded-xl bg-gradient-to-br from-cyan-400 to-blue-500 shadow-lg"></div>
+              <div class="w-10 h-10 rounded-xl bg-gradient-to-br from-orange-400 to-pink-500 shadow-lg"></div>
+            </div>
+          </div>
+        </div>
+
+        <!-- 风格5说明 -->
+        <div id="info-5" class="style-panel bg-white rounded-2xl p-6 shadow-lg">
+          <div class="flex items-center gap-3 mb-4">
+            <span class="text-4xl">📱</span>
+            <div>
+              <h2 class="text-2xl font-bold text-slate-800">iOS 原生</h2>
+              <p class="text-slate-400">iOS Native Style</p>
+            </div>
+          </div>
+          <div class="space-y-4">
+            <div>
+              <h3 class="font-semibold text-slate-700 mb-2">设计特点</h3>
+              <ul class="space-y-2 text-slate-600 text-sm">
+                <li class="flex items-center gap-2"><span class="w-1.5 h-1.5 rounded-full bg-[#007AFF]"></span>遵循 Apple Human Interface Guidelines</li>
+                <li class="flex items-center gap-2"><span class="w-1.5 h-1.5 rounded-full bg-[#007AFF]"></span>分组列表 (Grouped List) 布局</li>
+                <li class="flex items-center gap-2"><span class="w-1.5 h-1.5 rounded-full bg-[#007AFF]"></span>SF Pro 系统字体风格</li>
+                <li class="flex items-center gap-2"><span class="w-1.5 h-1.5 rounded-full bg-[#007AFF]"></span>模糊 Tab Bar</li>
+              </ul>
+            </div>
+            <div>
+              <h3 class="font-semibold text-slate-700 mb-2">适合场景</h3>
+              <p class="text-slate-600 text-sm">iOS 用户、追求原生体验、工具类应用</p>
+            </div>
+            <div class="flex gap-2">
+              <div class="w-10 h-10 rounded-xl bg-[#f2f2f7] border border-slate-200"></div>
+              <div class="w-10 h-10 rounded-xl bg-[#007AFF] shadow-lg"></div>
+              <div class="w-10 h-10 rounded-xl bg-gradient-to-br from-orange-400 to-orange-500 shadow-lg"></div>
+              <div class="w-10 h-10 rounded-xl bg-gradient-to-br from-purple-500 to-purple-600 shadow-lg"></div>
+            </div>
+          </div>
+        </div>
+
+        <!-- 选择按钮 -->
+        <div class="bg-gradient-to-r from-indigo-500 to-purple-600 rounded-2xl p-6 text-white">
+          <h3 class="font-bold text-lg mb-2">选好了吗？</h3>
+          <p class="text-white/80 text-sm mb-4">告诉我你喜欢哪个风格，我会帮你应用到项目中！</p>
+          <div class="flex gap-2 flex-wrap">
+            <button onclick="selectStyle(1)" class="px-4 py-2 bg-white/20 rounded-lg text-sm font-semibold hover:bg-white/30 transition-colors">选择风格1</button>
+            <button onclick="selectStyle(2)" class="px-4 py-2 bg-white/20 rounded-lg text-sm font-semibold hover:bg-white/30 transition-colors">选择风格2</button>
+            <button onclick="selectStyle(3)" class="px-4 py-2 bg-white/20 rounded-lg text-sm font-semibold hover:bg-white/30 transition-colors">选择风格3</button>
+            <button onclick="selectStyle(4)" class="px-4 py-2 bg-white/20 rounded-lg text-sm font-semibold hover:bg-white/30 transition-colors">选择风格4</button>
+            <button onclick="selectStyle(5)" class="px-4 py-2 bg-white/20 rounded-lg text-sm font-semibold hover:bg-white/30 transition-colors">选择风格5</button>
+          </div>
+        </div>
+      </div>
+
+    </div>
+  </main>
+
+  <script>
+    function showStyle(num) {
+      // 切换标签按钮状态
+      document.querySelectorAll('.tab-btn').forEach((btn, i) => {
+        btn.classList.toggle('active', i === num - 1);
+      });
+      
+      // 切换预览面板
+      for (let i = 1; i <= 5; i++) {
+        document.getElementById(`style-${i}`).classList.toggle('active', i === num);
+        document.getElementById(`info-${i}`).classList.toggle('active', i === num);
+      }
+    }
+
+    function selectStyle(num) {
+      const names = ['毛玻璃暗黑', 'Bento 现代', '极简优雅', '渐变活力', 'iOS 原生'];
+      alert(`你选择了：${names[num-1]}\n\n请告诉 Claude 你选择了「${names[num-1]}」风格，我会帮你应用到项目中！`);
+    }
+  </script>
+</body>
+</html>

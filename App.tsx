@@ -1,17 +1,34 @@
-import React, { useState } from 'react';
+import React, { useState, useCallback } from 'react';
 import Header from './components/Header';
 import HomeSection from './components/HomeSection';
 import FileBrowser from './components/FileBrowser';
+import BookShelf from './components/BookShelf';
 import BottomDock from './components/BottomDock';
 import Sidebar from './components/Sidebar';
 import FileViewer from './components/FileViewer';
 import SettingsPage from './components/SettingsPage';
 import { NavTab, FileItem, FileCategory } from './types';
+import { APP_ENTRIES } from './constants';
+import { PATH_CONFIG } from './src/config';
+
+// 获取 Tab 对应的基础路径
+const getBasePath = (tab: NavTab): string => {
+  const entry = APP_ENTRIES.find(e => e.tab === tab);
+  return entry?.basePath || '/';
+};
 
 const App: React.FC = () => {
   const [activeTab, setActiveTab] = useState<NavTab>(NavTab.HOME);
   const [currentPath, setCurrentPath] = useState<string>('/');
   const [viewingFile, setViewingFile] = useState<FileItem | null>(null);
+
+  // 处理 Tab 切换，同时设置对应的基础路径
+  const handleTabChange = useCallback((tab: NavTab) => {
+    setActiveTab(tab);
+    // 切换到新 Tab 时，重置路径为该功能的基础路径
+    const basePath = getBasePath(tab);
+    setCurrentPath(basePath);
+  }, []);
 
   // 处理文件点击
   const handleFileClick = (file: FileItem) => {
@@ -39,18 +56,16 @@ const App: React.FC = () => {
   const renderContent = () => {
     switch (activeTab) {
       case NavTab.HOME:
-        return <HomeSection onNavigate={setActiveTab} />;
+        return <HomeSection onNavigate={handleTabChange} />;
       
       case NavTab.LIBRARY:
         return (
-          <FileBrowser 
+          <BookShelf 
             path={currentPath}
-            filter={['document', 'ebook']}
-            title="图书馆"
-            emptyMessage="还没有图书，去文件管理添加吧"
-            onFileClick={handleFileClick}
-            onNavigateUp={handleNavigateUp}
-            onNavigateTo={handleNavigateTo}
+            basePath={PATH_CONFIG.library.basePath}
+            bookShelfPath={PATH_CONFIG.library.bookShelfPath}
+            onBookClick={(file) => setViewingFile(file)}
+            onFolderClick={(path) => setCurrentPath(path)}
           />
         );
       
@@ -58,7 +73,8 @@ const App: React.FC = () => {
         return (
           <FileBrowser 
             path={currentPath}
-            filter={['video']}
+            basePath={PATH_CONFIG.cinema.basePath}
+            filter={['video', 'folder']}
             title="电影院"
             emptyMessage="还没有视频，去文件管理添加吧"
             onFileClick={handleFileClick}
@@ -71,6 +87,7 @@ const App: React.FC = () => {
         return (
           <FileBrowser 
             path={currentPath}
+            basePath={PATH_CONFIG.files.basePath}
             title="文件管理"
             onFileClick={handleFileClick}
             onNavigateUp={handleNavigateUp}
@@ -105,7 +122,7 @@ const App: React.FC = () => {
       <div className={`relative z-10 w-full min-h-screen transition-transform duration-300 ${viewingFile ? 'scale-95 opacity-50 pointer-events-none' : 'scale-100 opacity-100'}`}>
         
         {/* 桌面端侧边栏 */}
-        <Sidebar activeTab={activeTab} onTabChange={setActiveTab} />
+        <Sidebar activeTab={activeTab} onTabChange={handleTabChange} />
         
         {/* 主内容区域 */}
         <div className="md:ml-64 min-h-screen flex flex-col">
@@ -119,7 +136,7 @@ const App: React.FC = () => {
         </div>
 
         {/* 移动端底部导航 */}
-        <BottomDock activeTab={activeTab} onTabChange={setActiveTab} />
+        <BottomDock activeTab={activeTab} onTabChange={handleTabChange} />
       </div>
     </div>
   );

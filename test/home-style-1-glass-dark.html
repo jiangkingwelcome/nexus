@@ -1,0 +1,201 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Nexus - 风格1: 毛玻璃暗黑</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+  <style>
+    * { font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif; }
+    body { background: linear-gradient(135deg, #0f0f23 0%, #1a1a2e 50%, #16213e 100%); }
+    .glass { 
+      background: rgba(255, 255, 255, 0.05); 
+      backdrop-filter: blur(20px); 
+      border: 1px solid rgba(255, 255, 255, 0.1);
+    }
+    .glass-strong {
+      background: rgba(255, 255, 255, 0.08);
+      backdrop-filter: blur(30px);
+      border: 1px solid rgba(255, 255, 255, 0.15);
+    }
+    .glow { box-shadow: 0 0 40px rgba(99, 102, 241, 0.3); }
+    .card-hover { transition: all 0.3s ease; }
+    .card-hover:hover { transform: translateY(-4px) scale(1.02); }
+    .gradient-text { background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); -webkit-background-clip: text; -webkit-text-fill-color: transparent; }
+    .animate-float { animation: float 6s ease-in-out infinite; }
+    @keyframes float { 0%, 100% { transform: translateY(0); } 50% { transform: translateY(-10px); } }
+    .orb { position: absolute; border-radius: 50%; filter: blur(80px); opacity: 0.4; pointer-events: none; }
+  </style>
+</head>
+<body class="min-h-screen text-white overflow-x-hidden">
+  <!-- 背景光效 -->
+  <div class="orb w-96 h-96 bg-purple-600 top-[-10%] left-[-10%]"></div>
+  <div class="orb w-80 h-80 bg-blue-600 bottom-[20%] right-[-5%]"></div>
+  <div class="orb w-64 h-64 bg-indigo-500 top-[40%] left-[30%]"></div>
+
+  <div class="relative z-10 max-w-md mx-auto px-4 py-6 pb-32">
+    
+    <!-- Header -->
+    <header class="glass rounded-2xl p-4 mb-6 flex items-center justify-between">
+      <div class="flex items-center gap-3">
+        <div class="w-12 h-12 rounded-xl bg-gradient-to-br from-violet-500 to-fuchsia-500 flex items-center justify-center shadow-lg glow">
+          <span class="text-xl font-bold">N</span>
+        </div>
+        <div>
+          <h1 class="text-lg font-bold">Nexus</h1>
+          <p class="text-xs text-white/50">个人媒体中心</p>
+        </div>
+      </div>
+      <div class="w-10 h-10 rounded-full bg-gradient-to-br from-cyan-400 to-blue-500 border-2 border-white/20"></div>
+    </header>
+
+    <!-- 搜索栏 -->
+    <div class="glass rounded-2xl p-3 mb-6 flex items-center gap-3">
+      <svg class="w-5 h-5 text-white/40" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"/>
+      </svg>
+      <span class="text-white/40 text-sm">搜索文件、书籍、视频...</span>
+    </div>
+
+    <!-- 功能入口 -->
+    <section class="mb-8">
+      <h2 class="text-sm font-semibold text-white/60 mb-4 px-1">快捷入口</h2>
+      <div class="grid grid-cols-3 gap-4">
+        
+        <!-- 图书馆 -->
+        <div class="card-hover glass-strong rounded-2xl p-4 flex flex-col items-center cursor-pointer">
+          <div class="w-14 h-14 rounded-2xl bg-gradient-to-br from-amber-400 to-orange-500 flex items-center justify-center mb-3 shadow-lg">
+            <svg class="w-7 h-7 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 6.253v13m0-13C10.832 5.477 9.246 5 7.5 5S4.168 5.477 3 6.253v13C4.168 18.477 5.754 18 7.5 18s3.332.477 4.5 1.253m0-13C13.168 5.477 14.754 5 16.5 5c1.747 0 3.332.477 4.5 1.253v13C19.832 18.477 18.247 18 16.5 18c-1.746 0-3.332.477-4.5 1.253"/>
+            </svg>
+          </div>
+          <span class="text-sm font-semibold text-white/90">图书馆</span>
+          <span class="text-[10px] text-white/40 mt-1">12 本书</span>
+        </div>
+
+        <!-- 电影院 -->
+        <div class="card-hover glass-strong rounded-2xl p-4 flex flex-col items-center cursor-pointer">
+          <div class="w-14 h-14 rounded-2xl bg-gradient-to-br from-purple-500 to-pink-500 flex items-center justify-center mb-3 shadow-lg">
+            <svg class="w-7 h-7 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M7 4v16M17 4v16M3 8h4m10 0h4M3 12h18M3 16h4m10 0h4M4 20h16a1 1 0 001-1V5a1 1 0 00-1-1H4a1 1 0 00-1 1v14a1 1 0 001 1z"/>
+            </svg>
+          </div>
+          <span class="text-sm font-semibold text-white/90">电影院</span>
+          <span class="text-[10px] text-white/40 mt-1">8 部电影</span>
+        </div>
+
+        <!-- 文件 -->
+        <div class="card-hover glass-strong rounded-2xl p-4 flex flex-col items-center cursor-pointer">
+          <div class="w-14 h-14 rounded-2xl bg-gradient-to-br from-blue-400 to-indigo-500 flex items-center justify-center mb-3 shadow-lg">
+            <svg class="w-7 h-7 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 7v10a2 2 0 002 2h14a2 2 0 002-2V9a2 2 0 00-2-2h-6l-2-2H5a2 2 0 00-2 2z"/>
+            </svg>
+          </div>
+          <span class="text-sm font-semibold text-white/90">文件</span>
+          <span class="text-[10px] text-white/40 mt-1">浏览全部</span>
+        </div>
+
+      </div>
+    </section>
+
+    <!-- 继续阅读 -->
+    <section class="mb-8">
+      <div class="flex items-center justify-between mb-4 px-1">
+        <h2 class="text-sm font-semibold text-white/60">继续阅读</h2>
+        <button class="text-xs font-semibold text-violet-400 hover:text-violet-300">查看全部</button>
+      </div>
+
+      <!-- 阅读卡片 -->
+      <div class="glass-strong rounded-2xl p-4 card-hover cursor-pointer mb-4">
+        <div class="flex gap-4">
+          <div class="w-16 h-20 rounded-xl bg-gradient-to-br from-rose-400 to-orange-400 flex-shrink-0 shadow-lg">
+            <div class="w-full h-full flex items-center justify-center">
+              <span class="text-white/80 text-[10px] font-bold rotate-[-90deg]">PDF</span>
+            </div>
+          </div>
+          <div class="flex-1 min-w-0">
+            <h3 class="font-bold text-white truncate">代码整洁之道</h3>
+            <p class="text-xs text-white/40 mt-1">Robert C. Martin</p>
+            <div class="mt-3">
+              <div class="flex justify-between text-[10px] text-white/50 mb-1">
+                <span>阅读进度</span>
+                <span>45%</span>
+              </div>
+              <div class="h-1.5 bg-white/10 rounded-full overflow-hidden">
+                <div class="h-full w-[45%] bg-gradient-to-r from-violet-500 to-fuchsia-500 rounded-full"></div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- 视频卡片 -->
+      <div class="glass-strong rounded-2xl p-4 card-hover cursor-pointer">
+        <div class="flex gap-4">
+          <div class="w-24 h-16 rounded-xl bg-gradient-to-br from-cyan-500 to-blue-600 flex-shrink-0 relative overflow-hidden shadow-lg">
+            <div class="absolute inset-0 flex items-center justify-center">
+              <div class="w-8 h-8 rounded-full bg-white/20 backdrop-blur flex items-center justify-center">
+                <div class="w-0 h-0 border-t-4 border-t-transparent border-l-6 border-l-white border-b-4 border-b-transparent ml-0.5"></div>
+              </div>
+            </div>
+          </div>
+          <div class="flex-1 min-w-0">
+            <h3 class="font-bold text-white truncate">星际穿越</h3>
+            <p class="text-xs text-white/40 mt-1">继续观看 · 1:24:30</p>
+            <div class="mt-2">
+              <div class="h-1.5 bg-white/10 rounded-full overflow-hidden">
+                <div class="h-full w-[62%] bg-gradient-to-r from-cyan-400 to-blue-500 rounded-full"></div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- 存储空间 -->
+    <section class="glass rounded-2xl p-4">
+      <div class="flex items-center justify-between mb-3">
+        <span class="text-sm font-semibold text-white/60">存储空间</span>
+        <span class="text-xs text-violet-400">128GB / 256GB</span>
+      </div>
+      <div class="h-2 bg-white/10 rounded-full overflow-hidden">
+        <div class="h-full w-[50%] bg-gradient-to-r from-violet-500 via-fuchsia-500 to-pink-500 rounded-full"></div>
+      </div>
+      <div class="flex justify-between mt-3 text-[10px] text-white/40">
+        <span class="flex items-center gap-1"><span class="w-2 h-2 rounded-full bg-amber-400"></span>书籍 45GB</span>
+        <span class="flex items-center gap-1"><span class="w-2 h-2 rounded-full bg-purple-400"></span>视频 60GB</span>
+        <span class="flex items-center gap-1"><span class="w-2 h-2 rounded-full bg-blue-400"></span>其他 23GB</span>
+      </div>
+    </section>
+
+  </div>
+
+  <!-- 底部导航 -->
+  <nav class="fixed bottom-0 left-0 right-0 glass border-t border-white/10 px-6 py-3">
+    <div class="max-w-md mx-auto flex justify-around">
+      <button class="flex flex-col items-center gap-1 text-violet-400">
+        <svg class="w-6 h-6" fill="currentColor" viewBox="0 0 24 24"><path d="M10 20v-6h4v6h5v-8h3L12 3 2 12h3v8z"/></svg>
+        <span class="text-[10px] font-semibold">首页</span>
+      </button>
+      <button class="flex flex-col items-center gap-1 text-white/40 hover:text-white/70 transition-colors">
+        <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 6.253v13m0-13C10.832 5.477 9.246 5 7.5 5S4.168 5.477 3 6.253v13C4.168 18.477 5.754 18 7.5 18s3.332.477 4.5 1.253m0-13C13.168 5.477 14.754 5 16.5 5c1.747 0 3.332.477 4.5 1.253v13C19.832 18.477 18.247 18 16.5 18c-1.746 0-3.332.477-4.5 1.253"/></svg>
+        <span class="text-[10px] font-semibold">图书</span>
+      </button>
+      <button class="flex flex-col items-center gap-1 text-white/40 hover:text-white/70 transition-colors">
+        <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M7 4v16M17 4v16M3 8h4m10 0h4M3 12h18M3 16h4m10 0h4M4 20h16a1 1 0 001-1V5a1 1 0 00-1-1H4a1 1 0 00-1 1v14a1 1 0 001 1z"/></svg>
+        <span class="text-[10px] font-semibold">电影</span>
+      </button>
+      <button class="flex flex-col items-center gap-1 text-white/40 hover:text-white/70 transition-colors">
+        <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10.325 4.317c.426-1.756 2.924-1.756 3.35 0a1.724 1.724 0 002.573 1.066c1.543-.94 3.31.826 2.37 2.37a1.724 1.724 0 001.065 2.572c1.756.426 1.756 2.924 0 3.35a1.724 1.724 0 00-1.066 2.573c.94 1.543-.826 3.31-2.37 2.37a1.724 1.724 0 00-2.572 1.065c-.426 1.756-2.924 1.756-3.35 0a1.724 1.724 0 00-2.573-1.066c-1.543.94-3.31-.826-2.37-2.37a1.724 1.724 0 00-1.065-2.572c-1.756-.426-1.756-2.924 0-3.35a1.724 1.724 0 001.066-2.573c-.94-1.543.826-3.31 2.37-2.37.996.608 2.296.07 2.572-1.065z"/><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z"/></svg>
+        <span class="text-[10px] font-semibold">设置</span>
+      </button>
+    </div>
+  </nav>
+
+  <!-- 风格标签 -->
+  <div class="fixed top-4 right-4 glass rounded-full px-4 py-2 text-xs font-semibold text-violet-300">
+    🌙 风格1: 毛玻璃暗黑
+  </div>
+</body>
+</html>

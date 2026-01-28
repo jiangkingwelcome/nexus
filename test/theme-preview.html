@@ -1,0 +1,441 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Nexus OS - 主题预览</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+SC:wght@300;400;500;700&family=Poppins:wght@400;500;600;700&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <style>
+    .theme-card { transition: all 0.3s ease; }
+    .theme-card:hover { transform: translateY(-4px); }
+    .selected { ring: 4px; ring-color: #2563EB; }
+  </style>
+</head>
+<body class="bg-gray-100 min-h-screen p-8">
+  <div class="max-w-7xl mx-auto">
+    <h1 class="text-3xl font-bold text-center mb-2" style="font-family: 'Poppins', sans-serif;">Nexus OS 主题预览</h1>
+    <p class="text-gray-500 text-center mb-8">点击选择你喜欢的风格</p>
+
+    <!-- 主题网格 -->
+    <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+
+      <!-- 主题 1: 现代蓝 (当前风格) -->
+      <div class="theme-card bg-white rounded-2xl overflow-hidden shadow-lg cursor-pointer border-2 border-transparent hover:border-blue-500" onclick="selectTheme(1)">
+        <div class="h-48 bg-gradient-to-br from-slate-50 to-slate-100 p-4 relative">
+          <!-- Mini Preview -->
+          <div class="absolute top-3 left-3 right-3 h-8 bg-white/80 rounded-lg flex items-center px-3 shadow-sm">
+            <div class="w-6 h-6 rounded-lg bg-gradient-to-br from-indigo-500 to-purple-600"></div>
+            <span class="ml-2 text-xs font-semibold text-slate-700">Nexus</span>
+          </div>
+          <div class="absolute bottom-3 left-3 right-3 grid grid-cols-3 gap-2">
+            <div class="h-16 bg-gradient-to-br from-amber-400 to-orange-500 rounded-xl"></div>
+            <div class="h-16 bg-gradient-to-br from-purple-500 to-pink-500 rounded-xl"></div>
+            <div class="h-16 bg-gradient-to-br from-blue-400 to-indigo-500 rounded-xl"></div>
+          </div>
+        </div>
+        <div class="p-4">
+          <h3 class="font-bold text-lg text-slate-800">🎨 现代蓝 (当前)</h3>
+          <p class="text-sm text-gray-500 mt-1">Indigo 主色调，清新简约，适合专业应用</p>
+          <div class="flex gap-2 mt-3">
+            <div class="w-6 h-6 rounded-full bg-indigo-500"></div>
+            <div class="w-6 h-6 rounded-full bg-slate-800"></div>
+            <div class="w-6 h-6 rounded-full bg-slate-100 border"></div>
+            <div class="w-6 h-6 rounded-full bg-orange-500"></div>
+          </div>
+        </div>
+      </div>
+
+      <!-- 主题 2: 深邃黑 (Dark Mode) -->
+      <div class="theme-card bg-white rounded-2xl overflow-hidden shadow-lg cursor-pointer border-2 border-transparent hover:border-blue-500" onclick="selectTheme(2)">
+        <div class="h-48 bg-gradient-to-br from-slate-900 to-slate-800 p-4 relative">
+          <div class="absolute top-3 left-3 right-3 h-8 bg-white/10 backdrop-blur rounded-lg flex items-center px-3 border border-white/10">
+            <div class="w-6 h-6 rounded-lg bg-gradient-to-br from-violet-500 to-fuchsia-500"></div>
+            <span class="ml-2 text-xs font-semibold text-white/90">Nexus</span>
+          </div>
+          <div class="absolute bottom-3 left-3 right-3 grid grid-cols-3 gap-2">
+            <div class="h-16 bg-white/10 backdrop-blur rounded-xl border border-white/10"></div>
+            <div class="h-16 bg-violet-500/20 backdrop-blur rounded-xl border border-violet-500/30"></div>
+            <div class="h-16 bg-white/10 backdrop-blur rounded-xl border border-white/10"></div>
+          </div>
+        </div>
+        <div class="p-4">
+          <h3 class="font-bold text-lg text-slate-800">🌙 深邃黑</h3>
+          <p class="text-sm text-gray-500 mt-1">暗黑模式，Glassmorphism 毛玻璃效果</p>
+          <div class="flex gap-2 mt-3">
+            <div class="w-6 h-6 rounded-full bg-slate-900"></div>
+            <div class="w-6 h-6 rounded-full bg-violet-500"></div>
+            <div class="w-6 h-6 rounded-full bg-slate-700"></div>
+            <div class="w-6 h-6 rounded-full bg-fuchsia-500"></div>
+          </div>
+        </div>
+      </div>
+
+      <!-- 主题 3: 薄荷绿 -->
+      <div class="theme-card bg-white rounded-2xl overflow-hidden shadow-lg cursor-pointer border-2 border-transparent hover:border-blue-500" onclick="selectTheme(3)">
+        <div class="h-48 bg-gradient-to-br from-emerald-50 to-teal-50 p-4 relative">
+          <div class="absolute top-3 left-3 right-3 h-8 bg-white/80 rounded-lg flex items-center px-3 shadow-sm">
+            <div class="w-6 h-6 rounded-lg bg-gradient-to-br from-emerald-500 to-teal-500"></div>
+            <span class="ml-2 text-xs font-semibold text-slate-700">Nexus</span>
+          </div>
+          <div class="absolute bottom-3 left-3 right-3 grid grid-cols-3 gap-2">
+            <div class="h-16 bg-gradient-to-br from-emerald-400 to-emerald-500 rounded-xl"></div>
+            <div class="h-16 bg-gradient-to-br from-teal-400 to-cyan-500 rounded-xl"></div>
+            <div class="h-16 bg-gradient-to-br from-green-400 to-emerald-500 rounded-xl"></div>
+          </div>
+        </div>
+        <div class="p-4">
+          <h3 class="font-bold text-lg text-slate-800">🌿 薄荷绿</h3>
+          <p class="text-sm text-gray-500 mt-1">清新自然，适合阅读和学习类应用</p>
+          <div class="flex gap-2 mt-3">
+            <div class="w-6 h-6 rounded-full bg-emerald-500"></div>
+            <div class="w-6 h-6 rounded-full bg-teal-500"></div>
+            <div class="w-6 h-6 rounded-full bg-emerald-50 border"></div>
+            <div class="w-6 h-6 rounded-full bg-cyan-500"></div>
+          </div>
+        </div>
+      </div>
+
+      <!-- 主题 4: 珊瑚橙 -->
+      <div class="theme-card bg-white rounded-2xl overflow-hidden shadow-lg cursor-pointer border-2 border-transparent hover:border-blue-500" onclick="selectTheme(4)">
+        <div class="h-48 bg-gradient-to-br from-orange-50 to-rose-50 p-4 relative">
+          <div class="absolute top-3 left-3 right-3 h-8 bg-white/80 rounded-lg flex items-center px-3 shadow-sm">
+            <div class="w-6 h-6 rounded-lg bg-gradient-to-br from-orange-500 to-rose-500"></div>
+            <span class="ml-2 text-xs font-semibold text-slate-700">Nexus</span>
+          </div>
+          <div class="absolute bottom-3 left-3 right-3 grid grid-cols-3 gap-2">
+            <div class="h-16 bg-gradient-to-br from-orange-400 to-orange-500 rounded-xl"></div>
+            <div class="h-16 bg-gradient-to-br from-rose-400 to-pink-500 rounded-xl"></div>
+            <div class="h-16 bg-gradient-to-br from-amber-400 to-orange-500 rounded-xl"></div>
+          </div>
+        </div>
+        <div class="p-4">
+          <h3 class="font-bold text-lg text-slate-800">🍑 珊瑚橙</h3>
+          <p class="text-sm text-gray-500 mt-1">温暖活力，适合创意和娱乐类应用</p>
+          <div class="flex gap-2 mt-3">
+            <div class="w-6 h-6 rounded-full bg-orange-500"></div>
+            <div class="w-6 h-6 rounded-full bg-rose-500"></div>
+            <div class="w-6 h-6 rounded-full bg-orange-50 border"></div>
+            <div class="w-6 h-6 rounded-full bg-amber-500"></div>
+          </div>
+        </div>
+      </div>
+
+      <!-- 主题 5: 极光紫 -->
+      <div class="theme-card bg-white rounded-2xl overflow-hidden shadow-lg cursor-pointer border-2 border-transparent hover:border-blue-500" onclick="selectTheme(5)">
+        <div class="h-48 bg-gradient-to-br from-violet-900 via-purple-800 to-fuchsia-900 p-4 relative">
+          <div class="absolute top-3 left-3 right-3 h-8 bg-white/10 backdrop-blur rounded-lg flex items-center px-3 border border-white/20">
+            <div class="w-6 h-6 rounded-lg bg-gradient-to-br from-fuchsia-400 to-pink-400"></div>
+            <span class="ml-2 text-xs font-semibold text-white">Nexus</span>
+          </div>
+          <div class="absolute bottom-3 left-3 right-3 grid grid-cols-3 gap-2">
+            <div class="h-16 bg-gradient-to-br from-violet-500 to-purple-600 rounded-xl"></div>
+            <div class="h-16 bg-gradient-to-br from-fuchsia-500 to-pink-500 rounded-xl"></div>
+            <div class="h-16 bg-gradient-to-br from-purple-500 to-violet-600 rounded-xl"></div>
+          </div>
+        </div>
+        <div class="p-4">
+          <h3 class="font-bold text-lg text-slate-800">🌌 极光紫</h3>
+          <p class="text-sm text-gray-500 mt-1">神秘梦幻，适合沉浸式体验</p>
+          <div class="flex gap-2 mt-3">
+            <div class="w-6 h-6 rounded-full bg-violet-600"></div>
+            <div class="w-6 h-6 rounded-full bg-fuchsia-500"></div>
+            <div class="w-6 h-6 rounded-full bg-purple-900"></div>
+            <div class="w-6 h-6 rounded-full bg-pink-400"></div>
+          </div>
+        </div>
+      </div>
+
+      <!-- 主题 6: 纯净白 (Minimal) -->
+      <div class="theme-card bg-white rounded-2xl overflow-hidden shadow-lg cursor-pointer border-2 border-transparent hover:border-blue-500" onclick="selectTheme(6)">
+        <div class="h-48 bg-white p-4 relative border-b">
+          <div class="absolute top-3 left-3 right-3 h-8 bg-gray-50 rounded-lg flex items-center px-3 border border-gray-200">
+            <div class="w-6 h-6 rounded-lg bg-black"></div>
+            <span class="ml-2 text-xs font-semibold text-gray-900">Nexus</span>
+          </div>
+          <div class="absolute bottom-3 left-3 right-3 grid grid-cols-3 gap-2">
+            <div class="h-16 bg-gray-100 rounded-xl border border-gray-200"></div>
+            <div class="h-16 bg-gray-900 rounded-xl"></div>
+            <div class="h-16 bg-gray-100 rounded-xl border border-gray-200"></div>
+          </div>
+        </div>
+        <div class="p-4">
+          <h3 class="font-bold text-lg text-slate-800">⚪ 纯净白</h3>
+          <p class="text-sm text-gray-500 mt-1">极简主义，黑白灰，专注内容</p>
+          <div class="flex gap-2 mt-3">
+            <div class="w-6 h-6 rounded-full bg-gray-900"></div>
+            <div class="w-6 h-6 rounded-full bg-gray-500"></div>
+            <div class="w-6 h-6 rounded-full bg-white border"></div>
+            <div class="w-6 h-6 rounded-full bg-gray-100 border"></div>
+          </div>
+        </div>
+      </div>
+
+    </div>
+
+    <!-- 选择结果 -->
+    <div id="selection" class="mt-8 p-6 bg-white rounded-2xl shadow-lg hidden">
+      <h2 class="text-xl font-bold text-slate-800 mb-2">已选择: <span id="selected-name" class="text-blue-600"></span></h2>
+      <p id="selected-desc" class="text-gray-500"></p>
+      <button onclick="confirmSelection()" class="mt-4 px-6 py-3 bg-blue-600 text-white font-semibold rounded-xl hover:bg-blue-700 transition-colors">
+        确认使用此主题
+      </button>
+    </div>
+
+    <!-- 详细预览区 -->
+    <h2 class="text-2xl font-bold mt-12 mb-6" style="font-family: 'Poppins', sans-serif;">详细预览</h2>
+    
+    <!-- 微信读书风格书架预览 -->
+    <div class="bg-white rounded-2xl p-6 shadow-xl mb-6">
+      <h3 class="text-slate-800 font-bold mb-4">📚 图书馆 - 微信读书风格</h3>
+      
+      <!-- 搜索栏 -->
+      <div class="bg-slate-100 rounded-full py-2.5 px-4 mb-4 flex items-center gap-2">
+        <svg class="w-4 h-4 text-slate-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"/>
+        </svg>
+        <span class="text-sm text-slate-400">搜索书籍...</span>
+      </div>
+
+      <!-- 书架分类 -->
+      <div class="mb-4">
+        <h4 class="text-xs font-semibold text-slate-500 mb-2">📚 书架分类</h4>
+        <div class="grid grid-cols-2 md:grid-cols-4 gap-2">
+          <div class="flex items-center gap-2 p-2 bg-gradient-to-r from-amber-50 to-orange-50 rounded-lg border border-amber-100">
+            <div class="w-8 h-8 rounded-lg bg-gradient-to-br from-amber-400 to-orange-500 flex items-center justify-center">
+              <svg class="w-4 h-4 text-white" fill="currentColor" viewBox="0 0 24 24"><path d="M22 19a2 2 0 0 1-2 2H4a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h5l2 3h9a2 2 0 0 1 2 2z"/></svg>
+            </div>
+            <span class="text-xs font-medium text-slate-700">技术书籍</span>
+          </div>
+          <div class="flex items-center gap-2 p-2 bg-gradient-to-r from-amber-50 to-orange-50 rounded-lg border border-amber-100">
+            <div class="w-8 h-8 rounded-lg bg-gradient-to-br from-amber-400 to-orange-500 flex items-center justify-center">
+              <svg class="w-4 h-4 text-white" fill="currentColor" viewBox="0 0 24 24"><path d="M22 19a2 2 0 0 1-2 2H4a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h5l2 3h9a2 2 0 0 1 2 2z"/></svg>
+            </div>
+            <span class="text-xs font-medium text-slate-700">小说</span>
+          </div>
+        </div>
+      </div>
+      
+      <!-- 书籍网格 -->
+      <h4 class="text-xs font-semibold text-slate-500 mb-2">📖 全部书籍 (6)</h4>
+      <div class="grid grid-cols-3 md:grid-cols-6 gap-3">
+        <!-- 书籍1 -->
+        <div class="flex flex-col items-center cursor-pointer group">
+          <div class="relative w-full aspect-[3/4] mb-2">
+            <div class="absolute inset-0 bg-gradient-to-br from-amber-500 to-orange-600 rounded-lg shadow-lg group-hover:shadow-xl transition-all overflow-hidden">
+              <div class="absolute left-0 top-0 bottom-0 w-1.5 bg-black/20"></div>
+              <div class="absolute inset-0 p-2 flex flex-col justify-between">
+                <div class="text-white/90 text-[10px] font-medium leading-tight pl-1">代码整洁之道</div>
+                <div class="flex justify-end"><div class="w-5 h-5 rounded-full bg-white/20"></div></div>
+              </div>
+              <div class="absolute top-1 right-1 bg-red-500 text-white text-[8px] font-bold px-1 rounded">PDF</div>
+            </div>
+          </div>
+          <span class="text-[10px] text-slate-600 truncate w-full text-center">代码整洁之道</span>
+        </div>
+        
+        <!-- 书籍2 -->
+        <div class="flex flex-col items-center cursor-pointer group">
+          <div class="relative w-full aspect-[3/4] mb-2">
+            <div class="absolute inset-0 bg-gradient-to-br from-violet-500 to-purple-600 rounded-lg shadow-lg group-hover:shadow-xl transition-all overflow-hidden">
+              <div class="absolute left-0 top-0 bottom-0 w-1.5 bg-black/20"></div>
+              <div class="absolute inset-0 p-2 flex flex-col justify-between">
+                <div class="text-white/90 text-[10px] font-medium leading-tight pl-1">深入理解计算机系统</div>
+                <div class="flex justify-end"><div class="w-5 h-5 rounded-full bg-white/20"></div></div>
+              </div>
+              <div class="absolute top-1 right-1 bg-green-500 text-white text-[8px] font-bold px-1 rounded">EPUB</div>
+            </div>
+          </div>
+          <span class="text-[10px] text-slate-600 truncate w-full text-center">深入理解计算机系统</span>
+        </div>
+        
+        <!-- 书籍3 -->
+        <div class="flex flex-col items-center cursor-pointer group">
+          <div class="relative w-full aspect-[3/4] mb-2">
+            <div class="absolute inset-0 bg-gradient-to-br from-blue-500 to-indigo-600 rounded-lg shadow-lg group-hover:shadow-xl transition-all overflow-hidden">
+              <div class="absolute left-0 top-0 bottom-0 w-1.5 bg-black/20"></div>
+              <div class="absolute inset-0 p-2 flex flex-col justify-between">
+                <div class="text-white/90 text-[10px] font-medium leading-tight pl-1">React设计模式</div>
+                <div class="flex justify-end"><div class="w-5 h-5 rounded-full bg-white/20"></div></div>
+              </div>
+              <div class="absolute top-1 right-1 bg-red-500 text-white text-[8px] font-bold px-1 rounded">PDF</div>
+            </div>
+          </div>
+          <span class="text-[10px] text-slate-600 truncate w-full text-center">React设计模式</span>
+        </div>
+        
+        <!-- 书籍4 -->
+        <div class="flex flex-col items-center cursor-pointer group">
+          <div class="relative w-full aspect-[3/4] mb-2">
+            <div class="absolute inset-0 bg-gradient-to-br from-emerald-500 to-teal-600 rounded-lg shadow-lg group-hover:shadow-xl transition-all overflow-hidden">
+              <div class="absolute left-0 top-0 bottom-0 w-1.5 bg-black/20"></div>
+              <div class="absolute inset-0 p-2 flex flex-col justify-between">
+                <div class="text-white/90 text-[10px] font-medium leading-tight pl-1">三体</div>
+                <div class="flex justify-end"><div class="w-5 h-5 rounded-full bg-white/20"></div></div>
+              </div>
+              <div class="absolute top-1 right-1 bg-green-500 text-white text-[8px] font-bold px-1 rounded">EPUB</div>
+            </div>
+          </div>
+          <span class="text-[10px] text-slate-600 truncate w-full text-center">三体</span>
+        </div>
+        
+        <!-- 书籍5 -->
+        <div class="flex flex-col items-center cursor-pointer group">
+          <div class="relative w-full aspect-[3/4] mb-2">
+            <div class="absolute inset-0 bg-gradient-to-br from-rose-500 to-pink-600 rounded-lg shadow-lg group-hover:shadow-xl transition-all overflow-hidden">
+              <div class="absolute left-0 top-0 bottom-0 w-1.5 bg-black/20"></div>
+              <div class="absolute inset-0 p-2 flex flex-col justify-between">
+                <div class="text-white/90 text-[10px] font-medium leading-tight pl-1">设计心理学</div>
+                <div class="flex justify-end"><div class="w-5 h-5 rounded-full bg-white/20"></div></div>
+              </div>
+              <div class="absolute top-1 right-1 bg-blue-500 text-white text-[8px] font-bold px-1 rounded">MOBI</div>
+            </div>
+          </div>
+          <span class="text-[10px] text-slate-600 truncate w-full text-center">设计心理学</span>
+        </div>
+        
+        <!-- 书籍6 -->
+        <div class="flex flex-col items-center cursor-pointer group">
+          <div class="relative w-full aspect-[3/4] mb-2">
+            <div class="absolute inset-0 bg-gradient-to-br from-cyan-500 to-blue-600 rounded-lg shadow-lg group-hover:shadow-xl transition-all overflow-hidden">
+              <div class="absolute left-0 top-0 bottom-0 w-1.5 bg-black/20"></div>
+              <div class="absolute inset-0 p-2 flex flex-col justify-between">
+                <div class="text-white/90 text-[10px] font-medium leading-tight pl-1">TypeScript入门</div>
+                <div class="flex justify-end"><div class="w-5 h-5 rounded-full bg-white/20"></div></div>
+              </div>
+              <div class="absolute top-1 right-1 bg-red-500 text-white text-[8px] font-bold px-1 rounded">PDF</div>
+            </div>
+          </div>
+          <span class="text-[10px] text-slate-600 truncate w-full text-center">TypeScript入门</span>
+        </div>
+      </div>
+    </div>
+    
+    <div class="grid grid-cols-1 lg:grid-cols-2 gap-6">
+      
+      <!-- 深色模式完整预览 -->
+      <div class="bg-slate-900 rounded-2xl p-6 shadow-xl">
+        <h3 class="text-white font-bold mb-4">🌙 深邃黑 - 完整预览</h3>
+        
+        <!-- Header -->
+        <div class="bg-white/5 backdrop-blur-xl rounded-xl p-4 mb-4 border border-white/10">
+          <div class="flex items-center justify-between">
+            <div class="flex items-center gap-3">
+              <div class="w-10 h-10 rounded-xl bg-gradient-to-br from-violet-500 to-fuchsia-500 flex items-center justify-center">
+                <span class="text-white text-lg">N</span>
+              </div>
+              <span class="text-white font-bold">Nexus</span>
+            </div>
+            <div class="w-10 h-10 rounded-full bg-gradient-to-br from-blue-400 to-purple-500"></div>
+          </div>
+        </div>
+
+        <!-- Cards -->
+        <div class="grid grid-cols-3 gap-3 mb-4">
+          <div class="bg-white/5 backdrop-blur rounded-xl p-4 border border-white/10 hover:bg-white/10 transition-colors cursor-pointer">
+            <div class="w-10 h-10 rounded-xl bg-gradient-to-br from-amber-400 to-orange-500 mb-3"></div>
+            <span class="text-white/80 text-sm">图书馆</span>
+          </div>
+          <div class="bg-white/5 backdrop-blur rounded-xl p-4 border border-white/10 hover:bg-white/10 transition-colors cursor-pointer">
+            <div class="w-10 h-10 rounded-xl bg-gradient-to-br from-purple-500 to-pink-500 mb-3"></div>
+            <span class="text-white/80 text-sm">电影院</span>
+          </div>
+          <div class="bg-white/5 backdrop-blur rounded-xl p-4 border border-white/10 hover:bg-white/10 transition-colors cursor-pointer">
+            <div class="w-10 h-10 rounded-xl bg-gradient-to-br from-blue-400 to-indigo-500 mb-3"></div>
+            <span class="text-white/80 text-sm">文件</span>
+          </div>
+        </div>
+
+        <!-- List Item -->
+        <div class="bg-white/5 backdrop-blur rounded-xl p-4 border border-white/10 flex items-center gap-4">
+          <div class="w-16 h-16 rounded-xl bg-gradient-to-br from-rose-400 to-orange-400"></div>
+          <div class="flex-1">
+            <h4 class="text-white font-semibold">代码整洁之道.pdf</h4>
+            <p class="text-white/50 text-sm">阅读进度 45%</p>
+            <div class="w-full h-1.5 bg-white/10 rounded-full mt-2">
+              <div class="w-[45%] h-full bg-violet-500 rounded-full"></div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- 浅色 Bento Grid 预览 -->
+      <div class="bg-slate-50 rounded-2xl p-6 shadow-xl">
+        <h3 class="text-slate-800 font-bold mb-4">☀️ 现代蓝 - Bento Grid</h3>
+        
+        <!-- Bento Grid Layout -->
+        <div class="grid grid-cols-4 grid-rows-3 gap-3 h-64">
+          <!-- Large Card -->
+          <div class="col-span-2 row-span-2 bg-white rounded-2xl p-4 shadow-sm border border-slate-100 hover:shadow-md transition-shadow cursor-pointer">
+            <div class="w-12 h-12 rounded-xl bg-gradient-to-br from-indigo-500 to-purple-600 mb-3 flex items-center justify-center">
+              <span class="text-white text-xl">📚</span>
+            </div>
+            <h4 class="font-bold text-slate-800">图书馆</h4>
+            <p class="text-slate-500 text-sm mt-1">12 本书籍</p>
+          </div>
+          
+          <!-- Small Cards -->
+          <div class="bg-gradient-to-br from-amber-400 to-orange-500 rounded-2xl p-3 flex items-center justify-center shadow-lg shadow-orange-500/20 cursor-pointer hover:scale-105 transition-transform">
+            <span class="text-white text-2xl">🎬</span>
+          </div>
+          <div class="bg-gradient-to-br from-emerald-400 to-teal-500 rounded-2xl p-3 flex items-center justify-center shadow-lg shadow-emerald-500/20 cursor-pointer hover:scale-105 transition-transform">
+            <span class="text-white text-2xl">📁</span>
+          </div>
+          <div class="col-span-2 bg-white rounded-2xl p-3 shadow-sm border border-slate-100 flex items-center gap-3 cursor-pointer hover:shadow-md transition-shadow">
+            <div class="w-10 h-10 rounded-lg bg-slate-100"></div>
+            <div class="flex-1">
+              <div class="h-2 bg-slate-200 rounded w-3/4 mb-1"></div>
+              <div class="h-2 bg-slate-100 rounded w-1/2"></div>
+            </div>
+          </div>
+          
+          <!-- Bottom Row -->
+          <div class="col-span-2 bg-gradient-to-r from-blue-500 to-indigo-600 rounded-2xl p-3 flex items-center justify-center shadow-lg shadow-blue-500/20 cursor-pointer hover:scale-[1.02] transition-transform">
+            <span class="text-white font-semibold">继续阅读 →</span>
+          </div>
+          <div class="col-span-2 bg-white rounded-2xl p-3 shadow-sm border border-slate-100 flex items-center gap-2">
+            <div class="w-8 h-8 rounded-full bg-gradient-to-br from-violet-400 to-purple-500"></div>
+            <span class="text-slate-600 text-sm font-medium">Jiangking</span>
+          </div>
+        </div>
+      </div>
+
+    </div>
+
+  </div>
+
+  <script>
+    const themes = {
+      1: { name: '现代蓝', desc: 'Indigo 主色调，清新简约，专业应用首选' },
+      2: { name: '深邃黑', desc: '暗黑模式 + Glassmorphism 毛玻璃效果' },
+      3: { name: '薄荷绿', desc: '清新自然配色，适合阅读和学习' },
+      4: { name: '珊瑚橙', desc: '温暖活力，适合创意和娱乐应用' },
+      5: { name: '极光紫', desc: '神秘梦幻渐变，沉浸式体验' },
+      6: { name: '纯净白', desc: '极简黑白灰，专注内容本身' }
+    };
+
+    let selectedTheme = null;
+
+    function selectTheme(id) {
+      // Remove previous selection
+      document.querySelectorAll('.theme-card').forEach(card => {
+        card.classList.remove('ring-4', 'ring-blue-500');
+      });
+      
+      // Add selection to clicked card
+      const cards = document.querySelectorAll('.theme-card');
+      cards[id - 1].classList.add('ring-4', 'ring-blue-500');
+      
+      // Show selection info
+      selectedTheme = id;
+      document.getElementById('selection').classList.remove('hidden');
+      document.getElementById('selected-name').textContent = themes[id].name;
+      document.getElementById('selected-desc').textContent = themes[id].desc;
+    }
+
+    function confirmSelection() {
+      alert(`已选择: ${themes[selectedTheme].name}\n\n请告诉 Claude 你选择了 "${themes[selectedTheme].name}" 主题，我会帮你实施！`);
+    }
+  </script>
+</body>
+</html>
