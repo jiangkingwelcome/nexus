@@ -395,14 +395,49 @@ const VideoPlayer: React.FC<VideoPlayerProps> = ({ url, filename, initialProgres
 
 // ==================== 阅读主题配置 ====================
 const READING_THEMES = {
-  paper: { bg: '#F5F5DC', text: '#3D3D3D', name: '羊皮纸' },
-  green: { bg: '#C7EDCC', text: '#2D4A2D', name: '护眼绿' },
-  night: { bg: '#1A1A2E', text: '#E8E8E8', name: '夜间' },
-  white: { bg: '#FFFFFF', text: '#333333', name: '白色' },
-  sepia: { bg: '#FBF0D9', text: '#5B4636', name: '怀旧' },
+  // 经典主题
+  paper: { bg: '#F5F5DC', text: '#3D3D3D', name: '羊皮纸', category: 'classic' },
+  green: { bg: '#C7EDCC', text: '#2D4A2D', name: '护眼绿', category: 'classic' },
+  night: { bg: '#1A1A2E', text: '#E8E8E8', name: '夜间', category: 'dark' },
+  white: { bg: '#FFFFFF', text: '#333333', name: '纯白', category: 'classic' },
+  sepia: { bg: '#FBF0D9', text: '#5B4636', name: '怀旧', category: 'classic' },
+  
+  // 清新主题
+  sky: { bg: '#E3F2FD', text: '#1565C0', name: '天空蓝', category: 'fresh' },
+  lavender: { bg: '#F3E5F5', text: '#6A1B9A', name: '薰衣草', category: 'fresh' },
+  sakura: { bg: '#FCE4EC', text: '#AD1457', name: '樱花粉', category: 'fresh' },
+  mint: { bg: '#E0F2F1', text: '#00695C', name: '薄荷', category: 'fresh' },
+  lemon: { bg: '#FFFDE7', text: '#F57F17', name: '柠檬', category: 'fresh' },
+  
+  // 深色主题
+  abyss: { bg: '#0D1117', text: '#C9D1D9', name: '深邃黑', category: 'dark' },
+  darkPurple: { bg: '#1E1E2F', text: '#B794F6', name: '暗夜紫', category: 'dark' },
+  midnight: { bg: '#0F1624', text: '#7DD3FC', name: '午夜蓝', category: 'dark' },
+  darkGreen: { bg: '#1A2F1A', text: '#90EE90', name: '墨绿', category: 'dark' },
+  warmNight: { bg: '#1F1510', text: '#FBBF24', name: '暖夜', category: 'dark' },
+  
+  // 特色主题
+  ink: { bg: '#F5F5F0', text: '#2C2C2C', name: '墨香', category: 'special' },
+  ancient: { bg: '#E8DCC4', text: '#4A3728', name: '古籍', category: 'special' },
+  mocha: { bg: '#3E2723', text: '#D7CCC8', name: '摩卡', category: 'dark' },
+  forest: { bg: '#E8F5E9', text: '#1B5E20', name: '森林', category: 'fresh' },
+  ocean: { bg: '#E1F5FE', text: '#01579B', name: '海洋', category: 'fresh' },
 };
 
 type ThemeKey = keyof typeof READING_THEMES;
+
+// 主题分类
+const THEME_CATEGORIES = {
+  classic: { name: '经典', icon: '📖' },
+  fresh: { name: '清新', icon: '🌸' },
+  dark: { name: '深色', icon: '🌙' },
+  special: { name: '特色', icon: '✨' },
+};
+
+// 判断是否为深色主题
+const isDarkTheme = (key: ThemeKey) => {
+  return READING_THEMES[key].category === 'dark';
+};
 
 // ==================== 文本阅读器 ====================
 // 每页字符数（约 3-5 屏内容）
@@ -414,11 +449,13 @@ const TextViewer: React.FC<{ filePath: string; filename: string; fileSize?: numb
   const [fontSize, setFontSize] = useState(18);
   const [lineHeight, setLineHeight] = useState(1.8);
   const [theme, setTheme] = useState<ThemeKey>('paper');
+  const [brightness, setBrightness] = useState(100); // 亮度 50-150
   const [loadProgress, setLoadProgress] = useState(0);
   const [loadedSize, setLoadedSize] = useState(0);
-  const [showSettings, setShowSettings] = useState(false);
   const [statusText, setStatusText] = useState('准备中...');
   const [fromCache, setFromCache] = useState(false);
+  const [showToolbar, setShowToolbar] = useState(true);
+  const [activePanel, setActivePanel] = useState<'none' | 'settings' | 'themes'>('none');
   
   // 分页相关 - 使用 ref 存储大文本，避免 React state 处理大数据
   const [currentPage, setCurrentPage] = useState(0);
@@ -426,6 +463,9 @@ const TextViewer: React.FC<{ filePath: string; filename: string; fileSize?: numb
   const [pageContent, setPageContent] = useState(''); // 只存当前页内容
   const fullTextRef = useRef<string>(''); // 用 ref 存储完整文本
   const scrollRef = useRef<HTMLDivElement>(null);
+  
+  // 当前主题是否为深色
+  const isCurrentDark = isDarkTheme(theme);
 
   useEffect(() => {
     let cancelled = false;
@@ -644,174 +684,105 @@ const TextViewer: React.FC<{ filePath: string; filename: string; fileSize?: numb
   }
 
   const currentTheme = READING_THEMES[theme];
+  const progressPercent = totalPages > 0 ? Math.round(((currentPage + 1) / totalPages) * 100) : 0;
 
-  // 阅读界面
+  // 阅读界面 - 起点读书风格
   return (
     <div 
-      className="w-full h-full flex flex-col transition-colors duration-300"
+      className="w-full h-full flex flex-col transition-colors duration-300 relative"
       style={{ backgroundColor: currentTheme.bg }}
     >
-      {/* 顶部工具栏 */}
+      {/* 顶部状态栏 */}
       <div 
-        className="flex-shrink-0 px-4 py-3 flex items-center gap-3 backdrop-blur-sm"
-        style={{ 
-          backgroundColor: theme === 'night' ? 'rgba(30,30,50,0.9)' : 'rgba(255,255,255,0.9)',
-          borderBottom: `1px solid ${theme === 'night' ? 'rgba(255,255,255,0.1)' : 'rgba(0,0,0,0.05)'}` 
-        }}
+        className={`absolute top-0 left-0 right-0 z-20 transition-all duration-300 ${
+          showToolbar ? 'translate-y-0 opacity-100' : '-translate-y-full opacity-0'
+        }`}
+        style={{ backgroundColor: isCurrentDark ? '#16162a' : 'rgba(255,255,255,0.95)' }}
       >
-        {/* 返回按钮 */}
-        {onClose && (
-          <button
-            onClick={onClose}
-            className={`p-2 -ml-2 rounded-xl transition-colors ${
-              theme === 'night' 
-                ? 'hover:bg-white/10 text-gray-400' 
-                : 'hover:bg-black/5 text-gray-500'
-            }`}
-          >
-            <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 19l-7-7 7-7" />
-            </svg>
-          </button>
-        )}
-        
-        {/* 标题 + 缓存标识 */}
-        <div className="flex-1 flex items-center gap-2 min-w-0">
-          <h1 
-            className="text-sm font-medium truncate"
-            style={{ color: theme === 'night' ? '#ccc' : '#666' }}
-          >
-            {filename.replace(/\.(txt|md)$/i, '')}
-          </h1>
-          {fromCache && (
-            <span className={`flex-shrink-0 text-xs px-1.5 py-0.5 rounded ${
-              theme === 'night' ? 'bg-green-900/50 text-green-400' : 'bg-green-100 text-green-600'
-            }`}>
-              已缓存
-            </span>
-          )}
-        </div>
-        
-        {/* 设置按钮 */}
-        <button
-          onClick={() => setShowSettings(!showSettings)}
-          className={`p-2 rounded-xl transition-colors ${
-            theme === 'night' 
-              ? 'hover:bg-white/10 text-gray-400' 
-              : 'hover:bg-black/5 text-gray-500'
-          }`}
-        >
-          <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 6V4m0 2a2 2 0 100 4m0-4a2 2 0 110 4m-6 8a2 2 0 100-4m0 4a2 2 0 110-4m0 4v2m0-6V4m6 6v10m6-2a2 2 0 100-4m0 4a2 2 0 110-4m0 4v2m0-6V4" />
-          </svg>
-        </button>
-      </div>
-      
-      {/* 设置面板 */}
-      {showSettings && (
-        <div 
-          className="flex-shrink-0 px-4 py-4 border-b"
-          style={{ 
-            backgroundColor: theme === 'night' ? 'rgba(30,30,50,0.95)' : 'rgba(255,255,255,0.95)',
-            borderColor: theme === 'night' ? 'rgba(255,255,255,0.1)' : 'rgba(0,0,0,0.05)'
-          }}
-        >
-          {/* 字体大小 */}
-          <div className="flex items-center justify-between mb-4">
-            <span className="text-sm" style={{ color: theme === 'night' ? '#aaa' : '#666' }}>字号</span>
-            <div className="flex items-center gap-3">
-              <button 
-                onClick={() => setFontSize(s => Math.max(14, s - 2))}
-                className={`w-8 h-8 rounded-lg flex items-center justify-center text-sm font-medium ${
-                  theme === 'night' ? 'bg-white/10 text-white' : 'bg-black/5 text-gray-600'
-                }`}
-              >
-                A-
-              </button>
-              <span className="w-8 text-center text-sm" style={{ color: theme === 'night' ? '#ccc' : '#666' }}>{fontSize}</span>
-              <button 
-                onClick={() => setFontSize(s => Math.min(28, s + 2))}
-                className={`w-8 h-8 rounded-lg flex items-center justify-center text-sm font-medium ${
-                  theme === 'night' ? 'bg-white/10 text-white' : 'bg-black/5 text-gray-600'
-                }`}
-              >
-                A+
-              </button>
-            </div>
-          </div>
-          
-          {/* 行距 */}
-          <div className="flex items-center justify-between mb-4">
-            <span className="text-sm" style={{ color: theme === 'night' ? '#aaa' : '#666' }}>行距</span>
-            <div className="flex items-center gap-2">
-              {[1.5, 1.8, 2.0, 2.2].map(h => (
-                <button
-                  key={h}
-                  onClick={() => setLineHeight(h)}
-                  className={`px-3 py-1 rounded-lg text-xs font-medium transition-colors ${
-                    lineHeight === h 
-                      ? 'bg-orange-500 text-white' 
-                      : theme === 'night' ? 'bg-white/10 text-gray-400' : 'bg-black/5 text-gray-500'
-                  }`}
-                >
-                  {h}
-                </button>
-              ))}
-            </div>
-          </div>
-          
-          {/* 主题 */}
-          <div className="flex items-center justify-between mb-4">
-            <span className="text-sm" style={{ color: theme === 'night' ? '#aaa' : '#666' }}>主题</span>
-            <div className="flex items-center gap-2">
-              {(Object.keys(READING_THEMES) as ThemeKey[]).map(key => (
-                <button
-                  key={key}
-                  onClick={() => setTheme(key)}
-                  className={`w-7 h-7 rounded-full border-2 transition-all ${
-                    theme === key ? 'scale-110 border-orange-500' : 'border-transparent hover:scale-105'
-                  }`}
-                  style={{ backgroundColor: READING_THEMES[key].bg }}
-                  title={READING_THEMES[key].name}
-                />
-              ))}
-            </div>
-          </div>
-          
-          {/* 缓存设置 */}
-          <div className="flex items-center justify-between">
-            <div>
-              <span className="text-sm" style={{ color: theme === 'night' ? '#aaa' : '#666' }}>缓存</span>
-              <p className="text-xs mt-0.5" style={{ color: theme === 'night' ? '#666' : '#999' }}>
-                {(() => {
-                  const mode = fileCache.getCacheMode();
-                  if (mode.mode === 'local') return `📁 ${mode.folderName}`;
-                  return '🗃️ IndexedDB (2GB)';
-                })()}
-              </p>
-            </div>
-            {fileCache.isLocalFolderSupported() && (
+        <div className="px-4 py-3 flex items-center justify-between">
+          <div className="flex items-center gap-2">
+            {/* 返回按钮 */}
+            {onClose && (
               <button
-                onClick={async () => {
-                  await fileCache.selectLocalFolder();
-                  // 触发重新渲染
-                  setShowSettings(false);
-                  setTimeout(() => setShowSettings(true), 0);
-                }}
-                className={`px-3 py-1.5 rounded-lg text-xs font-medium ${
-                  theme === 'night' ? 'bg-white/10 text-white' : 'bg-black/5 text-gray-600'
-                }`}
+                onClick={onClose}
+                className="p-1 -ml-1 rounded-lg transition-colors hover:bg-white/10"
+                title="返回"
               >
-                {fileCache.getCacheMode().mode === 'local' ? '更换文件夹' : '设置文件夹'}
+                <svg className="w-5 h-5" style={{ color: isCurrentDark ? 'rgba(255,255,255,0.7)' : '#666' }} fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 19l-7-7 7-7" />
+                </svg>
               </button>
             )}
+            {/* 书名 */}
+            <span 
+              className="text-sm font-medium truncate max-w-[180px]"
+              style={{ color: isCurrentDark ? 'rgba(255,255,255,0.9)' : '#333' }}
+            >
+              {filename.replace(/\.(txt|md)$/i, '')}
+            </span>
+          </div>
+          <div className="flex items-center gap-3">
+            {/* 缓存标识 */}
+            {fromCache && (
+              <span className="text-[10px] px-2 py-0.5 rounded bg-[#ff6b6b]/20 text-[#ff6b6b]">
+                ⚡ 缓存
+              </span>
+            )}
+            {/* 目录按钮 */}
+            <button 
+              className="p-1 rounded-lg transition-colors hover:bg-white/10"
+              title="目录"
+            >
+              <svg className="w-5 h-5" style={{ color: isCurrentDark ? 'rgba(255,255,255,0.7)' : '#666' }} fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M4 6h16M4 12h16M4 18h16" />
+              </svg>
+            </button>
+            {/* 更多按钮 */}
+            <button 
+              className="p-1 rounded-lg transition-colors hover:bg-white/10"
+              title="更多"
+            >
+              <svg className="w-5 h-5" style={{ color: isCurrentDark ? 'rgba(255,255,255,0.7)' : '#666' }} fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 5v.01M12 12v.01M12 19v.01M12 6a1 1 0 110-2 1 1 0 010 2zm0 7a1 1 0 110-2 1 1 0 010 2zm0 7a1 1 0 110-2 1 1 0 010 2z" />
+              </svg>
+            </button>
           </div>
         </div>
-      )}
+      </div>
       
-      {/* 内容区域 */}
-      <div ref={scrollRef} className="flex-1 overflow-auto hide-scrollbar">
-        <div className="max-w-2xl mx-auto px-6 py-8 md:px-12 md:py-12">
+      {/* 章节标题区域 */}
+      <div 
+        className={`pt-14 px-6 transition-all duration-300 ${
+          showToolbar ? 'opacity-100' : 'opacity-0'
+        }`}
+      >
+        <h2 
+          className="text-lg font-medium mb-1"
+          style={{ color: isCurrentDark ? '#e8e8e8' : '#333' }}
+        >
+          第 {currentPage + 1} 页
+        </h2>
+        <p className="text-xs" style={{ color: isCurrentDark ? '#666' : '#999' }}>
+          本页约 {pageContent.length.toLocaleString()} 字
+        </p>
+      </div>
+      
+      {/* 内容区域 - 点击显示/隐藏工具栏 */}
+      <div 
+        ref={scrollRef} 
+        className="flex-1 overflow-auto hide-scrollbar"
+        style={{
+          filter: brightness !== 100 ? `brightness(${brightness / 100})` : undefined,
+        }}
+        onClick={() => {
+          if (activePanel !== 'none') {
+            setActivePanel('none');
+          } else {
+            setShowToolbar(!showToolbar);
+          }
+        }}
+      >
+        <div className="max-w-2xl mx-auto px-6 py-4 pb-44 md:px-10">
           <article 
             className="font-serif whitespace-pre-wrap break-words"
             style={{ 
@@ -826,76 +797,256 @@ const TextViewer: React.FC<{ filePath: string; filename: string; fileSize?: numb
         </div>
       </div>
       
-      {/* 分页导航 - 只在多页时显示 */}
-      {totalPages > 1 && (
-        <div 
-          className="flex-shrink-0 px-4 py-3 flex items-center justify-between border-t"
-          style={{ 
-            backgroundColor: theme === 'night' ? 'rgba(30,30,50,0.95)' : 'rgba(255,255,255,0.95)',
-            borderColor: theme === 'night' ? 'rgba(255,255,255,0.1)' : 'rgba(0,0,0,0.05)'
-          }}
-        >
+      {/* 底部工具栏 - 起点风格 */}
+      <div 
+        className={`absolute bottom-0 left-0 right-0 z-20 transition-all duration-300 ${
+          showToolbar ? 'translate-y-0 opacity-100' : 'translate-y-full opacity-0'
+        }`}
+        style={{ backgroundColor: isCurrentDark ? '#16162a' : '#fff' }}
+      >
+        {/* 设置面板 */}
+        {activePanel === 'settings' && (
+          <div 
+            className="px-5 py-5 border-t"
+            style={{ 
+              backgroundColor: isCurrentDark ? '#16162a' : '#fff',
+              borderColor: isCurrentDark ? 'rgba(255,255,255,0.05)' : 'rgba(0,0,0,0.05)'
+            }}
+            onClick={(e) => e.stopPropagation()}
+          >
+            {/* 亮度调节 */}
+            <div className="flex items-center gap-4 mb-5">
+              <svg className="w-4 h-4 flex-shrink-0" style={{ color: isCurrentDark ? '#666' : '#999' }} fill="currentColor" viewBox="0 0 20 20">
+                <path d="M10 2a1 1 0 011 1v1a1 1 0 11-2 0V3a1 1 0 011-1zm4 8a4 4 0 11-8 0 4 4 0 018 0zm-.464 4.95l.707.707a1 1 0 001.414-1.414l-.707-.707a1 1 0 00-1.414 1.414zm2.12-10.607a1 1 0 010 1.414l-.706.707a1 1 0 11-1.414-1.414l.707-.707a1 1 0 011.414 0zM17 11a1 1 0 100-2h-1a1 1 0 100 2h1zm-7 4a1 1 0 011 1v1a1 1 0 11-2 0v-1a1 1 0 011-1zM5.05 6.464A1 1 0 106.465 5.05l-.708-.707a1 1 0 00-1.414 1.414l.707.707zm1.414 8.486l-.707.707a1 1 0 01-1.414-1.414l.707-.707a1 1 0 011.414 1.414zM4 11a1 1 0 100-2H3a1 1 0 000 2h1z" />
+              </svg>
+              <input
+                type="range"
+                min="50"
+                max="150"
+                value={brightness}
+                onChange={(e) => setBrightness(Number(e.target.value))}
+                className="flex-1 h-1 rounded-full appearance-none cursor-pointer"
+                style={{
+                  background: `linear-gradient(to right, #ff6b6b 0%, #ffc371 ${(brightness - 50)}%, ${isCurrentDark ? '#333' : '#e5e7eb'} ${(brightness - 50)}%, ${isCurrentDark ? '#333' : '#e5e7eb'} 100%)`
+                }}
+                title="亮度调节"
+              />
+              <span className="text-xs w-8 text-right" style={{ color: isCurrentDark ? '#888' : '#666' }}>{brightness}%</span>
+            </div>
+            
+            {/* 字号调节 */}
+            <div className="flex items-center gap-4 mb-5">
+              <span className="text-xs w-4 flex-shrink-0" style={{ color: isCurrentDark ? '#666' : '#999' }}>A</span>
+              <div className="flex-1 flex items-center justify-between gap-2">
+                {[14, 16, 18, 20, 22, 24].map(size => (
+                  <button
+                    key={size}
+                    onClick={() => setFontSize(size)}
+                    className="flex-1 py-1.5 rounded-lg text-xs font-medium transition-all"
+                    style={{
+                      background: fontSize === size ? 'linear-gradient(135deg, #ff6b6b, #ffc371)' : (isCurrentDark ? 'rgba(255,255,255,0.05)' : 'rgba(0,0,0,0.05)'),
+                      color: fontSize === size ? '#fff' : (isCurrentDark ? '#888' : '#666')
+                    }}
+                  >
+                    {size}
+                  </button>
+                ))}
+              </div>
+              <span className="text-sm w-4 flex-shrink-0 font-bold" style={{ color: isCurrentDark ? '#666' : '#999' }}>A</span>
+            </div>
+            
+            {/* 行距调节 */}
+            <div className="flex items-center gap-4">
+              <svg className="w-4 h-4 flex-shrink-0" style={{ color: isCurrentDark ? '#666' : '#999' }} fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M4 6h16M4 12h16M4 18h16" />
+              </svg>
+              <div className="flex-1 flex items-center justify-between gap-2">
+                {[1.5, 1.8, 2.0, 2.2, 2.5].map(h => (
+                  <button
+                    key={h}
+                    onClick={() => setLineHeight(h)}
+                    className="flex-1 py-1.5 rounded-lg text-xs font-medium transition-all"
+                    style={{
+                      background: lineHeight === h ? 'linear-gradient(135deg, #ff6b6b, #ffc371)' : (isCurrentDark ? 'rgba(255,255,255,0.05)' : 'rgba(0,0,0,0.05)'),
+                      color: lineHeight === h ? '#fff' : (isCurrentDark ? '#888' : '#666')
+                    }}
+                  >
+                    {h}
+                  </button>
+                ))}
+              </div>
+              <div className="w-4" />
+            </div>
+          </div>
+        )}
+        
+        {/* 主题选择面板 */}
+        {activePanel === 'themes' && (
+          <div 
+            className="px-5 py-5 border-t max-h-72 overflow-y-auto"
+            style={{ 
+              backgroundColor: isCurrentDark ? '#16162a' : '#fff',
+              borderColor: isCurrentDark ? 'rgba(255,255,255,0.05)' : 'rgba(0,0,0,0.05)'
+            }}
+            onClick={(e) => e.stopPropagation()}
+          >
+            {Object.entries(THEME_CATEGORIES).map(([catKey, catInfo]) => {
+              const themesInCategory = (Object.keys(READING_THEMES) as ThemeKey[]).filter(
+                k => READING_THEMES[k].category === catKey
+              );
+              if (themesInCategory.length === 0) return null;
+              
+              return (
+                <div key={catKey} className="mb-4 last:mb-0">
+                  <div className="text-[10px] font-medium mb-2 uppercase tracking-wider" style={{ color: isCurrentDark ? '#555' : '#aaa' }}>
+                    {catInfo.icon} {catInfo.name}
+                  </div>
+                  <div className="grid grid-cols-5 gap-2">
+                    {themesInCategory.map(key => (
+                      <button
+                        key={key}
+                        onClick={() => setTheme(key)}
+                        className="relative p-2.5 rounded-xl transition-all hover:scale-105"
+                        style={{ 
+                          backgroundColor: READING_THEMES[key].bg,
+                          boxShadow: isDarkTheme(key) 
+                            ? 'inset 0 0 0 1px rgba(255,255,255,0.1), 0 2px 8px rgba(0,0,0,0.3)' 
+                            : '0 2px 8px rgba(0,0,0,0.08)',
+                          outline: theme === key ? '2px solid #ff6b6b' : 'none',
+                          outlineOffset: '2px'
+                        }}
+                      >
+                        <div 
+                          className="text-[10px] font-medium text-center"
+                          style={{ color: READING_THEMES[key].text }}
+                        >
+                          {READING_THEMES[key].name}
+                        </div>
+                      </button>
+                    ))}
+                  </div>
+                </div>
+              );
+            })}
+          </div>
+        )}
+        
+        {/* 进度条 */}
+        <div className="px-4 py-2 flex items-center gap-2" style={{ borderTop: `1px solid ${isCurrentDark ? 'rgba(255,255,255,0.05)' : 'rgba(0,0,0,0.05)'}` }}>
+          <div className="flex-1 h-1 rounded-full" style={{ backgroundColor: isCurrentDark ? 'rgba(255,255,255,0.1)' : 'rgba(0,0,0,0.1)' }}>
+            <div 
+              className="h-full rounded-full transition-all duration-300"
+              style={{ 
+                width: `${progressPercent}%`,
+                background: 'linear-gradient(90deg, #ff6b6b, #ffc371)'
+              }}
+            />
+          </div>
+          <span className="text-xs" style={{ color: isCurrentDark ? 'rgba(255,255,255,0.5)' : 'rgba(0,0,0,0.5)' }}>{progressPercent}%</span>
+        </div>
+        
+        {/* 底部功能按钮 */}
+        <div className="px-4 pb-3 flex items-center justify-around">
           {/* 上一页 */}
           <button
-            onClick={() => {
-              const newPage = Math.max(0, currentPage - 1);
-              setCurrentPage(newPage);
-              setPageContent(fullTextRef.current.slice(newPage * CHARS_PER_PAGE, (newPage + 1) * CHARS_PER_PAGE));
-              scrollRef.current?.scrollTo(0, 0);
+            onClick={(e) => {
+              e.stopPropagation();
+              if (currentPage > 0) {
+                const newPage = currentPage - 1;
+                setCurrentPage(newPage);
+                setPageContent(fullTextRef.current.slice(newPage * CHARS_PER_PAGE, (newPage + 1) * CHARS_PER_PAGE));
+                scrollRef.current?.scrollTo(0, 0);
+              }
             }}
             disabled={currentPage === 0}
-            className={`px-4 py-2 rounded-lg text-sm font-medium transition-colors ${
-              currentPage === 0
-                ? 'opacity-30 cursor-not-allowed'
-                : theme === 'night' ? 'bg-white/10 text-white hover:bg-white/20' : 'bg-black/5 text-gray-600 hover:bg-black/10'
+            className={`flex flex-col items-center gap-1 p-2 rounded-lg transition-colors ${
+              currentPage === 0 ? 'opacity-30' : 'hover:bg-white/5'
             }`}
+            title="上一页"
           >
-            ← 上一页
+            <svg className="w-5 h-5" style={{ color: isCurrentDark ? 'rgba(255,255,255,0.6)' : 'rgba(0,0,0,0.6)' }} fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 19l-7-7 7-7" />
+            </svg>
+            <span className="text-[10px]" style={{ color: isCurrentDark ? 'rgba(255,255,255,0.5)' : 'rgba(0,0,0,0.5)' }}>上一页</span>
           </button>
           
-          {/* 页码显示 + 跳转 */}
-          <div className="flex items-center gap-2">
-            <span className="text-sm" style={{ color: theme === 'night' ? '#aaa' : '#666' }}>
-              {currentPage + 1} / {totalPages}
-            </span>
-            {totalPages > 10 && (
-              <input
-                type="number"
-                min={1}
-                max={totalPages}
-                value={currentPage + 1}
-                onChange={(e) => {
-                  const newPage = Math.max(0, Math.min(totalPages - 1, (parseInt(e.target.value) || 1) - 1));
-                  setCurrentPage(newPage);
-                  setPageContent(fullTextRef.current.slice(newPage * CHARS_PER_PAGE, (newPage + 1) * CHARS_PER_PAGE));
-                  scrollRef.current?.scrollTo(0, 0);
-                }}
-                className={`w-16 px-2 py-1 rounded text-center text-sm ${
-                  theme === 'night' ? 'bg-white/10 text-white' : 'bg-black/5 text-gray-700'
-                }`}
-              />
-            )}
-          </div>
-          
-          {/* 下一页 */}
+          {/* 夜间模式切换 */}
           <button
-            onClick={() => {
-              const newPage = Math.min(totalPages - 1, currentPage + 1);
-              setCurrentPage(newPage);
-              setPageContent(fullTextRef.current.slice(newPage * CHARS_PER_PAGE, (newPage + 1) * CHARS_PER_PAGE));
-              scrollRef.current?.scrollTo(0, 0);
+            onClick={(e) => {
+              e.stopPropagation();
+              setTheme(isCurrentDark ? 'paper' : 'night');
+            }}
+            className="flex flex-col items-center gap-1 p-2 rounded-lg transition-colors hover:bg-white/5"
+            title={isCurrentDark ? '日间模式' : '夜间模式'}
+          >
+            <svg className="w-5 h-5" style={{ color: isCurrentDark ? 'rgba(255,255,255,0.6)' : 'rgba(0,0,0,0.6)' }} fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              {isCurrentDark ? (
+                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 3v1m0 16v1m9-9h-1M4 12H3m15.364 6.364l-.707-.707M6.343 6.343l-.707-.707m12.728 0l-.707.707M6.343 17.657l-.707.707M16 12a4 4 0 11-8 0 4 4 0 018 0z" />
+              ) : (
+                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M20.354 15.354A9 9 0 018.646 3.646 9.003 9.003 0 0012 21a9.003 9.003 0 008.354-5.646z" />
+              )}
+            </svg>
+            <span className="text-[10px]" style={{ color: isCurrentDark ? 'rgba(255,255,255,0.5)' : 'rgba(0,0,0,0.5)' }}>{isCurrentDark ? '日间' : '夜间'}</span>
+          </button>
+          
+          {/* 主题 */}
+          <button
+            onClick={(e) => {
+              e.stopPropagation();
+              setActivePanel(activePanel === 'themes' ? 'none' : 'themes');
+            }}
+            className="flex flex-col items-center gap-1 p-2 rounded-lg transition-colors hover:bg-white/5"
+            title="主题"
+          >
+            <div 
+              className="w-5 h-5 rounded-full border-2"
+              style={{ 
+                backgroundColor: currentTheme.bg,
+                borderColor: isCurrentDark ? 'rgba(255,255,255,0.3)' : 'rgba(0,0,0,0.2)'
+              }}
+            />
+            <span className="text-[10px]" style={{ color: isCurrentDark ? 'rgba(255,255,255,0.5)' : 'rgba(0,0,0,0.5)' }}>主题</span>
+          </button>
+          
+          {/* 设置 */}
+          <button
+            onClick={(e) => {
+              e.stopPropagation();
+              setActivePanel(activePanel === 'settings' ? 'none' : 'settings');
+            }}
+            className="flex flex-col items-center gap-1 p-2 rounded-lg transition-colors hover:bg-white/5"
+            title="设置"
+          >
+            <svg className="w-5 h-5" style={{ color: isCurrentDark ? 'rgba(255,255,255,0.6)' : 'rgba(0,0,0,0.6)' }} fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M10.325 4.317c.426-1.756 2.924-1.756 3.35 0a1.724 1.724 0 002.573 1.066c1.543-.94 3.31.826 2.37 2.37a1.724 1.724 0 001.065 2.572c1.756.426 1.756 2.924 0 3.35a1.724 1.724 0 00-1.066 2.573c.94 1.543-.826 3.31-2.37 2.37a1.724 1.724 0 00-2.572 1.065c-.426 1.756-2.924 1.756-3.35 0a1.724 1.724 0 00-2.573-1.066c-1.543.94-3.31-.826-2.37-2.37a1.724 1.724 0 00-1.065-2.572c-1.756-.426-1.756-2.924 0-3.35a1.724 1.724 0 001.066-2.573c-.94-1.543.826-3.31 2.37-2.37.996.608 2.296.07 2.572-1.065z" />
+              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 12a3 3 0 11-6 0 3 3 0 016 0z" />
+            </svg>
+            <span className="text-[10px]" style={{ color: isCurrentDark ? 'rgba(255,255,255,0.5)' : 'rgba(0,0,0,0.5)' }}>设置</span>
+          </button>
+          
+          {/* 下一页按钮 - 渐变样式 */}
+          <button
+            onClick={(e) => {
+              e.stopPropagation();
+              if (currentPage < totalPages - 1) {
+                const newPage = currentPage + 1;
+                setCurrentPage(newPage);
+                setPageContent(fullTextRef.current.slice(newPage * CHARS_PER_PAGE, (newPage + 1) * CHARS_PER_PAGE));
+                scrollRef.current?.scrollTo(0, 0);
+              }
             }}
             disabled={currentPage >= totalPages - 1}
-            className={`px-4 py-2 rounded-lg text-sm font-medium transition-colors ${
-              currentPage >= totalPages - 1
-                ? 'opacity-30 cursor-not-allowed'
-                : theme === 'night' ? 'bg-white/10 text-white hover:bg-white/20' : 'bg-black/5 text-gray-600 hover:bg-black/10'
+            className={`px-4 py-2 rounded-full transition-all ${
+              currentPage >= totalPages - 1 ? 'opacity-30' : 'hover:opacity-90 active:scale-95'
             }`}
+            style={{ background: 'linear-gradient(135deg, #ff6b6b, #ffc371)' }}
+            title="下一页"
           >
-            下一页 →
+            <span className="text-white text-xs font-medium">下一页</span>
           </button>
         </div>
-      )}
+      </div>
+      
     </div>
   );
 };

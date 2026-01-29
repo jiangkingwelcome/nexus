@@ -1,0 +1,561 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>阅读界面风格对比</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <link href="https://fonts.googleapis.com/css2?family=Noto+Serif+SC:wght@400;500;600&family=ZCOOL+XiaoWei&display=swap" rel="stylesheet">
+  <style>
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+    body { font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif; background: #0a0a0f; }
+    .phone-frame {
+      width: 375px;
+      height: 700px;
+      border-radius: 40px;
+      overflow: hidden;
+      position: relative;
+      box-shadow: 0 25px 80px rgba(0,0,0,0.5), inset 0 0 0 2px rgba(255,255,255,0.1);
+    }
+    .sample-text {
+      font-family: 'Noto Serif SC', serif;
+      line-height: 1.9;
+      letter-spacing: 0.02em;
+    }
+    .style-card {
+      transition: all 0.3s ease;
+      cursor: pointer;
+    }
+    .style-card:hover {
+      transform: translateY(-8px);
+    }
+    .style-card.selected {
+      outline: 3px solid #3b82f6;
+      outline-offset: 4px;
+    }
+    .badge {
+      position: absolute;
+      top: -10px;
+      right: -10px;
+      background: linear-gradient(135deg, #3b82f6, #8b5cf6);
+      color: white;
+      font-size: 11px;
+      padding: 4px 10px;
+      border-radius: 12px;
+      font-weight: 600;
+    }
+  </style>
+</head>
+<body class="min-h-screen p-8">
+  <div class="max-w-7xl mx-auto">
+    <h1 class="text-3xl font-bold text-white text-center mb-2">选择阅读界面风格</h1>
+    <p class="text-gray-400 text-center mb-10">点击选择你喜欢的风格，我们将应用到阅读器中</p>
+    
+    <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-10 justify-items-center">
+      
+      <!-- 风格1: 微信读书 (当前) -->
+      <div class="style-card selected" data-style="wechat">
+        <div class="text-center mb-3">
+          <span class="text-white font-semibold text-lg">微信读书</span>
+          <span class="text-green-400 text-sm ml-2">✓ 当前使用</span>
+        </div>
+        <div class="phone-frame bg-[#f5f5dc] relative">
+          <div class="badge">推荐</div>
+          <!-- 顶部栏 -->
+          <div class="absolute top-0 left-0 right-0 bg-white/90 backdrop-blur-lg px-4 py-3 flex items-center justify-between border-b border-black/5">
+            <div class="flex items-center gap-2">
+              <svg class="w-5 h-5 text-gray-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 19l-7-7 7-7"/>
+              </svg>
+            </div>
+            <span class="text-sm text-gray-500">第3章</span>
+            <div class="w-5"></div>
+          </div>
+          <!-- 内容 -->
+          <div class="pt-14 pb-20 px-6 h-full overflow-hidden">
+            <p class="sample-text text-[#333] text-[15px]">
+              　　那是一个寒冷的冬夜，风雪交加，整个城市都笼罩在一片银白之中。街道上几乎看不到行人，只有偶尔驶过的汽车留下两道深深的车辙。
+              <br/><br/>
+              　　李明站在窗前，望着窗外纷飞的雪花，心中却想着另一个遥远的地方。那里有温暖的阳光，有熟悉的街道，还有他日夜思念的人。
+              <br/><br/>
+              　　"也许明年春天，我就能回去了。"他自言自语道，呼出的热气在玻璃上凝成一层薄薄的水雾。
+            </p>
+          </div>
+          <!-- 底部栏 -->
+          <div class="absolute bottom-0 left-0 right-0 bg-white/90 backdrop-blur-lg px-6 py-4 border-t border-black/5">
+            <div class="flex justify-around items-center">
+              <button class="flex flex-col items-center gap-1">
+                <svg class="w-5 h-5 text-gray-500" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h7"/>
+                </svg>
+                <span class="text-xs text-gray-500">目录</span>
+              </button>
+              <button class="flex flex-col items-center gap-1">
+                <svg class="w-5 h-5 text-gray-500" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 3v1m0 16v1m9-9h-1M4 12H3m15.364 6.364l-.707-.707M6.343 6.343l-.707-.707m12.728 0l-.707.707M6.343 17.657l-.707.707"/>
+                </svg>
+                <span class="text-xs text-gray-500">亮度</span>
+              </button>
+              <button class="flex flex-col items-center gap-1">
+                <svg class="w-5 h-5 text-gray-500" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10.325 4.317c.426-1.756 2.924-1.756 3.35 0a1.724 1.724 0 002.573 1.066c1.543-.94 3.31.826 2.37 2.37a1.724 1.724 0 001.065 2.572c1.756.426 1.756 2.924 0 3.35a1.724 1.724 0 00-1.066 2.573c.94 1.543-.826 3.31-2.37 2.37a1.724 1.724 0 00-2.572 1.065c-.426 1.756-2.924 1.756-3.35 0a1.724 1.724 0 00-2.573-1.066c-1.543.94-3.31-.826-2.37-2.37a1.724 1.724 0 00-1.065-2.572c-1.756-.426-1.756-2.924 0-3.35a1.724 1.724 0 001.066-2.573c-.94-1.543.826-3.31 2.37-2.37.996.608 2.296.07 2.572-1.065z"/>
+                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z"/>
+                </svg>
+                <span class="text-xs text-gray-500">设置</span>
+              </button>
+            </div>
+          </div>
+        </div>
+        <p class="text-gray-500 text-sm text-center mt-3">简洁底部工具栏 · 毛玻璃效果</p>
+      </div>
+
+      <!-- 风格2: Kindle -->
+      <div class="style-card" data-style="kindle">
+        <div class="text-center mb-3">
+          <span class="text-white font-semibold text-lg">Kindle</span>
+        </div>
+        <div class="phone-frame bg-[#fffff8] relative">
+          <!-- 极简顶部 - 只有进度 -->
+          <div class="absolute top-0 left-0 right-0 h-1 bg-gray-200">
+            <div class="h-full w-[35%] bg-gray-400"></div>
+          </div>
+          <!-- 内容 - 大面积阅读区 -->
+          <div class="pt-6 pb-12 px-7 h-full overflow-hidden">
+            <h2 class="text-lg font-semibold text-gray-800 mb-4" style="font-family: Georgia, serif;">第三章</h2>
+            <p class="sample-text text-[#1a1a1a] text-[15px]" style="font-family: Georgia, 'Noto Serif SC', serif;">
+              　　那是一个寒冷的冬夜，风雪交加，整个城市都笼罩在一片银白之中。街道上几乎看不到行人，只有偶尔驶过的汽车留下两道深深的车辙。
+              <br/><br/>
+              　　李明站在窗前，望着窗外纷飞的雪花，心中却想着另一个遥远的地方。那里有温暖的阳光，有熟悉的街道，还有他日夜思念的人。
+              <br/><br/>
+              　　"也许明年春天，我就能回去了。"他自言自语道，呼出的热气在玻璃上凝成一层薄薄的水雾。
+              <br/><br/>
+              　　窗外的雪越下越大，仿佛要将整个世界都掩埋。
+            </p>
+          </div>
+          <!-- 底部极简信息 -->
+          <div class="absolute bottom-0 left-0 right-0 px-6 py-3 flex justify-between items-center text-xs text-gray-400">
+            <span>位置 1024 / 3567</span>
+            <span>35%</span>
+          </div>
+          <!-- 隐藏的侧边翻页提示 -->
+          <div class="absolute left-2 top-1/2 -translate-y-1/2 text-gray-300 text-2xl opacity-30">‹</div>
+          <div class="absolute right-2 top-1/2 -translate-y-1/2 text-gray-300 text-2xl opacity-30">›</div>
+        </div>
+        <p class="text-gray-500 text-sm text-center mt-3">极简设计 · 专注阅读 · 侧边翻页</p>
+      </div>
+
+      <!-- 风格3: Apple Books -->
+      <div class="style-card" data-style="apple">
+        <div class="text-center mb-3">
+          <span class="text-white font-semibold text-lg">Apple Books</span>
+        </div>
+        <div class="phone-frame bg-[#fefefe] relative">
+          <!-- iOS 风格顶部导航 -->
+          <div class="absolute top-0 left-0 right-0 bg-[#f8f8f8] px-4 py-3 flex items-center justify-between">
+            <button class="text-[#007aff] text-sm font-medium flex items-center gap-1">
+              <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 19l-7-7 7-7"/>
+              </svg>
+              书库
+            </button>
+            <div class="flex items-center gap-4">
+              <svg class="w-5 h-5 text-[#007aff]" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"/>
+              </svg>
+              <svg class="w-5 h-5 text-[#007aff]" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 5a2 2 0 012-2h10a2 2 0 012 2v16l-7-3.5L5 21V5z"/>
+              </svg>
+              <span class="text-[#007aff] text-lg">Aa</span>
+            </div>
+          </div>
+          <!-- 内容 -->
+          <div class="pt-14 pb-16 px-6 h-full overflow-hidden">
+            <p class="sample-text text-[#1d1d1f] text-[16px]" style="font-family: 'New York', Georgia, 'Noto Serif SC', serif; line-height: 1.8;">
+              　　那是一个寒冷的冬夜，风雪交加，整个城市都笼罩在一片银白之中。街道上几乎看不到行人，只有偶尔驶过的汽车留下两道深深的车辙。
+              <br/><br/>
+              　　李明站在窗前，望着窗外纷飞的雪花，心中却想着另一个遥远的地方。那里有温暖的阳光，有熟悉的街道，还有他日夜思念的人。
+              <br/><br/>
+              　　"也许明年春天，我就能回去了。"他自言自语道。
+            </p>
+          </div>
+          <!-- 底部进度条 -->
+          <div class="absolute bottom-0 left-0 right-0 px-6 py-3 bg-[#f8f8f8]">
+            <div class="flex items-center gap-3">
+              <span class="text-xs text-gray-400">45</span>
+              <div class="flex-1 h-0.5 bg-gray-200 rounded-full">
+                <div class="h-full w-[35%] bg-[#007aff] rounded-full"></div>
+              </div>
+              <span class="text-xs text-gray-400">128</span>
+            </div>
+            <p class="text-center text-xs text-gray-400 mt-1">还剩约 2 小时</p>
+          </div>
+        </div>
+        <p class="text-gray-500 text-sm text-center mt-3">iOS 原生风格 · 优雅简约</p>
+      </div>
+
+      <!-- 风格4: 番茄小说 -->
+      <div class="style-card" data-style="fanqie">
+        <div class="text-center mb-3">
+          <span class="text-white font-semibold text-lg">番茄小说</span>
+        </div>
+        <div class="phone-frame bg-[#e8dcc8] relative">
+          <!-- 沉浸式顶部 -->
+          <div class="absolute top-0 left-0 right-0 bg-gradient-to-b from-black/20 to-transparent px-4 py-3 flex items-center justify-between">
+            <div class="flex items-center gap-3">
+              <svg class="w-5 h-5 text-white/90" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 19l-7-7 7-7"/>
+              </svg>
+              <span class="text-white/90 text-sm font-medium">斗破苍穹</span>
+            </div>
+            <div class="flex items-center gap-3">
+              <svg class="w-5 h-5 text-white/90" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16"/>
+              </svg>
+              <svg class="w-5 h-5 text-white/90" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 5v.01M12 12v.01M12 19v.01M12 6a1 1 0 110-2 1 1 0 010 2zm0 7a1 1 0 110-2 1 1 0 010 2zm0 7a1 1 0 110-2 1 1 0 010 2z"/>
+              </svg>
+            </div>
+          </div>
+          <!-- 章节标题 -->
+          <div class="pt-14 px-6">
+            <h2 class="text-center text-[#5c4a32] font-semibold mb-4">第三章 少年的决心</h2>
+          </div>
+          <!-- 内容 -->
+          <div class="px-6 pb-24 h-[calc(100%-180px)] overflow-hidden">
+            <p class="sample-text text-[#3d3225] text-[15px]">
+              　　那是一个寒冷的冬夜，风雪交加，整个城市都笼罩在一片银白之中。街道上几乎看不到行人，只有偶尔驶过的汽车留下两道深深的车辙。
+              <br/><br/>
+              　　李明站在窗前，望着窗外纷飞的雪花，心中却想着另一个遥远的地方。
+              <br/><br/>
+              　　"也许明年春天，我就能回去了。"
+            </p>
+          </div>
+          <!-- 底部功能栏 -->
+          <div class="absolute bottom-0 left-0 right-0 bg-[#3d3225] px-4 py-3">
+            <div class="flex justify-around items-center mb-2">
+              <button class="px-4 py-2 bg-[#5c4a32] rounded-lg text-white/90 text-sm">上一章</button>
+              <button class="text-white/80">
+                <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h7"/>
+                </svg>
+              </button>
+              <button class="text-white/80">
+                <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10.325 4.317c.426-1.756 2.924-1.756 3.35 0a1.724 1.724 0 002.573 1.066c1.543-.94 3.31.826 2.37 2.37a1.724 1.724 0 001.065 2.572c1.756.426 1.756 2.924 0 3.35a1.724 1.724 0 00-1.066 2.573c.94 1.543-.826 3.31-2.37 2.37a1.724 1.724 0 00-2.572 1.065c-.426 1.756-2.924 1.756-3.35 0a1.724 1.724 0 00-2.573-1.066c-1.543.94-3.31-.826-2.37-2.37a1.724 1.724 0 00-1.065-2.572c-1.756-.426-1.756-2.924 0-3.35a1.724 1.724 0 001.066-2.573c-.94-1.543.826-3.31 2.37-2.37.996.608 2.296.07 2.572-1.065z"/>
+                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z"/>
+                </svg>
+              </button>
+              <button class="text-white/80">
+                <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M20.354 15.354A9 9 0 018.646 3.646 9.003 9.003 0 0012 21a9.003 9.003 0 008.354-5.646z"/>
+                </svg>
+              </button>
+              <button class="px-4 py-2 bg-[#f85a40] rounded-lg text-white text-sm">下一章</button>
+            </div>
+            <div class="text-center text-white/50 text-xs">第3章 / 共1892章 · 0.2%</div>
+          </div>
+        </div>
+        <p class="text-gray-500 text-sm text-center mt-3">沉浸式 · 章节导航 · 网文风格</p>
+      </div>
+
+      <!-- 风格5: 掌阅 iReader -->
+      <div class="style-card" data-style="ireader">
+        <div class="text-center mb-3">
+          <span class="text-white font-semibold text-lg">掌阅 iReader</span>
+        </div>
+        <div class="phone-frame relative overflow-hidden" style="background: linear-gradient(135deg, #f5f0e6 0%, #e8dcc8 50%, #d4c4a8 100%);">
+          <!-- 仿真书页效果 -->
+          <div class="absolute inset-0" style="background: linear-gradient(90deg, rgba(0,0,0,0.08) 0%, transparent 3%, transparent 97%, rgba(0,0,0,0.05) 100%);"></div>
+          <div class="absolute left-0 top-0 bottom-0 w-8" style="background: linear-gradient(90deg, rgba(139,119,101,0.15) 0%, transparent 100%);"></div>
+          <!-- 顶部信息 -->
+          <div class="pt-4 px-8">
+            <div class="flex justify-between text-xs text-[#8b7765]">
+              <span>斗破苍穹</span>
+              <span>16:04</span>
+            </div>
+          </div>
+          <!-- 内容 - 经典排版 -->
+          <div class="px-8 py-4 h-[calc(100%-80px)] overflow-hidden">
+            <h3 class="text-center text-[#5c4a32] text-lg mb-6" style="font-family: 'ZCOOL XiaoWei', serif;">第三章 命运的转折</h3>
+            <p class="sample-text text-[#3d3225] text-[15px]" style="text-indent: 2em;">
+              那是一个寒冷的冬夜，风雪交加，整个城市都笼罩在一片银白之中。街道上几乎看不到行人，只有偶尔驶过的汽车留下两道深深的车辙。
+            </p>
+            <p class="sample-text text-[#3d3225] text-[15px] mt-4" style="text-indent: 2em;">
+              李明站在窗前，望着窗外纷飞的雪花，心中却想着另一个遥远的地方。那里有温暖的阳光，有熟悉的街道，还有他日夜思念的人。
+            </p>
+            <p class="sample-text text-[#3d3225] text-[15px] mt-4" style="text-indent: 2em;">
+              "也许明年春天，我就能回去了。"他自言自语道，呼出的热气在玻璃上凝成一层薄薄的水雾。
+            </p>
+          </div>
+          <!-- 底部页码 -->
+          <div class="absolute bottom-0 left-0 right-0 px-8 py-3 flex justify-between items-center text-xs text-[#8b7765]">
+            <span>3 / 128</span>
+            <div class="flex items-center gap-1">
+              <div class="w-2 h-2 rounded-full bg-[#8b7765]"></div>
+              <div class="w-20 h-0.5 bg-[#8b7765]/30 rounded">
+                <div class="w-[35%] h-full bg-[#8b7765] rounded"></div>
+              </div>
+            </div>
+            <span>2.3%</span>
+          </div>
+          <!-- 翻页动画提示 -->
+          <div class="absolute right-4 top-1/2 -translate-y-1/2 opacity-20">
+            <svg class="w-8 h-8 text-[#5c4a32]" fill="currentColor" viewBox="0 0 24 24">
+              <path d="M9.29 6.71a1 1 0 000 1.41L13.17 12l-3.88 3.88a1 1 0 101.41 1.41l4.59-4.59a1 1 0 000-1.41L10.7 6.71a1 1 0 00-1.41 0z"/>
+            </svg>
+          </div>
+        </div>
+        <p class="text-gray-500 text-sm text-center mt-3">仿真纸张 · 经典书籍风格</p>
+      </div>
+
+      <!-- 风格6: 豆瓣阅读 -->
+      <div class="style-card" data-style="douban">
+        <div class="text-center mb-3">
+          <span class="text-white font-semibold text-lg">豆瓣阅读</span>
+        </div>
+        <div class="phone-frame bg-[#fcfcf9] relative">
+          <!-- 极简顶部 -->
+          <div class="absolute top-0 left-0 right-0 px-4 py-4 flex items-center justify-between">
+            <svg class="w-5 h-5 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M6 18L18 6M6 6l12 12"/>
+            </svg>
+            <div class="flex items-center gap-4">
+              <svg class="w-5 h-5 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M5 5a2 2 0 012-2h10a2 2 0 012 2v16l-7-3.5L5 21V5z"/>
+              </svg>
+              <svg class="w-5 h-5 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M12 5v.01M12 12v.01M12 19v.01M12 6a1 1 0 110-2 1 1 0 010 2zm0 7a1 1 0 110-2 1 1 0 010 2zm0 7a1 1 0 110-2 1 1 0 010 2z"/>
+              </svg>
+            </div>
+          </div>
+          <!-- 内容 - 文艺排版 -->
+          <div class="pt-16 pb-20 px-8 h-full overflow-hidden">
+            <p class="text-[#333] text-[16px] leading-[2]" style="font-family: 'Noto Serif SC', 'Songti SC', serif;">
+              那是一个寒冷的冬夜，风雪交加，整个城市都笼罩在一片银白之中。
+            </p>
+            <p class="text-[#333] text-[16px] leading-[2] mt-6" style="font-family: 'Noto Serif SC', 'Songti SC', serif;">
+              街道上几乎看不到行人，只有偶尔驶过的汽车留下两道深深的车辙。
+            </p>
+            <p class="text-[#333] text-[16px] leading-[2] mt-6" style="font-family: 'Noto Serif SC', 'Songti SC', serif;">
+              李明站在窗前，望着窗外纷飞的雪花，心中却想着另一个遥远的地方。那里有温暖的阳光，有熟悉的街道，还有他日夜思念的人。
+            </p>
+            <p class="text-[#666] text-[16px] leading-[2] mt-6 italic" style="font-family: 'Noto Serif SC', 'Songti SC', serif;">
+              "也许明年春天，我就能回去了。"
+            </p>
+          </div>
+          <!-- 底部 - 豆瓣绿色调 -->
+          <div class="absolute bottom-0 left-0 right-0 bg-white border-t border-gray-100 px-6 py-4">
+            <div class="flex justify-between items-center text-sm">
+              <button class="text-[#007722]">上一章</button>
+              <div class="text-gray-400 text-xs">45 / 128</div>
+              <button class="text-[#007722]">下一章</button>
+            </div>
+          </div>
+        </div>
+        <p class="text-gray-500 text-sm text-center mt-3">文艺清新 · 大行距 · 极简风</p>
+      </div>
+
+      <!-- 风格7: 起点读书 (暗色) -->
+      <div class="style-card" data-style="qidian">
+        <div class="text-center mb-3">
+          <span class="text-white font-semibold text-lg">起点读书</span>
+        </div>
+        <div class="phone-frame bg-[#1a1a2e] relative">
+          <!-- 顶部状态栏 -->
+          <div class="absolute top-0 left-0 right-0 bg-[#16162a] px-4 py-3 flex items-center justify-between">
+            <div class="flex items-center gap-2">
+              <svg class="w-5 h-5 text-white/70" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 19l-7-7 7-7"/>
+              </svg>
+              <span class="text-white/90 text-sm">斗破苍穹</span>
+            </div>
+            <div class="flex items-center gap-3">
+              <span class="text-[#ff6b6b] text-xs px-2 py-0.5 bg-[#ff6b6b]/20 rounded">VIP</span>
+              <svg class="w-5 h-5 text-white/70" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8.684 13.342C8.886 12.938 9 12.482 9 12c0-.482-.114-.938-.316-1.342m0 2.684a3 3 0 110-2.684m0 2.684l6.632 3.316m-6.632-6l6.632-3.316m0 0a3 3 0 105.367-2.684 3 3 0 00-5.367 2.684zm0 9.316a3 3 0 105.368 2.684 3 3 0 00-5.368-2.684z"/>
+              </svg>
+            </div>
+          </div>
+          <!-- 章节标题 -->
+          <div class="pt-14 px-6">
+            <h2 class="text-[#e8e8e8] text-lg font-medium mb-1">第三章 天才陨落</h2>
+            <p class="text-[#666] text-xs">本章字数：3542</p>
+          </div>
+          <!-- 内容 -->
+          <div class="px-6 py-4 h-[calc(100%-180px)] overflow-hidden">
+            <p class="text-[#c8c8c8] text-[15px] leading-[1.9]">
+              　　那是一个寒冷的冬夜，风雪交加，整个城市都笼罩在一片银白之中。街道上几乎看不到行人，只有偶尔驶过的汽车留下两道深深的车辙。
+              <br/><br/>
+              　　李明站在窗前，望着窗外纷飞的雪花，心中却想着另一个遥远的地方。
+            </p>
+          </div>
+          <!-- 底部功能栏 -->
+          <div class="absolute bottom-0 left-0 right-0 bg-[#16162a] border-t border-white/5">
+            <div class="px-4 py-2 flex items-center gap-2">
+              <div class="flex-1 h-1 bg-white/10 rounded-full">
+                <div class="w-[35%] h-full bg-gradient-to-r from-[#ff6b6b] to-[#ffc371] rounded-full"></div>
+              </div>
+              <span class="text-white/50 text-xs">35%</span>
+            </div>
+            <div class="px-4 pb-3 flex justify-around items-center">
+              <button class="flex flex-col items-center gap-1">
+                <svg class="w-5 h-5 text-white/60" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h7"/>
+                </svg>
+                <span class="text-[10px] text-white/50">目录</span>
+              </button>
+              <button class="flex flex-col items-center gap-1">
+                <svg class="w-5 h-5 text-white/60" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M20.354 15.354A9 9 0 018.646 3.646 9.003 9.003 0 0012 21a9.003 9.003 0 008.354-5.646z"/>
+                </svg>
+                <span class="text-[10px] text-white/50">夜间</span>
+              </button>
+              <button class="flex flex-col items-center gap-1 relative">
+                <div class="absolute -top-1 -right-1 w-2 h-2 bg-[#ff6b6b] rounded-full"></div>
+                <svg class="w-5 h-5 text-white/60" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 10h.01M12 10h.01M16 10h.01M9 16H5a2 2 0 01-2-2V6a2 2 0 012-2h14a2 2 0 012 2v8a2 2 0 01-2 2h-5l-5 5v-5z"/>
+                </svg>
+                <span class="text-[10px] text-white/50">讨论</span>
+              </button>
+              <button class="flex flex-col items-center gap-1">
+                <svg class="w-5 h-5 text-white/60" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10.325 4.317c.426-1.756 2.924-1.756 3.35 0a1.724 1.724 0 002.573 1.066c1.543-.94 3.31.826 2.37 2.37a1.724 1.724 0 001.065 2.572c1.756.426 1.756 2.924 0 3.35a1.724 1.724 0 00-1.066 2.573c.94 1.543-.826 3.31-2.37 2.37a1.724 1.724 0 00-2.572 1.065c-.426 1.756-2.924 1.756-3.35 0a1.724 1.724 0 00-2.573-1.066c-1.543.94-3.31-.826-2.37-2.37a1.724 1.724 0 00-1.065-2.572c-1.756-.426-1.756-2.924 0-3.35a1.724 1.724 0 001.066-2.573c-.94-1.543.826-3.31 2.37-2.37.996.608 2.296.07 2.572-1.065z"/>
+                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z"/>
+                </svg>
+                <span class="text-[10px] text-white/50">设置</span>
+              </button>
+              <button class="px-3 py-1.5 bg-gradient-to-r from-[#ff6b6b] to-[#ffc371] rounded-full">
+                <span class="text-white text-xs font-medium">下一章</span>
+              </button>
+            </div>
+          </div>
+        </div>
+        <p class="text-gray-500 text-sm text-center mt-3">暗色主题 · 功能丰富 · 网文风格</p>
+      </div>
+
+      <!-- 风格8: Notion风格 -->
+      <div class="style-card" data-style="notion">
+        <div class="text-center mb-3">
+          <span class="text-white font-semibold text-lg">Notion 风格</span>
+        </div>
+        <div class="phone-frame bg-white relative">
+          <!-- 极简顶部 -->
+          <div class="absolute top-0 left-0 right-0 px-4 py-3 flex items-center justify-between bg-white border-b border-gray-100">
+            <div class="flex items-center gap-2">
+              <div class="w-5 h-5 rounded bg-gray-200 flex items-center justify-center text-xs">📖</div>
+              <span class="text-gray-700 text-sm font-medium">我的阅读</span>
+              <svg class="w-4 h-4 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"/>
+              </svg>
+              <span class="text-gray-500 text-sm">第三章</span>
+            </div>
+            <div class="flex items-center gap-2">
+              <svg class="w-5 h-5 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M12 5v.01M12 12v.01M12 19v.01M12 6a1 1 0 110-2 1 1 0 010 2zm0 7a1 1 0 110-2 1 1 0 010 2zm0 7a1 1 0 110-2 1 1 0 010 2z"/>
+              </svg>
+            </div>
+          </div>
+          <!-- 内容 -->
+          <div class="pt-14 pb-16 px-6 h-full overflow-hidden">
+            <h1 class="text-2xl font-bold text-gray-900 mb-6" style="font-family: -apple-system, sans-serif;">第三章 命运的转折</h1>
+            <p class="text-gray-700 text-[15px] leading-[1.8] mb-4" style="font-family: -apple-system, Georgia, serif;">
+              那是一个寒冷的冬夜，风雪交加，整个城市都笼罩在一片银白之中。街道上几乎看不到行人，只有偶尔驶过的汽车留下两道深深的车辙。
+            </p>
+            <p class="text-gray-700 text-[15px] leading-[1.8] mb-4" style="font-family: -apple-system, Georgia, serif;">
+              李明站在窗前，望着窗外纷飞的雪花，心中却想着另一个遥远的地方。那里有温暖的阳光，有熟悉的街道，还有他日夜思念的人。
+            </p>
+            <blockquote class="border-l-2 border-gray-300 pl-4 text-gray-500 italic">
+              "也许明年春天，我就能回去了。"
+            </blockquote>
+          </div>
+          <!-- 底部 -->
+          <div class="absolute bottom-0 left-0 right-0 bg-gray-50 px-4 py-3 border-t border-gray-100">
+            <div class="flex justify-between items-center text-xs text-gray-400">
+              <span>阅读时间: 12分钟</span>
+              <span>进度: 35%</span>
+            </div>
+          </div>
+        </div>
+        <p class="text-gray-500 text-sm text-center mt-3">现代文档风格 · 清晰层次</p>
+      </div>
+
+      <!-- 风格9: 深色极简 -->
+      <div class="style-card" data-style="dark-minimal">
+        <div class="text-center mb-3">
+          <span class="text-white font-semibold text-lg">深色极简</span>
+        </div>
+        <div class="phone-frame bg-[#0d0d0d] relative">
+          <div class="badge">护眼</div>
+          <!-- 无顶栏，纯内容 -->
+          <div class="pt-8 pb-12 px-8 h-full overflow-hidden">
+            <p class="text-[#a0a0a0] text-[16px] leading-[2.2]" style="font-family: 'Noto Serif SC', Georgia, serif;">
+              　　那是一个寒冷的冬夜，风雪交加，整个城市都笼罩在一片银白之中。
+            </p>
+            <p class="text-[#a0a0a0] text-[16px] leading-[2.2] mt-6" style="font-family: 'Noto Serif SC', Georgia, serif;">
+              　　街道上几乎看不到行人，只有偶尔驶过的汽车留下两道深深的车辙。
+            </p>
+            <p class="text-[#a0a0a0] text-[16px] leading-[2.2] mt-6" style="font-family: 'Noto Serif SC', Georgia, serif;">
+              　　李明站在窗前，望着窗外纷飞的雪花，心中却想着另一个遥远的地方。那里有温暖的阳光，有熟悉的街道，还有他日夜思念的人。
+            </p>
+            <p class="text-[#888] text-[16px] leading-[2.2] mt-6" style="font-family: 'Noto Serif SC', Georgia, serif;">
+              　　"也许明年春天，我就能回去了。"他自言自语道。
+            </p>
+          </div>
+          <!-- 底部极简 -->
+          <div class="absolute bottom-4 left-0 right-0 flex justify-center">
+            <div class="flex items-center gap-4 text-[#444] text-xs">
+              <span>35%</span>
+              <div class="w-32 h-px bg-[#333]">
+                <div class="w-[35%] h-full bg-[#555]"></div>
+              </div>
+              <span>3/128</span>
+            </div>
+          </div>
+        </div>
+        <p class="text-gray-500 text-sm text-center mt-3">OLED 友好 · 纯黑背景 · 减少干扰</p>
+      </div>
+
+    </div>
+
+    <!-- 选择说明 -->
+    <div class="mt-12 text-center">
+      <p class="text-gray-400 mb-4">点击上方任意风格进行选择</p>
+      <div class="flex justify-center gap-4">
+        <button id="confirmBtn" class="px-8 py-3 bg-blue-500 hover:bg-blue-600 text-white rounded-lg font-medium transition-colors">
+          确认选择
+        </button>
+      </div>
+      <p id="selectedStyle" class="text-green-400 mt-4 hidden">已选择: <span></span></p>
+    </div>
+  </div>
+
+  <script>
+    let currentSelected = 'wechat';
+    
+    document.querySelectorAll('.style-card').forEach(card => {
+      card.addEventListener('click', () => {
+        document.querySelectorAll('.style-card').forEach(c => c.classList.remove('selected'));
+        card.classList.add('selected');
+        currentSelected = card.dataset.style;
+      });
+    });
+
+    document.getElementById('confirmBtn').addEventListener('click', () => {
+      const styleNames = {
+        'wechat': '微信读书',
+        'kindle': 'Kindle',
+        'apple': 'Apple Books',
+        'fanqie': '番茄小说',
+        'ireader': '掌阅 iReader',
+        'douban': '豆瓣阅读',
+        'qidian': '起点读书',
+        'notion': 'Notion 风格',
+        'dark-minimal': '深色极简'
+      };
+      document.getElementById('selectedStyle').classList.remove('hidden');
+      document.getElementById('selectedStyle').querySelector('span').textContent = styleNames[currentSelected];
+      alert(`已选择风格: ${styleNames[currentSelected]}\n\n请告诉我你的选择，我将为你实现这个风格！`);
+    });
+  </script>
+</body>
+</html>
