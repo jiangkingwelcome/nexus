@@ -1,0 +1,395 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Nexus - 主页风格画廊 (16种)</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <style>
+    * { font-family: 'Inter', -apple-system, sans-serif; }
+    .card { transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1); }
+    .card:hover { transform: translateY(-8px) scale(1.02); box-shadow: 0 20px 40px rgba(0,0,0,0.15); }
+  </style>
+</head>
+<body class="min-h-screen bg-gradient-to-br from-slate-900 via-purple-900 to-slate-900 py-10 px-4">
+  
+  <div class="max-w-7xl mx-auto">
+    <!-- Header -->
+    <header class="text-center mb-12">
+      <div class="inline-flex items-center gap-3 bg-white/10 backdrop-blur rounded-full px-6 py-3 mb-6">
+        <div class="w-10 h-10 rounded-xl bg-gradient-to-br from-indigo-500 to-purple-600 flex items-center justify-center">
+          <span class="text-white font-bold">N</span>
+        </div>
+        <span class="text-white font-semibold">Nexus 主页风格画廊</span>
+      </div>
+      <h1 class="text-4xl md:text-5xl font-bold text-white mb-4">选择你喜欢的风格</h1>
+      <p class="text-white/60 text-lg">共 <span class="text-purple-400 font-bold">16</span> 种精心设计的主页风格</p>
+    </header>
+
+    <!-- 风格网格 -->
+    <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6 mb-12">
+      
+      <!-- 风格1 -->
+      <a href="home-style-1-glass-dark.html" class="card block bg-white/10 backdrop-blur rounded-2xl overflow-hidden border border-white/10">
+        <div class="h-40 bg-gradient-to-br from-[#0f0f23] via-[#1a1a2e] to-[#16213e] p-4 relative">
+          <div class="absolute top-2 left-2 w-16 h-16 bg-purple-500/30 rounded-full blur-xl"></div>
+          <div class="relative z-10 bg-white/10 backdrop-blur rounded-xl p-2 w-24">
+            <div class="flex items-center gap-1">
+              <div class="w-4 h-4 rounded bg-gradient-to-br from-violet-500 to-fuchsia-500"></div>
+              <span class="text-[8px] text-white/80">Nexus</span>
+            </div>
+          </div>
+        </div>
+        <div class="p-4">
+          <div class="flex items-center gap-2 mb-1">
+            <span class="text-lg">🌙</span>
+            <h3 class="font-bold text-white">毛玻璃暗黑</h3>
+          </div>
+          <p class="text-white/50 text-xs">Glassmorphism 暗色主题</p>
+        </div>
+      </a>
+
+      <!-- 风格2 -->
+      <a href="home-style-2-bento-modern.html" class="card block bg-white/10 backdrop-blur rounded-2xl overflow-hidden border border-white/10">
+        <div class="h-40 bg-[#f8f9fc] p-4">
+          <div class="grid grid-cols-3 gap-1.5 h-full">
+            <div class="col-span-2 row-span-2 bg-gradient-to-br from-amber-400 to-orange-500 rounded-lg"></div>
+            <div class="bg-gradient-to-br from-violet-500 to-purple-600 rounded-lg"></div>
+            <div class="bg-gradient-to-br from-blue-400 to-indigo-500 rounded-lg"></div>
+          </div>
+        </div>
+        <div class="p-4">
+          <div class="flex items-center gap-2 mb-1">
+            <span class="text-lg">☀️</span>
+            <h3 class="font-bold text-white">Bento 现代</h3>
+          </div>
+          <p class="text-white/50 text-xs">Apple 风格网格布局</p>
+        </div>
+      </a>
+
+      <!-- 风格3 -->
+      <a href="home-style-3-minimal-elegant.html" class="card block bg-white/10 backdrop-blur rounded-2xl overflow-hidden border border-white/10">
+        <div class="h-40 bg-stone-50 p-4">
+          <p class="text-lg font-serif text-stone-800">Nexus</p>
+          <div class="mt-3 space-y-2">
+            <div class="bg-white rounded-lg p-2 border border-stone-100 flex items-center gap-2">
+              <div class="w-5 h-5 rounded bg-amber-50"></div>
+              <span class="text-[8px] text-stone-600">图书馆</span>
+            </div>
+            <div class="bg-white rounded-lg p-2 border border-stone-100 flex items-center gap-2">
+              <div class="w-5 h-5 rounded bg-violet-50"></div>
+              <span class="text-[8px] text-stone-600">电影院</span>
+            </div>
+          </div>
+        </div>
+        <div class="p-4">
+          <div class="flex items-center gap-2 mb-1">
+            <span class="text-lg">✨</span>
+            <h3 class="font-bold text-white">极简优雅</h3>
+          </div>
+          <p class="text-white/50 text-xs">衬线字体 大留白</p>
+        </div>
+      </a>
+
+      <!-- 风格4 -->
+      <a href="home-style-4-gradient-vibrant.html" class="card block bg-white/10 backdrop-blur rounded-2xl overflow-hidden border border-white/10">
+        <div class="h-40 bg-gradient-to-br from-rose-50 via-purple-50 to-cyan-50 p-4 relative overflow-hidden">
+          <div class="absolute top-0 right-0 w-20 h-20 bg-pink-200 rounded-full blur-2xl opacity-60"></div>
+          <div class="relative z-10 flex items-center gap-2 mb-3">
+            <div class="w-6 h-6 rounded-lg bg-gradient-to-br from-pink-500 to-purple-500"></div>
+            <span class="text-[8px] font-bold text-slate-700">Hi!</span>
+          </div>
+          <div class="grid grid-cols-2 gap-2">
+            <div class="bg-white rounded-xl p-2 shadow-sm">
+              <div class="w-5 h-5 rounded-lg bg-gradient-to-br from-orange-400 to-pink-500 mb-1"></div>
+            </div>
+            <div class="bg-white rounded-xl p-2 shadow-sm">
+              <div class="w-5 h-5 rounded-lg bg-gradient-to-br from-violet-500 to-fuchsia-500 mb-1"></div>
+            </div>
+          </div>
+        </div>
+        <div class="p-4">
+          <div class="flex items-center gap-2 mb-1">
+            <span class="text-lg">🌈</span>
+            <h3 class="font-bold text-white">渐变活力</h3>
+          </div>
+          <p class="text-white/50 text-xs">多彩渐变 浮动导航</p>
+        </div>
+      </a>
+
+      <!-- 风格5 -->
+      <a href="home-style-5-ios-native.html" class="card block bg-white/10 backdrop-blur rounded-2xl overflow-hidden border border-white/10">
+        <div class="h-40 bg-[#f2f2f7] p-4">
+          <p class="text-sm font-bold text-slate-900 mb-2">资料库</p>
+          <div class="bg-white rounded-lg overflow-hidden">
+            <div class="flex items-center gap-2 px-2 py-1.5 border-b border-slate-100">
+              <div class="w-4 h-4 rounded bg-gradient-to-br from-orange-400 to-orange-500"></div>
+              <span class="text-[8px] text-slate-900">图书馆</span>
+            </div>
+            <div class="flex items-center gap-2 px-2 py-1.5">
+              <div class="w-4 h-4 rounded bg-gradient-to-br from-purple-500 to-purple-600"></div>
+              <span class="text-[8px] text-slate-900">电影院</span>
+            </div>
+          </div>
+        </div>
+        <div class="p-4">
+          <div class="flex items-center gap-2 mb-1">
+            <span class="text-lg">📱</span>
+            <h3 class="font-bold text-white">iOS 原生</h3>
+          </div>
+          <p class="text-white/50 text-xs">Apple HIG 规范</p>
+        </div>
+      </a>
+
+      <!-- 风格6 -->
+      <a href="home-style-6-neumorphism.html" class="card block bg-white/10 backdrop-blur rounded-2xl overflow-hidden border border-white/10">
+        <div class="h-40 bg-[#e0e5ec] p-4">
+          <div class="w-10 h-10 rounded-xl mb-2" style="background: #e0e5ec; box-shadow: 4px 4px 8px #b8bec7, -4px -4px 8px #ffffff;"></div>
+          <div class="grid grid-cols-3 gap-2">
+            <div class="aspect-square rounded-lg" style="background: #e0e5ec; box-shadow: 3px 3px 6px #b8bec7, -3px -3px 6px #ffffff;"></div>
+            <div class="aspect-square rounded-lg" style="background: #e0e5ec; box-shadow: 3px 3px 6px #b8bec7, -3px -3px 6px #ffffff;"></div>
+            <div class="aspect-square rounded-lg" style="background: #e0e5ec; box-shadow: 3px 3px 6px #b8bec7, -3px -3px 6px #ffffff;"></div>
+          </div>
+        </div>
+        <div class="p-4">
+          <div class="flex items-center gap-2 mb-1">
+            <span class="text-lg">🔘</span>
+            <h3 class="font-bold text-white">新拟态</h3>
+          </div>
+          <p class="text-white/50 text-xs">Neumorphism 柔和凹凸</p>
+        </div>
+      </a>
+
+      <!-- 风格7 -->
+      <a href="home-style-7-cyberpunk.html" class="card block bg-white/10 backdrop-blur rounded-2xl overflow-hidden border border-white/10">
+        <div class="h-40 bg-[#0a0a0f] p-4 relative">
+          <div class="text-cyan-400 text-xs font-mono mb-2" style="text-shadow: 0 0 10px #00f5ff;">NEXUS</div>
+          <div class="grid grid-cols-3 gap-2">
+            <div class="border border-cyan-500/50 p-2 text-center">
+              <span class="text-[8px] text-cyan-400">LIB</span>
+            </div>
+            <div class="border border-pink-500/50 p-2 text-center">
+              <span class="text-[8px] text-pink-400">VID</span>
+            </div>
+            <div class="border border-yellow-500/50 p-2 text-center">
+              <span class="text-[8px] text-yellow-400">FILE</span>
+            </div>
+          </div>
+        </div>
+        <div class="p-4">
+          <div class="flex items-center gap-2 mb-1">
+            <span class="text-lg">⚡</span>
+            <h3 class="font-bold text-white">赛博朋克</h3>
+          </div>
+          <p class="text-white/50 text-xs">霓虹灯 未来科技</p>
+        </div>
+      </a>
+
+      <!-- 风格8 -->
+      <a href="home-style-8-nature.html" class="card block bg-white/10 backdrop-blur rounded-2xl overflow-hidden border border-white/10">
+        <div class="h-40 bg-gradient-to-b from-green-50 to-emerald-100 p-4">
+          <div class="flex items-center gap-2 mb-3">
+            <span class="text-xl">🌿</span>
+            <span class="text-xs font-bold text-green-800">Nexus</span>
+          </div>
+          <div class="grid grid-cols-3 gap-2">
+            <div class="bg-white rounded-xl p-2 shadow-sm flex flex-col items-center">
+              <span class="text-lg">📚</span>
+            </div>
+            <div class="bg-white rounded-xl p-2 shadow-sm flex flex-col items-center">
+              <span class="text-lg">🎬</span>
+            </div>
+            <div class="bg-white rounded-xl p-2 shadow-sm flex flex-col items-center">
+              <span class="text-lg">📁</span>
+            </div>
+          </div>
+        </div>
+        <div class="p-4">
+          <div class="flex items-center gap-2 mb-1">
+            <span class="text-lg">🌲</span>
+            <h3 class="font-bold text-white">自然森林</h3>
+          </div>
+          <p class="text-white/50 text-xs">清新绿色 自然风</p>
+        </div>
+      </a>
+
+      <!-- 风格9 -->
+      <a href="home-style-9-candy.html" class="card block bg-white/10 backdrop-blur rounded-2xl overflow-hidden border border-white/10">
+        <div class="h-40 bg-gradient-to-br from-pink-100 via-purple-50 to-yellow-50 p-4">
+          <div class="flex items-center gap-2 mb-3">
+            <span class="text-xl">🍭</span>
+            <span class="text-xs font-bold text-pink-600">Nexus</span>
+          </div>
+          <div class="grid grid-cols-3 gap-2">
+            <div class="bg-gradient-to-br from-pink-200 to-pink-300 rounded-xl p-2"></div>
+            <div class="bg-gradient-to-br from-purple-200 to-purple-300 rounded-xl p-2"></div>
+            <div class="bg-gradient-to-br from-blue-200 to-cyan-200 rounded-xl p-2"></div>
+          </div>
+        </div>
+        <div class="p-4">
+          <div class="flex items-center gap-2 mb-1">
+            <span class="text-lg">🍬</span>
+            <h3 class="font-bold text-white">糖果马卡龙</h3>
+          </div>
+          <p class="text-white/50 text-xs">粉嫩可爱 少女心</p>
+        </div>
+      </a>
+
+      <!-- 风格10 -->
+      <a href="home-style-10-terminal.html" class="card block bg-white/10 backdrop-blur rounded-2xl overflow-hidden border border-white/10">
+        <div class="h-40 bg-[#1a1b26] p-4 font-mono">
+          <div class="flex items-center gap-1 mb-2">
+            <div class="w-2 h-2 rounded-full bg-red-500"></div>
+            <div class="w-2 h-2 rounded-full bg-yellow-500"></div>
+            <div class="w-2 h-2 rounded-full bg-green-500"></div>
+          </div>
+          <p class="text-[8px] text-green-400">$ ls ~/media</p>
+          <p class="text-[8px] text-blue-400 mt-1">📚 library/</p>
+          <p class="text-[8px] text-purple-400">🎬 cinema/</p>
+          <p class="text-[8px] text-cyan-400">📁 files/</p>
+        </div>
+        <div class="p-4">
+          <div class="flex items-center gap-2 mb-1">
+            <span class="text-lg">💻</span>
+            <h3 class="font-bold text-white">极客终端</h3>
+          </div>
+          <p class="text-white/50 text-xs">命令行 开发者风</p>
+        </div>
+      </a>
+
+      <!-- 风格11 -->
+      <a href="home-style-11-space.html" class="card block bg-white/10 backdrop-blur rounded-2xl overflow-hidden border border-white/10">
+        <div class="h-40 p-4 relative" style="background: radial-gradient(ellipse at bottom, #1b2735 0%, #090a0f 100%);">
+          <div class="absolute inset-0 opacity-30" style="background-image: radial-gradient(1px 1px at 20px 30px, #eee, transparent), radial-gradient(1px 1px at 40px 70px, #fff, transparent);"></div>
+          <div class="relative z-10 flex items-center gap-2 mb-3">
+            <span class="text-xl">🚀</span>
+            <span class="text-xs font-bold text-purple-300">NEXUS</span>
+          </div>
+          <div class="grid grid-cols-3 gap-2">
+            <div class="bg-amber-900/40 border border-amber-500/30 rounded-lg p-1 text-center">
+              <span class="text-lg">📚</span>
+            </div>
+            <div class="bg-purple-900/40 border border-purple-500/30 rounded-lg p-1 text-center">
+              <span class="text-lg">🎬</span>
+            </div>
+            <div class="bg-cyan-900/40 border border-cyan-500/30 rounded-lg p-1 text-center">
+              <span class="text-lg">📁</span>
+            </div>
+          </div>
+        </div>
+        <div class="p-4">
+          <div class="flex items-center gap-2 mb-1">
+            <span class="text-lg">🌌</span>
+            <h3 class="font-bold text-white">星空宇宙</h3>
+          </div>
+          <p class="text-white/50 text-xs">星际探索 梦幻紫</p>
+        </div>
+      </a>
+
+      <!-- 风格12 -->
+      <a href="home-style-12-material.html" class="card block bg-white/10 backdrop-blur rounded-2xl overflow-hidden border border-white/10">
+        <div class="h-40 bg-[#fafafa]">
+          <div class="bg-indigo-600 text-white px-4 py-2 text-xs font-medium">Nexus</div>
+          <div class="p-3 grid grid-cols-2 gap-2">
+            <div class="bg-amber-500 rounded p-2 text-white text-[8px]">📚 Library</div>
+            <div class="bg-purple-500 rounded p-2 text-white text-[8px]">🎬 Cinema</div>
+          </div>
+        </div>
+        <div class="p-4">
+          <div class="flex items-center gap-2 mb-1">
+            <span class="text-lg">📐</span>
+            <h3 class="font-bold text-white">Material Design</h3>
+          </div>
+          <p class="text-white/50 text-xs">Google 设计规范</p>
+        </div>
+      </a>
+
+      <!-- 风格13 -->
+      <a href="home-style-13-ink.html" class="card block bg-white/10 backdrop-blur rounded-2xl overflow-hidden border border-white/10">
+        <div class="h-40 bg-gradient-to-b from-[#f7f4ef] to-[#ebe6dc] p-4">
+          <p class="text-center text-lg font-serif text-stone-700 mb-3">Nexus</p>
+          <p class="text-center text-[8px] text-stone-400">— 书山有路 —</p>
+          <div class="flex justify-center gap-4 mt-3">
+            <div class="w-10 h-10 rounded-full bg-amber-100 border border-amber-200 flex items-center justify-center text-sm">📚</div>
+            <div class="w-10 h-10 rounded-full bg-purple-100 border border-purple-200 flex items-center justify-center text-sm">🎬</div>
+          </div>
+        </div>
+        <div class="p-4">
+          <div class="flex items-center gap-2 mb-1">
+            <span class="text-lg">🖌️</span>
+            <h3 class="font-bold text-white">水墨中国风</h3>
+          </div>
+          <p class="text-white/50 text-xs">古典韵味 文人气质</p>
+        </div>
+      </a>
+
+      <!-- 风格14 -->
+      <a href="home-style-14-retro.html" class="card block bg-white/10 backdrop-blur rounded-2xl overflow-hidden border border-white/10">
+        <div class="h-40 bg-[#2d1b00] p-4" style="background-image: url(&quot;data:image/svg+xml,%3Csvg width='6' height='6' viewBox='0 0 6 6' xmlns='http://www.w3.org/2000/svg'%3E%3Cg fill='%23402200' fill-opacity='0.4'%3E%3Cpath d='M5 0h1L0 6V5zM6 5v1H5z'/%3E%3C/g%3E%3C/svg%3E&quot;);">
+          <div class="border-2 border-amber-400 bg-amber-900 p-2 text-center mb-2">
+            <span class="text-amber-300 text-xs font-bold" style="font-family: monospace;">NEXUS</span>
+          </div>
+          <div class="space-y-1">
+            <div class="bg-amber-500 border-2 border-amber-700 p-1 text-[8px] text-amber-900">📚 LIBRARY</div>
+            <div class="bg-amber-500 border-2 border-amber-700 p-1 text-[8px] text-amber-900">🎬 CINEMA</div>
+          </div>
+        </div>
+        <div class="p-4">
+          <div class="flex items-center gap-2 mb-1">
+            <span class="text-lg">🕹️</span>
+            <h3 class="font-bold text-white">复古怀旧</h3>
+          </div>
+          <p class="text-white/50 text-xs">像素游戏 8-bit</p>
+        </div>
+      </a>
+
+      <!-- 风格15 -->
+      <a href="home-style-15-brutalist.html" class="card block bg-white/10 backdrop-blur rounded-2xl overflow-hidden border border-white/10">
+        <div class="h-40 bg-white p-3">
+          <div class="border-2 border-black bg-yellow-300 p-2 mb-2" style="box-shadow: 3px 3px 0 #000;">
+            <span class="text-xs font-bold uppercase">NEXUS</span>
+          </div>
+          <div class="grid grid-cols-2 gap-2">
+            <div class="border-2 border-black bg-red-400 p-1 text-[8px] uppercase" style="box-shadow: 2px 2px 0 #000;">Library</div>
+            <div class="border-2 border-black bg-blue-400 p-1 text-[8px] uppercase" style="box-shadow: 2px 2px 0 #000;">Cinema</div>
+          </div>
+        </div>
+        <div class="p-4">
+          <div class="flex items-center gap-2 mb-1">
+            <span class="text-lg">🔲</span>
+            <h3 class="font-bold text-white">野兽派</h3>
+          </div>
+          <p class="text-white/50 text-xs">Brutalism 粗犷有力</p>
+        </div>
+      </a>
+
+      <!-- 风格16 -->
+      <a href="home-style-16-clay.html" class="card block bg-white/10 backdrop-blur rounded-2xl overflow-hidden border border-white/10">
+        <div class="h-40 bg-gradient-to-br from-[#e8f4f8] to-[#d4e8ed] p-4">
+          <div class="w-10 h-10 rounded-xl mb-2" style="background: linear-gradient(145deg, #f0f5fa, #d1d9e6); box-shadow: 4px 4px 10px #b3bac5, -4px -4px 10px #ffffff;"></div>
+          <div class="grid grid-cols-3 gap-2">
+            <div class="aspect-square rounded-xl" style="background: linear-gradient(145deg, #ffecd2, #fcb69f); box-shadow: 3px 3px 8px rgba(0,0,0,0.1);"></div>
+            <div class="aspect-square rounded-xl" style="background: linear-gradient(145deg, #e0c3fc, #8ec5fc); box-shadow: 3px 3px 8px rgba(0,0,0,0.1);"></div>
+            <div class="aspect-square rounded-xl" style="background: linear-gradient(145deg, #a8edea, #fed6e3); box-shadow: 3px 3px 8px rgba(0,0,0,0.1);"></div>
+          </div>
+        </div>
+        <div class="p-4">
+          <div class="flex items-center gap-2 mb-1">
+            <span class="text-lg">🫧</span>
+            <h3 class="font-bold text-white">黏土立体</h3>
+          </div>
+          <p class="text-white/50 text-xs">Claymorphism 软萌3D</p>
+        </div>
+      </a>
+
+    </div>
+
+    <!-- Footer -->
+    <footer class="text-center">
+      <p class="text-white/40 text-sm mb-4">点击任意卡片预览完整效果</p>
+      <p class="text-white/60">选好后告诉我风格编号，我会帮你应用到项目中！</p>
+    </footer>
+
+  </div>
+</body>
+</html>

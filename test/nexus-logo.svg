@@ -1,0 +1,59 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg width="512" height="512" viewBox="0 0 512 512" fill="none" xmlns="http://www.w3.org/2000/svg">
+  <defs>
+    <linearGradient id="mainGradient" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" style="stop-color:#6366f1"/>
+      <stop offset="50%" style="stop-color:#8b5cf6"/>
+      <stop offset="100%" style="stop-color:#06b6d4"/>
+    </linearGradient>
+    <filter id="glow" x="-50%" y="-50%" width="200%" height="200%">
+      <feGaussianBlur stdDeviation="8" result="coloredBlur"/>
+      <feMerge>
+        <feMergeNode in="coloredBlur"/>
+        <feMergeNode in="SourceGraphic"/>
+      </feMerge>
+    </filter>
+    <filter id="innerShadow" x="-20%" y="-20%" width="140%" height="140%">
+      <feOffset dx="0" dy="2"/>
+      <feGaussianBlur stdDeviation="3" result="offset-blur"/>
+      <feComposite operator="out" in="SourceGraphic" in2="offset-blur" result="inverse"/>
+      <feFlood flood-color="black" flood-opacity="0.2" result="color"/>
+      <feComposite operator="in" in="color" in2="inverse" result="shadow"/>
+      <feComposite operator="over" in="shadow" in2="SourceGraphic"/>
+    </filter>
+    <radialGradient id="bgGradient" cx="50%" cy="50%" r="50%">
+      <stop offset="0%" style="stop-color:#1e1b4b"/>
+      <stop offset="100%" style="stop-color:#0f0f23"/>
+    </radialGradient>
+  </defs>
+  <circle cx="256" cy="256" r="240" fill="url(#bgGradient)" stroke="url(#mainGradient)" stroke-width="3"/>
+  <circle cx="256" cy="256" r="220" fill="none" stroke="url(#mainGradient)" stroke-width="1" opacity="0.3"/>
+  <g stroke="url(#mainGradient)" stroke-width="3" opacity="0.6">
+    <line x1="256" y1="256" x2="256" y2="120"/>
+    <line x1="256" y1="256" x2="370" y2="190"/>
+    <line x1="256" y1="256" x2="370" y2="322"/>
+    <line x1="256" y1="256" x2="256" y2="392"/>
+    <line x1="256" y1="256" x2="142" y2="322"/>
+    <line x1="256" y1="256" x2="142" y2="190"/>
+    <line x1="256" y1="120" x2="370" y2="190"/>
+    <line x1="370" y1="190" x2="370" y2="322"/>
+    <line x1="370" y1="322" x2="256" y2="392"/>
+    <line x1="256" y1="392" x2="142" y2="322"/>
+    <line x1="142" y1="322" x2="142" y2="190"/>
+    <line x1="142" y1="190" x2="256" y2="120"/>
+  </g>
+  <g filter="url(#glow)">
+    <circle cx="256" cy="120" r="18" fill="url(#mainGradient)"/>
+    <circle cx="370" cy="190" r="18" fill="url(#mainGradient)"/>
+    <circle cx="370" cy="322" r="18" fill="url(#mainGradient)"/>
+    <circle cx="256" cy="392" r="18" fill="url(#mainGradient)"/>
+    <circle cx="142" cy="322" r="18" fill="url(#mainGradient)"/>
+    <circle cx="142" cy="190" r="18" fill="url(#mainGradient)"/>
+  </g>
+  <g filter="url(#glow)">
+    <circle cx="256" cy="256" r="45" fill="url(#mainGradient)" filter="url(#innerShadow)"/>
+    <circle cx="256" cy="256" r="30" fill="#0f0f23" opacity="0.4"/>
+    <circle cx="256" cy="256" r="20" fill="url(#mainGradient)"/>
+  </g>
+  <circle cx="240" cy="240" r="8" fill="white" opacity="0.3"/>
+</svg>

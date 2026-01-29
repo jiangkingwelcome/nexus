@@ -1,0 +1,388 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Nexus - 主页风格大全 (16种)</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=Playfair+Display:wght@400;500;600;700&family=Poppins:wght@400;500;600;700;800&family=Noto+Serif+SC:wght@400;600&family=VT323&family=JetBrains+Mono:wght@400;500;700&family=Space+Grotesk:wght@400;500;600;700&family=Quicksand:wght@400;500;600;700&family=Nunito:wght@400;600;700;800&family=Orbitron:wght@400;700&display=swap" rel="stylesheet">
+  <style>
+    * { font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif; }
+    .tab-btn { transition: all 0.2s ease; }
+    .tab-btn.active { background: linear-gradient(135deg, #6366f1, #8b5cf6); color: white; box-shadow: 0 4px 15px rgba(99, 102, 241, 0.4); }
+    .style-panel { display: none; animation: fadeIn 0.3s ease; }
+    .style-panel.active { display: block; }
+    @keyframes fadeIn { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
+    
+    /* 字体 */
+    .font-display { font-family: 'Playfair Display', Georgia, serif; }
+    .font-poppins { font-family: 'Poppins', sans-serif; }
+    .font-serif-sc { font-family: 'Noto Serif SC', serif; }
+    .font-pixel { font-family: 'VT323', monospace; }
+    .font-mono { font-family: 'JetBrains Mono', monospace; }
+    .font-space { font-family: 'Space Grotesk', sans-serif; }
+    .font-quicksand { font-family: 'Quicksand', sans-serif; }
+    .font-nunito { font-family: 'Nunito', sans-serif; }
+    .font-orbitron { font-family: 'Orbitron', sans-serif; }
+    
+    /* 毛玻璃 */
+    .glass { background: rgba(255, 255, 255, 0.05); backdrop-filter: blur(20px); border: 1px solid rgba(255, 255, 255, 0.1); }
+    .glass-strong { background: rgba(255, 255, 255, 0.08); backdrop-filter: blur(30px); border: 1px solid rgba(255, 255, 255, 0.15); }
+    .orb { position: absolute; border-radius: 50%; filter: blur(80px); opacity: 0.4; pointer-events: none; }
+    
+    /* 新拟态 */
+    .neu-flat { background: #e0e5ec; box-shadow: 6px 6px 12px #b8bec7, -6px -6px 12px #ffffff; }
+    .neu-pressed { background: #e0e5ec; box-shadow: inset 4px 4px 8px #b8bec7, inset -4px -4px 8px #ffffff; }
+    .neu-convex { background: linear-gradient(145deg, #f0f5fc, #cacfd6); box-shadow: 6px 6px 12px #b8bec7, -6px -6px 12px #ffffff; }
+    
+    /* 赛博朋克 */
+    .neon-cyan { text-shadow: 0 0 10px #00f5ff, 0 0 20px #00f5ff; }
+    .cyber-border { border: 1px solid #00f5ff; box-shadow: 0 0 10px rgba(0,245,255,0.3); }
+    
+    /* 黏土 */
+    .clay { background: linear-gradient(145deg, #ffffff, #d1d9e6); box-shadow: 15px 15px 40px #b3bac5, -15px -15px 40px #ffffff; border-radius: 24px; }
+    .clay-icon { background: linear-gradient(145deg, #fff5f5, #ffe0e0); box-shadow: 4px 4px 10px rgba(0,0,0,0.1), inset 2px 2px 4px rgba(255,255,255,1); }
+    
+    /* 野兽派 */
+    .brutal-border { border: 3px solid #000; }
+    .brutal-shadow { box-shadow: 6px 6px 0 #000; }
+    
+    /* 通用 */
+    .shadow-soft { box-shadow: 0 2px 20px rgba(0,0,0,0.06); }
+    .text-gradient { background: linear-gradient(135deg, #ec4899, #8b5cf6, #06b6d4); -webkit-background-clip: text; -webkit-text-fill-color: transparent; }
+    .ios-blur { backdrop-filter: saturate(180%) blur(20px); }
+    .ios-divider { height: 0.5px; background: rgba(60, 60, 67, 0.12); }
+    .card-hover { transition: all 0.25s cubic-bezier(0.4, 0, 0.2, 1); }
+    .hide-scrollbar::-webkit-scrollbar { display: none; }
+    .hide-scrollbar { -ms-overflow-style: none; scrollbar-width: none; }
+  </style>
+</head>
+<body class="bg-slate-100 min-h-screen">
+  
+  <!-- 顶部导航栏 -->
+  <header class="sticky top-0 z-50 bg-white/80 backdrop-blur-xl border-b border-slate-200 px-4 py-3">
+    <div class="max-w-7xl mx-auto flex items-center justify-between">
+      <div class="flex items-center gap-3">
+        <div class="w-10 h-10 rounded-xl bg-gradient-to-br from-indigo-500 to-purple-600 flex items-center justify-center shadow-lg">
+          <span class="text-white font-bold">N</span>
+        </div>
+        <div>
+          <h1 class="font-bold text-slate-800">Nexus 主页风格大全</h1>
+          <p class="text-xs text-slate-400">选择你喜欢的设计风格</p>
+        </div>
+      </div>
+      <div class="text-sm text-slate-500">
+        共 <span class="font-bold text-indigo-600">16</span> 种风格
+      </div>
+    </div>
+  </header>
+
+  <!-- 风格选择标签 -->
+  <nav class="sticky top-[73px] z-40 bg-slate-100/95 backdrop-blur px-4 py-4 border-b border-slate-200">
+    <div class="max-w-7xl mx-auto">
+      <div class="flex gap-2 overflow-x-auto hide-scrollbar pb-1">
+        <button onclick="showStyle(1)" class="tab-btn active flex-shrink-0 px-3 py-2 rounded-full text-xs font-semibold bg-slate-200 text-slate-600">🌙 毛玻璃暗黑</button>
+        <button onclick="showStyle(2)" class="tab-btn flex-shrink-0 px-3 py-2 rounded-full text-xs font-semibold bg-slate-200 text-slate-600">☀️ Bento现代</button>
+        <button onclick="showStyle(3)" class="tab-btn flex-shrink-0 px-3 py-2 rounded-full text-xs font-semibold bg-slate-200 text-slate-600">✨ 极简优雅</button>
+        <button onclick="showStyle(4)" class="tab-btn flex-shrink-0 px-3 py-2 rounded-full text-xs font-semibold bg-slate-200 text-slate-600">🌈 渐变活力</button>
+        <button onclick="showStyle(5)" class="tab-btn flex-shrink-0 px-3 py-2 rounded-full text-xs font-semibold bg-slate-200 text-slate-600">📱 iOS原生</button>
+        <button onclick="showStyle(6)" class="tab-btn flex-shrink-0 px-3 py-2 rounded-full text-xs font-semibold bg-slate-200 text-slate-600">🔘 新拟态</button>
+        <button onclick="showStyle(7)" class="tab-btn flex-shrink-0 px-3 py-2 rounded-full text-xs font-semibold bg-slate-200 text-slate-600">⚡ 赛博朋克</button>
+        <button onclick="showStyle(8)" class="tab-btn flex-shrink-0 px-3 py-2 rounded-full text-xs font-semibold bg-slate-200 text-slate-600">🌲 自然森林</button>
+        <button onclick="showStyle(9)" class="tab-btn flex-shrink-0 px-3 py-2 rounded-full text-xs font-semibold bg-slate-200 text-slate-600">🍬 糖果马卡龙</button>
+        <button onclick="showStyle(10)" class="tab-btn flex-shrink-0 px-3 py-2 rounded-full text-xs font-semibold bg-slate-200 text-slate-600">💻 极客终端</button>
+        <button onclick="showStyle(11)" class="tab-btn flex-shrink-0 px-3 py-2 rounded-full text-xs font-semibold bg-slate-200 text-slate-600">🌌 星空宇宙</button>
+        <button onclick="showStyle(12)" class="tab-btn flex-shrink-0 px-3 py-2 rounded-full text-xs font-semibold bg-slate-200 text-slate-600">📐 Material</button>
+        <button onclick="showStyle(13)" class="tab-btn flex-shrink-0 px-3 py-2 rounded-full text-xs font-semibold bg-slate-200 text-slate-600">🖌️ 水墨中国风</button>
+        <button onclick="showStyle(14)" class="tab-btn flex-shrink-0 px-3 py-2 rounded-full text-xs font-semibold bg-slate-200 text-slate-600">🕹️ 复古怀旧</button>
+        <button onclick="showStyle(15)" class="tab-btn flex-shrink-0 px-3 py-2 rounded-full text-xs font-semibold bg-slate-200 text-slate-600">🔲 野兽派</button>
+        <button onclick="showStyle(16)" class="tab-btn flex-shrink-0 px-3 py-2 rounded-full text-xs font-semibold bg-slate-200 text-slate-600">🫧 黏土立体</button>
+      </div>
+    </div>
+  </nav>
+
+  <!-- 风格预览区域 -->
+  <main class="max-w-7xl mx-auto px-4 py-8">
+    <div class="grid grid-cols-1 lg:grid-cols-2 gap-8">
+      
+      <!-- 左侧：手机预览 -->
+      <div class="flex justify-center">
+        <div class="w-[375px] h-[750px] bg-black rounded-[50px] p-3 shadow-2xl">
+          <div class="w-full h-full bg-white rounded-[40px] overflow-hidden relative">
+            <!-- 刘海 -->
+            <div class="absolute top-0 left-1/2 -translate-x-1/2 w-32 h-7 bg-black rounded-b-2xl z-50"></div>
+            
+            <!-- 风格内容容器 -->
+            <div class="w-full h-full overflow-y-auto hide-scrollbar">
+              
+              <!-- ===== 风格1: 毛玻璃暗黑 ===== -->
+              <div id="style-1" class="style-panel active min-h-full relative" style="background: linear-gradient(135deg, #0f0f23 0%, #1a1a2e 50%, #16213e 100%);">
+                <div class="orb w-40 h-40 bg-purple-600 top-[-10%] left-[-10%]"></div>
+                <div class="orb w-32 h-32 bg-blue-600 bottom-[30%] right-[-5%]"></div>
+                <div class="relative z-10 px-5 pt-12 pb-24">
+                  <div class="glass rounded-2xl p-4 mb-5 flex items-center justify-between">
+                    <div class="flex items-center gap-3">
+                      <div class="w-11 h-11 rounded-xl bg-gradient-to-br from-violet-500 to-fuchsia-500 flex items-center justify-center shadow-lg"><span class="text-white font-bold">N</span></div>
+                      <div><h1 class="text-white font-bold">Nexus</h1><p class="text-[10px] text-white/50">个人媒体中心</p></div>
+                    </div>
+                    <div class="w-9 h-9 rounded-full bg-gradient-to-br from-cyan-400 to-blue-500"></div>
+                  </div>
+                  <div class="glass rounded-2xl p-3 mb-5 flex items-center gap-3">
+                    <svg class="w-4 h-4 text-white/40" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"/></svg>
+                    <span class="text-white/40 text-sm">搜索...</span>
+                  </div>
+                  <p class="text-xs text-white/50 mb-3 px-1">快捷入口</p>
+                  <div class="grid grid-cols-3 gap-3 mb-6">
+                    <div class="glass-strong rounded-2xl p-3 flex flex-col items-center">
+                      <div class="w-12 h-12 rounded-xl bg-gradient-to-br from-amber-400 to-orange-500 flex items-center justify-center mb-2 shadow-lg">
+                        <svg class="w-6 h-6 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 6.253v13m0-13C10.832 5.477 9.246 5 7.5 5S4.168 5.477 3 6.253v13C4.168 18.477 5.754 18 7.5 18s3.332.477 4.5 1.253m0-13C13.168 5.477 14.754 5 16.5 5c1.747 0 3.332.477 4.5 1.253v13C19.832 18.477 18.247 18 16.5 18c-1.746 0-3.332.477-4.5 1.253"/></svg>
+                      </div>
+                      <span class="text-xs text-white/80">图书馆</span>
+                    </div>
+                    <div class="glass-strong rounded-2xl p-3 flex flex-col items-center">
+                      <div class="w-12 h-12 rounded-xl bg-gradient-to-br from-purple-500 to-pink-500 flex items-center justify-center mb-2 shadow-lg">
+                        <svg class="w-6 h-6 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M7 4v16M17 4v16M3 8h4m10 0h4M3 12h18M3 16h4m10 0h4M4 20h16a1 1 0 001-1V5a1 1 0 00-1-1H4a1 1 0 00-1 1v14a1 1 0 001 1z"/></svg>
+                      </div>
+                      <span class="text-xs text-white/80">电影院</span>
+                    </div>
+                    <div class="glass-strong rounded-2xl p-3 flex flex-col items-center">
+                      <div class="w-12 h-12 rounded-xl bg-gradient-to-br from-blue-400 to-indigo-500 flex items-center justify-center mb-2 shadow-lg">
+                        <svg class="w-6 h-6 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 7v10a2 2 0 002 2h14a2 2 0 002-2V9a2 2 0 00-2-2h-6l-2-2H5a2 2 0 00-2 2z"/></svg>
+                      </div>
+                      <span class="text-xs text-white/80">文件</span>
+                    </div>
+                  </div>
+                  <p class="text-xs text-white/50 mb-3 px-1">继续阅读</p>
+                  <div class="glass-strong rounded-2xl p-4 mb-4">
+                    <div class="flex gap-3">
+                      <div class="w-14 h-[70px] rounded-xl bg-gradient-to-br from-rose-400 to-orange-400 flex-shrink-0 shadow-lg"></div>
+                      <div class="flex-1">
+                        <h3 class="font-bold text-white text-sm">代码整洁之道</h3>
+                        <p class="text-[10px] text-white/40 mt-1">Robert C. Martin</p>
+                        <div class="mt-3 h-1.5 bg-white/10 rounded-full overflow-hidden">
+                          <div class="h-full w-[45%] bg-gradient-to-r from-violet-500 to-fuchsia-500 rounded-full"></div>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                  <div class="glass rounded-2xl p-4">
+                    <div class="flex justify-between mb-2"><span class="text-xs text-white/50">存储空间</span><span class="text-xs text-violet-400">128GB / 256GB</span></div>
+                    <div class="h-1.5 bg-white/10 rounded-full overflow-hidden">
+                      <div class="h-full w-[50%] bg-gradient-to-r from-violet-500 via-fuchsia-500 to-pink-500 rounded-full"></div>
+                    </div>
+                  </div>
+                </div>
+                <div class="absolute bottom-0 left-0 right-0 glass border-t border-white/10 px-4 py-3">
+                  <div class="flex justify-around">
+                    <div class="flex flex-col items-center gap-0.5 text-violet-400"><svg class="w-5 h-5" fill="currentColor" viewBox="0 0 24 24"><path d="M10 20v-6h4v6h5v-8h3L12 3 2 12h3v8z"/></svg><span class="text-[9px]">首页</span></div>
+                    <div class="flex flex-col items-center gap-0.5 text-white/40"><svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 6.253v13m0-13C10.832 5.477 9.246 5 7.5 5S4.168 5.477 3 6.253v13C4.168 18.477 5.754 18 7.5 18s3.332.477 4.5 1.253m0-13C13.168 5.477 14.754 5 16.5 5c1.747 0 3.332.477 4.5 1.253v13C19.832 18.477 18.247 18 16.5 18c-1.746 0-3.332.477-4.5 1.253"/></svg><span class="text-[9px]">图书</span></div>
+                    <div class="flex flex-col items-center gap-0.5 text-white/40"><svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M7 4v16M17 4v16M3 8h4m10 0h4M3 12h18M3 16h4m10 0h4M4 20h16a1 1 0 001-1V5a1 1 0 00-1-1H4a1 1 0 00-1 1v14a1 1 0 001 1z"/></svg><span class="text-[9px]">电影</span></div>
+                    <div class="flex flex-col items-center gap-0.5 text-white/40"><svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10.325 4.317c.426-1.756 2.924-1.756 3.35 0a1.724 1.724 0 002.573 1.066c1.543-.94 3.31.826 2.37 2.37a1.724 1.724 0 001.065 2.572c1.756.426 1.756 2.924 0 3.35a1.724 1.724 0 00-1.066 2.573c.94 1.543-.826 3.31-2.37 2.37a1.724 1.724 0 00-2.572 1.065c-.426 1.756-2.924 1.756-3.35 0a1.724 1.724 0 00-2.573-1.066c-1.543.94-3.31-.826-2.37-2.37a1.724 1.724 0 00-1.065-2.572c-1.756-.426-1.756-2.924 0-3.35a1.724 1.724 0 001.066-2.573c-.94-1.543.826-3.31 2.37-2.37.996.608 2.296.07 2.572-1.065z"/><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z"/></svg><span class="text-[9px]">设置</span></div>
+                  </div>
+                </div>
+              </div>
+
+              <!-- ===== 风格2: Bento 现代 ===== -->
+              <div id="style-2" class="style-panel min-h-full bg-[#f8f9fc]">
+                <div class="px-5 pt-12 pb-24">
+                  <div class="flex items-center justify-between mb-6">
+                    <div><p class="text-slate-400 text-xs">欢迎回来 👋</p><h1 class="text-xl font-bold text-slate-800 mt-0.5">Jiangking</h1></div>
+                    <div class="flex items-center gap-2">
+                      <div class="w-9 h-9 rounded-xl bg-white shadow-soft flex items-center justify-center"><svg class="w-4 h-4 text-slate-500" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"/></svg></div>
+                      <div class="w-9 h-9 rounded-xl bg-gradient-to-br from-indigo-500 to-purple-600 shadow-lg"></div>
+                    </div>
+                  </div>
+                  <div class="grid grid-cols-2 gap-3 mb-6">
+                    <div class="col-span-2 bg-gradient-to-br from-amber-400 via-orange-400 to-orange-500 rounded-2xl p-4 shadow-lg">
+                      <div class="w-10 h-10 rounded-xl bg-white/20 flex items-center justify-center mb-3"><svg class="w-5 h-5 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 6.253v13m0-13C10.832 5.477 9.246 5 7.5 5S4.168 5.477 3 6.253v13C4.168 18.477 5.754 18 7.5 18s3.332.477 4.5 1.253m0-13C13.168 5.477 14.754 5 16.5 5c1.747 0 3.332.477 4.5 1.253v13C19.832 18.477 18.247 18 16.5 18c-1.746 0-3.332.477-4.5 1.253"/></svg></div>
+                      <h2 class="text-lg font-bold text-white">图书馆</h2>
+                      <p class="text-white/70 text-xs mt-0.5">12 本书 · 3 正在阅读</p>
+                    </div>
+                    <div class="bg-gradient-to-br from-violet-500 to-purple-600 rounded-2xl p-3 aspect-square flex flex-col justify-between shadow-lg">
+                      <div class="w-8 h-8 rounded-lg bg-white/20 flex items-center justify-center"><svg class="w-4 h-4 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M7 4v16M17 4v16M3 8h4m10 0h4M3 12h18M3 16h4m10 0h4M4 20h16a1 1 0 001-1V5a1 1 0 00-1-1H4a1 1 0 00-1 1v14a1 1 0 001 1z"/></svg></div>
+                      <div><h3 class="font-bold text-white">电影院</h3><p class="text-white/60 text-[10px]">8 部电影</p></div>
+                    </div>
+                    <div class="bg-gradient-to-br from-blue-400 to-indigo-500 rounded-2xl p-3 aspect-square flex flex-col justify-between shadow-lg">
+                      <div class="w-8 h-8 rounded-lg bg-white/20 flex items-center justify-center"><svg class="w-4 h-4 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 7v10a2 2 0 002 2h14a2 2 0 002-2V9a2 2 0 00-2-2h-6l-2-2H5a2 2 0 00-2 2z"/></svg></div>
+                      <div><h3 class="font-bold text-white">文件</h3><p class="text-white/60 text-[10px]">浏览全部</p></div>
+                    </div>
+                  </div>
+                  <div class="flex items-center justify-between mb-3"><h2 class="font-bold text-slate-800">继续</h2><button class="text-xs font-semibold text-indigo-500">查看全部</button></div>
+                  <div class="bg-white rounded-2xl p-3 shadow-soft flex gap-3 mb-3">
+                    <div class="w-14 h-[70px] rounded-xl bg-gradient-to-br from-rose-400 to-orange-500 shadow-md flex items-center justify-center"><svg class="w-5 h-5 text-white/80" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 6.253v13m0-13C10.832 5.477 9.246 5 7.5 5S4.168 5.477 3 6.253v13C4.168 18.477 5.754 18 7.5 18s3.332.477 4.5 1.253m0-13C13.168 5.477 14.754 5 16.5 5c1.747 0 3.332.477 4.5 1.253v13C19.832 18.477 18.247 18 16.5 18c-1.746 0-3.332.477-4.5 1.253"/></svg></div>
+                    <div class="flex-1 flex flex-col justify-between py-0.5">
+                      <div><h3 class="font-bold text-slate-800 text-sm">代码整洁之道</h3><p class="text-[10px] text-slate-400 mt-0.5">昨天阅读</p></div>
+                      <div class="h-1.5 bg-slate-100 rounded-full overflow-hidden"><div class="h-full w-[45%] bg-gradient-to-r from-indigo-500 to-purple-500 rounded-full"></div></div>
+                    </div>
+                  </div>
+                  <h2 class="font-bold text-slate-800 mb-3">快捷操作</h2>
+                  <div class="grid grid-cols-4 gap-2">
+                    <div class="bg-white rounded-xl p-2 shadow-soft flex flex-col items-center gap-1"><div class="w-8 h-8 rounded-lg bg-emerald-100 flex items-center justify-center"><svg class="w-4 h-4 text-emerald-600" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4v16m8-8H4"/></svg></div><span class="text-[9px] text-slate-600">添加</span></div>
+                    <div class="bg-white rounded-xl p-2 shadow-soft flex flex-col items-center gap-1"><div class="w-8 h-8 rounded-lg bg-blue-100 flex items-center justify-center"><svg class="w-4 h-4 text-blue-600" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-8l-4-4m0 0L8 8m4-4v12"/></svg></div><span class="text-[9px] text-slate-600">上传</span></div>
+                    <div class="bg-white rounded-xl p-2 shadow-soft flex flex-col items-center gap-1"><div class="w-8 h-8 rounded-lg bg-amber-100 flex items-center justify-center"><svg class="w-4 h-4 text-amber-600" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 5a2 2 0 012-2h10a2 2 0 012 2v16l-7-3.5L5 21V5z"/></svg></div><span class="text-[9px] text-slate-600">收藏</span></div>
+                    <div class="bg-white rounded-xl p-2 shadow-soft flex flex-col items-center gap-1"><div class="w-8 h-8 rounded-lg bg-rose-100 flex items-center justify-center"><svg class="w-4 h-4 text-rose-600" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z"/></svg></div><span class="text-[9px] text-slate-600">历史</span></div>
+                  </div>
+                </div>
+                <div class="absolute bottom-0 left-0 right-0 bg-white border-t border-slate-100 px-4 py-2 pb-6">
+                  <div class="flex justify-around">
+                    <div class="flex flex-col items-center gap-0.5 px-3 py-1.5 rounded-xl bg-indigo-50"><svg class="w-5 h-5 text-indigo-600" fill="currentColor" viewBox="0 0 24 24"><path d="M10 20v-6h4v6h5v-8h3L12 3 2 12h3v8z"/></svg><span class="text-[9px] font-bold text-indigo-600">首页</span></div>
+                    <div class="flex flex-col items-center gap-0.5 px-3 py-1.5"><svg class="w-5 h-5 text-slate-400" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 6.253v13m0-13C10.832 5.477 9.246 5 7.5 5S4.168 5.477 3 6.253v13C4.168 18.477 5.754 18 7.5 18s3.332.477 4.5 1.253m0-13C13.168 5.477 14.754 5 16.5 5c1.747 0 3.332.477 4.5 1.253v13C19.832 18.477 18.247 18 16.5 18c-1.746 0-3.332.477-4.5 1.253"/></svg><span class="text-[9px] text-slate-400">图书</span></div>
+                    <div class="flex flex-col items-center gap-0.5 px-3 py-1.5"><svg class="w-5 h-5 text-slate-400" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M7 4v16M17 4v16M3 8h4m10 0h4M3 12h18M3 16h4m10 0h4M4 20h16a1 1 0 001-1V5a1 1 0 00-1-1H4a1 1 0 00-1 1v14a1 1 0 001 1z"/></svg><span class="text-[9px] text-slate-400">电影</span></div>
+                    <div class="flex flex-col items-center gap-0.5 px-3 py-1.5"><svg class="w-5 h-5 text-slate-400" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10.325 4.317c.426-1.756 2.924-1.756 3.35 0a1.724 1.724 0 002.573 1.066c1.543-.94 3.31.826 2.37 2.37a1.724 1.724 0 001.065 2.572c1.756.426 1.756 2.924 0 3.35a1.724 1.724 0 00-1.066 2.573c.94 1.543-.826 3.31-2.37 2.37a1.724 1.724 0 00-2.572 1.065c-.426 1.756-2.924 1.756-3.35 0a1.724 1.724 0 00-2.573-1.066c-1.543.94-3.31-.826-2.37-2.37a1.724 1.724 0 00-1.065-2.572c-1.756-.426-1.756-2.924 0-3.35a1.724 1.724 0 001.066-2.573c-.94-1.543.826-3.31 2.37-2.37.996.608 2.296.07 2.572-1.065z"/><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z"/></svg><span class="text-[9px] text-slate-400">设置</span></div>
+                  </div>
+                </div>
+              </div>
+
+              <!-- ===== 风格3-16: 使用 iframe 加载单独文件 ===== -->
+              <div id="style-3" class="style-panel min-h-full"><iframe src="home-style-3-minimal-elegant.html" class="w-full h-[720px] border-0"></iframe></div>
+              <div id="style-4" class="style-panel min-h-full"><iframe src="home-style-4-gradient-vibrant.html" class="w-full h-[720px] border-0"></iframe></div>
+              <div id="style-5" class="style-panel min-h-full"><iframe src="home-style-5-ios-native.html" class="w-full h-[720px] border-0"></iframe></div>
+              <div id="style-6" class="style-panel min-h-full"><iframe src="home-style-6-neumorphism.html" class="w-full h-[720px] border-0"></iframe></div>
+              <div id="style-7" class="style-panel min-h-full"><iframe src="home-style-7-cyberpunk.html" class="w-full h-[720px] border-0"></iframe></div>
+              <div id="style-8" class="style-panel min-h-full"><iframe src="home-style-8-nature.html" class="w-full h-[720px] border-0"></iframe></div>
+              <div id="style-9" class="style-panel min-h-full"><iframe src="home-style-9-candy.html" class="w-full h-[720px] border-0"></iframe></div>
+              <div id="style-10" class="style-panel min-h-full"><iframe src="home-style-10-terminal.html" class="w-full h-[720px] border-0"></iframe></div>
+              <div id="style-11" class="style-panel min-h-full"><iframe src="home-style-11-space.html" class="w-full h-[720px] border-0"></iframe></div>
+              <div id="style-12" class="style-panel min-h-full"><iframe src="home-style-12-material.html" class="w-full h-[720px] border-0"></iframe></div>
+              <div id="style-13" class="style-panel min-h-full"><iframe src="home-style-13-ink.html" class="w-full h-[720px] border-0"></iframe></div>
+              <div id="style-14" class="style-panel min-h-full"><iframe src="home-style-14-retro.html" class="w-full h-[720px] border-0"></iframe></div>
+              <div id="style-15" class="style-panel min-h-full"><iframe src="home-style-15-brutalist.html" class="w-full h-[720px] border-0"></iframe></div>
+              <div id="style-16" class="style-panel min-h-full"><iframe src="home-style-16-clay.html" class="w-full h-[720px] border-0"></iframe></div>
+
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- 右侧：风格说明 -->
+      <div class="space-y-6">
+        <!-- 风格信息卡片 -->
+        <div id="info-panel" class="bg-white rounded-2xl p-6 shadow-lg">
+          <div class="flex items-center gap-3 mb-4">
+            <span id="info-icon" class="text-4xl">🌙</span>
+            <div>
+              <h2 id="info-title" class="text-2xl font-bold text-slate-800">毛玻璃暗黑</h2>
+              <p id="info-subtitle" class="text-slate-400">Glass Dark Mode</p>
+            </div>
+          </div>
+          <div class="space-y-4">
+            <div>
+              <h3 class="font-semibold text-slate-700 mb-2">设计特点</h3>
+              <ul id="info-features" class="space-y-2 text-slate-600 text-sm">
+                <li class="flex items-center gap-2"><span class="w-1.5 h-1.5 rounded-full bg-violet-500"></span>深色背景 + Glassmorphism 毛玻璃效果</li>
+                <li class="flex items-center gap-2"><span class="w-1.5 h-1.5 rounded-full bg-violet-500"></span>渐变光效装饰营造氛围</li>
+                <li class="flex items-center gap-2"><span class="w-1.5 h-1.5 rounded-full bg-violet-500"></span>半透明卡片层次分明</li>
+                <li class="flex items-center gap-2"><span class="w-1.5 h-1.5 rounded-full bg-violet-500"></span>紫色系主色调</li>
+              </ul>
+            </div>
+            <div>
+              <h3 class="font-semibold text-slate-700 mb-2">适合场景</h3>
+              <p id="info-scene" class="text-slate-600 text-sm">夜间使用、沉浸式体验、科技感强的应用</p>
+            </div>
+            <div id="info-colors" class="flex gap-2">
+              <div class="w-10 h-10 rounded-xl bg-[#1a1a2e] shadow-inner"></div>
+              <div class="w-10 h-10 rounded-xl bg-gradient-to-br from-violet-500 to-fuchsia-500 shadow-lg"></div>
+              <div class="w-10 h-10 rounded-xl bg-gradient-to-br from-amber-400 to-orange-500 shadow-lg"></div>
+              <div class="w-10 h-10 rounded-xl bg-gradient-to-br from-blue-400 to-indigo-500 shadow-lg"></div>
+            </div>
+          </div>
+        </div>
+
+        <!-- 选择按钮 -->
+        <div class="bg-gradient-to-r from-indigo-500 to-purple-600 rounded-2xl p-6 text-white">
+          <h3 class="font-bold text-lg mb-2">选好了吗？</h3>
+          <p class="text-white/80 text-sm mb-4">告诉我你喜欢哪个风格，我会帮你应用到项目中！</p>
+          <button onclick="confirmSelection()" class="w-full py-3 bg-white/20 rounded-xl text-sm font-semibold hover:bg-white/30 transition-colors">
+            确认选择当前风格
+          </button>
+        </div>
+
+        <!-- 风格列表 -->
+        <div class="bg-white rounded-2xl p-4 shadow-lg">
+          <h3 class="font-semibold text-slate-700 mb-3">全部风格</h3>
+          <div class="grid grid-cols-2 gap-2 text-xs">
+            <button onclick="showStyle(1)" class="text-left px-3 py-2 rounded-lg hover:bg-slate-100 transition-colors">🌙 毛玻璃暗黑</button>
+            <button onclick="showStyle(2)" class="text-left px-3 py-2 rounded-lg hover:bg-slate-100 transition-colors">☀️ Bento现代</button>
+            <button onclick="showStyle(3)" class="text-left px-3 py-2 rounded-lg hover:bg-slate-100 transition-colors">✨ 极简优雅</button>
+            <button onclick="showStyle(4)" class="text-left px-3 py-2 rounded-lg hover:bg-slate-100 transition-colors">🌈 渐变活力</button>
+            <button onclick="showStyle(5)" class="text-left px-3 py-2 rounded-lg hover:bg-slate-100 transition-colors">📱 iOS原生</button>
+            <button onclick="showStyle(6)" class="text-left px-3 py-2 rounded-lg hover:bg-slate-100 transition-colors">🔘 新拟态</button>
+            <button onclick="showStyle(7)" class="text-left px-3 py-2 rounded-lg hover:bg-slate-100 transition-colors">⚡ 赛博朋克</button>
+            <button onclick="showStyle(8)" class="text-left px-3 py-2 rounded-lg hover:bg-slate-100 transition-colors">🌲 自然森林</button>
+            <button onclick="showStyle(9)" class="text-left px-3 py-2 rounded-lg hover:bg-slate-100 transition-colors">🍬 糖果马卡龙</button>
+            <button onclick="showStyle(10)" class="text-left px-3 py-2 rounded-lg hover:bg-slate-100 transition-colors">💻 极客终端</button>
+            <button onclick="showStyle(11)" class="text-left px-3 py-2 rounded-lg hover:bg-slate-100 transition-colors">🌌 星空宇宙</button>
+            <button onclick="showStyle(12)" class="text-left px-3 py-2 rounded-lg hover:bg-slate-100 transition-colors">📐 Material</button>
+            <button onclick="showStyle(13)" class="text-left px-3 py-2 rounded-lg hover:bg-slate-100 transition-colors">🖌️ 水墨中国风</button>
+            <button onclick="showStyle(14)" class="text-left px-3 py-2 rounded-lg hover:bg-slate-100 transition-colors">🕹️ 复古怀旧</button>
+            <button onclick="showStyle(15)" class="text-left px-3 py-2 rounded-lg hover:bg-slate-100 transition-colors">🔲 野兽派</button>
+            <button onclick="showStyle(16)" class="text-left px-3 py-2 rounded-lg hover:bg-slate-100 transition-colors">🫧 黏土立体</button>
+          </div>
+        </div>
+      </div>
+
+    </div>
+  </main>
+
+  <script>
+    const styleData = {
+      1: { icon: '🌙', title: '毛玻璃暗黑', subtitle: 'Glass Dark Mode', features: ['深色背景 + Glassmorphism 毛玻璃效果', '渐变光效装饰营造氛围', '半透明卡片层次分明', '紫色系主色调'], scene: '夜间使用、沉浸式体验、科技感强的应用', colors: ['#1a1a2e', 'linear-gradient(to br, #8b5cf6, #d946ef)', 'linear-gradient(to br, #f59e0b, #f97316)', 'linear-gradient(to br, #60a5fa, #6366f1)'] },
+      2: { icon: '☀️', title: 'Bento 现代', subtitle: 'Modern Bento Grid', features: ['Apple 风格 Bento Grid 布局', '浅色背景，清新明亮', '大圆角卡片，柔和阴影', '多彩渐变图标'], scene: '日常使用、专业工具、清新简约的应用', colors: ['#f8f9fc', 'linear-gradient(to br, #f59e0b, #f97316)', 'linear-gradient(to br, #8b5cf6, #9333ea)', 'linear-gradient(to br, #6366f1, #9333ea)'] },
+      3: { icon: '✨', title: '极简优雅', subtitle: 'Minimal Elegant', features: ['衬线字体，优雅气质', '大量留白，专注内容', '细线边框，轻量感', '中性色调 (stone)'], scene: '阅读类应用、文档管理、高端品牌', colors: ['#fafaf9', '#292524', '#fef3c7', '#ede9fe'] },
+      4: { icon: '🌈', title: '渐变活力', subtitle: 'Gradient Vibrant', features: ['多彩渐变背景和元素', '浮动胶囊式底部导航', '活泼的 Poppins 字体', '悬浮光效装饰'], scene: '年轻用户、创意类应用、娱乐平台', colors: ['linear-gradient(to br, #ec4899, #f43f5e)', 'linear-gradient(to br, #8b5cf6, #9333ea)', 'linear-gradient(to br, #22d3ee, #3b82f6)', 'linear-gradient(to br, #f97316, #ec4899)'] },
+      5: { icon: '📱', title: 'iOS 原生', subtitle: 'iOS Native Style', features: ['遵循 Apple Human Interface Guidelines', '分组列表 (Grouped List) 布局', 'SF Pro 系统字体风格', '模糊 Tab Bar'], scene: 'iOS 用户、追求原生体验、工具类应用', colors: ['#f2f2f7', '#007AFF', 'linear-gradient(to br, #f97316, #f97316)', 'linear-gradient(to br, #9333ea, #9333ea)'] },
+      6: { icon: '🔘', title: '新拟态', subtitle: 'Neumorphism', features: ['柔和的凹凸光影效果', '单色背景统一感', '内外阴影营造深度', '触感反馈明确'], scene: '智能家居、音乐播放器、仪表盘', colors: ['#e0e5ec', 'linear-gradient(145deg, #f0f5fc, #cacfd6)', '#b8bec7', '#ffffff'] },
+      7: { icon: '⚡', title: '赛博朋克', subtitle: 'Cyberpunk 2077', features: ['霓虹灯发光效果', '终端/代码风格文字', '扫描线复古质感', '青色/粉色主色调'], scene: '游戏类应用、未来科技、极客用户', colors: ['#0a0a0f', '#00f5ff', '#ff00ff', '#f0ff00'] },
+      8: { icon: '🌲', title: '自然森林', subtitle: 'Nature Forest', features: ['清新绿色系配色', '自然元素装饰', '圆润柔和的卡片', '游戏化成就系统'], scene: '阅读打卡、习惯养成、健康类应用', colors: ['#f0fdf4', 'linear-gradient(to br, #4ade80, #10b981)', 'linear-gradient(to br, #fbbf24, #f97316)', 'linear-gradient(to br, #a78bfa, #ec4899)'] },
+      9: { icon: '🍬', title: '糖果马卡龙', subtitle: 'Candy Pastel', features: ['粉嫩马卡龙色系', '圆润可爱的元素', '俏皮的动画效果', '少女心爆棚'], scene: '年轻女性用户、日记类、萌系应用', colors: ['linear-gradient(to br, #fce7f3, #fdf2f8)', 'linear-gradient(to br, #f9a8d4, #f472b6)', 'linear-gradient(to br, #c4b5fd, #a78bfa)', 'linear-gradient(to br, #a5f3fc, #67e8f9)'] },
+      10: { icon: '💻', title: '极客终端', subtitle: 'Hacker Terminal', features: ['命令行界面风格', 'JetBrains Mono 等宽字体', '语法高亮配色', '打字机效果光标'], scene: '开发者用户、极客、技术爱好者', colors: ['#1a1b26', '#9ece6a', '#7aa2f7', '#bb9af7'] },
+      11: { icon: '🌌', title: '星空宇宙', subtitle: 'Cosmic Space', features: ['星空背景动画', '紫色宇宙色调', '发光边框效果', '太空探索主题'], scene: '梦幻体验、游戏化学习、夜间模式', colors: ['radial-gradient(ellipse at bottom, #1b2735, #090a0f)', 'linear-gradient(to br, #8b5cf6, #d946ef)', 'linear-gradient(to br, #22d3ee, #3b82f6)', 'linear-gradient(to br, #f59e0b, #f97316)'] },
+      12: { icon: '📐', title: 'Material Design', subtitle: 'Google Material 3', features: ['遵循 Material Design 规范', '彩色功能卡片', 'FAB 浮动按钮', '涟漪点击效果'], scene: 'Android 用户、Google 生态、企业应用', colors: ['#fafafa', '#6366f1', 'linear-gradient(to br, #f59e0b, #f59e0b)', 'linear-gradient(to br, #9333ea, #9333ea)'] },
+      13: { icon: '🖌️', title: '水墨中国风', subtitle: 'Chinese Ink Style', features: ['宋体/楷体衬线字体', '水墨山水装饰', '古典纸张质感', '传统配色'], scene: '国学阅读、传统文化、文艺用户', colors: ['#f7f4ef', '#78716c', 'linear-gradient(to br, #fcd34d, #f97316)', '#d4c8b8'] },
+      14: { icon: '🕹️', title: '复古怀旧', subtitle: 'Retro 8-bit', features: ['像素风格元素', '游戏机配色', '复古按钮效果', '经验值系统'], scene: '游戏爱好者、80/90后用户、趣味应用', colors: ['#2d1b00', '#fbbf24', '#78350f', '#22c55e'] },
+      15: { icon: '🔲', title: '野兽派', subtitle: 'Brutalism', features: ['粗犷黑色边框', '偏移阴影效果', '纯色色块', '大写无衬线字体'], scene: '艺术类、创意工作室、反传统设计', colors: ['#ffffff', '#fde047', '#f87171', '#60a5fa'] },
+      16: { icon: '🫧', title: '黏土立体', subtitle: 'Claymorphism', features: ['柔和立体效果', '渐变圆润卡片', '温暖柔和配色', '3D 质感'], scene: '儿童应用、可爱风格、亲和力设计', colors: ['linear-gradient(135deg, #e8f4f8, #d4e8ed)', 'linear-gradient(145deg, #ffecd2, #fcb69f)', 'linear-gradient(145deg, #e0c3fc, #8ec5fc)', 'linear-gradient(145deg, #a8edea, #fed6e3)'] }
+    };
+
+    let currentStyle = 1;
+
+    function showStyle(num) {
+      currentStyle = num;
+      // 切换标签按钮状态
+      document.querySelectorAll('.tab-btn').forEach((btn, i) => {
+        btn.classList.toggle('active', i === num - 1);
+      });
+      // 切换预览面板
+      for (let i = 1; i <= 16; i++) {
+        const panel = document.getElementById(`style-${i}`);
+        if (panel) panel.classList.toggle('active', i === num);
+      }
+      // 更新信息面板
+      updateInfoPanel(num);
+    }
+
+    function updateInfoPanel(num) {
+      const data = styleData[num];
+      document.getElementById('info-icon').textContent = data.icon;
+      document.getElementById('info-title').textContent = data.title;
+      document.getElementById('info-subtitle').textContent = data.subtitle;
+      document.getElementById('info-scene').textContent = data.scene;
+      
+      const featuresList = document.getElementById('info-features');
+      featuresList.innerHTML = data.features.map(f => 
+        `<li class="flex items-center gap-2"><span class="w-1.5 h-1.5 rounded-full bg-violet-500"></span>${f}</li>`
+      ).join('');
+      
+      const colorsDiv = document.getElementById('info-colors');
+      colorsDiv.innerHTML = data.colors.map(c => 
+        `<div class="w-10 h-10 rounded-xl shadow-lg" style="background: ${c}"></div>`
+      ).join('');
+    }
+
+    function confirmSelection() {
+      const data = styleData[currentStyle];
+      alert(`你选择了：${data.icon} ${data.title}\n\n请告诉 Claude 你选择了「${data.title}」风格，我会帮你应用到项目中！`);
+    }
+  </script>
+</body>
+</html>

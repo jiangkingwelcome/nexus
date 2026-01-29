@@ -1,0 +1,108 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Nexus - 风格15: 野兽派</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <style>
+    @import url('https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;600;700&display=swap');
+    * { font-family: 'IBM Plex Mono', monospace; }
+    body { background: #fff; }
+    .brutal-border { border: 3px solid #000; }
+    .brutal-shadow { box-shadow: 6px 6px 0 #000; }
+    .brutal-btn:hover { transform: translate(2px, 2px); box-shadow: 4px 4px 0 #000; }
+    .brutal-btn:active { transform: translate(4px, 4px); box-shadow: 2px 2px 0 #000; }
+  </style>
+</head>
+<body class="min-h-screen pb-28 bg-white">
+  <div class="max-w-md mx-auto px-4 py-6">
+    <!-- Header -->
+    <header class="brutal-border brutal-shadow bg-yellow-300 p-4 mb-6">
+      <div class="flex items-center justify-between">
+        <h1 class="text-3xl font-bold uppercase">NEXUS</h1>
+        <div class="w-12 h-12 brutal-border bg-black"></div>
+      </div>
+      <p class="text-sm mt-2 uppercase tracking-wide">PERSONAL MEDIA CENTER</p>
+    </header>
+
+    <!-- 搜索 -->
+    <div class="brutal-border brutal-shadow bg-white p-3 mb-6 flex items-center gap-3">
+      <span class="text-xl">🔍</span>
+      <input type="text" placeholder="SEARCH..." class="flex-1 bg-transparent outline-none uppercase text-sm tracking-wide placeholder:text-gray-400">
+    </div>
+
+    <!-- 功能块 -->
+    <div class="grid grid-cols-2 gap-4 mb-6">
+      <div class="brutal-border brutal-shadow brutal-btn bg-red-400 p-4 cursor-pointer transition-all">
+        <span class="text-3xl">📚</span>
+        <h3 class="text-lg font-bold mt-2 uppercase">Library</h3>
+        <p class="text-xs uppercase tracking-wide">12 BOOKS</p>
+      </div>
+      <div class="brutal-border brutal-shadow brutal-btn bg-blue-400 p-4 cursor-pointer transition-all">
+        <span class="text-3xl">🎬</span>
+        <h3 class="text-lg font-bold mt-2 uppercase">Cinema</h3>
+        <p class="text-xs uppercase tracking-wide">8 VIDEOS</p>
+      </div>
+      <div class="col-span-2 brutal-border brutal-shadow brutal-btn bg-green-400 p-4 cursor-pointer transition-all">
+        <div class="flex items-center justify-between">
+          <div>
+            <span class="text-3xl">📁</span>
+            <h3 class="text-lg font-bold mt-2 uppercase">Files</h3>
+            <p class="text-xs uppercase tracking-wide">BROWSE ALL</p>
+          </div>
+          <span class="text-4xl">→</span>
+        </div>
+      </div>
+    </div>
+
+    <!-- 继续 -->
+    <div class="brutal-border brutal-shadow bg-purple-300 p-4 mb-6">
+      <h3 class="text-sm font-bold uppercase tracking-wide mb-3">[ CONTINUE ]</h3>
+      <div class="flex gap-4">
+        <div class="w-16 h-20 brutal-border bg-orange-400 flex items-center justify-center flex-shrink-0">
+          <span class="text-2xl">📖</span>
+        </div>
+        <div class="flex-1">
+          <h4 class="font-bold uppercase">代码整洁之道</h4>
+          <p class="text-xs uppercase tracking-wide text-gray-600">ROBERT C. MARTIN</p>
+          <div class="mt-2 brutal-border bg-white h-4 overflow-hidden">
+            <div class="h-full w-[45%] bg-black"></div>
+          </div>
+          <p class="text-xs uppercase mt-1">45% COMPLETE</p>
+        </div>
+      </div>
+    </div>
+
+    <!-- 存储 -->
+    <div class="brutal-border brutal-shadow bg-cyan-300 p-4">
+      <div class="flex justify-between items-center mb-2">
+        <span class="text-sm font-bold uppercase">Storage</span>
+        <span class="text-sm uppercase">128GB / 256GB</span>
+      </div>
+      <div class="brutal-border bg-white h-6 overflow-hidden">
+        <div class="h-full w-[50%] bg-black"></div>
+      </div>
+    </div>
+  </div>
+
+  <!-- 底部导航 -->
+  <nav class="fixed bottom-0 left-0 right-0 brutal-border border-b-0 bg-yellow-300 px-4 py-3 pb-6">
+    <div class="max-w-md mx-auto flex justify-around">
+      <button class="brutal-border brutal-shadow brutal-btn bg-black text-white px-4 py-2 text-xs uppercase font-bold transition-all">
+        🏠 Home
+      </button>
+      <button class="brutal-border bg-white px-4 py-2 text-xs uppercase font-bold">
+        📚 Books
+      </button>
+      <button class="brutal-border bg-white px-4 py-2 text-xs uppercase font-bold">
+        🎬 Films
+      </button>
+      <button class="brutal-border bg-white px-4 py-2 text-xs uppercase font-bold">
+        ⚙️ Set
+      </button>
+    </div>
+  </nav>
+  <div class="fixed top-4 right-4 brutal-border brutal-shadow bg-pink-400 px-3 py-1.5 text-xs font-bold uppercase">🔲 风格15: 野兽派</div>
+</body>
+</html>

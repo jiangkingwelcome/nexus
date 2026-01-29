@@ -1,0 +1,410 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Nexus Logo Preview</title>
+  <style>
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+    
+    body {
+      font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+      background: linear-gradient(135deg, #0f0f23 0%, #1a1a2e 50%, #16213e 100%);
+      min-height: 100vh;
+      padding: 40px;
+      color: #fff;
+    }
+    
+    h1 {
+      text-align: center;
+      font-size: 2.5rem;
+      margin-bottom: 10px;
+      background: linear-gradient(90deg, #6366f1, #8b5cf6, #06b6d4);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+    }
+    
+    .subtitle { text-align: center; color: #888; margin-bottom: 50px; }
+    
+    .preview-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+      gap: 30px;
+      max-width: 1400px;
+      margin: 0 auto;
+    }
+    
+    .preview-card {
+      background: rgba(255, 255, 255, 0.05);
+      border-radius: 20px;
+      padding: 30px;
+      backdrop-filter: blur(10px);
+      border: 1px solid rgba(255, 255, 255, 0.1);
+      text-align: center;
+    }
+    
+    .preview-card h3 { margin-bottom: 20px; font-weight: 500; color: #aaa; }
+    
+    .logo-container {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      padding: 30px;
+      border-radius: 16px;
+    }
+    
+    .dark-bg { background: #0f0f23; }
+    .light-bg { background: #f8fafc; }
+    .gradient-bg { background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); }
+    .glass-bg { background: rgba(255, 255, 255, 0.1); backdrop-filter: blur(20px); }
+    
+    .logo-container svg { max-width: 180px; height: auto; }
+    
+    .sizes-section { margin-top: 60px; text-align: center; }
+    .sizes-section h2 { margin-bottom: 30px; color: #ccc; }
+    
+    .sizes-grid {
+      display: flex;
+      justify-content: center;
+      align-items: flex-end;
+      gap: 40px;
+      flex-wrap: wrap;
+    }
+    
+    .size-item {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 10px;
+    }
+    
+    .size-item span { color: #666; font-size: 12px; }
+    
+    .app-showcase { margin-top: 60px; }
+    .app-showcase h2 { text-align: center; margin-bottom: 30px; color: #ccc; }
+    
+    .showcase-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+      gap: 30px;
+      max-width: 1000px;
+      margin: 0 auto;
+    }
+    
+    .phone-mockup {
+      background: #1a1a2e;
+      border-radius: 30px;
+      padding: 15px;
+      border: 3px solid #333;
+      width: 200px;
+      margin: 0 auto;
+    }
+    
+    .phone-screen {
+      background: #0f0f23;
+      border-radius: 20px;
+      padding: 20px;
+      min-height: 300px;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+    }
+    
+    .phone-screen svg { width: 80px; height: 80px; margin-bottom: 15px; }
+    
+    .phone-screen .app-name {
+      font-size: 18px;
+      font-weight: 600;
+      background: linear-gradient(90deg, #6366f1, #06b6d4);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+    }
+    
+    .header-mockup {
+      background: rgba(15, 15, 35, 0.9);
+      border-radius: 12px;
+      padding: 15px 25px;
+      display: flex;
+      align-items: center;
+      gap: 15px;
+      border: 1px solid rgba(255, 255, 255, 0.1);
+    }
+    
+    .header-mockup svg { width: 40px; height: 40px; }
+    
+    .header-mockup .brand-name {
+      font-size: 20px;
+      font-weight: 600;
+      background: linear-gradient(90deg, #6366f1, #06b6d4);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+    }
+    
+    .header-nav { margin-left: auto; display: flex; gap: 20px; }
+    .header-nav span { color: #888; font-size: 14px; }
+    
+    .favicon-demo {
+      background: #1e1e2e;
+      border-radius: 12px;
+      padding: 20px;
+      text-align: center;
+      margin-top: 20px;
+    }
+    
+    .browser-tab {
+      background: #2d2d3d;
+      border-radius: 8px 8px 0 0;
+      padding: 8px 15px;
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+    }
+    
+    .browser-tab svg { width: 16px; height: 16px; }
+    .browser-tab span { font-size: 12px; color: #ccc; }
+    
+    .download-section { margin-top: 60px; text-align: center; }
+    
+    .download-btn {
+      display: inline-flex;
+      align-items: center;
+      gap: 10px;
+      background: linear-gradient(135deg, #6366f1, #8b5cf6);
+      color: white;
+      padding: 15px 30px;
+      border-radius: 12px;
+      text-decoration: none;
+      font-weight: 500;
+      transition: transform 0.2s, box-shadow 0.2s;
+    }
+    
+    .download-btn:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 10px 30px rgba(99, 102, 241, 0.3);
+    }
+  </style>
+</head>
+<body>
+  <h1>Nexus</h1>
+  <p class="subtitle">Application Logo Preview</p>
+  
+  <div class="preview-grid">
+    <div class="preview-card">
+      <h3>深色背景</h3>
+      <div class="logo-container dark-bg">
+        <svg width="512" height="512" viewBox="0 0 512 512" fill="none" xmlns="http://www.w3.org/2000/svg">
+          <defs>
+            <linearGradient id="g1" x1="0%" y1="0%" x2="100%" y2="100%">
+              <stop offset="0%" style="stop-color:#6366f1"/><stop offset="50%" style="stop-color:#8b5cf6"/><stop offset="100%" style="stop-color:#06b6d4"/>
+            </linearGradient>
+            <filter id="glow1" x="-50%" y="-50%" width="200%" height="200%">
+              <feGaussianBlur stdDeviation="8" result="coloredBlur"/><feMerge><feMergeNode in="coloredBlur"/><feMergeNode in="SourceGraphic"/></feMerge>
+            </filter>
+            <radialGradient id="bg1" cx="50%" cy="50%" r="50%">
+              <stop offset="0%" style="stop-color:#1e1b4b"/><stop offset="100%" style="stop-color:#0f0f23"/>
+            </radialGradient>
+          </defs>
+          <circle cx="256" cy="256" r="240" fill="url(#bg1)" stroke="url(#g1)" stroke-width="3"/>
+          <circle cx="256" cy="256" r="220" fill="none" stroke="url(#g1)" stroke-width="1" opacity="0.3"/>
+          <g stroke="url(#g1)" stroke-width="3" opacity="0.6">
+            <line x1="256" y1="256" x2="256" y2="120"/><line x1="256" y1="256" x2="370" y2="190"/><line x1="256" y1="256" x2="370" y2="322"/>
+            <line x1="256" y1="256" x2="256" y2="392"/><line x1="256" y1="256" x2="142" y2="322"/><line x1="256" y1="256" x2="142" y2="190"/>
+            <line x1="256" y1="120" x2="370" y2="190"/><line x1="370" y1="190" x2="370" y2="322"/><line x1="370" y1="322" x2="256" y2="392"/>
+            <line x1="256" y1="392" x2="142" y2="322"/><line x1="142" y1="322" x2="142" y2="190"/><line x1="142" y1="190" x2="256" y2="120"/>
+          </g>
+          <g filter="url(#glow1)">
+            <circle cx="256" cy="120" r="18" fill="url(#g1)"/><circle cx="370" cy="190" r="18" fill="url(#g1)"/><circle cx="370" cy="322" r="18" fill="url(#g1)"/>
+            <circle cx="256" cy="392" r="18" fill="url(#g1)"/><circle cx="142" cy="322" r="18" fill="url(#g1)"/><circle cx="142" cy="190" r="18" fill="url(#g1)"/>
+          </g>
+          <g filter="url(#glow1)">
+            <circle cx="256" cy="256" r="45" fill="url(#g1)"/><circle cx="256" cy="256" r="30" fill="#0f0f23" opacity="0.4"/><circle cx="256" cy="256" r="20" fill="url(#g1)"/>
+          </g>
+          <circle cx="240" cy="240" r="8" fill="white" opacity="0.3"/>
+        </svg>
+      </div>
+    </div>
+    
+    <div class="preview-card">
+      <h3>浅色背景</h3>
+      <div class="logo-container light-bg">
+        <svg width="512" height="512" viewBox="0 0 512 512" fill="none" xmlns="http://www.w3.org/2000/svg">
+          <defs>
+            <linearGradient id="g2" x1="0%" y1="0%" x2="100%" y2="100%">
+              <stop offset="0%" style="stop-color:#6366f1"/><stop offset="50%" style="stop-color:#8b5cf6"/><stop offset="100%" style="stop-color:#06b6d4"/>
+            </linearGradient>
+            <filter id="glow2" x="-50%" y="-50%" width="200%" height="200%">
+              <feGaussianBlur stdDeviation="8" result="coloredBlur"/><feMerge><feMergeNode in="coloredBlur"/><feMergeNode in="SourceGraphic"/></feMerge>
+            </filter>
+            <radialGradient id="bg2" cx="50%" cy="50%" r="50%">
+              <stop offset="0%" style="stop-color:#1e1b4b"/><stop offset="100%" style="stop-color:#0f0f23"/>
+            </radialGradient>
+          </defs>
+          <circle cx="256" cy="256" r="240" fill="url(#bg2)" stroke="url(#g2)" stroke-width="3"/>
+          <circle cx="256" cy="256" r="220" fill="none" stroke="url(#g2)" stroke-width="1" opacity="0.3"/>
+          <g stroke="url(#g2)" stroke-width="3" opacity="0.6">
+            <line x1="256" y1="256" x2="256" y2="120"/><line x1="256" y1="256" x2="370" y2="190"/><line x1="256" y1="256" x2="370" y2="322"/>
+            <line x1="256" y1="256" x2="256" y2="392"/><line x1="256" y1="256" x2="142" y2="322"/><line x1="256" y1="256" x2="142" y2="190"/>
+            <line x1="256" y1="120" x2="370" y2="190"/><line x1="370" y1="190" x2="370" y2="322"/><line x1="370" y1="322" x2="256" y2="392"/>
+            <line x1="256" y1="392" x2="142" y2="322"/><line x1="142" y1="322" x2="142" y2="190"/><line x1="142" y1="190" x2="256" y2="120"/>
+          </g>
+          <g filter="url(#glow2)">
+            <circle cx="256" cy="120" r="18" fill="url(#g2)"/><circle cx="370" cy="190" r="18" fill="url(#g2)"/><circle cx="370" cy="322" r="18" fill="url(#g2)"/>
+            <circle cx="256" cy="392" r="18" fill="url(#g2)"/><circle cx="142" cy="322" r="18" fill="url(#g2)"/><circle cx="142" cy="190" r="18" fill="url(#g2)"/>
+          </g>
+          <g filter="url(#glow2)">
+            <circle cx="256" cy="256" r="45" fill="url(#g2)"/><circle cx="256" cy="256" r="30" fill="#0f0f23" opacity="0.4"/><circle cx="256" cy="256" r="20" fill="url(#g2)"/>
+          </g>
+          <circle cx="240" cy="240" r="8" fill="white" opacity="0.3"/>
+        </svg>
+      </div>
+    </div>
+    
+    <div class="preview-card">
+      <h3>渐变背景</h3>
+      <div class="logo-container gradient-bg">
+        <svg width="512" height="512" viewBox="0 0 512 512" fill="none" xmlns="http://www.w3.org/2000/svg">
+          <defs>
+            <linearGradient id="g3" x1="0%" y1="0%" x2="100%" y2="100%">
+              <stop offset="0%" style="stop-color:#6366f1"/><stop offset="50%" style="stop-color:#8b5cf6"/><stop offset="100%" style="stop-color:#06b6d4"/>
+            </linearGradient>
+            <filter id="glow3" x="-50%" y="-50%" width="200%" height="200%">
+              <feGaussianBlur stdDeviation="8" result="coloredBlur"/><feMerge><feMergeNode in="coloredBlur"/><feMergeNode in="SourceGraphic"/></feMerge>
+            </filter>
+            <radialGradient id="bg3" cx="50%" cy="50%" r="50%">
+              <stop offset="0%" style="stop-color:#1e1b4b"/><stop offset="100%" style="stop-color:#0f0f23"/>
+            </radialGradient>
+          </defs>
+          <circle cx="256" cy="256" r="240" fill="url(#bg3)" stroke="url(#g3)" stroke-width="3"/>
+          <circle cx="256" cy="256" r="220" fill="none" stroke="url(#g3)" stroke-width="1" opacity="0.3"/>
+          <g stroke="url(#g3)" stroke-width="3" opacity="0.6">
+            <line x1="256" y1="256" x2="256" y2="120"/><line x1="256" y1="256" x2="370" y2="190"/><line x1="256" y1="256" x2="370" y2="322"/>
+            <line x1="256" y1="256" x2="256" y2="392"/><line x1="256" y1="256" x2="142" y2="322"/><line x1="256" y1="256" x2="142" y2="190"/>
+            <line x1="256" y1="120" x2="370" y2="190"/><line x1="370" y1="190" x2="370" y2="322"/><line x1="370" y1="322" x2="256" y2="392"/>
+            <line x1="256" y1="392" x2="142" y2="322"/><line x1="142" y1="322" x2="142" y2="190"/><line x1="142" y1="190" x2="256" y2="120"/>
+          </g>
+          <g filter="url(#glow3)">
+            <circle cx="256" cy="120" r="18" fill="url(#g3)"/><circle cx="370" cy="190" r="18" fill="url(#g3)"/><circle cx="370" cy="322" r="18" fill="url(#g3)"/>
+            <circle cx="256" cy="392" r="18" fill="url(#g3)"/><circle cx="142" cy="322" r="18" fill="url(#g3)"/><circle cx="142" cy="190" r="18" fill="url(#g3)"/>
+          </g>
+          <g filter="url(#glow3)">
+            <circle cx="256" cy="256" r="45" fill="url(#g3)"/><circle cx="256" cy="256" r="30" fill="#0f0f23" opacity="0.4"/><circle cx="256" cy="256" r="20" fill="url(#g3)"/>
+          </g>
+          <circle cx="240" cy="240" r="8" fill="white" opacity="0.3"/>
+        </svg>
+      </div>
+    </div>
+    
+    <div class="preview-card">
+      <h3>毛玻璃背景</h3>
+      <div class="logo-container glass-bg">
+        <svg width="512" height="512" viewBox="0 0 512 512" fill="none" xmlns="http://www.w3.org/2000/svg">
+          <defs>
+            <linearGradient id="g4" x1="0%" y1="0%" x2="100%" y2="100%">
+              <stop offset="0%" style="stop-color:#6366f1"/><stop offset="50%" style="stop-color:#8b5cf6"/><stop offset="100%" style="stop-color:#06b6d4"/>
+            </linearGradient>
+            <filter id="glow4" x="-50%" y="-50%" width="200%" height="200%">
+              <feGaussianBlur stdDeviation="8" result="coloredBlur"/><feMerge><feMergeNode in="coloredBlur"/><feMergeNode in="SourceGraphic"/></feMerge>
+            </filter>
+            <radialGradient id="bg4" cx="50%" cy="50%" r="50%">
+              <stop offset="0%" style="stop-color:#1e1b4b"/><stop offset="100%" style="stop-color:#0f0f23"/>
+            </radialGradient>
+          </defs>
+          <circle cx="256" cy="256" r="240" fill="url(#bg4)" stroke="url(#g4)" stroke-width="3"/>
+          <circle cx="256" cy="256" r="220" fill="none" stroke="url(#g4)" stroke-width="1" opacity="0.3"/>
+          <g stroke="url(#g4)" stroke-width="3" opacity="0.6">
+            <line x1="256" y1="256" x2="256" y2="120"/><line x1="256" y1="256" x2="370" y2="190"/><line x1="256" y1="256" x2="370" y2="322"/>
+            <line x1="256" y1="256" x2="256" y2="392"/><line x1="256" y1="256" x2="142" y2="322"/><line x1="256" y1="256" x2="142" y2="190"/>
+            <line x1="256" y1="120" x2="370" y2="190"/><line x1="370" y1="190" x2="370" y2="322"/><line x1="370" y1="322" x2="256" y2="392"/>
+            <line x1="256" y1="392" x2="142" y2="322"/><line x1="142" y1="322" x2="142" y2="190"/><line x1="142" y1="190" x2="256" y2="120"/>
+          </g>
+          <g filter="url(#glow4)">
+            <circle cx="256" cy="120" r="18" fill="url(#g4)"/><circle cx="370" cy="190" r="18" fill="url(#g4)"/><circle cx="370" cy="322" r="18" fill="url(#g4)"/>
+            <circle cx="256" cy="392" r="18" fill="url(#g4)"/><circle cx="142" cy="322" r="18" fill="url(#g4)"/><circle cx="142" cy="190" r="18" fill="url(#g4)"/>
+          </g>
+          <g filter="url(#glow4)">
+            <circle cx="256" cy="256" r="45" fill="url(#g4)"/><circle cx="256" cy="256" r="30" fill="#0f0f23" opacity="0.4"/><circle cx="256" cy="256" r="20" fill="url(#g4)"/>
+          </g>
+          <circle cx="240" cy="240" r="8" fill="white" opacity="0.3"/>
+        </svg>
+      </div>
+    </div>
+  </div>
+  
+  <div class="sizes-section">
+    <h2>多尺寸展示</h2>
+    <div class="sizes-grid">
+      <div class="size-item">
+        <svg width="16" height="16" viewBox="0 0 512 512"><defs><linearGradient id="s1" x1="0%" y1="0%" x2="100%" y2="100%"><stop offset="0%" style="stop-color:#6366f1"/><stop offset="100%" style="stop-color:#06b6d4"/></linearGradient><radialGradient id="sb1" cx="50%" cy="50%" r="50%"><stop offset="0%" style="stop-color:#1e1b4b"/><stop offset="100%" style="stop-color:#0f0f23"/></radialGradient></defs><circle cx="256" cy="256" r="240" fill="url(#sb1)" stroke="url(#s1)" stroke-width="8"/><circle cx="256" cy="256" r="60" fill="url(#s1)"/></svg>
+        <span>16px</span>
+      </div>
+      <div class="size-item">
+        <svg width="32" height="32" viewBox="0 0 512 512"><defs><linearGradient id="s2" x1="0%" y1="0%" x2="100%" y2="100%"><stop offset="0%" style="stop-color:#6366f1"/><stop offset="100%" style="stop-color:#06b6d4"/></linearGradient><radialGradient id="sb2" cx="50%" cy="50%" r="50%"><stop offset="0%" style="stop-color:#1e1b4b"/><stop offset="100%" style="stop-color:#0f0f23"/></radialGradient></defs><circle cx="256" cy="256" r="240" fill="url(#sb2)" stroke="url(#s2)" stroke-width="6"/><g stroke="url(#s2)" stroke-width="4" opacity="0.6"><line x1="256" y1="256" x2="256" y2="120"/><line x1="256" y1="256" x2="370" y2="322"/><line x1="256" y1="256" x2="142" y2="322"/></g><circle cx="256" cy="120" r="24" fill="url(#s2)"/><circle cx="370" cy="322" r="24" fill="url(#s2)"/><circle cx="142" cy="322" r="24" fill="url(#s2)"/><circle cx="256" cy="256" r="50" fill="url(#s2)"/></svg>
+        <span>32px</span>
+      </div>
+      <div class="size-item">
+        <svg width="48" height="48" viewBox="0 0 512 512"><defs><linearGradient id="s3" x1="0%" y1="0%" x2="100%" y2="100%"><stop offset="0%" style="stop-color:#6366f1"/><stop offset="50%" style="stop-color:#8b5cf6"/><stop offset="100%" style="stop-color:#06b6d4"/></linearGradient><radialGradient id="sb3" cx="50%" cy="50%" r="50%"><stop offset="0%" style="stop-color:#1e1b4b"/><stop offset="100%" style="stop-color:#0f0f23"/></radialGradient></defs><circle cx="256" cy="256" r="240" fill="url(#sb3)" stroke="url(#s3)" stroke-width="4"/><g stroke="url(#s3)" stroke-width="3" opacity="0.6"><line x1="256" y1="256" x2="256" y2="120"/><line x1="256" y1="256" x2="370" y2="190"/><line x1="256" y1="256" x2="370" y2="322"/><line x1="256" y1="256" x2="256" y2="392"/><line x1="256" y1="256" x2="142" y2="322"/><line x1="256" y1="256" x2="142" y2="190"/></g><circle cx="256" cy="120" r="18" fill="url(#s3)"/><circle cx="370" cy="190" r="18" fill="url(#s3)"/><circle cx="370" cy="322" r="18" fill="url(#s3)"/><circle cx="256" cy="392" r="18" fill="url(#s3)"/><circle cx="142" cy="322" r="18" fill="url(#s3)"/><circle cx="142" cy="190" r="18" fill="url(#s3)"/><circle cx="256" cy="256" r="45" fill="url(#s3)"/></svg>
+        <span>48px</span>
+      </div>
+      <div class="size-item">
+        <svg width="64" height="64" viewBox="0 0 512 512"><defs><linearGradient id="s4" x1="0%" y1="0%" x2="100%" y2="100%"><stop offset="0%" style="stop-color:#6366f1"/><stop offset="50%" style="stop-color:#8b5cf6"/><stop offset="100%" style="stop-color:#06b6d4"/></linearGradient><filter id="sg4" x="-50%" y="-50%" width="200%" height="200%"><feGaussianBlur stdDeviation="8" result="coloredBlur"/><feMerge><feMergeNode in="coloredBlur"/><feMergeNode in="SourceGraphic"/></feMerge></filter><radialGradient id="sb4" cx="50%" cy="50%" r="50%"><stop offset="0%" style="stop-color:#1e1b4b"/><stop offset="100%" style="stop-color:#0f0f23"/></radialGradient></defs><circle cx="256" cy="256" r="240" fill="url(#sb4)" stroke="url(#s4)" stroke-width="3"/><g stroke="url(#s4)" stroke-width="3" opacity="0.6"><line x1="256" y1="256" x2="256" y2="120"/><line x1="256" y1="256" x2="370" y2="190"/><line x1="256" y1="256" x2="370" y2="322"/><line x1="256" y1="256" x2="256" y2="392"/><line x1="256" y1="256" x2="142" y2="322"/><line x1="256" y1="256" x2="142" y2="190"/><line x1="256" y1="120" x2="370" y2="190"/><line x1="370" y1="190" x2="370" y2="322"/><line x1="370" y1="322" x2="256" y2="392"/><line x1="256" y1="392" x2="142" y2="322"/><line x1="142" y1="322" x2="142" y2="190"/><line x1="142" y1="190" x2="256" y2="120"/></g><g filter="url(#sg4)"><circle cx="256" cy="120" r="18" fill="url(#s4)"/><circle cx="370" cy="190" r="18" fill="url(#s4)"/><circle cx="370" cy="322" r="18" fill="url(#s4)"/><circle cx="256" cy="392" r="18" fill="url(#s4)"/><circle cx="142" cy="322" r="18" fill="url(#s4)"/><circle cx="142" cy="190" r="18" fill="url(#s4)"/></g><g filter="url(#sg4)"><circle cx="256" cy="256" r="45" fill="url(#s4)"/><circle cx="256" cy="256" r="30" fill="#0f0f23" opacity="0.4"/><circle cx="256" cy="256" r="20" fill="url(#s4)"/></g></svg>
+        <span>64px</span>
+      </div>
+      <div class="size-item">
+        <svg width="96" height="96" viewBox="0 0 512 512"><defs><linearGradient id="s5" x1="0%" y1="0%" x2="100%" y2="100%"><stop offset="0%" style="stop-color:#6366f1"/><stop offset="50%" style="stop-color:#8b5cf6"/><stop offset="100%" style="stop-color:#06b6d4"/></linearGradient><filter id="sg5" x="-50%" y="-50%" width="200%" height="200%"><feGaussianBlur stdDeviation="8" result="coloredBlur"/><feMerge><feMergeNode in="coloredBlur"/><feMergeNode in="SourceGraphic"/></feMerge></filter><radialGradient id="sb5" cx="50%" cy="50%" r="50%"><stop offset="0%" style="stop-color:#1e1b4b"/><stop offset="100%" style="stop-color:#0f0f23"/></radialGradient></defs><circle cx="256" cy="256" r="240" fill="url(#sb5)" stroke="url(#s5)" stroke-width="3"/><circle cx="256" cy="256" r="220" fill="none" stroke="url(#s5)" stroke-width="1" opacity="0.3"/><g stroke="url(#s5)" stroke-width="3" opacity="0.6"><line x1="256" y1="256" x2="256" y2="120"/><line x1="256" y1="256" x2="370" y2="190"/><line x1="256" y1="256" x2="370" y2="322"/><line x1="256" y1="256" x2="256" y2="392"/><line x1="256" y1="256" x2="142" y2="322"/><line x1="256" y1="256" x2="142" y2="190"/><line x1="256" y1="120" x2="370" y2="190"/><line x1="370" y1="190" x2="370" y2="322"/><line x1="370" y1="322" x2="256" y2="392"/><line x1="256" y1="392" x2="142" y2="322"/><line x1="142" y1="322" x2="142" y2="190"/><line x1="142" y1="190" x2="256" y2="120"/></g><g filter="url(#sg5)"><circle cx="256" cy="120" r="18" fill="url(#s5)"/><circle cx="370" cy="190" r="18" fill="url(#s5)"/><circle cx="370" cy="322" r="18" fill="url(#s5)"/><circle cx="256" cy="392" r="18" fill="url(#s5)"/><circle cx="142" cy="322" r="18" fill="url(#s5)"/><circle cx="142" cy="190" r="18" fill="url(#s5)"/></g><g filter="url(#sg5)"><circle cx="256" cy="256" r="45" fill="url(#s5)"/><circle cx="256" cy="256" r="30" fill="#0f0f23" opacity="0.4"/><circle cx="256" cy="256" r="20" fill="url(#s5)"/></g><circle cx="240" cy="240" r="8" fill="white" opacity="0.3"/></svg>
+        <span>96px</span>
+      </div>
+      <div class="size-item">
+        <svg width="128" height="128" viewBox="0 0 512 512"><defs><linearGradient id="s6" x1="0%" y1="0%" x2="100%" y2="100%"><stop offset="0%" style="stop-color:#6366f1"/><stop offset="50%" style="stop-color:#8b5cf6"/><stop offset="100%" style="stop-color:#06b6d4"/></linearGradient><filter id="sg6" x="-50%" y="-50%" width="200%" height="200%"><feGaussianBlur stdDeviation="8" result="coloredBlur"/><feMerge><feMergeNode in="coloredBlur"/><feMergeNode in="SourceGraphic"/></feMerge></filter><radialGradient id="sb6" cx="50%" cy="50%" r="50%"><stop offset="0%" style="stop-color:#1e1b4b"/><stop offset="100%" style="stop-color:#0f0f23"/></radialGradient></defs><circle cx="256" cy="256" r="240" fill="url(#sb6)" stroke="url(#s6)" stroke-width="3"/><circle cx="256" cy="256" r="220" fill="none" stroke="url(#s6)" stroke-width="1" opacity="0.3"/><g stroke="url(#s6)" stroke-width="3" opacity="0.6"><line x1="256" y1="256" x2="256" y2="120"/><line x1="256" y1="256" x2="370" y2="190"/><line x1="256" y1="256" x2="370" y2="322"/><line x1="256" y1="256" x2="256" y2="392"/><line x1="256" y1="256" x2="142" y2="322"/><line x1="256" y1="256" x2="142" y2="190"/><line x1="256" y1="120" x2="370" y2="190"/><line x1="370" y1="190" x2="370" y2="322"/><line x1="370" y1="322" x2="256" y2="392"/><line x1="256" y1="392" x2="142" y2="322"/><line x1="142" y1="322" x2="142" y2="190"/><line x1="142" y1="190" x2="256" y2="120"/></g><g filter="url(#sg6)"><circle cx="256" cy="120" r="18" fill="url(#s6)"/><circle cx="370" cy="190" r="18" fill="url(#s6)"/><circle cx="370" cy="322" r="18" fill="url(#s6)"/><circle cx="256" cy="392" r="18" fill="url(#s6)"/><circle cx="142" cy="322" r="18" fill="url(#s6)"/><circle cx="142" cy="190" r="18" fill="url(#s6)"/></g><g filter="url(#sg6)"><circle cx="256" cy="256" r="45" fill="url(#s6)"/><circle cx="256" cy="256" r="30" fill="#0f0f23" opacity="0.4"/><circle cx="256" cy="256" r="20" fill="url(#s6)"/></g><circle cx="240" cy="240" r="8" fill="white" opacity="0.3"/></svg>
+        <span>128px</span>
+      </div>
+    </div>
+  </div>
+  
+  <div class="app-showcase">
+    <h2>应用场景预览</h2>
+    <div class="showcase-grid">
+      <div class="preview-card">
+        <h3>移动端启动页</h3>
+        <div class="phone-mockup">
+          <div class="phone-screen">
+            <svg width="80" height="80" viewBox="0 0 512 512"><defs><linearGradient id="p1" x1="0%" y1="0%" x2="100%" y2="100%"><stop offset="0%" style="stop-color:#6366f1"/><stop offset="50%" style="stop-color:#8b5cf6"/><stop offset="100%" style="stop-color:#06b6d4"/></linearGradient><filter id="pg1" x="-50%" y="-50%" width="200%" height="200%"><feGaussianBlur stdDeviation="8" result="coloredBlur"/><feMerge><feMergeNode in="coloredBlur"/><feMergeNode in="SourceGraphic"/></feMerge></filter><radialGradient id="pb1" cx="50%" cy="50%" r="50%"><stop offset="0%" style="stop-color:#1e1b4b"/><stop offset="100%" style="stop-color:#0f0f23"/></radialGradient></defs><circle cx="256" cy="256" r="240" fill="url(#pb1)" stroke="url(#p1)" stroke-width="3"/><circle cx="256" cy="256" r="220" fill="none" stroke="url(#p1)" stroke-width="1" opacity="0.3"/><g stroke="url(#p1)" stroke-width="3" opacity="0.6"><line x1="256" y1="256" x2="256" y2="120"/><line x1="256" y1="256" x2="370" y2="190"/><line x1="256" y1="256" x2="370" y2="322"/><line x1="256" y1="256" x2="256" y2="392"/><line x1="256" y1="256" x2="142" y2="322"/><line x1="256" y1="256" x2="142" y2="190"/><line x1="256" y1="120" x2="370" y2="190"/><line x1="370" y1="190" x2="370" y2="322"/><line x1="370" y1="322" x2="256" y2="392"/><line x1="256" y1="392" x2="142" y2="322"/><line x1="142" y1="322" x2="142" y2="190"/><line x1="142" y1="190" x2="256" y2="120"/></g><g filter="url(#pg1)"><circle cx="256" cy="120" r="18" fill="url(#p1)"/><circle cx="370" cy="190" r="18" fill="url(#p1)"/><circle cx="370" cy="322" r="18" fill="url(#p1)"/><circle cx="256" cy="392" r="18" fill="url(#p1)"/><circle cx="142" cy="322" r="18" fill="url(#p1)"/><circle cx="142" cy="190" r="18" fill="url(#p1)"/></g><g filter="url(#pg1)"><circle cx="256" cy="256" r="45" fill="url(#p1)"/><circle cx="256" cy="256" r="30" fill="#0f0f23" opacity="0.4"/><circle cx="256" cy="256" r="20" fill="url(#p1)"/></g><circle cx="240" cy="240" r="8" fill="white" opacity="0.3"/></svg>
+            <span class="app-name">Nexus</span>
+          </div>
+        </div>
+      </div>
+      
+      <div class="preview-card">
+        <h3>网页 Header</h3>
+        <div class="header-mockup">
+          <svg width="40" height="40" viewBox="0 0 512 512"><defs><linearGradient id="h1" x1="0%" y1="0%" x2="100%" y2="100%"><stop offset="0%" style="stop-color:#6366f1"/><stop offset="50%" style="stop-color:#8b5cf6"/><stop offset="100%" style="stop-color:#06b6d4"/></linearGradient><filter id="hg1" x="-50%" y="-50%" width="200%" height="200%"><feGaussianBlur stdDeviation="8" result="coloredBlur"/><feMerge><feMergeNode in="coloredBlur"/><feMergeNode in="SourceGraphic"/></feMerge></filter><radialGradient id="hb1" cx="50%" cy="50%" r="50%"><stop offset="0%" style="stop-color:#1e1b4b"/><stop offset="100%" style="stop-color:#0f0f23"/></radialGradient></defs><circle cx="256" cy="256" r="240" fill="url(#hb1)" stroke="url(#h1)" stroke-width="3"/><g stroke="url(#h1)" stroke-width="3" opacity="0.6"><line x1="256" y1="256" x2="256" y2="120"/><line x1="256" y1="256" x2="370" y2="322"/><line x1="256" y1="256" x2="142" y2="322"/></g><g filter="url(#hg1)"><circle cx="256" cy="120" r="18" fill="url(#h1)"/><circle cx="370" cy="322" r="18" fill="url(#h1)"/><circle cx="142" cy="322" r="18" fill="url(#h1)"/><circle cx="256" cy="256" r="45" fill="url(#h1)"/></g></svg>
+          <span class="brand-name">Nexus</span>
+          <div class="header-nav">
+            <span>首页</span>
+            <span>探索</span>
+            <span>设置</span>
+          </div>
+        </div>
+        <div class="favicon-demo">
+          <div class="browser-tab">
+            <svg width="16" height="16" viewBox="0 0 512 512"><defs><linearGradient id="f1" x1="0%" y1="0%" x2="100%" y2="100%"><stop offset="0%" style="stop-color:#6366f1"/><stop offset="100%" style="stop-color:#06b6d4"/></linearGradient><radialGradient id="fb1" cx="50%" cy="50%" r="50%"><stop offset="0%" style="stop-color:#1e1b4b"/><stop offset="100%" style="stop-color:#0f0f23"/></radialGradient></defs><circle cx="256" cy="256" r="240" fill="url(#fb1)" stroke="url(#f1)" stroke-width="8"/><circle cx="256" cy="256" r="60" fill="url(#f1)"/></svg>
+            <span>Nexus - 知识枢纽</span>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  
+  <div class="download-section">
+    <a href="nexus-logo.svg" download="nexus-logo.svg" class="download-btn">
+      <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+        <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/>
+        <polyline points="7 10 12 15 17 10"/>
+        <line x1="12" y1="15" x2="12" y2="3"/>
+      </svg>
+      下载 SVG Logo
+    </a>
+  </div>
+</body>
+</html>

@@ -1,0 +1,514 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Nexus Logo - 多风格设计</title>
+  <style>
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+    
+    body {
+      font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+      background: #0a0a0f;
+      min-height: 100vh;
+      padding: 40px 20px;
+      color: #fff;
+    }
+    
+    h1 {
+      text-align: center;
+      font-size: 2.5rem;
+      margin-bottom: 10px;
+      background: linear-gradient(90deg, #6366f1, #ec4899, #06b6d4);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+    }
+    
+    .subtitle { text-align: center; color: #666; margin-bottom: 50px; font-size: 1.1rem; }
+    
+    .logo-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+      gap: 30px;
+      max-width: 1600px;
+      margin: 0 auto;
+    }
+    
+    .logo-card {
+      background: linear-gradient(145deg, rgba(255,255,255,0.05), rgba(255,255,255,0.02));
+      border-radius: 24px;
+      padding: 35px;
+      border: 1px solid rgba(255,255,255,0.08);
+      transition: all 0.3s ease;
+      cursor: pointer;
+    }
+    
+    .logo-card:hover {
+      transform: translateY(-5px);
+      border-color: rgba(99, 102, 241, 0.5);
+      box-shadow: 0 20px 40px rgba(99, 102, 241, 0.15);
+    }
+    
+    .logo-card h3 {
+      font-size: 1.3rem;
+      margin-bottom: 8px;
+      color: #fff;
+    }
+    
+    .logo-card .desc {
+      color: #888;
+      font-size: 0.9rem;
+      margin-bottom: 25px;
+      line-height: 1.5;
+    }
+    
+    .logo-container {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      padding: 40px;
+      background: radial-gradient(ellipse at center, rgba(99,102,241,0.1) 0%, transparent 70%);
+      border-radius: 16px;
+      min-height: 200px;
+    }
+    
+    .logo-container svg { max-width: 150px; height: auto; }
+    
+    .style-tag {
+      display: inline-block;
+      padding: 4px 12px;
+      background: rgba(99, 102, 241, 0.2);
+      border-radius: 20px;
+      font-size: 0.75rem;
+      color: #a5b4fc;
+      margin-bottom: 15px;
+    }
+    
+    .vote-btn {
+      display: block;
+      width: 100%;
+      margin-top: 20px;
+      padding: 12px;
+      background: linear-gradient(135deg, #6366f1, #8b5cf6);
+      border: none;
+      border-radius: 12px;
+      color: white;
+      font-size: 0.95rem;
+      font-weight: 500;
+      cursor: pointer;
+      transition: all 0.2s;
+    }
+    
+    .vote-btn:hover {
+      transform: scale(1.02);
+      box-shadow: 0 5px 20px rgba(99, 102, 241, 0.4);
+    }
+  </style>
+</head>
+<body>
+  <h1>Nexus Logo 设计</h1>
+  <p class="subtitle">选择你喜欢的风格</p>
+  
+  <div class="logo-grid">
+    
+    <!-- Style 1: 极简字母 N -->
+    <div class="logo-card">
+      <span class="style-tag">极简主义</span>
+      <h3>字母 N - 极简</h3>
+      <p class="desc">简洁有力的字母设计，线条流畅，现代感强</p>
+      <div class="logo-container">
+        <svg width="150" height="150" viewBox="0 0 200 200" fill="none">
+          <defs>
+            <linearGradient id="n1" x1="0%" y1="0%" x2="100%" y2="100%">
+              <stop offset="0%" style="stop-color:#6366f1"/>
+              <stop offset="100%" style="stop-color:#06b6d4"/>
+            </linearGradient>
+          </defs>
+          <rect x="10" y="10" width="180" height="180" rx="40" fill="#0f0f1a"/>
+          <path d="M55 145V55h15l60 70V55h15v90h-15l-60-70v70H55z" fill="url(#n1)"/>
+        </svg>
+      </div>
+    </div>
+    
+    <!-- Style 2: 立体 N -->
+    <div class="logo-card">
+      <span class="style-tag">3D 立体</span>
+      <h3>字母 N - 立体</h3>
+      <p class="desc">具有深度和层次感的 3D 设计风格</p>
+      <div class="logo-container">
+        <svg width="150" height="150" viewBox="0 0 200 200" fill="none">
+          <defs>
+            <linearGradient id="n2a" x1="0%" y1="0%" x2="100%" y2="100%">
+              <stop offset="0%" style="stop-color:#8b5cf6"/>
+              <stop offset="100%" style="stop-color:#6366f1"/>
+            </linearGradient>
+            <linearGradient id="n2b" x1="0%" y1="100%" x2="100%" y2="0%">
+              <stop offset="0%" style="stop-color:#06b6d4"/>
+              <stop offset="100%" style="stop-color:#8b5cf6"/>
+            </linearGradient>
+          </defs>
+          <rect x="10" y="10" width="180" height="180" rx="40" fill="#0f0f1a"/>
+          <!-- 背面 N -->
+          <path d="M65 140V60h12l56 65V60h12v80h-12l-56-65v65H65z" fill="#3730a3" opacity="0.5"/>
+          <!-- 前面 N 偏移 -->
+          <path d="M55 135V55h12l56 65V55h12v80h-12l-56-65v65H55z" fill="url(#n2b)"/>
+          <!-- 连接面 -->
+          <path d="M55 55l10 5v80l-10-5V55z" fill="url(#n2a)" opacity="0.7"/>
+          <path d="M135 55l10 5v80l-10-5V55z" fill="url(#n2a)" opacity="0.7"/>
+        </svg>
+      </div>
+    </div>
+    
+    <!-- Style 3: 渐变圆环 -->
+    <div class="logo-card">
+      <span class="style-tag">流体渐变</span>
+      <h3>无限环 - 渐变</h3>
+      <p class="desc">象征无限连接与流动的圆环设计</p>
+      <div class="logo-container">
+        <svg width="150" height="150" viewBox="0 0 200 200" fill="none">
+          <defs>
+            <linearGradient id="r1" x1="0%" y1="0%" x2="100%" y2="100%">
+              <stop offset="0%" style="stop-color:#f472b6"/>
+              <stop offset="50%" style="stop-color:#8b5cf6"/>
+              <stop offset="100%" style="stop-color:#06b6d4"/>
+            </linearGradient>
+            <linearGradient id="r2" x1="100%" y1="0%" x2="0%" y2="100%">
+              <stop offset="0%" style="stop-color:#06b6d4"/>
+              <stop offset="100%" style="stop-color:#f472b6"/>
+            </linearGradient>
+          </defs>
+          <circle cx="100" cy="100" r="90" fill="#0f0f1a"/>
+          <circle cx="100" cy="100" r="70" stroke="url(#r1)" stroke-width="12" fill="none" stroke-linecap="round" stroke-dasharray="330 110"/>
+          <circle cx="100" cy="100" r="45" stroke="url(#r2)" stroke-width="8" fill="none" stroke-linecap="round" stroke-dasharray="200 80"/>
+          <circle cx="100" cy="100" r="15" fill="url(#r1)"/>
+        </svg>
+      </div>
+    </div>
+    
+    <!-- Style 4: 六边形科技 -->
+    <div class="logo-card">
+      <span class="style-tag">科技感</span>
+      <h3>六边形 - 科技</h3>
+      <p class="desc">蜂窝结构代表高效连接的科技网络</p>
+      <div class="logo-container">
+        <svg width="150" height="150" viewBox="0 0 200 200" fill="none">
+          <defs>
+            <linearGradient id="h1" x1="0%" y1="0%" x2="100%" y2="100%">
+              <stop offset="0%" style="stop-color:#06b6d4"/>
+              <stop offset="100%" style="stop-color:#6366f1"/>
+            </linearGradient>
+            <filter id="hglow">
+              <feGaussianBlur stdDeviation="3" result="blur"/>
+              <feMerge><feMergeNode in="blur"/><feMergeNode in="SourceGraphic"/></feMerge>
+            </filter>
+          </defs>
+          <rect x="10" y="10" width="180" height="180" rx="40" fill="#0a0a12"/>
+          <!-- 中心六边形 -->
+          <polygon points="100,35 145,60 145,110 100,135 55,110 55,60" fill="url(#h1)" filter="url(#hglow)"/>
+          <!-- 内部纹理 -->
+          <polygon points="100,50 130,67 130,103 100,120 70,103 70,67" fill="#0a0a12" opacity="0.5"/>
+          <polygon points="100,60 118,70 118,95 100,105 82,95 82,70" fill="url(#h1)"/>
+          <!-- 外围小六边形 -->
+          <polygon points="100,145 115,155 115,175 100,185 85,175 85,155" fill="url(#h1)" opacity="0.4"/>
+          <polygon points="155,115 170,125 170,145 155,155 140,145 140,125" fill="url(#h1)" opacity="0.3"/>
+          <polygon points="45,115 60,125 60,145 45,155 30,145 30,125" fill="url(#h1)" opacity="0.3"/>
+        </svg>
+      </div>
+    </div>
+    
+    <!-- Style 5: 抽象波浪 -->
+    <div class="logo-card">
+      <span class="style-tag">抽象艺术</span>
+      <h3>波浪 - 有机</h3>
+      <p class="desc">流动的有机形态，充满活力与创意</p>
+      <div class="logo-container">
+        <svg width="150" height="150" viewBox="0 0 200 200" fill="none">
+          <defs>
+            <linearGradient id="w1" x1="0%" y1="0%" x2="100%" y2="100%">
+              <stop offset="0%" style="stop-color:#ec4899"/>
+              <stop offset="50%" style="stop-color:#8b5cf6"/>
+              <stop offset="100%" style="stop-color:#3b82f6"/>
+            </linearGradient>
+            <linearGradient id="w2" x1="100%" y1="0%" x2="0%" y2="100%">
+              <stop offset="0%" style="stop-color:#06b6d4"/>
+              <stop offset="100%" style="stop-color:#8b5cf6"/>
+            </linearGradient>
+          </defs>
+          <circle cx="100" cy="100" r="90" fill="#0f0f1a"/>
+          <path d="M30 100 Q50 60 80 80 T130 70 T170 100" stroke="url(#w1)" stroke-width="8" fill="none" stroke-linecap="round"/>
+          <path d="M30 100 Q50 140 80 120 T130 130 T170 100" stroke="url(#w2)" stroke-width="8" fill="none" stroke-linecap="round"/>
+          <circle cx="80" cy="100" r="12" fill="url(#w1)"/>
+          <circle cx="130" cy="100" r="8" fill="url(#w2)"/>
+        </svg>
+      </div>
+    </div>
+    
+    <!-- Style 6: 星座连线 -->
+    <div class="logo-card">
+      <span class="style-tag">星空</span>
+      <h3>星座 - 连接</h3>
+      <p class="desc">星空中的连接点，象征知识的星辰大海</p>
+      <div class="logo-container">
+        <svg width="150" height="150" viewBox="0 0 200 200" fill="none">
+          <defs>
+            <linearGradient id="st1" x1="0%" y1="0%" x2="100%" y2="100%">
+              <stop offset="0%" style="stop-color:#fbbf24"/>
+              <stop offset="50%" style="stop-color:#f472b6"/>
+              <stop offset="100%" style="stop-color:#8b5cf6"/>
+            </linearGradient>
+            <filter id="starglow">
+              <feGaussianBlur stdDeviation="2"/>
+            </filter>
+          </defs>
+          <circle cx="100" cy="100" r="90" fill="#050510"/>
+          <!-- 连线 -->
+          <g stroke="url(#st1)" stroke-width="1.5" opacity="0.6">
+            <line x1="60" y1="50" x2="100" y2="80"/>
+            <line x1="100" y1="80" x2="150" y2="60"/>
+            <line x1="100" y1="80" x2="100" y2="130"/>
+            <line x1="100" y1="130" x2="50" y2="140"/>
+            <line x1="100" y1="130" x2="160" y2="130"/>
+            <line x1="150" y1="60" x2="160" y2="130"/>
+          </g>
+          <!-- 星星 -->
+          <g filter="url(#starglow)">
+            <circle cx="60" cy="50" r="6" fill="url(#st1)"/>
+            <circle cx="150" cy="60" r="5" fill="url(#st1)"/>
+            <circle cx="100" cy="80" r="10" fill="url(#st1)"/>
+            <circle cx="100" cy="130" r="8" fill="url(#st1)"/>
+            <circle cx="50" cy="140" r="4" fill="url(#st1)"/>
+            <circle cx="160" cy="130" r="5" fill="url(#st1)"/>
+          </g>
+          <!-- 小星星装饰 -->
+          <circle cx="80" cy="60" r="1.5" fill="#fff" opacity="0.5"/>
+          <circle cx="130" cy="100" r="1" fill="#fff" opacity="0.4"/>
+          <circle cx="70" cy="120" r="1.5" fill="#fff" opacity="0.3"/>
+        </svg>
+      </div>
+    </div>
+    
+    <!-- Style 7: 门户/传送门 -->
+    <div class="logo-card">
+      <span class="style-tag">神秘</span>
+      <h3>传送门 - 门户</h3>
+      <p class="desc">通往知识世界的神秘门户</p>
+      <div class="logo-container">
+        <svg width="150" height="150" viewBox="0 0 200 200" fill="none">
+          <defs>
+            <linearGradient id="p1g" x1="50%" y1="0%" x2="50%" y2="100%">
+              <stop offset="0%" style="stop-color:#8b5cf6"/>
+              <stop offset="100%" style="stop-color:#1e1b4b"/>
+            </linearGradient>
+            <linearGradient id="p2g" x1="0%" y1="50%" x2="100%" y2="50%">
+              <stop offset="0%" style="stop-color:#06b6d4"/>
+              <stop offset="50%" style="stop-color:#8b5cf6"/>
+              <stop offset="100%" style="stop-color:#ec4899"/>
+            </linearGradient>
+            <filter id="pglow">
+              <feGaussianBlur stdDeviation="4"/>
+            </filter>
+          </defs>
+          <circle cx="100" cy="100" r="90" fill="#050510"/>
+          <!-- 外环 -->
+          <ellipse cx="100" cy="100" rx="70" ry="70" stroke="url(#p2g)" stroke-width="4" fill="none" filter="url(#pglow)"/>
+          <ellipse cx="100" cy="100" rx="70" ry="70" stroke="url(#p2g)" stroke-width="2" fill="none"/>
+          <!-- 内部漩涡 -->
+          <ellipse cx="100" cy="100" rx="50" ry="50" stroke="url(#p2g)" stroke-width="2" fill="none" opacity="0.7" stroke-dasharray="20 10"/>
+          <ellipse cx="100" cy="100" rx="30" ry="30" stroke="url(#p2g)" stroke-width="2" fill="none" opacity="0.5" stroke-dasharray="15 8"/>
+          <!-- 中心核心 -->
+          <circle cx="100" cy="100" r="15" fill="url(#p2g)" filter="url(#pglow)"/>
+          <circle cx="100" cy="100" r="8" fill="#fff" opacity="0.8"/>
+        </svg>
+      </div>
+    </div>
+    
+    <!-- Style 8: 钻石/宝石 -->
+    <div class="logo-card">
+      <span class="style-tag">高端奢华</span>
+      <h3>钻石 - 珍贵</h3>
+      <p class="desc">宝石切面设计，象征知识的珍贵价值</p>
+      <div class="logo-container">
+        <svg width="150" height="150" viewBox="0 0 200 200" fill="none">
+          <defs>
+            <linearGradient id="d1" x1="0%" y1="0%" x2="100%" y2="100%">
+              <stop offset="0%" style="stop-color:#67e8f9"/>
+              <stop offset="50%" style="stop-color:#8b5cf6"/>
+              <stop offset="100%" style="stop-color:#c084fc"/>
+            </linearGradient>
+            <linearGradient id="d2" x1="0%" y1="100%" x2="100%" y2="0%">
+              <stop offset="0%" style="stop-color:#1e1b4b"/>
+              <stop offset="100%" style="stop-color:#6366f1"/>
+            </linearGradient>
+            <linearGradient id="d3" x1="50%" y1="0%" x2="50%" y2="100%">
+              <stop offset="0%" style="stop-color:#a5b4fc"/>
+              <stop offset="100%" style="stop-color:#4f46e5"/>
+            </linearGradient>
+          </defs>
+          <rect x="10" y="10" width="180" height="180" rx="40" fill="#0a0a12"/>
+          <!-- 钻石主体 -->
+          <polygon points="100,30 160,70 140,170 60,170 40,70" fill="url(#d2)"/>
+          <!-- 顶部切面 -->
+          <polygon points="100,30 160,70 100,85 40,70" fill="url(#d1)"/>
+          <!-- 中间切面 -->
+          <polygon points="40,70 100,85 60,170" fill="url(#d3)" opacity="0.8"/>
+          <polygon points="160,70 100,85 140,170" fill="url(#d2)" opacity="0.9"/>
+          <!-- 底部 -->
+          <polygon points="100,85 60,170 140,170" fill="url(#d1)" opacity="0.6"/>
+          <!-- 高光 -->
+          <polygon points="100,30 120,55 100,65 80,55" fill="white" opacity="0.3"/>
+        </svg>
+      </div>
+    </div>
+    
+    <!-- Style 9: 原子/量子 -->
+    <div class="logo-card">
+      <span class="style-tag">科学</span>
+      <h3>原子 - 能量</h3>
+      <p class="desc">原子结构象征知识的基本单位和无限能量</p>
+      <div class="logo-container">
+        <svg width="150" height="150" viewBox="0 0 200 200" fill="none">
+          <defs>
+            <linearGradient id="a1" x1="0%" y1="0%" x2="100%" y2="100%">
+              <stop offset="0%" style="stop-color:#34d399"/>
+              <stop offset="50%" style="stop-color:#06b6d4"/>
+              <stop offset="100%" style="stop-color:#8b5cf6"/>
+            </linearGradient>
+            <filter id="aglow">
+              <feGaussianBlur stdDeviation="3"/>
+            </filter>
+          </defs>
+          <circle cx="100" cy="100" r="90" fill="#050510"/>
+          <!-- 轨道 -->
+          <ellipse cx="100" cy="100" rx="70" ry="25" stroke="url(#a1)" stroke-width="2" fill="none" transform="rotate(-30 100 100)"/>
+          <ellipse cx="100" cy="100" rx="70" ry="25" stroke="url(#a1)" stroke-width="2" fill="none" transform="rotate(30 100 100)"/>
+          <ellipse cx="100" cy="100" rx="70" ry="25" stroke="url(#a1)" stroke-width="2" fill="none" transform="rotate(90 100 100)"/>
+          <!-- 电子 -->
+          <circle cx="170" cy="100" r="6" fill="url(#a1)" filter="url(#aglow)" transform="rotate(-30 100 100)"/>
+          <circle cx="30" cy="100" r="6" fill="url(#a1)" filter="url(#aglow)" transform="rotate(30 100 100)"/>
+          <circle cx="100" cy="30" r="6" fill="url(#a1)" filter="url(#aglow)"/>
+          <!-- 核心 -->
+          <circle cx="100" cy="100" r="20" fill="url(#a1)" filter="url(#aglow)"/>
+          <circle cx="100" cy="100" r="12" fill="#050510" opacity="0.5"/>
+          <circle cx="100" cy="100" r="6" fill="url(#a1)"/>
+        </svg>
+      </div>
+    </div>
+    
+    <!-- Style 10: 书本/知识 -->
+    <div class="logo-card">
+      <span class="style-tag">学习</span>
+      <h3>知识之书</h3>
+      <p class="desc">展开的书本，象征探索与学习</p>
+      <div class="logo-container">
+        <svg width="150" height="150" viewBox="0 0 200 200" fill="none">
+          <defs>
+            <linearGradient id="b1" x1="0%" y1="0%" x2="100%" y2="100%">
+              <stop offset="0%" style="stop-color:#f59e0b"/>
+              <stop offset="100%" style="stop-color:#ef4444"/>
+            </linearGradient>
+            <linearGradient id="b2" x1="100%" y1="0%" x2="0%" y2="100%">
+              <stop offset="0%" style="stop-color:#8b5cf6"/>
+              <stop offset="100%" style="stop-color:#6366f1"/>
+            </linearGradient>
+            <filter id="bglow">
+              <feGaussianBlur stdDeviation="2"/>
+            </filter>
+          </defs>
+          <rect x="10" y="10" width="180" height="180" rx="40" fill="#0f0f1a"/>
+          <!-- 左页 -->
+          <path d="M100 60 Q70 65 45 55 L45 145 Q70 135 100 140 Z" fill="url(#b1)"/>
+          <!-- 右页 -->
+          <path d="M100 60 Q130 65 155 55 L155 145 Q130 135 100 140 Z" fill="url(#b2)"/>
+          <!-- 书脊 -->
+          <path d="M97 60 L97 140 L103 140 L103 60 Z" fill="#1e1b4b"/>
+          <!-- 光效 -->
+          <circle cx="100" cy="50" r="15" fill="url(#b1)" filter="url(#bglow)" opacity="0.6"/>
+          <!-- 文字线条装饰 -->
+          <line x1="55" y1="75" x2="85" y2="78" stroke="#fff" stroke-width="1.5" opacity="0.3"/>
+          <line x1="55" y1="90" x2="80" y2="93" stroke="#fff" stroke-width="1.5" opacity="0.2"/>
+          <line x1="115" y1="78" x2="145" y2="75" stroke="#fff" stroke-width="1.5" opacity="0.3"/>
+          <line x1="120" y1="93" x2="145" y2="90" stroke="#fff" stroke-width="1.5" opacity="0.2"/>
+        </svg>
+      </div>
+    </div>
+    
+    <!-- Style 11: 神经网络 -->
+    <div class="logo-card">
+      <span class="style-tag">AI 智能</span>
+      <h3>神经网络</h3>
+      <p class="desc">AI 神经元连接，象征智能与学习</p>
+      <div class="logo-container">
+        <svg width="150" height="150" viewBox="0 0 200 200" fill="none">
+          <defs>
+            <linearGradient id="nn1" x1="0%" y1="0%" x2="100%" y2="100%">
+              <stop offset="0%" style="stop-color:#22d3ee"/>
+              <stop offset="100%" style="stop-color:#8b5cf6"/>
+            </linearGradient>
+            <filter id="nnglow">
+              <feGaussianBlur stdDeviation="2"/>
+            </filter>
+          </defs>
+          <rect x="10" y="10" width="180" height="180" rx="40" fill="#0a0a12"/>
+          <!-- 连接线 -->
+          <g stroke="url(#nn1)" stroke-width="1.5" opacity="0.4">
+            <!-- 输入层到隐藏层 -->
+            <line x1="45" y1="60" x2="90" y2="50"/><line x1="45" y1="60" x2="90" y2="100"/><line x1="45" y1="60" x2="90" y2="150"/>
+            <line x1="45" y1="100" x2="90" y2="50"/><line x1="45" y1="100" x2="90" y2="100"/><line x1="45" y1="100" x2="90" y2="150"/>
+            <line x1="45" y1="140" x2="90" y2="50"/><line x1="45" y1="140" x2="90" y2="100"/><line x1="45" y1="140" x2="90" y2="150"/>
+            <!-- 隐藏层到输出层 -->
+            <line x1="110" y1="50" x2="155" y2="80"/><line x1="110" y1="50" x2="155" y2="120"/>
+            <line x1="110" y1="100" x2="155" y2="80"/><line x1="110" y1="100" x2="155" y2="120"/>
+            <line x1="110" y1="150" x2="155" y2="80"/><line x1="110" y1="150" x2="155" y2="120"/>
+          </g>
+          <!-- 输入层节点 -->
+          <g filter="url(#nnglow)">
+            <circle cx="45" cy="60" r="10" fill="url(#nn1)"/>
+            <circle cx="45" cy="100" r="10" fill="url(#nn1)"/>
+            <circle cx="45" cy="140" r="10" fill="url(#nn1)"/>
+          </g>
+          <!-- 隐藏层节点 -->
+          <g filter="url(#nnglow)">
+            <circle cx="100" cy="50" r="12" fill="url(#nn1)"/>
+            <circle cx="100" cy="100" r="14" fill="url(#nn1)"/>
+            <circle cx="100" cy="150" r="12" fill="url(#nn1)"/>
+          </g>
+          <!-- 输出层节点 -->
+          <g filter="url(#nnglow)">
+            <circle cx="155" cy="80" r="11" fill="url(#nn1)"/>
+            <circle cx="155" cy="120" r="11" fill="url(#nn1)"/>
+          </g>
+        </svg>
+      </div>
+    </div>
+    
+    <!-- Style 12: 简约圆点 -->
+    <div class="logo-card">
+      <span class="style-tag">现代简约</span>
+      <h3>圆点 - 简约</h3>
+      <p class="desc">极致简洁的设计，一眼难忘</p>
+      <div class="logo-container">
+        <svg width="150" height="150" viewBox="0 0 200 200" fill="none">
+          <defs>
+            <linearGradient id="dot1" x1="0%" y1="0%" x2="100%" y2="100%">
+              <stop offset="0%" style="stop-color:#ec4899"/>
+              <stop offset="50%" style="stop-color:#8b5cf6"/>
+              <stop offset="100%" style="stop-color:#06b6d4"/>
+            </linearGradient>
+            <filter id="dotglow">
+              <feGaussianBlur stdDeviation="8"/>
+            </filter>
+          </defs>
+          <rect x="10" y="10" width="180" height="180" rx="40" fill="#0a0a0f"/>
+          <!-- 发光层 -->
+          <circle cx="100" cy="100" r="50" fill="url(#dot1)" filter="url(#dotglow)" opacity="0.5"/>
+          <!-- 主圆 -->
+          <circle cx="100" cy="100" r="45" fill="url(#dot1)"/>
+          <!-- 高光 -->
+          <ellipse cx="85" cy="85" rx="15" ry="10" fill="white" opacity="0.3"/>
+        </svg>
+      </div>
+    </div>
+    
+  </div>
+</body>
+</html>

@@ -1,0 +1,123 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Nexus - 风格14: 复古怀旧</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <style>
+    @import url('https://fonts.googleapis.com/css2?family=VT323&family=Press+Start+2P&display=swap');
+    .font-pixel { font-family: 'Press Start 2P', monospace; }
+    .font-retro { font-family: 'VT323', monospace; }
+    body { background: #2d1b00; background-image: url("data:image/svg+xml,%3Csvg width='6' height='6' viewBox='0 0 6 6' xmlns='http://www.w3.org/2000/svg'%3E%3Cg fill='%23402200' fill-opacity='0.4' fill-rule='evenodd'%3E%3Cpath d='M5 0h1L0 6V5zM6 5v1H5z'/%3E%3C/g%3E%3C/svg%3E"); }
+    .retro-border { border: 4px solid #fbbf24; box-shadow: 4px 4px 0 #78350f; }
+    .retro-btn { background: #fbbf24; border: 3px solid #78350f; box-shadow: 3px 3px 0 #78350f; }
+    .retro-btn:active { transform: translate(2px, 2px); box-shadow: 1px 1px 0 #78350f; }
+    .scanlines { background: repeating-linear-gradient(0deg, rgba(0,0,0,0.1) 0px, rgba(0,0,0,0.1) 1px, transparent 1px, transparent 2px); }
+  </style>
+</head>
+<body class="min-h-screen text-amber-100 pb-28 scanlines">
+  <div class="max-w-md mx-auto px-4 py-6">
+    <!-- Header -->
+    <header class="text-center mb-8">
+      <div class="inline-block retro-border bg-amber-900 px-6 py-3">
+        <h1 class="font-pixel text-xl text-amber-300" style="font-size: 16px;">NEXUS</h1>
+      </div>
+      <p class="font-retro text-2xl text-amber-400 mt-4">~ 个人媒体中心 ~</p>
+    </header>
+
+    <!-- 状态栏 -->
+    <div class="retro-border bg-amber-950 p-4 mb-6">
+      <div class="flex justify-between items-center font-retro text-xl">
+        <span class="text-amber-300">玩家: JIANGKING</span>
+        <span class="text-amber-400">LV.12</span>
+      </div>
+      <div class="mt-3">
+        <div class="flex justify-between text-sm font-retro text-amber-400 mb-1">
+          <span>经验值</span>
+          <span>450/1000</span>
+        </div>
+        <div class="h-4 bg-amber-950 border-2 border-amber-600 overflow-hidden">
+          <div class="h-full w-[45%] bg-amber-500"></div>
+        </div>
+      </div>
+    </div>
+
+    <!-- 功能菜单 -->
+    <div class="space-y-4 mb-8">
+      <button class="w-full retro-btn px-6 py-4 flex items-center gap-4 cursor-pointer">
+        <span class="text-2xl">📚</span>
+        <div class="text-left">
+          <p class="font-pixel text-amber-900" style="font-size: 10px;">LIBRARY</p>
+          <p class="font-retro text-xl text-amber-800">图书馆 - 12本</p>
+        </div>
+      </button>
+      <button class="w-full retro-btn px-6 py-4 flex items-center gap-4 cursor-pointer">
+        <span class="text-2xl">🎬</span>
+        <div class="text-left">
+          <p class="font-pixel text-amber-900" style="font-size: 10px;">CINEMA</p>
+          <p class="font-retro text-xl text-amber-800">电影院 - 8部</p>
+        </div>
+      </button>
+      <button class="w-full retro-btn px-6 py-4 flex items-center gap-4 cursor-pointer">
+        <span class="text-2xl">📁</span>
+        <div class="text-left">
+          <p class="font-pixel text-amber-900" style="font-size: 10px;">FILES</p>
+          <p class="font-retro text-xl text-amber-800">文件管理</p>
+        </div>
+      </button>
+    </div>
+
+    <!-- 继续 -->
+    <div class="retro-border bg-amber-950 p-4 mb-6">
+      <p class="font-pixel text-amber-300 mb-3" style="font-size: 8px;">CONTINUE?</p>
+      <div class="flex gap-4">
+        <div class="w-16 h-20 bg-amber-800 border-2 border-amber-600 flex items-center justify-center">
+          <span class="text-2xl">📖</span>
+        </div>
+        <div class="flex-1 font-retro">
+          <p class="text-xl text-amber-300">代码整洁之道</p>
+          <p class="text-lg text-amber-500">进度: 45%</p>
+          <div class="mt-2 h-3 bg-amber-950 border-2 border-amber-600 overflow-hidden">
+            <div class="h-full w-[45%] bg-green-500"></div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- 成就 -->
+    <div class="retro-border bg-amber-950 p-4">
+      <p class="font-pixel text-amber-300 mb-3" style="font-size: 8px;">ACHIEVEMENTS</p>
+      <div class="grid grid-cols-4 gap-2">
+        <div class="aspect-square bg-amber-800 border-2 border-amber-600 flex items-center justify-center text-xl">🏆</div>
+        <div class="aspect-square bg-amber-800 border-2 border-amber-600 flex items-center justify-center text-xl">⭐</div>
+        <div class="aspect-square bg-amber-800 border-2 border-amber-600 flex items-center justify-center text-xl">📚</div>
+        <div class="aspect-square bg-amber-950 border-2 border-amber-700 flex items-center justify-center text-xl opacity-30">❓</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- 底部导航 -->
+  <nav class="fixed bottom-0 left-0 right-0 bg-amber-900 border-t-4 border-amber-600 px-4 py-3 pb-6">
+    <div class="max-w-md mx-auto flex justify-around font-retro text-lg">
+      <button class="flex flex-col items-center text-amber-300">
+        <span class="text-xl">🏠</span>
+        <span>首页</span>
+      </button>
+      <button class="flex flex-col items-center text-amber-600">
+        <span class="text-xl opacity-60">📚</span>
+        <span>图书</span>
+      </button>
+      <button class="flex flex-col items-center text-amber-600">
+        <span class="text-xl opacity-60">🎬</span>
+        <span>电影</span>
+      </button>
+      <button class="flex flex-col items-center text-amber-600">
+        <span class="text-xl opacity-60">⚙️</span>
+        <span>设置</span>
+      </button>
+    </div>
+  </nav>
+  <div class="fixed top-4 right-4 retro-btn px-3 py-1 font-retro text-lg text-amber-900">🕹️ 风格14: 复古怀旧</div>
+</body>
+</html>

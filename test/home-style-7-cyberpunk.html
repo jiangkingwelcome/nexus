@@ -1,0 +1,139 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Nexus - 风格7: 赛博朋克</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <style>
+    @import url('https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700;900&display=swap');
+    * { font-family: 'Orbitron', monospace; }
+    body { background: #0a0a0f; }
+    .neon-cyan { text-shadow: 0 0 10px #00f5ff, 0 0 20px #00f5ff, 0 0 40px #00f5ff; }
+    .neon-pink { text-shadow: 0 0 10px #ff00ff, 0 0 20px #ff00ff, 0 0 40px #ff00ff; }
+    .neon-yellow { text-shadow: 0 0 10px #f0ff00, 0 0 20px #f0ff00; }
+    .cyber-border { border: 1px solid #00f5ff; box-shadow: 0 0 10px rgba(0,245,255,0.3), inset 0 0 10px rgba(0,245,255,0.1); }
+    .cyber-border-pink { border: 1px solid #ff00ff; box-shadow: 0 0 10px rgba(255,0,255,0.3), inset 0 0 10px rgba(255,0,255,0.1); }
+    .glitch { animation: glitch 2s infinite; }
+    @keyframes glitch { 0%, 90%, 100% { transform: translate(0); } 92% { transform: translate(-2px, 2px); } 94% { transform: translate(2px, -2px); } 96% { transform: translate(-2px, -2px); } 98% { transform: translate(2px, 2px); } }
+    .scanline { background: repeating-linear-gradient(0deg, rgba(0,0,0,0.1) 0px, rgba(0,0,0,0.1) 1px, transparent 1px, transparent 2px); pointer-events: none; }
+  </style>
+</head>
+<body class="min-h-screen text-white pb-28 relative">
+  <!-- 扫描线效果 -->
+  <div class="fixed inset-0 scanline z-50 pointer-events-none"></div>
+  
+  <div class="max-w-md mx-auto px-5 py-8 relative z-10">
+    <!-- Header -->
+    <header class="flex items-center justify-between mb-8">
+      <div class="flex items-center gap-3">
+        <div class="w-14 h-14 cyber-border bg-black/50 flex items-center justify-center clip-corner">
+          <span class="text-2xl font-black text-cyan-400 neon-cyan">N</span>
+        </div>
+        <div>
+          <h1 class="text-xl font-black text-cyan-400 neon-cyan glitch">NEXUS</h1>
+          <p class="text-[10px] text-pink-400 tracking-widest">SYSTEM v2.0.77</p>
+        </div>
+      </div>
+      <div class="text-right">
+        <p class="text-[10px] text-cyan-400">USER://</p>
+        <p class="text-xs text-pink-400 neon-pink">JIANGKING</p>
+      </div>
+    </header>
+
+    <!-- 状态栏 -->
+    <div class="cyber-border bg-black/30 p-3 mb-6 flex items-center justify-between">
+      <div class="flex items-center gap-2">
+        <div class="w-2 h-2 rounded-full bg-cyan-400 animate-pulse"></div>
+        <span class="text-[10px] text-cyan-400">ONLINE</span>
+      </div>
+      <span class="text-[10px] text-gray-500">2077.01.28 // 14:32:05</span>
+      <div class="flex items-center gap-2">
+        <span class="text-[10px] text-yellow-400">128GB</span>
+        <div class="w-16 h-1 bg-gray-800 overflow-hidden">
+          <div class="h-full w-[50%] bg-gradient-to-r from-cyan-400 to-pink-500"></div>
+        </div>
+      </div>
+    </div>
+
+    <!-- 功能入口 -->
+    <section class="mb-8">
+      <p class="text-[10px] text-gray-500 mb-3 tracking-widest">[ MAIN_FUNCTIONS ]</p>
+      <div class="grid grid-cols-3 gap-3">
+        <div class="cyber-border bg-black/50 p-4 flex flex-col items-center cursor-pointer hover:bg-cyan-400/10 transition-colors">
+          <svg class="w-8 h-8 text-cyan-400 mb-2" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="1" d="M12 6.253v13m0-13C10.832 5.477 9.246 5 7.5 5S4.168 5.477 3 6.253v13C4.168 18.477 5.754 18 7.5 18s3.332.477 4.5 1.253m0-13C13.168 5.477 14.754 5 16.5 5c1.747 0 3.332.477 4.5 1.253v13C19.832 18.477 18.247 18 16.5 18c-1.746 0-3.332.477-4.5 1.253"/></svg>
+          <span class="text-[10px] text-cyan-400 tracking-wider">LIBRARY</span>
+          <span class="text-[8px] text-gray-500 mt-1">12 FILES</span>
+        </div>
+        <div class="cyber-border-pink bg-black/50 p-4 flex flex-col items-center cursor-pointer hover:bg-pink-400/10 transition-colors">
+          <svg class="w-8 h-8 text-pink-400 mb-2" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="1" d="M7 4v16M17 4v16M3 8h4m10 0h4M3 12h18M3 16h4m10 0h4M4 20h16a1 1 0 001-1V5a1 1 0 00-1-1H4a1 1 0 00-1 1v14a1 1 0 001 1z"/></svg>
+          <span class="text-[10px] text-pink-400 tracking-wider">CINEMA</span>
+          <span class="text-[8px] text-gray-500 mt-1">8 FILES</span>
+        </div>
+        <div class="cyber-border bg-black/50 p-4 flex flex-col items-center cursor-pointer hover:bg-cyan-400/10 transition-colors">
+          <svg class="w-8 h-8 text-yellow-400 mb-2" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="1" d="M3 7v10a2 2 0 002 2h14a2 2 0 002-2V9a2 2 0 00-2-2h-6l-2-2H5a2 2 0 00-2 2z"/></svg>
+          <span class="text-[10px] text-yellow-400 tracking-wider">FILES</span>
+          <span class="text-[8px] text-gray-500 mt-1">ALL</span>
+        </div>
+      </div>
+    </section>
+
+    <!-- 继续 -->
+    <section class="mb-8">
+      <p class="text-[10px] text-gray-500 mb-3 tracking-widest">[ CONTINUE_SESSION ]</p>
+      <div class="cyber-border bg-black/50 p-4 cursor-pointer hover:bg-cyan-400/5">
+        <div class="flex gap-4">
+          <div class="w-16 h-20 cyber-border-pink bg-gradient-to-br from-pink-900/50 to-purple-900/50 flex items-center justify-center flex-shrink-0">
+            <span class="text-pink-400 text-[8px] font-bold">PDF</span>
+          </div>
+          <div class="flex-1">
+            <p class="text-[10px] text-gray-500">FILE://</p>
+            <h3 class="text-sm text-cyan-400">代码整洁之道</h3>
+            <p class="text-[10px] text-gray-500 mt-1">AUTHOR: Robert C. Martin</p>
+            <div class="mt-2 flex items-center gap-2">
+              <div class="flex-1 h-1 bg-gray-800 overflow-hidden">
+                <div class="h-full w-[45%] bg-gradient-to-r from-cyan-400 to-pink-500"></div>
+              </div>
+              <span class="text-[10px] text-cyan-400">45%</span>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- 系统日志 -->
+    <section class="cyber-border bg-black/50 p-4">
+      <p class="text-[10px] text-gray-500 mb-2 tracking-widest">[ SYSTEM_LOG ]</p>
+      <div class="space-y-1 text-[10px] font-mono">
+        <p><span class="text-green-400">[OK]</span> <span class="text-gray-500">Library synced</span></p>
+        <p><span class="text-green-400">[OK]</span> <span class="text-gray-500">12 books indexed</span></p>
+        <p><span class="text-yellow-400">[--]</span> <span class="text-gray-500">Reading: 代码整洁之道</span></p>
+        <p><span class="text-cyan-400">[>>]</span> <span class="text-gray-500">Awaiting input...</span> <span class="animate-pulse">_</span></p>
+      </div>
+    </section>
+  </div>
+
+  <!-- 底部导航 -->
+  <nav class="fixed bottom-0 left-0 right-0 bg-black/90 border-t border-cyan-400/30 px-6 py-3 pb-6">
+    <div class="max-w-md mx-auto flex justify-around">
+      <button class="flex flex-col items-center gap-1 text-cyan-400">
+        <svg class="w-5 h-5" fill="currentColor" viewBox="0 0 24 24"><path d="M10 20v-6h4v6h5v-8h3L12 3 2 12h3v8z"/></svg>
+        <span class="text-[8px] tracking-wider">HOME</span>
+      </button>
+      <button class="flex flex-col items-center gap-1 text-gray-600 hover:text-pink-400">
+        <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="1" d="M12 6.253v13m0-13C10.832 5.477 9.246 5 7.5 5S4.168 5.477 3 6.253v13C4.168 18.477 5.754 18 7.5 18s3.332.477 4.5 1.253m0-13C13.168 5.477 14.754 5 16.5 5c1.747 0 3.332.477 4.5 1.253v13C19.832 18.477 18.247 18 16.5 18c-1.746 0-3.332.477-4.5 1.253"/></svg>
+        <span class="text-[8px] tracking-wider">BOOKS</span>
+      </button>
+      <button class="flex flex-col items-center gap-1 text-gray-600 hover:text-pink-400">
+        <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="1" d="M7 4v16M17 4v16M3 8h4m10 0h4M3 12h18M3 16h4m10 0h4M4 20h16a1 1 0 001-1V5a1 1 0 00-1-1H4a1 1 0 00-1 1v14a1 1 0 001 1z"/></svg>
+        <span class="text-[8px] tracking-wider">FILMS</span>
+      </button>
+      <button class="flex flex-col items-center gap-1 text-gray-600 hover:text-yellow-400">
+        <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="1" d="M10.325 4.317c.426-1.756 2.924-1.756 3.35 0a1.724 1.724 0 002.573 1.066c1.543-.94 3.31.826 2.37 2.37a1.724 1.724 0 001.065 2.572c1.756.426 1.756 2.924 0 3.35a1.724 1.724 0 00-1.066 2.573c.94 1.543-.826 3.31-2.37 2.37a1.724 1.724 0 00-2.572 1.065c-.426 1.756-2.924 1.756-3.35 0a1.724 1.724 0 00-2.573-1.066c-1.543.94-3.31-.826-2.37-2.37a1.724 1.724 0 00-1.065-2.572c-1.756-.426-1.756-2.924 0-3.35a1.724 1.724 0 001.066-2.573c-.94-1.543.826-3.31 2.37-2.37.996.608 2.296.07 2.572-1.065z"/><path stroke-linecap="round" stroke-linejoin="round" stroke-width="1" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z"/></svg>
+        <span class="text-[8px] tracking-wider">CONFIG</span>
+      </button>
+    </div>
+  </nav>
+  <div class="fixed top-4 right-4 cyber-border bg-black/80 px-3 py-1.5 text-[10px] font-bold text-cyan-400">⚡ 风格7: 赛博朋克</div>
+</body>
+</html>

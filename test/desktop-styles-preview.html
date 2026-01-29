@@ -1,0 +1,1014 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Nexus 桌面端主页风格预览</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=Noto+Serif+SC:wght@400;600&family=JetBrains+Mono:wght@400;500;700&family=Space+Grotesk:wght@400;500;600;700&family=Quicksand:wght@400;500;600;700&family=Nunito:wght@400;600;700;800&family=Orbitron:wght@400;700&display=swap" rel="stylesheet">
+  <style>
+    * { font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif; }
+    .tab-btn { transition: all 0.2s ease; }
+    .tab-btn.active { background: linear-gradient(135deg, #6366f1, #8b5cf6); color: white; box-shadow: 0 4px 15px rgba(99, 102, 241, 0.4); }
+    .style-frame { display: none; }
+    .style-frame.active { display: block; }
+    .hide-scrollbar::-webkit-scrollbar { display: none; }
+    .hide-scrollbar { -ms-overflow-style: none; scrollbar-width: none; }
+    @keyframes fadeIn { from { opacity: 0; } to { opacity: 1; } }
+    .fade-in { animation: fadeIn 0.3s ease; }
+  </style>
+</head>
+<body class="bg-slate-100 min-h-screen">
+  
+  <!-- 顶部导航 -->
+  <header class="sticky top-0 z-50 bg-white/90 backdrop-blur-xl border-b border-slate-200 px-6 py-4">
+    <div class="max-w-7xl mx-auto flex items-center justify-between">
+      <div class="flex items-center gap-3">
+        <div class="w-10 h-10 rounded-xl bg-gradient-to-br from-indigo-500 to-purple-600 flex items-center justify-center shadow-lg">
+          <span class="text-white font-bold">N</span>
+        </div>
+        <div>
+          <h1 class="font-bold text-slate-800">Nexus 桌面端主页风格</h1>
+          <p class="text-xs text-slate-400">选择你喜欢的设计风格</p>
+        </div>
+      </div>
+      <div class="text-sm text-slate-500">
+        共 <span class="font-bold text-indigo-600">10</span> 种风格
+      </div>
+    </div>
+  </header>
+
+  <!-- 风格标签 -->
+  <nav class="sticky top-[73px] z-40 bg-slate-100/95 backdrop-blur px-6 py-4 border-b border-slate-200">
+    <div class="max-w-7xl mx-auto">
+      <div class="flex gap-2 overflow-x-auto hide-scrollbar pb-1">
+        <button onclick="showStyle(1)" class="tab-btn active flex-shrink-0 px-4 py-2 rounded-full text-sm font-semibold bg-slate-200 text-slate-600">1️⃣ 当前风格（优化版）</button>
+        <button onclick="showStyle(2)" class="tab-btn flex-shrink-0 px-4 py-2 rounded-full text-sm font-semibold bg-slate-200 text-slate-600">2️⃣ 毛玻璃暗黑</button>
+        <button onclick="showStyle(3)" class="tab-btn flex-shrink-0 px-4 py-2 rounded-full text-sm font-semibold bg-slate-200 text-slate-600">3️⃣ 新拟态浅色</button>
+        <button onclick="showStyle(4)" class="tab-btn flex-shrink-0 px-4 py-2 rounded-full text-sm font-semibold bg-slate-200 text-slate-600">4️⃣ 赛博朋克</button>
+        <button onclick="showStyle(5)" class="tab-btn flex-shrink-0 px-4 py-2 rounded-full text-sm font-semibold bg-slate-200 text-slate-600">5️⃣ 自然森林</button>
+        <button onclick="showStyle(6)" class="tab-btn flex-shrink-0 px-4 py-2 rounded-full text-sm font-semibold bg-slate-200 text-slate-600">6️⃣ 水墨中国风</button>
+        <button onclick="showStyle(7)" class="tab-btn flex-shrink-0 px-4 py-2 rounded-full text-sm font-semibold bg-slate-200 text-slate-600">7️⃣ 极简黑白</button>
+        <button onclick="showStyle(8)" class="tab-btn flex-shrink-0 px-4 py-2 rounded-full text-sm font-semibold bg-slate-200 text-slate-600">8️⃣ 糖果马卡龙</button>
+        <button onclick="showStyle(9)" class="tab-btn flex-shrink-0 px-4 py-2 rounded-full text-sm font-semibold bg-slate-200 text-slate-600">9️⃣ 星空宇宙</button>
+        <button onclick="showStyle(10)" class="tab-btn flex-shrink-0 px-4 py-2 rounded-full text-sm font-semibold bg-slate-200 text-slate-600">🔟 Material You</button>
+      </div>
+    </div>
+  </nav>
+
+  <!-- 预览区域 -->
+  <main class="max-w-7xl mx-auto px-6 py-8">
+    <div class="grid grid-cols-1 xl:grid-cols-3 gap-6">
+      
+      <!-- 左侧：桌面预览 -->
+      <div class="xl:col-span-2">
+        <div class="bg-slate-800 rounded-2xl p-3 shadow-2xl">
+          <!-- 窗口标题栏 -->
+          <div class="flex items-center gap-2 mb-2 px-2">
+            <div class="flex gap-1.5">
+              <div class="w-3 h-3 rounded-full bg-red-500"></div>
+              <div class="w-3 h-3 rounded-full bg-yellow-500"></div>
+              <div class="w-3 h-3 rounded-full bg-green-500"></div>
+            </div>
+            <div class="flex-1 text-center text-xs text-slate-400">Nexus - 个人媒体中心</div>
+          </div>
+          <!-- 内容区 -->
+          <div class="bg-white rounded-xl overflow-hidden" style="height: 600px;">
+            
+            <!-- ===== 风格1: 当前风格优化版 ===== -->
+            <div id="style-1" class="style-frame active h-full flex fade-in">
+              <!-- 侧边栏 -->
+              <aside class="w-48 bg-slate-50 border-r border-slate-200 flex flex-col">
+                <div class="p-4 flex items-center gap-2">
+                  <div class="w-8 h-8 rounded-lg bg-gradient-to-br from-indigo-500 to-purple-600 flex items-center justify-center">
+                    <svg class="w-4 h-4 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19.428 15.428a2 2 0 00-1.022-.547l-2.387-.477a6 6 0 00-3.86.517l-.318.158a6 6 0 01-3.86.517L6.05 15.21a2 2 0 00-1.806.547M8 4h8l-1 1v5.172a2 2 0 00.586 1.414l5 5c1.26 1.26.367 3.414-1.415 3.414H4.828c-1.782 0-2.674-2.154-1.414-3.414l5-5A2 2 0 009 10.172V5L8 4z"/></svg>
+                  </div>
+                  <span class="font-bold text-slate-800">Nexus</span>
+                </div>
+                <nav class="flex-1 px-3 space-y-1">
+                  <a href="#" class="flex items-center gap-3 px-3 py-2.5 rounded-xl bg-indigo-50 text-indigo-600 font-medium">
+                    <svg class="w-5 h-5" fill="currentColor" viewBox="0 0 24 24"><path d="M10 20v-6h4v6h5v-8h3L12 3 2 12h3v8z"/></svg>
+                    <span class="text-sm">首页</span>
+                  </a>
+                  <a href="#" class="flex items-center gap-3 px-3 py-2.5 rounded-xl text-slate-600 hover:bg-slate-100">
+                    <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 6.253v13m0-13C10.832 5.477 9.246 5 7.5 5S4.168 5.477 3 6.253v13C4.168 18.477 5.754 18 7.5 18s3.332.477 4.5 1.253m0-13C13.168 5.477 14.754 5 16.5 5c1.747 0 3.332.477 4.5 1.253v13C19.832 18.477 18.247 18 16.5 18c-1.746 0-3.332.477-4.5 1.253"/></svg>
+                    <span class="text-sm">图书馆</span>
+                  </a>
+                  <a href="#" class="flex items-center gap-3 px-3 py-2.5 rounded-xl text-slate-600 hover:bg-slate-100">
+                    <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M7 4v16M17 4v16M3 8h4m10 0h4M3 12h18M3 16h4m10 0h4M4 20h16a1 1 0 001-1V5a1 1 0 00-1-1H4a1 1 0 00-1 1v14a1 1 0 001 1z"/></svg>
+                    <span class="text-sm">电影院</span>
+                  </a>
+                  <a href="#" class="flex items-center gap-3 px-3 py-2.5 rounded-xl text-slate-600 hover:bg-slate-100">
+                    <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 7v10a2 2 0 002 2h14a2 2 0 002-2V9a2 2 0 00-2-2h-6l-2-2H5a2 2 0 00-2 2z"/></svg>
+                    <span class="text-sm">文件</span>
+                  </a>
+                  <a href="#" class="flex items-center gap-3 px-3 py-2.5 rounded-xl text-slate-600 hover:bg-slate-100">
+                    <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10.325 4.317c.426-1.756 2.924-1.756 3.35 0a1.724 1.724 0 002.573 1.066c1.543-.94 3.31.826 2.37 2.37a1.724 1.724 0 001.065 2.572c1.756.426 1.756 2.924 0 3.35a1.724 1.724 0 00-1.066 2.573c.94 1.543-.826 3.31-2.37 2.37a1.724 1.724 0 00-2.572 1.065c-.426 1.756-2.924 1.756-3.35 0a1.724 1.724 0 00-2.573-1.066c-1.543.94-3.31-.826-2.37-2.37a1.724 1.724 0 00-1.065-2.572c-1.756-.426-1.756-2.924 0-3.35a1.724 1.724 0 001.066-2.573c-.94-1.543.826-3.31 2.37-2.37.996.608 2.296.07 2.572-1.065z"/><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z"/></svg>
+                    <span class="text-sm">设置</span>
+                  </a>
+                </nav>
+                <div class="p-3 border-t border-slate-200">
+                  <div class="flex items-center gap-2 px-2 py-2">
+                    <div class="w-8 h-8 rounded-full bg-gradient-to-br from-amber-400 to-orange-500 flex items-center justify-center text-white text-xs font-bold">J</div>
+                    <div class="flex-1 min-w-0">
+                      <p class="text-sm font-medium text-slate-800 truncate">Jiangking</p>
+                      <p class="text-xs text-slate-400">查看设置</p>
+                    </div>
+                  </div>
+                </div>
+              </aside>
+              <!-- 主内容 -->
+              <main class="flex-1 bg-white p-6 overflow-y-auto hide-scrollbar">
+                <div class="flex items-center justify-between mb-6">
+                  <div>
+                    <p class="text-sm text-slate-400">1月28日星期三</p>
+                    <h1 class="text-2xl font-bold text-slate-800">晚上好，<span class="text-indigo-600">Jiangking</span></h1>
+                  </div>
+                  <div class="flex items-center gap-3">
+                    <button class="w-10 h-10 rounded-xl bg-slate-100 flex items-center justify-center hover:bg-slate-200">
+                      <svg class="w-5 h-5 text-slate-500" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"/></svg>
+                    </button>
+                    <div class="w-10 h-10 rounded-full bg-gradient-to-br from-indigo-400 to-purple-500"></div>
+                  </div>
+                </div>
+                
+                <h2 class="text-lg font-bold text-slate-800 mb-4">开始使用</h2>
+                <div class="grid grid-cols-3 gap-4 mb-8">
+                  <div class="group cursor-pointer">
+                    <div class="aspect-square rounded-2xl bg-gradient-to-br from-amber-400 to-orange-500 flex items-center justify-center mb-2 shadow-lg group-hover:shadow-xl group-hover:scale-105 transition-all">
+                      <svg class="w-12 h-12 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 6.253v13m0-13C10.832 5.477 9.246 5 7.5 5S4.168 5.477 3 6.253v13C4.168 18.477 5.754 18 7.5 18s3.332.477 4.5 1.253m0-13C13.168 5.477 14.754 5 16.5 5c1.747 0 3.332.477 4.5 1.253v13C19.832 18.477 18.247 18 16.5 18c-1.746 0-3.332.477-4.5 1.253"/></svg>
+                    </div>
+                    <p class="text-center text-sm font-medium text-slate-700">图书馆</p>
+                  </div>
+                  <div class="group cursor-pointer">
+                    <div class="aspect-square rounded-2xl bg-gradient-to-br from-purple-500 to-pink-500 flex items-center justify-center mb-2 shadow-lg group-hover:shadow-xl group-hover:scale-105 transition-all">
+                      <svg class="w-12 h-12 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M7 4v16M17 4v16M3 8h4m10 0h4M3 12h18M3 16h4m10 0h4M4 20h16a1 1 0 001-1V5a1 1 0 00-1-1H4a1 1 0 00-1 1v14a1 1 0 001 1z"/></svg>
+                    </div>
+                    <p class="text-center text-sm font-medium text-slate-700">电影院</p>
+                  </div>
+                  <div class="group cursor-pointer">
+                    <div class="aspect-square rounded-2xl bg-gradient-to-br from-blue-400 to-indigo-500 flex items-center justify-center mb-2 shadow-lg group-hover:shadow-xl group-hover:scale-105 transition-all">
+                      <svg class="w-12 h-12 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 7v10a2 2 0 002 2h14a2 2 0 002-2V9a2 2 0 00-2-2h-6l-2-2H5a2 2 0 00-2 2z"/></svg>
+                    </div>
+                    <p class="text-center text-sm font-medium text-slate-700">文件管理</p>
+                  </div>
+                </div>
+
+                <div class="flex items-center justify-between mb-4">
+                  <h2 class="text-lg font-bold text-slate-800">继续</h2>
+                  <button class="text-sm text-indigo-500 font-medium hover:text-indigo-600">查看全部</button>
+                </div>
+                <div class="space-y-3">
+                  <div class="flex items-center gap-4 p-3 rounded-xl hover:bg-slate-50 transition-colors cursor-pointer">
+                    <div class="w-16 h-20 rounded-lg bg-gradient-to-br from-blue-500 to-indigo-600 flex items-center justify-center flex-shrink-0 shadow">
+                      <span class="text-white text-xs font-bold">图书</span>
+                    </div>
+                    <div class="flex-1 min-w-0">
+                      <h3 class="font-semibold text-slate-800">代码整洁之道.pdf</h3>
+                      <p class="text-xs text-slate-400 mt-0.5">2小时前</p>
+                      <div class="flex items-center gap-2 mt-2">
+                        <span class="text-xs text-slate-500">45%</span>
+                        <div class="flex-1 h-1.5 bg-slate-100 rounded-full overflow-hidden">
+                          <div class="h-full w-[45%] bg-indigo-500 rounded-full"></div>
+                        </div>
+                      </div>
+                    </div>
+                    <svg class="w-5 h-5 text-slate-300" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 6.253v13m0-13C10.832 5.477 9.246 5 7.5 5S4.168 5.477 3 6.253v13C4.168 18.477 5.754 18 7.5 18s3.332.477 4.5 1.253m0-13C13.168 5.477 14.754 5 16.5 5c1.747 0 3.332.477 4.5 1.253v13C19.832 18.477 18.247 18 16.5 18c-1.746 0-3.332.477-4.5 1.253"/></svg>
+                  </div>
+                  <div class="flex items-center gap-4 p-3 rounded-xl hover:bg-slate-50 transition-colors cursor-pointer">
+                    <div class="w-16 h-20 rounded-lg bg-gradient-to-br from-emerald-500 to-teal-600 flex items-center justify-center flex-shrink-0 shadow relative">
+                      <span class="text-white text-xs font-bold">视频</span>
+                      <div class="absolute inset-0 flex items-center justify-center">
+                        <div class="w-6 h-6 rounded-full bg-white/30 flex items-center justify-center">
+                          <svg class="w-3 h-3 text-white ml-0.5" fill="currentColor" viewBox="0 0 24 24"><path d="M8 5v14l11-7z"/></svg>
+                        </div>
+                      </div>
+                    </div>
+                    <div class="flex-1 min-w-0">
+                      <h3 class="font-semibold text-slate-800">星际穿越.mkv</h3>
+                      <p class="text-xs text-slate-400 mt-0.5">昨天</p>
+                      <div class="flex items-center gap-2 mt-2">
+                        <span class="text-xs text-slate-500">72%</span>
+                        <div class="flex-1 h-1.5 bg-slate-100 rounded-full overflow-hidden">
+                          <div class="h-full w-[72%] bg-emerald-500 rounded-full"></div>
+                        </div>
+                      </div>
+                    </div>
+                    <svg class="w-5 h-5 text-slate-300" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M14.752 11.168l-3.197-2.132A1 1 0 0010 9.87v4.263a1 1 0 001.555.832l3.197-2.132a1 1 0 000-1.664z"/><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 12a9 9 0 11-18 0 9 9 0 0118 0z"/></svg>
+                  </div>
+                </div>
+              </main>
+            </div>
+
+            <!-- ===== 风格2: 毛玻璃暗黑 ===== -->
+            <div id="style-2" class="style-frame h-full flex fade-in" style="background: linear-gradient(135deg, #0f0f23 0%, #1a1a2e 50%, #16213e 100%);">
+              <!-- 装饰光效 -->
+              <div class="absolute w-64 h-64 bg-purple-600 rounded-full filter blur-[100px] opacity-30 top-0 left-0"></div>
+              <div class="absolute w-48 h-48 bg-blue-600 rounded-full filter blur-[80px] opacity-30 bottom-20 right-10"></div>
+              <!-- 侧边栏 -->
+              <aside class="w-48 bg-white/5 backdrop-blur-xl border-r border-white/10 flex flex-col relative z-10">
+                <div class="p-4 flex items-center gap-2">
+                  <div class="w-8 h-8 rounded-lg bg-gradient-to-br from-violet-500 to-fuchsia-500 flex items-center justify-center">
+                    <svg class="w-4 h-4 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19.428 15.428a2 2 0 00-1.022-.547l-2.387-.477a6 6 0 00-3.86.517l-.318.158a6 6 0 01-3.86.517L6.05 15.21a2 2 0 00-1.806.547M8 4h8l-1 1v5.172a2 2 0 00.586 1.414l5 5c1.26 1.26.367 3.414-1.415 3.414H4.828c-1.782 0-2.674-2.154-1.414-3.414l5-5A2 2 0 009 10.172V5L8 4z"/></svg>
+                  </div>
+                  <span class="font-bold text-white">Nexus</span>
+                </div>
+                <nav class="flex-1 px-3 space-y-1">
+                  <a href="#" class="flex items-center gap-3 px-3 py-2.5 rounded-xl bg-white/10 text-violet-400 font-medium backdrop-blur">
+                    <svg class="w-5 h-5" fill="currentColor" viewBox="0 0 24 24"><path d="M10 20v-6h4v6h5v-8h3L12 3 2 12h3v8z"/></svg>
+                    <span class="text-sm">首页</span>
+                  </a>
+                  <a href="#" class="flex items-center gap-3 px-3 py-2.5 rounded-xl text-white/60 hover:bg-white/5">
+                    <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 6.253v13m0-13C10.832 5.477 9.246 5 7.5 5S4.168 5.477 3 6.253v13C4.168 18.477 5.754 18 7.5 18s3.332.477 4.5 1.253m0-13C13.168 5.477 14.754 5 16.5 5c1.747 0 3.332.477 4.5 1.253v13C19.832 18.477 18.247 18 16.5 18c-1.746 0-3.332.477-4.5 1.253"/></svg>
+                    <span class="text-sm">图书馆</span>
+                  </a>
+                  <a href="#" class="flex items-center gap-3 px-3 py-2.5 rounded-xl text-white/60 hover:bg-white/5">
+                    <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M7 4v16M17 4v16M3 8h4m10 0h4M3 12h18M3 16h4m10 0h4M4 20h16a1 1 0 001-1V5a1 1 0 00-1-1H4a1 1 0 00-1 1v14a1 1 0 001 1z"/></svg>
+                    <span class="text-sm">电影院</span>
+                  </a>
+                  <a href="#" class="flex items-center gap-3 px-3 py-2.5 rounded-xl text-white/60 hover:bg-white/5">
+                    <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 7v10a2 2 0 002 2h14a2 2 0 002-2V9a2 2 0 00-2-2h-6l-2-2H5a2 2 0 00-2 2z"/></svg>
+                    <span class="text-sm">文件</span>
+                  </a>
+                  <a href="#" class="flex items-center gap-3 px-3 py-2.5 rounded-xl text-white/60 hover:bg-white/5">
+                    <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10.325 4.317c.426-1.756 2.924-1.756 3.35 0a1.724 1.724 0 002.573 1.066c1.543-.94 3.31.826 2.37 2.37a1.724 1.724 0 001.065 2.572c1.756.426 1.756 2.924 0 3.35a1.724 1.724 0 00-1.066 2.573c.94 1.543-.826 3.31-2.37 2.37a1.724 1.724 0 00-2.572 1.065c-.426 1.756-2.924 1.756-3.35 0a1.724 1.724 0 00-2.573-1.066c-1.543.94-3.31-.826-2.37-2.37a1.724 1.724 0 00-1.065-2.572c-1.756-.426-1.756-2.924 0-3.35a1.724 1.724 0 001.066-2.573c-.94-1.543.826-3.31 2.37-2.37.996.608 2.296.07 2.572-1.065z"/><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z"/></svg>
+                    <span class="text-sm">设置</span>
+                  </a>
+                </nav>
+                <div class="p-3 border-t border-white/10">
+                  <div class="flex items-center gap-2 px-2 py-2">
+                    <div class="w-8 h-8 rounded-full bg-gradient-to-br from-cyan-400 to-blue-500 flex items-center justify-center text-white text-xs font-bold">J</div>
+                    <div class="flex-1 min-w-0">
+                      <p class="text-sm font-medium text-white truncate">Jiangking</p>
+                      <p class="text-xs text-white/40">查看设置</p>
+                    </div>
+                  </div>
+                </div>
+              </aside>
+              <!-- 主内容 -->
+              <main class="flex-1 p-6 overflow-y-auto hide-scrollbar relative z-10">
+                <div class="flex items-center justify-between mb-6">
+                  <div>
+                    <p class="text-sm text-white/40">1月28日星期三</p>
+                    <h1 class="text-2xl font-bold text-white">晚上好，<span class="text-transparent bg-clip-text bg-gradient-to-r from-violet-400 to-fuchsia-400">Jiangking</span></h1>
+                  </div>
+                  <div class="flex items-center gap-3">
+                    <button class="w-10 h-10 rounded-xl bg-white/5 backdrop-blur border border-white/10 flex items-center justify-center hover:bg-white/10">
+                      <svg class="w-5 h-5 text-white/60" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"/></svg>
+                    </button>
+                    <div class="w-10 h-10 rounded-full bg-gradient-to-br from-violet-500 to-fuchsia-500"></div>
+                  </div>
+                </div>
+                
+                <h2 class="text-lg font-bold text-white/80 mb-4">开始使用</h2>
+                <div class="grid grid-cols-3 gap-4 mb-8">
+                  <div class="group cursor-pointer">
+                    <div class="aspect-square rounded-2xl bg-white/5 backdrop-blur border border-white/10 flex items-center justify-center mb-2 group-hover:bg-white/10 group-hover:border-violet-500/50 transition-all">
+                      <div class="w-14 h-14 rounded-xl bg-gradient-to-br from-amber-400 to-orange-500 flex items-center justify-center shadow-lg shadow-orange-500/30">
+                        <svg class="w-7 h-7 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 6.253v13m0-13C10.832 5.477 9.246 5 7.5 5S4.168 5.477 3 6.253v13C4.168 18.477 5.754 18 7.5 18s3.332.477 4.5 1.253m0-13C13.168 5.477 14.754 5 16.5 5c1.747 0 3.332.477 4.5 1.253v13C19.832 18.477 18.247 18 16.5 18c-1.746 0-3.332.477-4.5 1.253"/></svg>
+                      </div>
+                    </div>
+                    <p class="text-center text-sm font-medium text-white/70">图书馆</p>
+                  </div>
+                  <div class="group cursor-pointer">
+                    <div class="aspect-square rounded-2xl bg-white/5 backdrop-blur border border-white/10 flex items-center justify-center mb-2 group-hover:bg-white/10 group-hover:border-violet-500/50 transition-all">
+                      <div class="w-14 h-14 rounded-xl bg-gradient-to-br from-purple-500 to-pink-500 flex items-center justify-center shadow-lg shadow-purple-500/30">
+                        <svg class="w-7 h-7 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M7 4v16M17 4v16M3 8h4m10 0h4M3 12h18M3 16h4m10 0h4M4 20h16a1 1 0 001-1V5a1 1 0 00-1-1H4a1 1 0 00-1 1v14a1 1 0 001 1z"/></svg>
+                      </div>
+                    </div>
+                    <p class="text-center text-sm font-medium text-white/70">电影院</p>
+                  </div>
+                  <div class="group cursor-pointer">
+                    <div class="aspect-square rounded-2xl bg-white/5 backdrop-blur border border-white/10 flex items-center justify-center mb-2 group-hover:bg-white/10 group-hover:border-violet-500/50 transition-all">
+                      <div class="w-14 h-14 rounded-xl bg-gradient-to-br from-blue-400 to-indigo-500 flex items-center justify-center shadow-lg shadow-blue-500/30">
+                        <svg class="w-7 h-7 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 7v10a2 2 0 002 2h14a2 2 0 002-2V9a2 2 0 00-2-2h-6l-2-2H5a2 2 0 00-2 2z"/></svg>
+                      </div>
+                    </div>
+                    <p class="text-center text-sm font-medium text-white/70">文件管理</p>
+                  </div>
+                </div>
+
+                <div class="flex items-center justify-between mb-4">
+                  <h2 class="text-lg font-bold text-white/80">继续</h2>
+                  <button class="text-sm text-violet-400 font-medium hover:text-violet-300">查看全部</button>
+                </div>
+                <div class="space-y-3">
+                  <div class="flex items-center gap-4 p-3 rounded-xl bg-white/5 backdrop-blur border border-white/10 hover:bg-white/10 transition-colors cursor-pointer">
+                    <div class="w-14 h-[70px] rounded-lg bg-gradient-to-br from-blue-500 to-indigo-600 flex items-center justify-center flex-shrink-0 shadow-lg shadow-indigo-500/30">
+                      <span class="text-white text-xs font-bold">图书</span>
+                    </div>
+                    <div class="flex-1 min-w-0">
+                      <h3 class="font-semibold text-white">代码整洁之道.pdf</h3>
+                      <p class="text-xs text-white/40 mt-0.5">2小时前</p>
+                      <div class="flex items-center gap-2 mt-2">
+                        <span class="text-xs text-white/50">45%</span>
+                        <div class="flex-1 h-1.5 bg-white/10 rounded-full overflow-hidden">
+                          <div class="h-full w-[45%] bg-gradient-to-r from-violet-500 to-fuchsia-500 rounded-full"></div>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                  <div class="flex items-center gap-4 p-3 rounded-xl bg-white/5 backdrop-blur border border-white/10 hover:bg-white/10 transition-colors cursor-pointer">
+                    <div class="w-14 h-[70px] rounded-lg bg-gradient-to-br from-emerald-500 to-teal-600 flex items-center justify-center flex-shrink-0 shadow-lg shadow-emerald-500/30">
+                      <span class="text-white text-xs font-bold">视频</span>
+                    </div>
+                    <div class="flex-1 min-w-0">
+                      <h3 class="font-semibold text-white">星际穿越.mkv</h3>
+                      <p class="text-xs text-white/40 mt-0.5">昨天</p>
+                      <div class="flex items-center gap-2 mt-2">
+                        <span class="text-xs text-white/50">72%</span>
+                        <div class="flex-1 h-1.5 bg-white/10 rounded-full overflow-hidden">
+                          <div class="h-full w-[72%] bg-gradient-to-r from-emerald-500 to-teal-500 rounded-full"></div>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </main>
+            </div>
+
+            <!-- ===== 风格3: 新拟态浅色 ===== -->
+            <div id="style-3" class="style-frame h-full flex fade-in" style="background: #e0e5ec;">
+              <!-- 侧边栏 -->
+              <aside class="w-48 flex flex-col" style="background: #e0e5ec;">
+                <div class="p-4 flex items-center gap-2">
+                  <div class="w-8 h-8 rounded-lg flex items-center justify-center" style="background: linear-gradient(145deg, #f0f5fc, #cacfd6); box-shadow: 4px 4px 8px #b8bec7, -4px -4px 8px #ffffff;">
+                    <svg class="w-4 h-4 text-indigo-500" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19.428 15.428a2 2 0 00-1.022-.547l-2.387-.477a6 6 0 00-3.86.517l-.318.158a6 6 0 01-3.86.517L6.05 15.21a2 2 0 00-1.806.547M8 4h8l-1 1v5.172a2 2 0 00.586 1.414l5 5c1.26 1.26.367 3.414-1.415 3.414H4.828c-1.782 0-2.674-2.154-1.414-3.414l5-5A2 2 0 009 10.172V5L8 4z"/></svg>
+                  </div>
+                  <span class="font-bold text-slate-700">Nexus</span>
+                </div>
+                <nav class="flex-1 px-3 space-y-2">
+                  <a href="#" class="flex items-center gap-3 px-3 py-2.5 rounded-xl text-indigo-600 font-medium" style="background: #e0e5ec; box-shadow: inset 4px 4px 8px #b8bec7, inset -4px -4px 8px #ffffff;">
+                    <svg class="w-5 h-5" fill="currentColor" viewBox="0 0 24 24"><path d="M10 20v-6h4v6h5v-8h3L12 3 2 12h3v8z"/></svg>
+                    <span class="text-sm">首页</span>
+                  </a>
+                  <a href="#" class="flex items-center gap-3 px-3 py-2.5 rounded-xl text-slate-600" style="background: linear-gradient(145deg, #f0f5fc, #cacfd6); box-shadow: 4px 4px 8px #b8bec7, -4px -4px 8px #ffffff;">
+                    <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 6.253v13m0-13C10.832 5.477 9.246 5 7.5 5S4.168 5.477 3 6.253v13C4.168 18.477 5.754 18 7.5 18s3.332.477 4.5 1.253m0-13C13.168 5.477 14.754 5 16.5 5c1.747 0 3.332.477 4.5 1.253v13C19.832 18.477 18.247 18 16.5 18c-1.746 0-3.332.477-4.5 1.253"/></svg>
+                    <span class="text-sm">图书馆</span>
+                  </a>
+                  <a href="#" class="flex items-center gap-3 px-3 py-2.5 rounded-xl text-slate-600" style="background: linear-gradient(145deg, #f0f5fc, #cacfd6); box-shadow: 4px 4px 8px #b8bec7, -4px -4px 8px #ffffff;">
+                    <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M7 4v16M17 4v16M3 8h4m10 0h4M3 12h18M3 16h4m10 0h4M4 20h16a1 1 0 001-1V5a1 1 0 00-1-1H4a1 1 0 00-1 1v14a1 1 0 001 1z"/></svg>
+                    <span class="text-sm">电影院</span>
+                  </a>
+                  <a href="#" class="flex items-center gap-3 px-3 py-2.5 rounded-xl text-slate-600" style="background: linear-gradient(145deg, #f0f5fc, #cacfd6); box-shadow: 4px 4px 8px #b8bec7, -4px -4px 8px #ffffff;">
+                    <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 7v10a2 2 0 002 2h14a2 2 0 002-2V9a2 2 0 00-2-2h-6l-2-2H5a2 2 0 00-2 2z"/></svg>
+                    <span class="text-sm">文件</span>
+                  </a>
+                  <a href="#" class="flex items-center gap-3 px-3 py-2.5 rounded-xl text-slate-600" style="background: linear-gradient(145deg, #f0f5fc, #cacfd6); box-shadow: 4px 4px 8px #b8bec7, -4px -4px 8px #ffffff;">
+                    <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10.325 4.317c.426-1.756 2.924-1.756 3.35 0a1.724 1.724 0 002.573 1.066c1.543-.94 3.31.826 2.37 2.37a1.724 1.724 0 001.065 2.572c1.756.426 1.756 2.924 0 3.35a1.724 1.724 0 00-1.066 2.573c.94 1.543-.826 3.31-2.37 2.37a1.724 1.724 0 00-2.572 1.065c-.426 1.756-2.924 1.756-3.35 0a1.724 1.724 0 00-2.573-1.066c-1.543.94-3.31-.826-2.37-2.37a1.724 1.724 0 00-1.065-2.572c-1.756-.426-1.756-2.924 0-3.35a1.724 1.724 0 001.066-2.573c-.94-1.543.826-3.31 2.37-2.37.996.608 2.296.07 2.572-1.065z"/><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z"/></svg>
+                    <span class="text-sm">设置</span>
+                  </a>
+                </nav>
+                <div class="p-3">
+                  <div class="flex items-center gap-2 px-3 py-2 rounded-xl" style="background: linear-gradient(145deg, #f0f5fc, #cacfd6); box-shadow: 4px 4px 8px #b8bec7, -4px -4px 8px #ffffff;">
+                    <div class="w-8 h-8 rounded-full flex items-center justify-center text-white text-xs font-bold" style="background: linear-gradient(145deg, #818cf8, #6366f1); box-shadow: 2px 2px 4px #b8bec7;">J</div>
+                    <div class="flex-1 min-w-0">
+                      <p class="text-sm font-medium text-slate-700 truncate">Jiangking</p>
+                      <p class="text-xs text-slate-400">查看设置</p>
+                    </div>
+                  </div>
+                </div>
+              </aside>
+              <!-- 主内容 -->
+              <main class="flex-1 p-6 overflow-y-auto hide-scrollbar" style="background: #e0e5ec;">
+                <div class="flex items-center justify-between mb-6">
+                  <div>
+                    <p class="text-sm text-slate-400">1月28日星期三</p>
+                    <h1 class="text-2xl font-bold text-slate-700">晚上好，<span class="text-indigo-600">Jiangking</span></h1>
+                  </div>
+                  <div class="flex items-center gap-3">
+                    <button class="w-10 h-10 rounded-xl flex items-center justify-center" style="background: linear-gradient(145deg, #f0f5fc, #cacfd6); box-shadow: 4px 4px 8px #b8bec7, -4px -4px 8px #ffffff;">
+                      <svg class="w-5 h-5 text-slate-500" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"/></svg>
+                    </button>
+                    <div class="w-10 h-10 rounded-full" style="background: linear-gradient(145deg, #818cf8, #6366f1); box-shadow: 4px 4px 8px #b8bec7, -4px -4px 8px #ffffff;"></div>
+                  </div>
+                </div>
+                
+                <h2 class="text-lg font-bold text-slate-700 mb-4">开始使用</h2>
+                <div class="grid grid-cols-3 gap-4 mb-8">
+                  <div class="group cursor-pointer">
+                    <div class="aspect-square rounded-2xl flex items-center justify-center mb-2 transition-all" style="background: linear-gradient(145deg, #f0f5fc, #cacfd6); box-shadow: 8px 8px 16px #b8bec7, -8px -8px 16px #ffffff;">
+                      <div class="w-12 h-12 rounded-xl bg-gradient-to-br from-amber-400 to-orange-500 flex items-center justify-center">
+                        <svg class="w-6 h-6 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 6.253v13m0-13C10.832 5.477 9.246 5 7.5 5S4.168 5.477 3 6.253v13C4.168 18.477 5.754 18 7.5 18s3.332.477 4.5 1.253m0-13C13.168 5.477 14.754 5 16.5 5c1.747 0 3.332.477 4.5 1.253v13C19.832 18.477 18.247 18 16.5 18c-1.746 0-3.332.477-4.5 1.253"/></svg>
+                      </div>
+                    </div>
+                    <p class="text-center text-sm font-medium text-slate-600">图书馆</p>
+                  </div>
+                  <div class="group cursor-pointer">
+                    <div class="aspect-square rounded-2xl flex items-center justify-center mb-2 transition-all" style="background: linear-gradient(145deg, #f0f5fc, #cacfd6); box-shadow: 8px 8px 16px #b8bec7, -8px -8px 16px #ffffff;">
+                      <div class="w-12 h-12 rounded-xl bg-gradient-to-br from-purple-500 to-pink-500 flex items-center justify-center">
+                        <svg class="w-6 h-6 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M7 4v16M17 4v16M3 8h4m10 0h4M3 12h18M3 16h4m10 0h4M4 20h16a1 1 0 001-1V5a1 1 0 00-1-1H4a1 1 0 00-1 1v14a1 1 0 001 1z"/></svg>
+                      </div>
+                    </div>
+                    <p class="text-center text-sm font-medium text-slate-600">电影院</p>
+                  </div>
+                  <div class="group cursor-pointer">
+                    <div class="aspect-square rounded-2xl flex items-center justify-center mb-2 transition-all" style="background: linear-gradient(145deg, #f0f5fc, #cacfd6); box-shadow: 8px 8px 16px #b8bec7, -8px -8px 16px #ffffff;">
+                      <div class="w-12 h-12 rounded-xl bg-gradient-to-br from-blue-400 to-indigo-500 flex items-center justify-center">
+                        <svg class="w-6 h-6 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 7v10a2 2 0 002 2h14a2 2 0 002-2V9a2 2 0 00-2-2h-6l-2-2H5a2 2 0 00-2 2z"/></svg>
+                      </div>
+                    </div>
+                    <p class="text-center text-sm font-medium text-slate-600">文件管理</p>
+                  </div>
+                </div>
+
+                <div class="flex items-center justify-between mb-4">
+                  <h2 class="text-lg font-bold text-slate-700">继续</h2>
+                  <button class="text-sm text-indigo-500 font-medium">查看全部</button>
+                </div>
+                <div class="space-y-3">
+                  <div class="flex items-center gap-4 p-3 rounded-xl cursor-pointer" style="background: linear-gradient(145deg, #f0f5fc, #cacfd6); box-shadow: 6px 6px 12px #b8bec7, -6px -6px 12px #ffffff;">
+                    <div class="w-14 h-[70px] rounded-lg bg-gradient-to-br from-blue-500 to-indigo-600 flex items-center justify-center flex-shrink-0">
+                      <span class="text-white text-xs font-bold">图书</span>
+                    </div>
+                    <div class="flex-1 min-w-0">
+                      <h3 class="font-semibold text-slate-700">代码整洁之道.pdf</h3>
+                      <p class="text-xs text-slate-400 mt-0.5">2小时前</p>
+                      <div class="flex items-center gap-2 mt-2">
+                        <span class="text-xs text-slate-500">45%</span>
+                        <div class="flex-1 h-1.5 rounded-full overflow-hidden" style="background: #d1d9e6; box-shadow: inset 2px 2px 4px #b8bec7, inset -2px -2px 4px #ffffff;">
+                          <div class="h-full w-[45%] bg-indigo-500 rounded-full"></div>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </main>
+            </div>
+
+            <!-- ===== 风格4: 赛博朋克 ===== -->
+            <div id="style-4" class="style-frame h-full flex fade-in font-mono" style="background: #0a0a0f;">
+              <!-- 扫描线 -->
+              <div class="absolute inset-0 pointer-events-none opacity-10" style="background: repeating-linear-gradient(0deg, transparent, transparent 2px, rgba(0,245,255,0.03) 2px, rgba(0,245,255,0.03) 4px);"></div>
+              <!-- 侧边栏 -->
+              <aside class="w-48 border-r flex flex-col relative" style="border-color: #00f5ff30; background: rgba(0,0,0,0.5);">
+                <div class="p-4 flex items-center gap-2 border-b" style="border-color: #00f5ff30;">
+                  <div class="w-8 h-8 rounded flex items-center justify-center border" style="border-color: #00f5ff; box-shadow: 0 0 10px rgba(0,245,255,0.5);">
+                    <span class="text-xs font-bold" style="color: #00f5ff;">N</span>
+                  </div>
+                  <span class="font-bold" style="color: #00f5ff; text-shadow: 0 0 10px #00f5ff;">NEXUS</span>
+                </div>
+                <nav class="flex-1 px-3 py-2 space-y-1">
+                  <a href="#" class="flex items-center gap-3 px-3 py-2 border" style="border-color: #ff00ff; background: rgba(255,0,255,0.1); box-shadow: 0 0 10px rgba(255,0,255,0.3);">
+                    <span class="text-xs" style="color: #ff00ff;">[01]</span>
+                    <span class="text-sm" style="color: #ff00ff;">首页</span>
+                  </a>
+                  <a href="#" class="flex items-center gap-3 px-3 py-2 border border-transparent hover:border-cyan-500/30">
+                    <span class="text-xs" style="color: #00f5ff50;">[02]</span>
+                    <span class="text-sm" style="color: #00f5ff80;">图书馆</span>
+                  </a>
+                  <a href="#" class="flex items-center gap-3 px-3 py-2 border border-transparent hover:border-cyan-500/30">
+                    <span class="text-xs" style="color: #00f5ff50;">[03]</span>
+                    <span class="text-sm" style="color: #00f5ff80;">电影院</span>
+                  </a>
+                  <a href="#" class="flex items-center gap-3 px-3 py-2 border border-transparent hover:border-cyan-500/30">
+                    <span class="text-xs" style="color: #00f5ff50;">[04]</span>
+                    <span class="text-sm" style="color: #00f5ff80;">文件</span>
+                  </a>
+                  <a href="#" class="flex items-center gap-3 px-3 py-2 border border-transparent hover:border-cyan-500/30">
+                    <span class="text-xs" style="color: #00f5ff50;">[05]</span>
+                    <span class="text-sm" style="color: #00f5ff80;">设置</span>
+                  </a>
+                </nav>
+                <div class="p-3 border-t" style="border-color: #00f5ff30;">
+                  <div class="flex items-center gap-2 px-2 py-2">
+                    <div class="w-8 h-8 rounded border flex items-center justify-center" style="border-color: #f0ff00; box-shadow: 0 0 8px rgba(240,255,0,0.5);">
+                      <span class="text-xs font-bold" style="color: #f0ff00;">J</span>
+                    </div>
+                    <div class="flex-1 min-w-0">
+                      <p class="text-sm truncate" style="color: #f0ff00;">Jiangking</p>
+                      <p class="text-xs" style="color: #f0ff0060;">LEVEL_99</p>
+                    </div>
+                  </div>
+                </div>
+              </aside>
+              <!-- 主内容 -->
+              <main class="flex-1 p-6 overflow-y-auto hide-scrollbar relative">
+                <div class="flex items-center justify-between mb-6">
+                  <div>
+                    <p class="text-xs" style="color: #00f5ff80;">// SYSTEM_TIME: 2026.01.28_WED</p>
+                    <h1 class="text-xl font-bold mt-1">
+                      <span style="color: #00f5ff;">WELCOME_</span>
+                      <span style="color: #ff00ff; text-shadow: 0 0 20px #ff00ff;">JIANGKING</span>
+                    </h1>
+                  </div>
+                  <div class="flex items-center gap-3">
+                    <button class="w-10 h-10 border flex items-center justify-center" style="border-color: #00f5ff; box-shadow: 0 0 10px rgba(0,245,255,0.3);">
+                      <span style="color: #00f5ff;">⌕</span>
+                    </button>
+                  </div>
+                </div>
+                
+                <p class="text-xs mb-4" style="color: #00f5ff80;">// QUICK_ACCESS</p>
+                <div class="grid grid-cols-3 gap-3 mb-8">
+                  <div class="cursor-pointer border p-4 text-center" style="border-color: #00f5ff; background: rgba(0,245,255,0.05); box-shadow: 0 0 15px rgba(0,245,255,0.2);">
+                    <div class="text-2xl mb-2">📚</div>
+                    <p class="text-xs" style="color: #00f5ff;">LIBRARY</p>
+                  </div>
+                  <div class="cursor-pointer border p-4 text-center" style="border-color: #ff00ff; background: rgba(255,0,255,0.05); box-shadow: 0 0 15px rgba(255,0,255,0.2);">
+                    <div class="text-2xl mb-2">🎬</div>
+                    <p class="text-xs" style="color: #ff00ff;">CINEMA</p>
+                  </div>
+                  <div class="cursor-pointer border p-4 text-center" style="border-color: #f0ff00; background: rgba(240,255,0,0.05); box-shadow: 0 0 15px rgba(240,255,0,0.2);">
+                    <div class="text-2xl mb-2">📁</div>
+                    <p class="text-xs" style="color: #f0ff00;">FILES</p>
+                  </div>
+                </div>
+
+                <div class="flex items-center justify-between mb-4">
+                  <p class="text-xs" style="color: #00f5ff80;">// RECENT_DATA</p>
+                  <button class="text-xs" style="color: #ff00ff;">[VIEW_ALL]</button>
+                </div>
+                <div class="space-y-2">
+                  <div class="flex items-center gap-4 p-3 border cursor-pointer" style="border-color: #00f5ff30; background: rgba(0,245,255,0.03);">
+                    <div class="w-12 h-14 border flex items-center justify-center" style="border-color: #00f5ff;">
+                      <span class="text-xs" style="color: #00f5ff;">PDF</span>
+                    </div>
+                    <div class="flex-1 min-w-0">
+                      <h3 class="text-sm" style="color: #00f5ff;">代码整洁之道.pdf</h3>
+                      <p class="text-xs mt-1" style="color: #00f5ff50;">PROGRESS: 45% ████░░░░░░</p>
+                    </div>
+                  </div>
+                  <div class="flex items-center gap-4 p-3 border cursor-pointer" style="border-color: #ff00ff30; background: rgba(255,0,255,0.03);">
+                    <div class="w-12 h-14 border flex items-center justify-center" style="border-color: #ff00ff;">
+                      <span class="text-xs" style="color: #ff00ff;">MKV</span>
+                    </div>
+                    <div class="flex-1 min-w-0">
+                      <h3 class="text-sm" style="color: #ff00ff;">星际穿越.mkv</h3>
+                      <p class="text-xs mt-1" style="color: #ff00ff50;">PROGRESS: 72% ███████░░░</p>
+                    </div>
+                  </div>
+                </div>
+              </main>
+            </div>
+
+            <!-- ===== 风格5: 自然森林 ===== -->
+            <div id="style-5" class="style-frame h-full flex fade-in" style="background: linear-gradient(180deg, #f0fdf4 0%, #dcfce7 100%);">
+              <!-- 侧边栏 -->
+              <aside class="w-48 bg-white/60 backdrop-blur border-r border-emerald-100 flex flex-col">
+                <div class="p-4 flex items-center gap-2">
+                  <div class="w-8 h-8 rounded-xl bg-gradient-to-br from-emerald-400 to-green-500 flex items-center justify-center shadow">
+                    <span class="text-white text-sm">🌿</span>
+                  </div>
+                  <span class="font-bold text-emerald-800">Nexus</span>
+                </div>
+                <nav class="flex-1 px-3 space-y-1">
+                  <a href="#" class="flex items-center gap-3 px-3 py-2.5 rounded-xl bg-emerald-100 text-emerald-700 font-medium">
+                    <span>🏠</span>
+                    <span class="text-sm">首页</span>
+                  </a>
+                  <a href="#" class="flex items-center gap-3 px-3 py-2.5 rounded-xl text-emerald-600 hover:bg-emerald-50">
+                    <span>📖</span>
+                    <span class="text-sm">图书馆</span>
+                  </a>
+                  <a href="#" class="flex items-center gap-3 px-3 py-2.5 rounded-xl text-emerald-600 hover:bg-emerald-50">
+                    <span>🎬</span>
+                    <span class="text-sm">电影院</span>
+                  </a>
+                  <a href="#" class="flex items-center gap-3 px-3 py-2.5 rounded-xl text-emerald-600 hover:bg-emerald-50">
+                    <span>📁</span>
+                    <span class="text-sm">文件</span>
+                  </a>
+                  <a href="#" class="flex items-center gap-3 px-3 py-2.5 rounded-xl text-emerald-600 hover:bg-emerald-50">
+                    <span>⚙️</span>
+                    <span class="text-sm">设置</span>
+                  </a>
+                </nav>
+                <div class="p-3 border-t border-emerald-100">
+                  <div class="flex items-center gap-2 px-2 py-2 bg-emerald-50 rounded-xl">
+                    <div class="w-8 h-8 rounded-full bg-gradient-to-br from-amber-400 to-orange-400 flex items-center justify-center text-white text-xs font-bold">J</div>
+                    <div class="flex-1 min-w-0">
+                      <p class="text-sm font-medium text-emerald-800 truncate">Jiangking</p>
+                      <p class="text-xs text-emerald-500">🌱 Lv.12 阅读达人</p>
+                    </div>
+                  </div>
+                </div>
+              </aside>
+              <!-- 主内容 -->
+              <main class="flex-1 p-6 overflow-y-auto hide-scrollbar">
+                <div class="flex items-center justify-between mb-6">
+                  <div>
+                    <p class="text-sm text-emerald-500">🌤️ 1月28日星期三</p>
+                    <h1 class="text-2xl font-bold text-emerald-800">晚上好，<span class="text-amber-500">Jiangking</span> 🌙</h1>
+                  </div>
+                  <div class="flex items-center gap-3">
+                    <button class="w-10 h-10 rounded-xl bg-white shadow flex items-center justify-center hover:shadow-md">
+                      <span>🔍</span>
+                    </button>
+                    <div class="w-10 h-10 rounded-full bg-gradient-to-br from-emerald-400 to-green-500 shadow"></div>
+                  </div>
+                </div>
+                
+                <h2 class="text-lg font-bold text-emerald-800 mb-4">🌲 开始探索</h2>
+                <div class="grid grid-cols-3 gap-4 mb-8">
+                  <div class="group cursor-pointer">
+                    <div class="aspect-square rounded-2xl bg-white shadow-md flex items-center justify-center mb-2 group-hover:shadow-lg group-hover:scale-105 transition-all border-2 border-transparent group-hover:border-amber-300">
+                      <div class="w-14 h-14 rounded-xl bg-gradient-to-br from-amber-400 to-orange-400 flex items-center justify-center shadow">
+                        <span class="text-2xl">📚</span>
+                      </div>
+                    </div>
+                    <p class="text-center text-sm font-medium text-emerald-700">图书馆</p>
+                  </div>
+                  <div class="group cursor-pointer">
+                    <div class="aspect-square rounded-2xl bg-white shadow-md flex items-center justify-center mb-2 group-hover:shadow-lg group-hover:scale-105 transition-all border-2 border-transparent group-hover:border-purple-300">
+                      <div class="w-14 h-14 rounded-xl bg-gradient-to-br from-purple-400 to-pink-400 flex items-center justify-center shadow">
+                        <span class="text-2xl">🎬</span>
+                      </div>
+                    </div>
+                    <p class="text-center text-sm font-medium text-emerald-700">电影院</p>
+                  </div>
+                  <div class="group cursor-pointer">
+                    <div class="aspect-square rounded-2xl bg-white shadow-md flex items-center justify-center mb-2 group-hover:shadow-lg group-hover:scale-105 transition-all border-2 border-transparent group-hover:border-blue-300">
+                      <div class="w-14 h-14 rounded-xl bg-gradient-to-br from-blue-400 to-cyan-400 flex items-center justify-center shadow">
+                        <span class="text-2xl">📂</span>
+                      </div>
+                    </div>
+                    <p class="text-center text-sm font-medium text-emerald-700">文件管理</p>
+                  </div>
+                </div>
+
+                <div class="flex items-center justify-between mb-4">
+                  <h2 class="text-lg font-bold text-emerald-800">🌿 继续旅程</h2>
+                  <button class="text-sm text-emerald-500 font-medium">查看全部 →</button>
+                </div>
+                <div class="space-y-3">
+                  <div class="flex items-center gap-4 p-3 rounded-xl bg-white shadow-sm hover:shadow-md transition-all cursor-pointer">
+                    <div class="w-14 h-[70px] rounded-lg bg-gradient-to-br from-blue-400 to-indigo-500 flex items-center justify-center shadow">
+                      <span class="text-xl">📘</span>
+                    </div>
+                    <div class="flex-1 min-w-0">
+                      <h3 class="font-semibold text-emerald-800">代码整洁之道.pdf</h3>
+                      <p class="text-xs text-emerald-500 mt-0.5">🕐 2小时前</p>
+                      <div class="flex items-center gap-2 mt-2">
+                        <span class="text-xs text-emerald-600">45%</span>
+                        <div class="flex-1 h-2 bg-emerald-100 rounded-full overflow-hidden">
+                          <div class="h-full w-[45%] bg-gradient-to-r from-emerald-400 to-green-400 rounded-full"></div>
+                        </div>
+                        <span class="text-xs">🌱</span>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </main>
+            </div>
+
+            <!-- 风格 6-10 使用 placeholder -->
+            <div id="style-6" class="style-frame h-full flex fade-in bg-[#f7f4ef]">
+              <aside class="w-48 bg-[#f0ebe3] border-r border-stone-200 flex flex-col">
+                <div class="p-4 flex items-center gap-2">
+                  <span class="text-2xl">🖌️</span>
+                  <span class="font-serif font-bold text-stone-700" style="font-family: 'Noto Serif SC', serif;">雅集</span>
+                </div>
+                <nav class="flex-1 px-3 space-y-1">
+                  <a href="#" class="flex items-center gap-3 px-3 py-2.5 rounded-lg bg-stone-200/50 text-stone-800 font-medium" style="font-family: 'Noto Serif SC', serif;">
+                    <span>首页</span>
+                  </a>
+                  <a href="#" class="flex items-center gap-3 px-3 py-2.5 text-stone-500" style="font-family: 'Noto Serif SC', serif;">书斋</a>
+                  <a href="#" class="flex items-center gap-3 px-3 py-2.5 text-stone-500" style="font-family: 'Noto Serif SC', serif;">影院</a>
+                  <a href="#" class="flex items-center gap-3 px-3 py-2.5 text-stone-500" style="font-family: 'Noto Serif SC', serif;">文档</a>
+                  <a href="#" class="flex items-center gap-3 px-3 py-2.5 text-stone-500" style="font-family: 'Noto Serif SC', serif;">设置</a>
+                </nav>
+              </aside>
+              <main class="flex-1 p-6 overflow-y-auto" style="font-family: 'Noto Serif SC', serif;">
+                <p class="text-sm text-stone-400 mb-1">戊戌年 · 正月廿八</p>
+                <h1 class="text-2xl font-bold text-stone-800 mb-6">暮色将近，<span class="text-amber-700">书生</span>安好</h1>
+                <h2 class="text-lg font-bold text-stone-700 mb-4 border-b border-stone-200 pb-2">书房一隅</h2>
+                <div class="grid grid-cols-3 gap-4 mb-6">
+                  <div class="p-4 bg-[#f0ebe3] rounded-lg text-center border border-stone-200">
+                    <span class="text-2xl">📜</span>
+                    <p class="text-sm text-stone-600 mt-2">书斋</p>
+                  </div>
+                  <div class="p-4 bg-[#f0ebe3] rounded-lg text-center border border-stone-200">
+                    <span class="text-2xl">🎭</span>
+                    <p class="text-sm text-stone-600 mt-2">戏院</p>
+                  </div>
+                  <div class="p-4 bg-[#f0ebe3] rounded-lg text-center border border-stone-200">
+                    <span class="text-2xl">📁</span>
+                    <p class="text-sm text-stone-600 mt-2">文牍</p>
+                  </div>
+                </div>
+                <h2 class="text-lg font-bold text-stone-700 mb-3 border-b border-stone-200 pb-2">近日所阅</h2>
+                <div class="p-4 bg-[#f0ebe3] rounded-lg border border-stone-200">
+                  <h3 class="font-medium text-stone-800">《代码整洁之道》</h3>
+                  <p class="text-xs text-stone-400 mt-1">两时辰前 · 已阅四成五</p>
+                </div>
+              </main>
+            </div>
+
+            <div id="style-7" class="style-frame h-full flex fade-in bg-white">
+              <aside class="w-48 bg-black flex flex-col">
+                <div class="p-4 flex items-center gap-2 border-b border-white/10">
+                  <div class="w-8 h-8 bg-white flex items-center justify-center"><span class="text-black font-bold text-sm">N</span></div>
+                  <span class="font-bold text-white tracking-widest">NEXUS</span>
+                </div>
+                <nav class="flex-1 px-3 py-2 space-y-1">
+                  <a href="#" class="block px-3 py-2 bg-white text-black font-bold text-sm">首页</a>
+                  <a href="#" class="block px-3 py-2 text-white/60 text-sm hover:text-white">图书馆</a>
+                  <a href="#" class="block px-3 py-2 text-white/60 text-sm hover:text-white">电影院</a>
+                  <a href="#" class="block px-3 py-2 text-white/60 text-sm hover:text-white">文件</a>
+                  <a href="#" class="block px-3 py-2 text-white/60 text-sm hover:text-white">设置</a>
+                </nav>
+              </aside>
+              <main class="flex-1 p-6 overflow-y-auto">
+                <p class="text-xs text-gray-400 mb-1">01.28.2026</p>
+                <h1 class="text-3xl font-black text-black mb-8">HELLO, JIANGKING.</h1>
+                <h2 class="text-xs font-bold text-gray-400 mb-4 tracking-widest">QUICK ACCESS</h2>
+                <div class="grid grid-cols-3 gap-4 mb-8">
+                  <div class="aspect-square border-2 border-black flex items-center justify-center hover:bg-black hover:text-white transition-colors cursor-pointer">
+                    <span class="font-bold">BOOKS</span>
+                  </div>
+                  <div class="aspect-square border-2 border-black flex items-center justify-center hover:bg-black hover:text-white transition-colors cursor-pointer">
+                    <span class="font-bold">MOVIES</span>
+                  </div>
+                  <div class="aspect-square border-2 border-black flex items-center justify-center hover:bg-black hover:text-white transition-colors cursor-pointer">
+                    <span class="font-bold">FILES</span>
+                  </div>
+                </div>
+                <h2 class="text-xs font-bold text-gray-400 mb-4 tracking-widest">CONTINUE</h2>
+                <div class="border-2 border-black p-4">
+                  <h3 class="font-bold text-black">代码整洁之道.pdf</h3>
+                  <p class="text-xs text-gray-400 mt-1">2h ago · 45%</p>
+                  <div class="h-1 bg-gray-200 mt-2"><div class="h-full w-[45%] bg-black"></div></div>
+                </div>
+              </main>
+            </div>
+
+            <div id="style-8" class="style-frame h-full flex fade-in" style="background: linear-gradient(135deg, #fce7f3, #fdf2f8, #f5d0fe);">
+              <aside class="w-48 bg-white/50 backdrop-blur border-r border-pink-100 flex flex-col" style="font-family: 'Quicksand', sans-serif;">
+                <div class="p-4 flex items-center gap-2">
+                  <div class="w-8 h-8 rounded-full bg-gradient-to-br from-pink-400 to-purple-400 flex items-center justify-center shadow">
+                    <span class="text-white text-sm">✨</span>
+                  </div>
+                  <span class="font-bold text-pink-600">Nexus</span>
+                </div>
+                <nav class="flex-1 px-3 space-y-1">
+                  <a href="#" class="flex items-center gap-3 px-3 py-2.5 rounded-2xl bg-gradient-to-r from-pink-200 to-purple-200 text-pink-700 font-medium shadow-sm">
+                    <span>🏠</span><span class="text-sm">首页</span>
+                  </a>
+                  <a href="#" class="flex items-center gap-3 px-3 py-2.5 text-pink-400"><span>📚</span><span class="text-sm">图书馆</span></a>
+                  <a href="#" class="flex items-center gap-3 px-3 py-2.5 text-pink-400"><span>🎬</span><span class="text-sm">电影院</span></a>
+                  <a href="#" class="flex items-center gap-3 px-3 py-2.5 text-pink-400"><span>📁</span><span class="text-sm">文件</span></a>
+                  <a href="#" class="flex items-center gap-3 px-3 py-2.5 text-pink-400"><span>⚙️</span><span class="text-sm">设置</span></a>
+                </nav>
+              </aside>
+              <main class="flex-1 p-6 overflow-y-auto" style="font-family: 'Quicksand', sans-serif;">
+                <p class="text-sm text-pink-400 mb-1">🌸 1月28日星期三</p>
+                <h1 class="text-2xl font-bold text-pink-600 mb-6">晚上好呀～ <span class="text-purple-500">Jiangking</span> 💕</h1>
+                <h2 class="text-lg font-bold text-pink-600 mb-4">✨ 快捷入口</h2>
+                <div class="grid grid-cols-3 gap-3 mb-6">
+                  <div class="p-4 bg-white/70 backdrop-blur rounded-2xl text-center shadow-lg hover:scale-105 transition-transform cursor-pointer" style="box-shadow: 4px 4px 0 #f9a8d4;">
+                    <span class="text-2xl">📚</span>
+                    <p class="text-sm text-pink-600 mt-2 font-medium">图书馆</p>
+                  </div>
+                  <div class="p-4 bg-white/70 backdrop-blur rounded-2xl text-center shadow-lg hover:scale-105 transition-transform cursor-pointer" style="box-shadow: 4px 4px 0 #c4b5fd;">
+                    <span class="text-2xl">🎬</span>
+                    <p class="text-sm text-purple-600 mt-2 font-medium">电影院</p>
+                  </div>
+                  <div class="p-4 bg-white/70 backdrop-blur rounded-2xl text-center shadow-lg hover:scale-105 transition-transform cursor-pointer" style="box-shadow: 4px 4px 0 #a5f3fc;">
+                    <span class="text-2xl">📂</span>
+                    <p class="text-sm text-cyan-600 mt-2 font-medium">文件</p>
+                  </div>
+                </div>
+                <h2 class="text-lg font-bold text-pink-600 mb-3">💝 继续阅读</h2>
+                <div class="p-4 bg-white/70 backdrop-blur rounded-2xl shadow-lg" style="box-shadow: 4px 4px 0 #f9a8d4;">
+                  <h3 class="font-bold text-pink-700">代码整洁之道.pdf</h3>
+                  <p class="text-xs text-pink-400 mt-1">2小时前 · 45%</p>
+                  <div class="h-2 bg-pink-100 rounded-full mt-2"><div class="h-full w-[45%] bg-gradient-to-r from-pink-400 to-purple-400 rounded-full"></div></div>
+                </div>
+              </main>
+            </div>
+
+            <div id="style-9" class="style-frame h-full flex fade-in" style="background: radial-gradient(ellipse at bottom, #1b2735 0%, #090a0f 100%);">
+              <div class="absolute inset-0 overflow-hidden pointer-events-none">
+                <div class="absolute w-1 h-1 bg-white rounded-full top-[10%] left-[20%] animate-pulse"></div>
+                <div class="absolute w-1 h-1 bg-white rounded-full top-[30%] left-[70%] animate-pulse" style="animation-delay: 0.5s;"></div>
+                <div class="absolute w-1 h-1 bg-white rounded-full top-[60%] left-[40%] animate-pulse" style="animation-delay: 1s;"></div>
+                <div class="absolute w-2 h-2 bg-purple-400 rounded-full top-[20%] left-[80%] animate-pulse opacity-60"></div>
+              </div>
+              <aside class="w-48 bg-white/5 backdrop-blur border-r border-white/10 flex flex-col relative z-10" style="font-family: 'Space Grotesk', sans-serif;">
+                <div class="p-4 flex items-center gap-2">
+                  <div class="w-8 h-8 rounded-lg bg-gradient-to-br from-violet-500 to-purple-600 flex items-center justify-center shadow" style="box-shadow: 0 0 20px rgba(139,92,246,0.5);">
+                    <span class="text-white text-sm">🚀</span>
+                  </div>
+                  <span class="font-bold text-white">Nexus</span>
+                </div>
+                <nav class="flex-1 px-3 space-y-1">
+                  <a href="#" class="flex items-center gap-3 px-3 py-2.5 rounded-xl bg-violet-500/20 text-violet-300 font-medium border border-violet-500/30" style="box-shadow: 0 0 15px rgba(139,92,246,0.2);">
+                    <span>🏠</span><span class="text-sm">首页</span>
+                  </a>
+                  <a href="#" class="flex items-center gap-3 px-3 py-2.5 text-white/50"><span>📚</span><span class="text-sm">图书馆</span></a>
+                  <a href="#" class="flex items-center gap-3 px-3 py-2.5 text-white/50"><span>🎬</span><span class="text-sm">电影院</span></a>
+                  <a href="#" class="flex items-center gap-3 px-3 py-2.5 text-white/50"><span>📁</span><span class="text-sm">文件</span></a>
+                  <a href="#" class="flex items-center gap-3 px-3 py-2.5 text-white/50"><span>⚙️</span><span class="text-sm">设置</span></a>
+                </nav>
+              </aside>
+              <main class="flex-1 p-6 overflow-y-auto relative z-10" style="font-family: 'Space Grotesk', sans-serif;">
+                <p class="text-sm text-violet-400 mb-1">🌙 星历 2026.01.28</p>
+                <h1 class="text-2xl font-bold text-white mb-6">晚上好，<span class="text-transparent bg-clip-text bg-gradient-to-r from-violet-400 to-fuchsia-400" style="text-shadow: 0 0 30px rgba(139,92,246,0.5);">Jiangking</span> ✨</h1>
+                <h2 class="text-lg font-bold text-white/80 mb-4">🌌 星际导航</h2>
+                <div class="grid grid-cols-3 gap-3 mb-6">
+                  <div class="p-4 bg-white/5 backdrop-blur rounded-xl text-center border border-violet-500/30 hover:border-violet-400 transition-colors cursor-pointer" style="box-shadow: 0 0 20px rgba(139,92,246,0.1);">
+                    <span class="text-2xl">📚</span>
+                    <p class="text-sm text-violet-300 mt-2">图书馆</p>
+                  </div>
+                  <div class="p-4 bg-white/5 backdrop-blur rounded-xl text-center border border-fuchsia-500/30 hover:border-fuchsia-400 transition-colors cursor-pointer" style="box-shadow: 0 0 20px rgba(217,70,239,0.1);">
+                    <span class="text-2xl">🎬</span>
+                    <p class="text-sm text-fuchsia-300 mt-2">电影院</p>
+                  </div>
+                  <div class="p-4 bg-white/5 backdrop-blur rounded-xl text-center border border-cyan-500/30 hover:border-cyan-400 transition-colors cursor-pointer" style="box-shadow: 0 0 20px rgba(6,182,212,0.1);">
+                    <span class="text-2xl">📂</span>
+                    <p class="text-sm text-cyan-300 mt-2">文件</p>
+                  </div>
+                </div>
+                <h2 class="text-lg font-bold text-white/80 mb-3">🛸 继续探索</h2>
+                <div class="p-4 bg-white/5 backdrop-blur rounded-xl border border-violet-500/20">
+                  <h3 class="font-semibold text-white">代码整洁之道.pdf</h3>
+                  <p class="text-xs text-violet-400 mt-1">2小时前</p>
+                  <div class="h-1.5 bg-white/10 rounded-full mt-2"><div class="h-full w-[45%] bg-gradient-to-r from-violet-500 to-fuchsia-500 rounded-full" style="box-shadow: 0 0 10px rgba(139,92,246,0.5);"></div></div>
+                </div>
+              </main>
+            </div>
+
+            <div id="style-10" class="style-frame h-full flex fade-in bg-[#fef7ff]">
+              <aside class="w-48 bg-[#f3e8ff] flex flex-col">
+                <div class="p-4 flex items-center gap-2">
+                  <div class="w-10 h-10 rounded-full bg-[#7c3aed] flex items-center justify-center">
+                    <svg class="w-5 h-5 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19.428 15.428a2 2 0 00-1.022-.547l-2.387-.477a6 6 0 00-3.86.517l-.318.158a6 6 0 01-3.86.517L6.05 15.21a2 2 0 00-1.806.547M8 4h8l-1 1v5.172a2 2 0 00.586 1.414l5 5c1.26 1.26.367 3.414-1.415 3.414H4.828c-1.782 0-2.674-2.154-1.414-3.414l5-5A2 2 0 009 10.172V5L8 4z"/></svg>
+                  </div>
+                  <span class="font-medium text-[#1c1b1f]">Nexus</span>
+                </div>
+                <nav class="flex-1 px-3 space-y-1">
+                  <a href="#" class="flex items-center gap-3 px-4 py-3 rounded-full bg-[#eaddff] text-[#21005d] font-medium">
+                    <svg class="w-5 h-5" fill="currentColor" viewBox="0 0 24 24"><path d="M10 20v-6h4v6h5v-8h3L12 3 2 12h3v8z"/></svg>
+                    <span class="text-sm">首页</span>
+                  </a>
+                  <a href="#" class="flex items-center gap-3 px-4 py-3 rounded-full text-[#49454f] hover:bg-[#e8def8]">
+                    <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 6.253v13m0-13C10.832 5.477 9.246 5 7.5 5S4.168 5.477 3 6.253v13C4.168 18.477 5.754 18 7.5 18s3.332.477 4.5 1.253m0-13C13.168 5.477 14.754 5 16.5 5c1.747 0 3.332.477 4.5 1.253v13C19.832 18.477 18.247 18 16.5 18c-1.746 0-3.332.477-4.5 1.253"/></svg>
+                    <span class="text-sm">图书馆</span>
+                  </a>
+                  <a href="#" class="flex items-center gap-3 px-4 py-3 rounded-full text-[#49454f] hover:bg-[#e8def8]">
+                    <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M7 4v16M17 4v16M3 8h4m10 0h4M3 12h18M3 16h4m10 0h4M4 20h16a1 1 0 001-1V5a1 1 0 00-1-1H4a1 1 0 00-1 1v14a1 1 0 001 1z"/></svg>
+                    <span class="text-sm">电影院</span>
+                  </a>
+                  <a href="#" class="flex items-center gap-3 px-4 py-3 rounded-full text-[#49454f] hover:bg-[#e8def8]">
+                    <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 7v10a2 2 0 002 2h14a2 2 0 002-2V9a2 2 0 00-2-2h-6l-2-2H5a2 2 0 00-2 2z"/></svg>
+                    <span class="text-sm">文件</span>
+                  </a>
+                </nav>
+              </aside>
+              <main class="flex-1 p-6 overflow-y-auto">
+                <div class="flex items-center justify-between mb-6">
+                  <div>
+                    <p class="text-sm text-[#49454f]">1月28日星期三</p>
+                    <h1 class="text-2xl font-medium text-[#1c1b1f]">晚上好，<span class="text-[#7c3aed]">Jiangking</span></h1>
+                  </div>
+                  <button class="w-12 h-12 rounded-full bg-[#eaddff] flex items-center justify-center">
+                    <svg class="w-5 h-5 text-[#21005d]" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"/></svg>
+                  </button>
+                </div>
+                <h2 class="text-sm font-medium text-[#49454f] mb-4">快捷入口</h2>
+                <div class="grid grid-cols-3 gap-3 mb-6">
+                  <div class="p-4 bg-[#ffb74d] rounded-2xl text-center shadow cursor-pointer hover:shadow-lg transition-shadow">
+                    <svg class="w-8 h-8 text-white mx-auto" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 6.253v13m0-13C10.832 5.477 9.246 5 7.5 5S4.168 5.477 3 6.253v13C4.168 18.477 5.754 18 7.5 18s3.332.477 4.5 1.253m0-13C13.168 5.477 14.754 5 16.5 5c1.747 0 3.332.477 4.5 1.253v13C19.832 18.477 18.247 18 16.5 18c-1.746 0-3.332.477-4.5 1.253"/></svg>
+                    <p class="text-sm text-white mt-2 font-medium">图书馆</p>
+                  </div>
+                  <div class="p-4 bg-[#7c3aed] rounded-2xl text-center shadow cursor-pointer hover:shadow-lg transition-shadow">
+                    <svg class="w-8 h-8 text-white mx-auto" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M7 4v16M17 4v16M3 8h4m10 0h4M3 12h18M3 16h4m10 0h4M4 20h16a1 1 0 001-1V5a1 1 0 00-1-1H4a1 1 0 00-1 1v14a1 1 0 001 1z"/></svg>
+                    <p class="text-sm text-white mt-2 font-medium">电影院</p>
+                  </div>
+                  <div class="p-4 bg-[#42a5f5] rounded-2xl text-center shadow cursor-pointer hover:shadow-lg transition-shadow">
+                    <svg class="w-8 h-8 text-white mx-auto" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 7v10a2 2 0 002 2h14a2 2 0 002-2V9a2 2 0 00-2-2h-6l-2-2H5a2 2 0 00-2 2z"/></svg>
+                    <p class="text-sm text-white mt-2 font-medium">文件</p>
+                  </div>
+                </div>
+                <h2 class="text-sm font-medium text-[#49454f] mb-3">继续</h2>
+                <div class="bg-[#fffbfe] rounded-2xl p-4 shadow-sm border border-[#e7e0ec]">
+                  <h3 class="font-medium text-[#1c1b1f]">代码整洁之道.pdf</h3>
+                  <p class="text-xs text-[#49454f] mt-1">2小时前</p>
+                  <div class="h-1 bg-[#e7e0ec] rounded-full mt-3"><div class="h-full w-[45%] bg-[#7c3aed] rounded-full"></div></div>
+                </div>
+                <!-- FAB -->
+                <button class="fixed bottom-6 right-6 w-14 h-14 rounded-2xl bg-[#eaddff] flex items-center justify-center shadow-lg hover:shadow-xl transition-shadow">
+                  <svg class="w-6 h-6 text-[#21005d]" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4v16m8-8H4"/></svg>
+                </button>
+              </main>
+            </div>
+
+          </div>
+        </div>
+      </div>
+
+      <!-- 右侧：风格说明 -->
+      <div class="space-y-4">
+        <div id="info-panel" class="bg-white rounded-2xl p-5 shadow-lg">
+          <div class="flex items-center gap-3 mb-4">
+            <span id="info-icon" class="text-3xl">1️⃣</span>
+            <div>
+              <h2 id="info-title" class="text-xl font-bold text-slate-800">当前风格（优化版）</h2>
+              <p id="info-subtitle" class="text-slate-400 text-sm">Current Style Enhanced</p>
+            </div>
+          </div>
+          <div class="space-y-3">
+            <div>
+              <h3 class="font-semibold text-slate-700 mb-2 text-sm">设计特点</h3>
+              <ul id="info-features" class="space-y-1.5 text-slate-600 text-sm">
+                <li class="flex items-center gap-2"><span class="w-1.5 h-1.5 rounded-full bg-indigo-500"></span>保持当前布局，视觉优化</li>
+                <li class="flex items-center gap-2"><span class="w-1.5 h-1.5 rounded-full bg-indigo-500"></span>更精致的阴影和圆角</li>
+                <li class="flex items-center gap-2"><span class="w-1.5 h-1.5 rounded-full bg-indigo-500"></span>增强的悬浮交互效果</li>
+                <li class="flex items-center gap-2"><span class="w-1.5 h-1.5 rounded-full bg-indigo-500"></span>统一的渐变色图标</li>
+              </ul>
+            </div>
+            <div>
+              <h3 class="font-semibold text-slate-700 mb-1 text-sm">适合场景</h3>
+              <p id="info-scene" class="text-slate-600 text-sm">日常使用、保持熟悉感的同时提升视觉品质</p>
+            </div>
+          </div>
+        </div>
+
+        <div class="bg-gradient-to-r from-indigo-500 to-purple-600 rounded-2xl p-5 text-white">
+          <h3 class="font-bold mb-2">选好了吗？</h3>
+          <p class="text-white/80 text-sm mb-3">告诉我风格编号，我会应用到项目中！</p>
+          <button onclick="alert('请告诉我你选择的风格编号（1-10）！')" class="w-full py-2.5 bg-white/20 rounded-xl text-sm font-semibold hover:bg-white/30 transition-colors">
+            确认选择
+          </button>
+        </div>
+
+        <div class="bg-white rounded-2xl p-4 shadow-lg">
+          <h3 class="font-semibold text-slate-700 mb-2 text-sm">全部风格</h3>
+          <div class="grid grid-cols-2 gap-1.5 text-xs">
+            <button onclick="showStyle(1)" class="text-left px-2 py-1.5 rounded-lg hover:bg-slate-100">1️⃣ 当前优化版</button>
+            <button onclick="showStyle(2)" class="text-left px-2 py-1.5 rounded-lg hover:bg-slate-100">2️⃣ 毛玻璃暗黑</button>
+            <button onclick="showStyle(3)" class="text-left px-2 py-1.5 rounded-lg hover:bg-slate-100">3️⃣ 新拟态浅色</button>
+            <button onclick="showStyle(4)" class="text-left px-2 py-1.5 rounded-lg hover:bg-slate-100">4️⃣ 赛博朋克</button>
+            <button onclick="showStyle(5)" class="text-left px-2 py-1.5 rounded-lg hover:bg-slate-100">5️⃣ 自然森林</button>
+            <button onclick="showStyle(6)" class="text-left px-2 py-1.5 rounded-lg hover:bg-slate-100">6️⃣ 水墨中国风</button>
+            <button onclick="showStyle(7)" class="text-left px-2 py-1.5 rounded-lg hover:bg-slate-100">7️⃣ 极简黑白</button>
+            <button onclick="showStyle(8)" class="text-left px-2 py-1.5 rounded-lg hover:bg-slate-100">8️⃣ 糖果马卡龙</button>
+            <button onclick="showStyle(9)" class="text-left px-2 py-1.5 rounded-lg hover:bg-slate-100">9️⃣ 星空宇宙</button>
+            <button onclick="showStyle(10)" class="text-left px-2 py-1.5 rounded-lg hover:bg-slate-100">🔟 Material You</button>
+          </div>
+        </div>
+      </div>
+
+    </div>
+  </main>
+
+  <script>
+    const styleData = {
+      1: { icon: '1️⃣', title: '当前风格（优化版）', subtitle: 'Current Style Enhanced', features: ['保持当前布局，视觉优化', '更精致的阴影和圆角', '增强的悬浮交互效果', '统一的渐变色图标'], scene: '日常使用、保持熟悉感的同时提升视觉品质' },
+      2: { icon: '2️⃣', title: '毛玻璃暗黑', subtitle: 'Glass Dark Mode', features: ['深色背景 + 毛玻璃效果', '渐变光效装饰营造氛围', '半透明卡片层次分明', '紫色系主色调'], scene: '夜间使用、沉浸式体验、科技感强的应用' },
+      3: { icon: '3️⃣', title: '新拟态浅色', subtitle: 'Neumorphism Light', features: ['柔和的凹凸光影效果', '单色背景统一感', '内外阴影营造深度', '触感反馈明确'], scene: '智能家居、音乐播放器、仪表盘' },
+      4: { icon: '4️⃣', title: '赛博朋克', subtitle: 'Cyberpunk 2077', features: ['霓虹灯发光效果', '终端/代码风格文字', '扫描线复古质感', '青色/粉色主色调'], scene: '游戏类应用、未来科技、极客用户' },
+      5: { icon: '5️⃣', title: '自然森林', subtitle: 'Nature Forest', features: ['清新绿色系配色', '自然元素装饰', '圆润柔和的卡片', '游戏化成就系统'], scene: '阅读打卡、习惯养成、健康类应用' },
+      6: { icon: '6️⃣', title: '水墨中国风', subtitle: 'Chinese Ink Style', features: ['宋体/楷体衬线字体', '水墨山水装饰', '古典纸张质感', '传统配色'], scene: '国学阅读、传统文化、文艺用户' },
+      7: { icon: '7️⃣', title: '极简黑白', subtitle: 'Minimal Monochrome', features: ['纯黑白配色', '大字体排版', '简洁无装饰', '强调内容'], scene: '专注阅读、极简主义者、设计师' },
+      8: { icon: '8️⃣', title: '糖果马卡龙', subtitle: 'Candy Pastel', features: ['粉嫩马卡龙色系', '圆润可爱的元素', '俏皮的阴影效果', '少女心爆棚'], scene: '年轻女性用户、日记类、萌系应用' },
+      9: { icon: '9️⃣', title: '星空宇宙', subtitle: 'Cosmic Space', features: ['星空背景动画', '紫色宇宙色调', '发光边框效果', '太空探索主题'], scene: '梦幻体验、游戏化学习、夜间模式' },
+      10: { icon: '🔟', title: 'Material You', subtitle: 'Google Material 3', features: ['遵循 Material Design 3 规范', '彩色功能卡片', 'FAB 浮动按钮', '柔和的圆角药丸按钮'], scene: 'Android 用户、Google 生态、现代应用' }
+    };
+
+    let currentStyle = 1;
+
+    function showStyle(num) {
+      currentStyle = num;
+      // 切换标签按钮
+      const buttons = document.querySelectorAll('.tab-btn');
+      buttons.forEach((btn, i) => {
+        if (i === num - 1) {
+          btn.classList.add('active');
+        } else {
+          btn.classList.remove('active');
+        }
+      });
+      // 切换预览面板 - 先隐藏所有，再显示选中的
+      const allPanels = document.querySelectorAll('.style-frame');
+      allPanels.forEach(panel => {
+        panel.style.display = 'none';
+        panel.classList.remove('active');
+      });
+      const selectedPanel = document.getElementById('style-' + num);
+      if (selectedPanel) {
+        selectedPanel.style.display = 'flex';
+        selectedPanel.classList.add('active');
+      }
+      updateInfoPanel(num);
+    }
+
+    function updateInfoPanel(num) {
+      const data = styleData[num];
+      document.getElementById('info-icon').textContent = data.icon;
+      document.getElementById('info-title').textContent = data.title;
+      document.getElementById('info-subtitle').textContent = data.subtitle;
+      document.getElementById('info-scene').textContent = data.scene;
+      document.getElementById('info-features').innerHTML = data.features.map(f => 
+        `<li class="flex items-center gap-2"><span class="w-1.5 h-1.5 rounded-full bg-indigo-500"></span>${f}</li>`
+      ).join('');
+    }
+
+    // 页面加载时初始化
+    document.addEventListener('DOMContentLoaded', function() {
+      showStyle(1);
+    });
+  </script>
+</body>
+</html>

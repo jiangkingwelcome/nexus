@@ -9,6 +9,146 @@ import {
   saveToken,
   AlistUserInfo
 } from '@/src/api/alist';
+import { fileCache } from '@/src/utils/fileCache';
+
+// 缓存统计类型
+interface CacheStats {
+  count: number;
+  totalSize: number;
+  mode: string;
+  folderName?: string;
+  location?: string;
+  videoSupported: boolean;
+  localCount?: number;
+  localSize?: number;
+  idbCount?: number;
+  idbSize?: number;
+}
+
+// 缓存管理组件
+const CacheManagement: React.FC = () => {
+  const [cacheStats, setCacheStats] = useState<CacheStats | null>(null);
+  const [isLoading, setIsLoading] = useState(false);
+
+  const loadStats = async () => {
+    const stats = await fileCache.getStats();
+    setCacheStats(stats);
+  };
+
+  useEffect(() => {
+    loadStats();
+  }, []);
+
+  const handleSelectFolder = async () => {
+    setIsLoading(true);
+    const success = await fileCache.selectLocalFolder();
+    if (success) {
+      await loadStats();
+    }
+    setIsLoading(false);
+  };
+
+  const handleClearCache = async () => {
+    if (confirm('确定要清除所有文件缓存吗？')) {
+      await fileCache.clear();
+      await loadStats();
+    }
+  };
+
+  const formatSize = (bytes: number) => {
+    if (bytes < 1024) return bytes + ' B';
+    if (bytes < 1024 * 1024) return (bytes / 1024).toFixed(1) + ' KB';
+    if (bytes < 1024 * 1024 * 1024) return (bytes / 1024 / 1024).toFixed(1) + ' MB';
+    return (bytes / 1024 / 1024 / 1024).toFixed(2) + ' GB';
+  };
+
+  const isLocalSupported = fileCache.isLocalFolderSupported();
+  const hasLocalFolder = cacheStats?.videoSupported || false;
+
+  return (
+    <section className="mb-8">
+      <h2 className="text-lg font-semibold text-slate-700 mb-4 flex items-center gap-2">
+        <div className="w-8 h-8 rounded-lg bg-amber-100 flex items-center justify-center">
+          <svg className="w-4 h-4 text-amber-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M5 8h14M5 8a2 2 0 110-4h14a2 2 0 110 4M5 8v10a2 2 0 002 2h10a2 2 0 002-2V8m-9 4h4" />
+          </svg>
+        </div>
+        文件缓存
+      </h2>
+
+      <div className="bg-white rounded-2xl border border-slate-100 p-4 space-y-4">
+        {/* IndexedDB 缓存状态 */}
+        <div className="p-3 bg-slate-50 rounded-xl">
+          <div className="flex items-center justify-between mb-2">
+            <p className="text-sm font-medium text-slate-700 flex items-center gap-2">
+              🗃️ 浏览器缓存 (IndexedDB)
+            </p>
+            <p className="text-sm font-medium text-slate-700">
+              {cacheStats ? formatSize(cacheStats.idbSize || 0) : '...'}
+            </p>
+          </div>
+          <p className="text-xs text-slate-500">
+            书籍、文档等文件 · {cacheStats?.idbCount || 0} 个文件 · 最大 2GB
+          </p>
+        </div>
+
+        {/* 本地文件夹状态 */}
+        <div className={`p-3 rounded-xl ${hasLocalFolder ? 'bg-green-50' : 'bg-amber-50'}`}>
+          <div className="flex items-center justify-between mb-2">
+            <p className={`text-sm font-medium flex items-center gap-2 ${hasLocalFolder ? 'text-green-700' : 'text-amber-700'}`}>
+              {hasLocalFolder ? '📁' : '⚠️'} 本地文件夹 {hasLocalFolder ? `(${cacheStats?.folderName})` : '(未设置)'}
+            </p>
+            {hasLocalFolder && (
+              <p className="text-sm font-medium text-green-700">
+                {formatSize(cacheStats?.localSize || 0)}
+              </p>
+            )}
+          </div>
+          <p className={`text-xs ${hasLocalFolder ? 'text-green-600' : 'text-amber-600'}`}>
+            {hasLocalFolder 
+              ? `视频下载位置 · ${cacheStats?.localCount || 0} 个文件`
+              : '需要设置本地文件夹才能下载视频'
+            }
+          </p>
+        </div>
+
+        {/* 存储策略说明 */}
+        <div className="p-3 bg-gradient-to-r from-blue-50 to-indigo-50 rounded-xl">
+          <p className="text-xs text-blue-800 leading-relaxed">
+            <strong>💡 存储策略：</strong><br/>
+            • <strong>书籍/文档</strong>：自动存储到 IndexedDB（2GB 容量）<br/>
+            • <strong>视频文件</strong>：需设置本地文件夹后才能下载
+          </p>
+        </div>
+
+        {/* 设置本地文件夹按钮 */}
+        {isLocalSupported && (
+          <button
+            onClick={handleSelectFolder}
+            disabled={isLoading}
+            className={`w-full py-2.5 rounded-xl text-sm font-medium transition-colors ${
+              hasLocalFolder 
+                ? 'bg-green-100 text-green-700 hover:bg-green-200' 
+                : 'bg-amber-500 text-white hover:bg-amber-600'
+            } disabled:opacity-50`}
+          >
+            {isLoading ? '选择中...' : hasLocalFolder ? `📁 更换文件夹 (当前: ${cacheStats?.folderName})` : '📁 设置本地文件夹 (用于视频下载)'}
+          </button>
+        )}
+
+        {/* 清除缓存 */}
+        <div className="pt-3 border-t border-slate-100">
+          <button
+            onClick={handleClearCache}
+            className="w-full py-2.5 bg-red-50 text-red-600 rounded-xl text-sm font-medium hover:bg-red-100 transition-colors"
+          >
+            清除所有缓存
+          </button>
+        </div>
+      </div>
+    </section>
+  );
+};
 
 const SettingsPage: React.FC = () => {
   // Alist 设置
@@ -316,31 +456,7 @@ const SettingsPage: React.FC = () => {
       </section>
 
       {/* 缓存管理 */}
-      <section className="mb-8">
-        <h2 className="text-lg font-semibold text-slate-700 mb-4 flex items-center gap-2">
-          <div className="w-8 h-8 rounded-lg bg-amber-100 flex items-center justify-center">
-            <svg className="w-4 h-4 text-amber-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16" />
-            </svg>
-          </div>
-          缓存管理
-        </h2>
-
-        <div className="bg-white rounded-2xl border border-slate-100 p-4">
-          <button
-            onClick={() => {
-              localStorage.clear();
-              window.location.reload();
-            }}
-            className="w-full py-3 bg-red-50 text-red-600 rounded-xl font-medium hover:bg-red-100 transition-colors"
-          >
-            清除所有缓存数据
-          </button>
-          <p className="text-xs text-slate-400 mt-2 text-center">
-            将清除登录状态、阅读进度等本地数据
-          </p>
-        </div>
-      </section>
+      <CacheManagement />
 
       {/* 关于 */}
       <section>

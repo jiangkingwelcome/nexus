@@ -1,4 +1,4 @@
-import React, { useState, useCallback } from 'react';
+import React, { useState, useCallback, useEffect } from 'react';
 import Header from './components/Header';
 import HomeSection from './components/HomeSection';
 import FileBrowser from './components/FileBrowser';
@@ -10,6 +10,7 @@ import SettingsPage from './components/SettingsPage';
 import { NavTab, FileItem, FileCategory } from './types';
 import { APP_ENTRIES } from './constants';
 import { PATH_CONFIG } from './src/config';
+import { fileCache } from './src/utils/fileCache';
 
 // 获取 Tab 对应的基础路径
 const getBasePath = (tab: NavTab): string => {
@@ -21,6 +22,15 @@ const App: React.FC = () => {
   const [activeTab, setActiveTab] = useState<NavTab>(NavTab.HOME);
   const [currentPath, setCurrentPath] = useState<string>('/');
   const [viewingFile, setViewingFile] = useState<FileItem | null>(null);
+
+  // 初始化：尝试恢复本地缓存文件夹
+  useEffect(() => {
+    fileCache.tryRestoreFolder().then(restored => {
+      if (restored) {
+        console.log('📁 本地缓存文件夹已自动恢复');
+      }
+    });
+  }, []);
 
   // 处理 Tab 切换，同时设置对应的基础路径
   const handleTabChange = useCallback((tab: NavTab) => {

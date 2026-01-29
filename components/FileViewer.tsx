@@ -2,6 +2,7 @@ import React, { useState, useEffect, useRef } from 'react';
 import { FileItem } from '../types';
 import { getFileUrl, getPreviewUrl, getProxyUrl } from '@/src/api/alist';
 import { progressService, ReadingProgress } from '@/src/api/pocketbase';
+import { fileCache } from '@/src/utils/fileCache';
 import { ArrowLeftIcon, MoreHorizontalIcon } from './Icons';
 
 interface FileViewerProps {
@@ -17,20 +18,44 @@ const FileViewer: React.FC<FileViewerProps> = ({ file, onClose }) => {
   const [savedProgress, setSavedProgress] = useState<ReadingProgress | null>(null);
   const hideControlsTimer = useRef<number | null>(null);
 
-  // 获取文件直链和已保存的进度
+  // 获取文件直链和已保存的进度（并行执行）
   useEffect(() => {
-    loadFileUrl();
-    loadSavedProgress();
+    const loadAll = async () => {
+      setLoading(true);
+      setError(null);
+      
+      // 并行加载文件URL和进度
+      const loadUrlPromise = (async () => {
+        try {
+          // 对于文档和电子书，使用代理 URL
+          if (file.category === 'document' || file.category === 'ebook') {
+            return await getProxyUrl(file.path);
+          } else {
+            return await getFileUrl(file.path);
+          }
+        } catch (err) {
+          throw err;
+        }
+      })();
+      
+      const loadProgressPromise = progressService.get(file.path).catch(() => null);
+      
+      try {
+        const [url, progress] = await Promise.all([loadUrlPromise, loadProgressPromise]);
+        setFileUrl(url);
+        if (progress) setSavedProgress(progress);
+      } catch (err) {
+        setError(err instanceof Error ? err.message : '获取文件失败');
+        if (file.category === 'video') {
+          setFileUrl('https://www.w3schools.com/html/mov_bbb.mp4');
+        }
+      } finally {
+        setLoading(false);
+      }
+    };
+    
+    loadAll();
   }, [file.path]);
-
-  const loadSavedProgress = async () => {
-    try {
-      const progress = await progressService.get(file.path);
-      setSavedProgress(progress);
-    } catch (err) {
-      console.log('获取进度失败 (可能未连接 PocketBase)');
-    }
-  };
 
   // 保存进度
   const saveProgress = async (progress: number, position: string, total: string) => {
@@ -50,7 +75,7 @@ const FileViewer: React.FC<FileViewerProps> = ({ file, onClose }) => {
         last_read: new Date().toISOString(),
       });
     } catch (err) {
-      console.log('保存进度失败 (可能未连接 PocketBase)');
+      console.log('保存进度失败');
     }
   };
 
@@ -59,7 +84,6 @@ const FileViewer: React.FC<FileViewerProps> = ({ file, onClose }) => {
     setError(null);
     
     try {
-      // 对于文档和电子书，使用代理 URL（直接返回内容）
       if (file.category === 'document' || file.category === 'ebook') {
         const url = await getProxyUrl(file.path);
         setFileUrl(url);
@@ -69,7 +93,6 @@ const FileViewer: React.FC<FileViewerProps> = ({ file, onClose }) => {
       }
     } catch (err) {
       setError(err instanceof Error ? err.message : '获取文件失败');
-      // 使用 Mock URL
       if (file.category === 'video') {
         setFileUrl('https://www.w3schools.com/html/mov_bbb.mp4');
       }
@@ -110,26 +133,37 @@ const FileViewer: React.FC<FileViewerProps> = ({ file, onClose }) => {
 
   // 渲染不同类型的内容
   const renderContent = () => {
+    // 文本文件：直接渲染 TextViewer，让它自己处理所有加载
+    if (file.category === 'document' && !file.name.endsWith('.pdf')) {
+      return <TextViewer filePath={file.path} filename={file.name} fileSize={file.size} onClose={onClose} />;
+    }
+
+    // 其他类型需要等待 URL
     if (loading) {
       return (
-        <div className="flex flex-col items-center justify-center h-full">
-          <div className="w-10 h-10 border-2 border-white border-t-transparent rounded-full animate-spin" />
-          <p className="mt-4 text-white/70">加载中...</p>
+        <div className="w-full h-full bg-black flex flex-col items-center justify-center">
+          <div className="relative">
+            <div className="w-16 h-16 rounded-full border-4 border-white/20"></div>
+            <div className="absolute inset-0 w-16 h-16 rounded-full border-4 border-transparent border-t-white animate-spin"></div>
+          </div>
+          <p className="mt-6 text-sm text-white/70">正在加载...</p>
         </div>
       );
     }
 
     if (error && !fileUrl) {
       return (
-        <div className="flex flex-col items-center justify-center h-full text-white/70">
-          <svg className="w-16 h-16 mb-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-3L13.732 4c-.77-1.333-2.694-1.333-3.464 0L3.34 16c-.77 1.333.192 3 1.732 3z" />
-          </svg>
-          <p className="text-lg font-medium">无法加载文件</p>
-          <p className="text-sm mt-1">{error}</p>
+        <div className="w-full h-full flex flex-col items-center justify-center bg-gradient-to-br from-red-50 to-orange-50">
+          <div className="w-20 h-20 bg-red-100 rounded-2xl flex items-center justify-center mb-6">
+            <svg className="w-10 h-10 text-red-500" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-3L13.732 4c-.77-1.333-2.694-1.333-3.464 0L3.34 16c-.77 1.333.192 3 1.732 3z" />
+            </svg>
+          </div>
+          <p className="text-lg font-bold text-gray-800">无法加载文件</p>
+          <p className="text-sm text-gray-500 mt-1 max-w-xs text-center">{error}</p>
           <button 
             onClick={loadFileUrl}
-            className="mt-4 px-4 py-2 bg-white/20 rounded-lg hover:bg-white/30 transition-colors"
+            className="mt-6 px-6 py-2.5 bg-gradient-to-r from-orange-500 to-amber-500 text-white rounded-xl font-medium shadow-lg shadow-orange-200 hover:shadow-orange-300 transition-all"
           >
             重试
           </button>
@@ -149,10 +183,8 @@ const FileViewer: React.FC<FileViewerProps> = ({ file, onClose }) => {
         );
       
       case 'document':
-        if (file.name.endsWith('.pdf')) {
-          return <PdfViewer url={fileUrl!} />;
-        }
-        return <TextViewer url={fileUrl!} filename={file.name} fileSize={file.size} />;
+        // PDF
+        return <PdfViewer url={fileUrl!} />;
       
       case 'ebook':
         return <EbookViewer url={fileUrl!} filename={file.name} />;
@@ -186,28 +218,32 @@ const FileViewer: React.FC<FileViewerProps> = ({ file, onClose }) => {
 
   return (
     <div className="fixed inset-0 z-50 bg-black flex flex-col animate-fade-in">
-      {/* 内容区域 */}
-      <div className="flex-1 flex items-center justify-center overflow-hidden">
+      {/* 内容区域 - 占满全屏 */}
+      <div className="flex-1 overflow-hidden">
         {renderContent()}
       </div>
 
-      {/* 顶部返回按钮 */}
-      <button 
-        onClick={onClose}
-        className={`fixed top-6 left-6 z-50 w-11 h-11 rounded-full bg-black/30 backdrop-blur-md border border-white/10 text-white flex items-center justify-center shadow-lg transition-all duration-300 hover:bg-black/50 active:scale-95 ${
-          controlsVisible ? 'opacity-100' : 'opacity-0 pointer-events-none'
-        }`}
-      >
-        <ArrowLeftIcon className="w-6 h-6" />
-      </button>
+      {/* 顶部返回按钮 - 仅在视频/音频等全屏内容时显示 */}
+      {(file.category === 'video' || file.category === 'audio' || file.category === 'image') && (
+        <button 
+          onClick={onClose}
+          className={`fixed top-6 left-6 z-50 w-11 h-11 rounded-full bg-black/30 backdrop-blur-md border border-white/10 text-white flex items-center justify-center shadow-lg transition-all duration-300 hover:bg-black/50 active:scale-95 ${
+            controlsVisible ? 'opacity-100' : 'opacity-0 pointer-events-none'
+          }`}
+        >
+          <ArrowLeftIcon className="w-6 h-6" />
+        </button>
+      )}
 
-      {/* 底部文件名 */}
-      <div className={`fixed bottom-0 left-0 right-0 p-6 bg-gradient-to-t from-black/80 to-transparent transition-all duration-300 ${
-        controlsVisible ? 'opacity-100' : 'opacity-0'
-      }`}>
-        <h2 className="text-white font-semibold text-lg truncate">{file.name}</h2>
-        <p className="text-white/60 text-sm mt-1">{file.path}</p>
-      </div>
+      {/* 底部文件名 - 仅在视频/音频等全屏内容时显示 */}
+      {(file.category === 'video' || file.category === 'audio' || file.category === 'image') && (
+        <div className={`fixed bottom-0 left-0 right-0 p-6 bg-gradient-to-t from-black/80 to-transparent transition-all duration-300 ${
+          controlsVisible ? 'opacity-100' : 'opacity-0'
+        }`}>
+          <h2 className="text-white font-semibold text-lg truncate">{file.name}</h2>
+          <p className="text-white/60 text-sm mt-1">{file.path}</p>
+        </div>
+      )}
     </div>
   );
 };
@@ -357,60 +393,119 @@ const VideoPlayer: React.FC<VideoPlayerProps> = ({ url, filename, initialProgres
   );
 };
 
+// ==================== 阅读主题配置 ====================
+const READING_THEMES = {
+  paper: { bg: '#F5F5DC', text: '#3D3D3D', name: '羊皮纸' },
+  green: { bg: '#C7EDCC', text: '#2D4A2D', name: '护眼绿' },
+  night: { bg: '#1A1A2E', text: '#E8E8E8', name: '夜间' },
+  white: { bg: '#FFFFFF', text: '#333333', name: '白色' },
+  sepia: { bg: '#FBF0D9', text: '#5B4636', name: '怀旧' },
+};
+
+type ThemeKey = keyof typeof READING_THEMES;
+
 // ==================== 文本阅读器 ====================
-const TextViewer: React.FC<{ url: string; filename: string; fileSize?: number }> = ({ url, filename, fileSize }) => {
-  const [content, setContent] = useState<string>('');
+// 每页字符数（约 3-5 屏内容）
+const CHARS_PER_PAGE = 8000;
+
+const TextViewer: React.FC<{ filePath: string; filename: string; fileSize?: number; onClose?: () => void }> = ({ filePath, filename, fileSize, onClose }) => {
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
-  const [fontSize, setFontSize] = useState(16);
-  const [previewUrl, setPreviewUrl] = useState<string | null>(null);
+  const [fontSize, setFontSize] = useState(18);
+  const [lineHeight, setLineHeight] = useState(1.8);
+  const [theme, setTheme] = useState<ThemeKey>('paper');
   const [loadProgress, setLoadProgress] = useState(0);
   const [loadedSize, setLoadedSize] = useState(0);
+  const [showSettings, setShowSettings] = useState(false);
+  const [statusText, setStatusText] = useState('准备中...');
+  const [fromCache, setFromCache] = useState(false);
+  
+  // 分页相关 - 使用 ref 存储大文本，避免 React state 处理大数据
+  const [currentPage, setCurrentPage] = useState(0);
+  const [totalPages, setTotalPages] = useState(1);
+  const [pageContent, setPageContent] = useState(''); // 只存当前页内容
+  const fullTextRef = useRef<string>(''); // 用 ref 存储完整文本
+  const scrollRef = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
     let cancelled = false;
     
     setLoading(true);
     setError(null);
-    setPreviewUrl(null);
     setLoadProgress(0);
     setLoadedSize(0);
+    setFromCache(false);
+    setStatusText('准备中...');
     
     const loadFile = async () => {
+      const timings: Record<string, number> = {};
+      const startTime = performance.now();
+      
       try {
+        // 1. 先检查缓存
+        timings.cacheCheckStart = performance.now() - startTime;
+        const cachedContent = await fileCache.get(filePath);
+        timings.cacheCheckEnd = performance.now() - startTime;
+        
+        if (cachedContent && !cancelled) {
+          console.log(`📚 [缓存命中] 耗时: ${(timings.cacheCheckEnd - timings.cacheCheckStart).toFixed(0)}ms, 大小: ${(cachedContent.length / 1024 / 1024).toFixed(2)}MB`);
+          const pages = Math.ceil(cachedContent.length / CHARS_PER_PAGE);
+          fullTextRef.current = cachedContent; // 存到 ref
+          setPageContent(cachedContent.slice(0, CHARS_PER_PAGE)); // 只设置第一页
+          setTotalPages(pages);
+          setCurrentPage(0);
+          setFromCache(true);
+          setLoadProgress(100);
+          setLoading(false);
+          return;
+        }
+        
+        // 2. 获取文件 URL
+        setStatusText('正在连接...');
+        timings.urlStart = performance.now() - startTime;
+        const url = await getProxyUrl(filePath);
+        timings.urlEnd = performance.now() - startTime;
+        console.log(`🔗 [获取URL] 耗时: ${(timings.urlEnd - timings.urlStart).toFixed(0)}ms`);
+        if (cancelled) return;
+        
+        // 3. 下载文件
+        timings.downloadStart = performance.now() - startTime;
         const response = await fetch(url, { redirect: 'follow' });
         if (!response.ok) throw new Error('加载失败');
         
         const contentLength = response.headers.get('content-length');
         const totalSize = contentLength ? parseInt(contentLength) : fileSize || 0;
         
-        // 使用流式读取显示进度
         const reader = response.body?.getReader();
-        if (!reader) {
-          throw new Error('无法读取响应');
-        }
+        if (!reader) throw new Error('无法读取响应');
         
+        setStatusText('正在下载...');
         const chunks: Uint8Array[] = [];
         let receivedSize = 0;
         
         while (true) {
           const { done, value } = await reader.read();
           if (cancelled) return;
-          
           if (done) break;
           
           chunks.push(value);
           receivedSize += value.length;
           setLoadedSize(receivedSize);
-          
           if (totalSize > 0) {
             setLoadProgress(Math.round((receivedSize / totalSize) * 100));
           }
         }
         
+        timings.downloadEnd = performance.now() - startTime;
+        console.log(`⬇️ [下载完成] 耗时: ${(timings.downloadEnd - timings.downloadStart).toFixed(0)}ms, 大小: ${(receivedSize / 1024 / 1024).toFixed(2)}MB`);
+        
         if (cancelled) return;
         
-        // 合并所有块
+        // 4. 合并数据 - 使用 requestIdleCallback 避免阻塞
+        setStatusText('正在处理...');
+        timings.mergeStart = performance.now() - startTime;
+        
+        // 合并 chunks
         const allChunks = new Uint8Array(receivedSize);
         let position = 0;
         for (const chunk of chunks) {
@@ -418,154 +513,383 @@ const TextViewer: React.FC<{ url: string; filename: string; fileSize?: number }>
           position += chunk.length;
         }
         
-        // 尝试检测编码并解码
-        let text = '';
-        try {
-          const decoder = new TextDecoder('utf-8', { fatal: true });
-          text = decoder.decode(allChunks);
-          // 检查是否有乱码
-          if (text.includes('\ufffd')) {
-            throw new Error('UTF-8 decode failed');
-          }
-        } catch {
-          // UTF-8 失败，尝试 GBK
+        timings.mergeEnd = performance.now() - startTime;
+        console.log(`🔧 [合并数据] 耗时: ${(timings.mergeEnd - timings.mergeStart).toFixed(0)}ms`);
+        
+        // 5. 解码文本
+        timings.decodeStart = performance.now() - startTime;
+        let text = new TextDecoder('utf-8').decode(allChunks);
+        
+        // 简单检测：如果有大量乱码字符，尝试 GBK
+        const badCharCount = (text.match(/\ufffd/g) || []).length;
+        if (badCharCount > text.length * 0.01) {
           try {
-            const gbkDecoder = new TextDecoder('gbk');
-            text = gbkDecoder.decode(allChunks);
+            text = new TextDecoder('gbk').decode(allChunks);
           } catch {
-            // 最后尝试 gb18030
-            const gb18030Decoder = new TextDecoder('gb18030');
-            text = gb18030Decoder.decode(allChunks);
+            // 保持 UTF-8 结果
           }
         }
+        timings.decodeEnd = performance.now() - startTime;
+        console.log(`📝 [解码文本] 耗时: ${(timings.decodeEnd - timings.decodeStart).toFixed(0)}ms`);
         
         if (!cancelled) {
-          setContent(text);
+          // 6. 计算分页并显示（只设置第一页内容，避免卡顿）
+          timings.renderStart = performance.now() - startTime;
+          const pages = Math.ceil(text.length / CHARS_PER_PAGE);
+          fullTextRef.current = text; // 存到 ref，不触发渲染
+          setPageContent(text.slice(0, CHARS_PER_PAGE)); // 只设置第一页
+          setTotalPages(pages);
+          setCurrentPage(0);
           setLoading(false);
+          timings.renderEnd = performance.now() - startTime;
+          console.log(`🎨 [显示内容] 耗时: ${(timings.renderEnd - timings.renderStart).toFixed(0)}ms, 总页数: ${pages}`);
+          
+          // 7. 延迟缓存 - 使用 setTimeout 确保 UI 先更新
+          setTimeout(() => {
+            timings.cacheStart = performance.now() - startTime;
+            fileCache.set(filePath, text).then(() => {
+              timings.cacheEnd = performance.now() - startTime;
+              console.log(`💾 [缓存完成] 耗时: ${(timings.cacheEnd - timings.cacheStart).toFixed(0)}ms`);
+            }).catch(() => {});
+          }, 100);
+          
+          console.log(`✅ [总耗时] ${(performance.now() - startTime).toFixed(0)}ms`);
         }
       } catch (err) {
         if (cancelled) return;
         console.error('TextViewer error:', err);
-        setPreviewUrl(url);
-        setError('CORS');
+        setError(err instanceof Error ? err.message : '加载失败');
         setLoading(false);
       }
     };
     
     loadFile();
-    
     return () => { cancelled = true; };
-  }, [url, fileSize]);
+  }, [filePath, fileSize]);
 
+  // 加载界面
   if (loading) {
-    const sizeText = loadedSize > 0 
-      ? `${(loadedSize / 1024 / 1024).toFixed(1)} MB` 
-      : '';
-    const totalText = fileSize 
-      ? ` / ${(fileSize / 1024 / 1024).toFixed(1)} MB`
-      : '';
-      
+    const progress = loadProgress || 0;
+    const loadedMB = (loadedSize / 1024 / 1024).toFixed(1);
+    const totalMB = fileSize ? (fileSize / 1024 / 1024).toFixed(1) : '?';
+    const isProcessing = statusText === '正在处理...';
+    
     return (
-      <div className="w-full h-full bg-amber-50 flex items-center justify-center">
-        <div className="text-center">
-          <div className="w-10 h-10 border-2 border-orange-500 border-t-transparent rounded-full animate-spin mx-auto" />
-          <p className="mt-4 text-gray-500">
-            {loadProgress > 0 ? `加载中 ${loadProgress}%` : '加载中...'}
-          </p>
-          {loadedSize > 0 && (
-            <p className="mt-1 text-xs text-gray-400">
-              {sizeText}{totalText}
-            </p>
-          )}
+      <div className="w-full h-full bg-gradient-to-br from-amber-50 via-orange-50 to-yellow-50 flex items-center justify-center">
+        <div className="text-center px-8">
+          {/* 书籍图标 */}
+          <div className="relative w-20 h-20 mx-auto mb-6">
+            <div className="absolute inset-0 bg-gradient-to-br from-orange-400 to-amber-500 rounded-lg transform rotate-6 opacity-60"></div>
+            <div className="absolute inset-0 bg-gradient-to-br from-orange-500 to-amber-600 rounded-lg transform -rotate-3 opacity-80"></div>
+            <div className="absolute inset-0 bg-gradient-to-br from-orange-400 to-amber-500 rounded-lg shadow-lg flex items-center justify-center">
+              {isProcessing ? (
+                <div className="w-8 h-8 border-3 border-white/30 border-t-white rounded-full animate-spin" />
+              ) : (
+                <svg className="w-10 h-10 text-white" fill="currentColor" viewBox="0 0 24 24">
+                  <path d="M12 6.253v13m0-13C10.832 5.477 9.246 5 7.5 5S4.168 5.477 3 6.253v13C4.168 18.477 5.754 18 7.5 18s3.332.477 4.5 1.253m0-13C13.168 5.477 14.754 5 16.5 5c1.747 0 3.332.477 4.5 1.253v13C19.832 18.477 18.247 18 16.5 18c-1.746 0-3.332.477-4.5 1.253"/>
+                </svg>
+              )}
+            </div>
+          </div>
+          
+          {/* 书名 */}
+          <h3 className="text-base font-medium text-gray-700 mb-4 max-w-xs mx-auto truncate">
+            {filename.replace(/\.(txt|md)$/i, '')}
+          </h3>
+          
+          {/* 进度条 */}
+          <div className="w-56 mx-auto">
+            <div className="h-1.5 bg-orange-100 rounded-full overflow-hidden">
+              <div 
+                className={`h-full rounded-full transition-all duration-200 ${
+                  isProcessing 
+                    ? 'bg-gradient-to-r from-orange-400 via-amber-500 to-orange-400 animate-pulse' 
+                    : 'bg-gradient-to-r from-orange-400 to-amber-500'
+                }`}
+                style={{ width: `${Math.max(progress, 3)}%` }}
+              />
+            </div>
+            <div className="mt-2 flex justify-between text-xs text-gray-500">
+              <span>{statusText}</span>
+              {progress > 0 && !isProcessing && <span>{loadedMB} / {totalMB} MB</span>}
+              {isProcessing && <span>即将完成</span>}
+            </div>
+          </div>
         </div>
       </div>
     );
   }
 
+  // 错误界面
   if (error) {
-    // CORS 错误时显示替代方案
-    if (error === 'CORS' && previewUrl) {
-      return (
-        <div className="w-full h-full bg-amber-50 flex items-center justify-center p-8">
-          <div className="bg-white rounded-2xl shadow-lg p-8 max-w-md text-center">
-            <div className="w-16 h-16 mx-auto mb-4 rounded-full bg-orange-100 flex items-center justify-center">
-              <svg className="w-8 h-8 text-orange-500" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 6.253v13m0-13C10.832 5.477 9.246 5 7.5 5S4.168 5.477 3 6.253v13C4.168 18.477 5.754 18 7.5 18s3.332.477 4.5 1.253m0-13C13.168 5.477 14.754 5 16.5 5c1.747 0 3.332.477 4.5 1.253v13C19.832 18.477 18.247 18 16.5 18c-1.746 0-3.332.477-4.5 1.253" />
-              </svg>
-            </div>
-            <h3 className="text-lg font-bold text-gray-800 mb-2">{filename}</h3>
-            <p className="text-sm text-gray-500 mb-6">由于网盘限制，请选择以下方式阅读</p>
-            <div className="space-y-3">
-              <button
-                onClick={() => window.open(previewUrl, '_blank')}
-                className="w-full py-3 px-4 bg-gradient-to-r from-orange-500 to-amber-500 hover:from-orange-600 hover:to-amber-600 text-white rounded-xl font-medium transition-all"
-              >
-                📖 在新窗口打开
-              </button>
-              <a
-                href={previewUrl}
-                download={filename}
-                className="block w-full py-3 px-4 bg-gray-100 text-gray-700 rounded-xl font-medium hover:bg-gray-200 transition-all text-center"
-              >
-                ⬇️ 下载到本地
-              </a>
-            </div>
-            <p className="text-xs text-gray-400 mt-4">
-              提示：在 Alist 中为存储启用"Web代理"可实现应用内阅读
-            </p>
-          </div>
-        </div>
-      );
-    }
-    
     return (
-      <div className="w-full h-full bg-amber-50 flex items-center justify-center p-8">
-        <div className="bg-white rounded-2xl shadow-lg p-8 max-w-md text-center">
-          <div className="w-16 h-16 mx-auto mb-4 rounded-full bg-red-100 flex items-center justify-center">
-            <svg className="w-8 h-8 text-red-500" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-3L13.732 4c-.77-1.333-2.694-1.333-3.464 0L3.34 16c-.77 1.333.192 3 1.732 3z" />
+      <div className="w-full h-full bg-gradient-to-br from-red-50 to-orange-50 flex items-center justify-center p-8">
+        <div className="bg-white rounded-3xl shadow-xl p-8 max-w-sm text-center">
+          <div className="w-20 h-20 mx-auto mb-6 bg-red-100 rounded-2xl flex items-center justify-center">
+            <svg className="w-10 h-10 text-red-500" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-3L13.732 4c-.77-1.333-2.694-1.333-3.464 0L3.34 16c-.77 1.333.192 3 1.732 3z" />
             </svg>
           </div>
-          <h3 className="text-lg font-bold text-gray-800 mb-2">加载失败</h3>
+          <h3 className="text-xl font-bold text-gray-800 mb-2">加载失败</h3>
           <p className="text-sm text-gray-500">{error}</p>
         </div>
       </div>
     );
   }
 
+  const currentTheme = READING_THEMES[theme];
+
+  // 阅读界面
   return (
-    <div className="w-full h-full bg-amber-50 flex flex-col">
-      {/* 工具栏 */}
-      <div className="bg-white border-b border-gray-200 px-4 py-2 flex items-center justify-between">
-        <span className="text-sm text-gray-600 truncate max-w-xs">{filename}</span>
-        <div className="flex items-center gap-2">
-          <button 
-            onClick={() => setFontSize(s => Math.max(12, s - 2))}
-            className="w-8 h-8 rounded-lg bg-gray-100 flex items-center justify-center text-gray-600 hover:bg-gray-200"
+    <div 
+      className="w-full h-full flex flex-col transition-colors duration-300"
+      style={{ backgroundColor: currentTheme.bg }}
+    >
+      {/* 顶部工具栏 */}
+      <div 
+        className="flex-shrink-0 px-4 py-3 flex items-center gap-3 backdrop-blur-sm"
+        style={{ 
+          backgroundColor: theme === 'night' ? 'rgba(30,30,50,0.9)' : 'rgba(255,255,255,0.9)',
+          borderBottom: `1px solid ${theme === 'night' ? 'rgba(255,255,255,0.1)' : 'rgba(0,0,0,0.05)'}` 
+        }}
+      >
+        {/* 返回按钮 */}
+        {onClose && (
+          <button
+            onClick={onClose}
+            className={`p-2 -ml-2 rounded-xl transition-colors ${
+              theme === 'night' 
+                ? 'hover:bg-white/10 text-gray-400' 
+                : 'hover:bg-black/5 text-gray-500'
+            }`}
           >
-            A-
+            <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 19l-7-7 7-7" />
+            </svg>
           </button>
-          <span className="text-xs text-gray-500 w-8 text-center">{fontSize}</span>
-          <button 
-            onClick={() => setFontSize(s => Math.min(24, s + 2))}
-            className="w-8 h-8 rounded-lg bg-gray-100 flex items-center justify-center text-gray-600 hover:bg-gray-200"
+        )}
+        
+        {/* 标题 + 缓存标识 */}
+        <div className="flex-1 flex items-center gap-2 min-w-0">
+          <h1 
+            className="text-sm font-medium truncate"
+            style={{ color: theme === 'night' ? '#ccc' : '#666' }}
           >
-            A+
-          </button>
+            {filename.replace(/\.(txt|md)$/i, '')}
+          </h1>
+          {fromCache && (
+            <span className={`flex-shrink-0 text-xs px-1.5 py-0.5 rounded ${
+              theme === 'night' ? 'bg-green-900/50 text-green-400' : 'bg-green-100 text-green-600'
+            }`}>
+              已缓存
+            </span>
+          )}
+        </div>
+        
+        {/* 设置按钮 */}
+        <button
+          onClick={() => setShowSettings(!showSettings)}
+          className={`p-2 rounded-xl transition-colors ${
+            theme === 'night' 
+              ? 'hover:bg-white/10 text-gray-400' 
+              : 'hover:bg-black/5 text-gray-500'
+          }`}
+        >
+          <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 6V4m0 2a2 2 0 100 4m0-4a2 2 0 110 4m-6 8a2 2 0 100-4m0 4a2 2 0 110-4m0 4v2m0-6V4m6 6v10m6-2a2 2 0 100-4m0 4a2 2 0 110-4m0 4v2m0-6V4" />
+          </svg>
+        </button>
+      </div>
+      
+      {/* 设置面板 */}
+      {showSettings && (
+        <div 
+          className="flex-shrink-0 px-4 py-4 border-b"
+          style={{ 
+            backgroundColor: theme === 'night' ? 'rgba(30,30,50,0.95)' : 'rgba(255,255,255,0.95)',
+            borderColor: theme === 'night' ? 'rgba(255,255,255,0.1)' : 'rgba(0,0,0,0.05)'
+          }}
+        >
+          {/* 字体大小 */}
+          <div className="flex items-center justify-between mb-4">
+            <span className="text-sm" style={{ color: theme === 'night' ? '#aaa' : '#666' }}>字号</span>
+            <div className="flex items-center gap-3">
+              <button 
+                onClick={() => setFontSize(s => Math.max(14, s - 2))}
+                className={`w-8 h-8 rounded-lg flex items-center justify-center text-sm font-medium ${
+                  theme === 'night' ? 'bg-white/10 text-white' : 'bg-black/5 text-gray-600'
+                }`}
+              >
+                A-
+              </button>
+              <span className="w-8 text-center text-sm" style={{ color: theme === 'night' ? '#ccc' : '#666' }}>{fontSize}</span>
+              <button 
+                onClick={() => setFontSize(s => Math.min(28, s + 2))}
+                className={`w-8 h-8 rounded-lg flex items-center justify-center text-sm font-medium ${
+                  theme === 'night' ? 'bg-white/10 text-white' : 'bg-black/5 text-gray-600'
+                }`}
+              >
+                A+
+              </button>
+            </div>
+          </div>
+          
+          {/* 行距 */}
+          <div className="flex items-center justify-between mb-4">
+            <span className="text-sm" style={{ color: theme === 'night' ? '#aaa' : '#666' }}>行距</span>
+            <div className="flex items-center gap-2">
+              {[1.5, 1.8, 2.0, 2.2].map(h => (
+                <button
+                  key={h}
+                  onClick={() => setLineHeight(h)}
+                  className={`px-3 py-1 rounded-lg text-xs font-medium transition-colors ${
+                    lineHeight === h 
+                      ? 'bg-orange-500 text-white' 
+                      : theme === 'night' ? 'bg-white/10 text-gray-400' : 'bg-black/5 text-gray-500'
+                  }`}
+                >
+                  {h}
+                </button>
+              ))}
+            </div>
+          </div>
+          
+          {/* 主题 */}
+          <div className="flex items-center justify-between mb-4">
+            <span className="text-sm" style={{ color: theme === 'night' ? '#aaa' : '#666' }}>主题</span>
+            <div className="flex items-center gap-2">
+              {(Object.keys(READING_THEMES) as ThemeKey[]).map(key => (
+                <button
+                  key={key}
+                  onClick={() => setTheme(key)}
+                  className={`w-7 h-7 rounded-full border-2 transition-all ${
+                    theme === key ? 'scale-110 border-orange-500' : 'border-transparent hover:scale-105'
+                  }`}
+                  style={{ backgroundColor: READING_THEMES[key].bg }}
+                  title={READING_THEMES[key].name}
+                />
+              ))}
+            </div>
+          </div>
+          
+          {/* 缓存设置 */}
+          <div className="flex items-center justify-between">
+            <div>
+              <span className="text-sm" style={{ color: theme === 'night' ? '#aaa' : '#666' }}>缓存</span>
+              <p className="text-xs mt-0.5" style={{ color: theme === 'night' ? '#666' : '#999' }}>
+                {(() => {
+                  const mode = fileCache.getCacheMode();
+                  if (mode.mode === 'local') return `📁 ${mode.folderName}`;
+                  return '🗃️ IndexedDB (2GB)';
+                })()}
+              </p>
+            </div>
+            {fileCache.isLocalFolderSupported() && (
+              <button
+                onClick={async () => {
+                  await fileCache.selectLocalFolder();
+                  // 触发重新渲染
+                  setShowSettings(false);
+                  setTimeout(() => setShowSettings(true), 0);
+                }}
+                className={`px-3 py-1.5 rounded-lg text-xs font-medium ${
+                  theme === 'night' ? 'bg-white/10 text-white' : 'bg-black/5 text-gray-600'
+                }`}
+              >
+                {fileCache.getCacheMode().mode === 'local' ? '更换文件夹' : '设置文件夹'}
+              </button>
+            )}
+          </div>
+        </div>
+      )}
+      
+      {/* 内容区域 */}
+      <div ref={scrollRef} className="flex-1 overflow-auto hide-scrollbar">
+        <div className="max-w-2xl mx-auto px-6 py-8 md:px-12 md:py-12">
+          <article 
+            className="font-serif whitespace-pre-wrap break-words"
+            style={{ 
+              fontSize: `${fontSize}px`,
+              lineHeight: lineHeight,
+              color: currentTheme.text,
+              textAlign: 'justify',
+            }}
+          >
+            {pageContent}
+          </article>
         </div>
       </div>
       
-      {/* 内容 */}
-      <div className="flex-1 overflow-auto p-4">
-        <div className="max-w-3xl mx-auto bg-white rounded-xl shadow-sm p-6 md:p-8">
-          <pre 
-            className="whitespace-pre-wrap font-serif text-gray-800 leading-relaxed"
-            style={{ fontSize: `${fontSize}px` }}
+      {/* 分页导航 - 只在多页时显示 */}
+      {totalPages > 1 && (
+        <div 
+          className="flex-shrink-0 px-4 py-3 flex items-center justify-between border-t"
+          style={{ 
+            backgroundColor: theme === 'night' ? 'rgba(30,30,50,0.95)' : 'rgba(255,255,255,0.95)',
+            borderColor: theme === 'night' ? 'rgba(255,255,255,0.1)' : 'rgba(0,0,0,0.05)'
+          }}
+        >
+          {/* 上一页 */}
+          <button
+            onClick={() => {
+              const newPage = Math.max(0, currentPage - 1);
+              setCurrentPage(newPage);
+              setPageContent(fullTextRef.current.slice(newPage * CHARS_PER_PAGE, (newPage + 1) * CHARS_PER_PAGE));
+              scrollRef.current?.scrollTo(0, 0);
+            }}
+            disabled={currentPage === 0}
+            className={`px-4 py-2 rounded-lg text-sm font-medium transition-colors ${
+              currentPage === 0
+                ? 'opacity-30 cursor-not-allowed'
+                : theme === 'night' ? 'bg-white/10 text-white hover:bg-white/20' : 'bg-black/5 text-gray-600 hover:bg-black/10'
+            }`}
           >
-            {content}
-          </pre>
+            ← 上一页
+          </button>
+          
+          {/* 页码显示 + 跳转 */}
+          <div className="flex items-center gap-2">
+            <span className="text-sm" style={{ color: theme === 'night' ? '#aaa' : '#666' }}>
+              {currentPage + 1} / {totalPages}
+            </span>
+            {totalPages > 10 && (
+              <input
+                type="number"
+                min={1}
+                max={totalPages}
+                value={currentPage + 1}
+                onChange={(e) => {
+                  const newPage = Math.max(0, Math.min(totalPages - 1, (parseInt(e.target.value) || 1) - 1));
+                  setCurrentPage(newPage);
+                  setPageContent(fullTextRef.current.slice(newPage * CHARS_PER_PAGE, (newPage + 1) * CHARS_PER_PAGE));
+                  scrollRef.current?.scrollTo(0, 0);
+                }}
+                className={`w-16 px-2 py-1 rounded text-center text-sm ${
+                  theme === 'night' ? 'bg-white/10 text-white' : 'bg-black/5 text-gray-700'
+                }`}
+              />
+            )}
+          </div>
+          
+          {/* 下一页 */}
+          <button
+            onClick={() => {
+              const newPage = Math.min(totalPages - 1, currentPage + 1);
+              setCurrentPage(newPage);
+              setPageContent(fullTextRef.current.slice(newPage * CHARS_PER_PAGE, (newPage + 1) * CHARS_PER_PAGE));
+              scrollRef.current?.scrollTo(0, 0);
+            }}
+            disabled={currentPage >= totalPages - 1}
+            className={`px-4 py-2 rounded-lg text-sm font-medium transition-colors ${
+              currentPage >= totalPages - 1
+                ? 'opacity-30 cursor-not-allowed'
+                : theme === 'night' ? 'bg-white/10 text-white hover:bg-white/20' : 'bg-black/5 text-gray-600 hover:bg-black/10'
+            }`}
+          >
+            下一页 →
+          </button>
         </div>
-      </div>
+      )}
     </div>
   );
 };
