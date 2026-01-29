@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from 'react';
+import { createPortal } from 'react-dom';
 import { FileItem, FileCategory } from '../types';
 import { listFiles, getFileCategory, AlistFile } from '@/src/api/alist';
 
@@ -8,6 +9,7 @@ interface BookShelfProps {
   bookShelfPath?: string;
   onBookClick: (file: FileItem) => void;
   onFolderClick: (path: string) => void;
+  onBack?: () => void;  // 返回上一级（首页）
 }
 
 // 书籍封面颜色
@@ -81,6 +83,7 @@ type LibraryTab = 'shelf' | 'store' | 'stats' | 'profile';
 const BookShelf: React.FC<BookShelfProps> = ({
   path,
   onBookClick,
+  onBack,
 }) => {
   const [activeTab, setActiveTab] = useState<LibraryTab>('shelf');
   const [files, setFiles] = useState<FileItem[]>([]);
@@ -153,14 +156,28 @@ const BookShelf: React.FC<BookShelfProps> = ({
       {/* 顶部固定区域 */}
       <div className="sticky top-0 z-20 bg-white">
         <div className="px-4 pt-4 pb-2 flex items-center justify-between">
-          <h1 className="text-2xl font-bold text-gray-800">书架</h1>
           <div className="flex items-center gap-2">
-            <button className="w-10 h-10 rounded-full bg-gray-100 flex items-center justify-center hover:bg-gray-200 transition-all active:scale-95">
+            {/* 返回按钮 - 仅移动端显示 */}
+            {onBack && (
+              <button 
+                onClick={onBack}
+                className="md:hidden w-9 h-9 rounded-full bg-gray-100 flex items-center justify-center hover:bg-gray-200 transition-all active:scale-95"
+                title="返回首页"
+              >
+                <svg className="w-5 h-5 text-gray-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 19l-7-7 7-7"/>
+                </svg>
+              </button>
+            )}
+            <h1 className="text-2xl font-bold text-gray-800">书架</h1>
+          </div>
+          <div className="flex items-center gap-2">
+            <button className="w-10 h-10 rounded-full bg-gray-100 flex items-center justify-center hover:bg-gray-200 transition-all active:scale-95" title="搜索">
               <svg className="w-5 h-5 text-gray-500" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                 <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"/>
               </svg>
             </button>
-            <button className="w-10 h-10 rounded-full bg-gradient-to-br from-amber-400 to-orange-500 flex items-center justify-center hover:from-amber-500 hover:to-orange-600 transition-all shadow-lg shadow-orange-500/30 active:scale-95">
+            <button className="w-10 h-10 rounded-full bg-gradient-to-br from-amber-400 to-orange-500 flex items-center justify-center hover:from-amber-500 hover:to-orange-600 transition-all shadow-lg shadow-orange-500/30 active:scale-95" title="添加书籍">
               <svg className="w-5 h-5 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                 <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 4v16m8-8H4"/>
               </svg>
@@ -561,17 +578,17 @@ const BookShelf: React.FC<BookShelfProps> = ({
   ];
 
   return (
-    <div className="relative bg-white h-[calc(100vh-120px)] flex flex-col">
+    <div className="relative bg-white min-h-[calc(100vh-120px)] flex flex-col pb-20 md:pb-0">
       {/* 内容区域 */}
-      <div className="flex-1 overflow-hidden">
+      <div className="flex-1 overflow-auto">
         {activeTab === 'shelf' && renderShelfTab()}
         {activeTab === 'store' && renderStoreTab()}
         {activeTab === 'stats' && renderStatsTab()}
         {activeTab === 'profile' && renderProfileTab()}
       </div>
 
-      {/* 微信读书风格底部 Tab 导航 */}
-      <div className="bg-white/98 backdrop-blur-xl border-t border-gray-100 z-30">
+      {/* 桌面端底部 Tab 导航 - 相对定位 */}
+      <div className="hidden md:block bg-white/98 backdrop-blur-xl border-t border-gray-100">
         <div className="flex items-center justify-around px-2 py-1">
           {tabItems.map((item) => {
             const isActive = activeTab === item.id;
@@ -599,17 +616,57 @@ const BookShelf: React.FC<BookShelfProps> = ({
             );
           })}
         </div>
-        
-        {/* SVG 渐变定义 */}
         <svg width="0" height="0" style={{ position: 'absolute' }}>
           <defs>
-            <linearGradient id="tab-gradient" x1="0%" y1="0%" x2="100%" y2="100%">
+            <linearGradient id="tab-gradient-desktop" x1="0%" y1="0%" x2="100%" y2="100%">
               <stop offset="0%" style={{ stopColor: '#FFB347' }} />
               <stop offset="100%" style={{ stopColor: '#FF6B6B' }} />
             </linearGradient>
           </defs>
         </svg>
       </div>
+
+      {/* 移动端底部 Tab 导航 - 使用 Portal 渲染到 body 避免 transform 影响 */}
+      {createPortal(
+        <div className="md:hidden fixed bottom-0 left-0 right-0 bg-white/98 backdrop-blur-xl border-t border-gray-100 z-50">
+          <div className="flex items-center justify-around px-2 py-1 safe-area-inset-bottom">
+            {tabItems.map((item) => {
+              const isActive = activeTab === item.id;
+              return (
+                <button
+                  key={item.id}
+                  onClick={() => setActiveTab(item.id)}
+                  className={`flex flex-col items-center gap-0.5 py-2 px-4 rounded-2xl transition-all ${isActive ? 'text-transparent' : 'text-gray-400'}`}
+                >
+                  <div className="w-7 h-7 flex items-center justify-center">
+                    <svg 
+                      className="w-6 h-6" 
+                      viewBox="0 0 24 24" 
+                      fill="none" 
+                      stroke={isActive ? 'url(#tab-gradient-mobile)' : 'currentColor'} 
+                      strokeWidth={2}
+                    >
+                      <path strokeLinecap="round" strokeLinejoin="round" d={item.icon} />
+                    </svg>
+                  </div>
+                  <span className={`text-[11px] font-semibold ${isActive ? 'bg-gradient-to-r from-amber-400 to-orange-500 bg-clip-text text-transparent' : ''}`}>
+                    {item.label}
+                  </span>
+                </button>
+              );
+            })}
+          </div>
+          <svg width="0" height="0" style={{ position: 'absolute' }}>
+            <defs>
+              <linearGradient id="tab-gradient-mobile" x1="0%" y1="0%" x2="100%" y2="100%">
+                <stop offset="0%" style={{ stopColor: '#FFB347' }} />
+                <stop offset="100%" style={{ stopColor: '#FF6B6B' }} />
+              </linearGradient>
+            </defs>
+          </svg>
+        </div>,
+        document.body
+      )}
     </div>
   );
 };

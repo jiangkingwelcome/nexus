@@ -18,11 +18,9 @@ interface LoadingScreenProps {
 const ConstellationLogo: React.FC<{ isConnecting: boolean }> = ({ isConnecting }) => {
   return (
     <svg 
-      width="200" 
-      height="200" 
       viewBox="0 0 200 200" 
       fill="none"
-      className="drop-shadow-2xl"
+      className="w-32 h-32 sm:w-40 sm:h-40 md:w-48 md:h-48 lg:w-52 lg:h-52 drop-shadow-2xl"
     >
       <defs>
         <linearGradient id="st1" x1="0%" y1="0%" x2="100%" y2="100%">
@@ -135,10 +133,10 @@ const StatusIndicator: React.FC<{ status: ConnectionStatus; label: string }> = (
   };
 
   return (
-    <div className="flex items-center gap-3 text-white/80">
-      <div className={`w-3 h-3 rounded-full ${getStatusColor()} transition-all duration-300`} />
-      <span className="text-sm font-medium">{label}</span>
-      <span className={`text-xs ml-auto ${
+    <div className="flex items-center gap-2 sm:gap-3 text-white/80">
+      <div className={`w-2.5 h-2.5 sm:w-3 sm:h-3 rounded-full flex-shrink-0 ${getStatusColor()} transition-all duration-300`} />
+      <span className="text-xs sm:text-sm font-medium truncate">{label}</span>
+      <span className={`text-xs ml-auto flex-shrink-0 ${
         status === 'success' ? 'text-emerald-400' : 
         status === 'error' ? 'text-red-400' : 
         'text-white/50'
@@ -215,7 +213,7 @@ const LoadingScreen: React.FC<LoadingScreenProps> = ({ onComplete }) => {
   const isConnecting = state.pocketbase === 'connecting' || state.alist === 'connecting';
 
   return (
-    <div className="fixed inset-0 z-50 flex flex-col items-center justify-center bg-[#050510] overflow-hidden">
+    <div className="fixed inset-0 z-50 flex flex-col items-center justify-center bg-[#050510] overflow-hidden px-4">
       {/* 背景星空效果 */}
       <div className="absolute inset-0 overflow-hidden">
         {/* 渐变背景 */}
@@ -240,29 +238,29 @@ const LoadingScreen: React.FC<LoadingScreenProps> = ({ onComplete }) => {
       </div>
 
       {/* Logo */}
-      <div className="relative z-10 mb-8 animate-fade-in">
+      <div className="relative z-10 mb-4 sm:mb-6 md:mb-8 animate-fade-in">
         <ConstellationLogo isConnecting={isConnecting} />
       </div>
 
       {/* 标题 */}
-      <h1 className="relative z-10 text-4xl font-bold mb-2 bg-gradient-to-r from-amber-400 via-pink-500 to-violet-500 bg-clip-text text-transparent">
+      <h1 className="relative z-10 text-2xl sm:text-3xl md:text-4xl font-bold mb-1 sm:mb-2 bg-gradient-to-r from-amber-400 via-pink-500 to-violet-500 bg-clip-text text-transparent">
         Nexus
       </h1>
-      <p className="relative z-10 text-white/50 text-sm mb-8">知识星辰大海</p>
+      <p className="relative z-10 text-white/50 text-xs sm:text-sm mb-4 sm:mb-6 md:mb-8">知识星辰大海</p>
 
       {/* 连接状态 */}
-      <div className="relative z-10 w-64 space-y-3 mb-8">
+      <div className="relative z-10 w-full max-w-[280px] sm:max-w-xs space-y-2 sm:space-y-3 mb-4 sm:mb-6 md:mb-8">
         <StatusIndicator status={state.pocketbase} label="数据中心 (PocketBase)" />
         <StatusIndicator status={state.alist} label="文件网关 (AList)" />
       </div>
 
       {/* 状态消息 */}
-      <p className="relative z-10 text-white/60 text-sm animate-pulse">
+      <p className="relative z-10 text-white/60 text-xs sm:text-sm animate-pulse text-center">
         {state.message}
       </p>
 
       {/* 进度条 */}
-      <div className="relative z-10 w-64 h-1 bg-white/10 rounded-full mt-6 overflow-hidden">
+      <div className="relative z-10 w-full max-w-[280px] sm:max-w-xs h-1 bg-white/10 rounded-full mt-4 sm:mt-6 overflow-hidden">
         <div 
           className="h-full bg-gradient-to-r from-amber-400 via-pink-500 to-violet-500 rounded-full transition-all duration-500"
           style={{ 

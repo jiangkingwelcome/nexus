@@ -159,6 +159,7 @@ const App: React.FC = () => {
             bookShelfPath={PATH_CONFIG.library.bookShelfPath}
             onBookClick={(file) => setViewingFile(file)}
             onFolderClick={(path) => setCurrentPath(path)}
+            onBack={() => handleTabChange(NavTab.HOME)}
           />
         );
       
@@ -212,7 +213,7 @@ const App: React.FC = () => {
   return (
     <UserContext.Provider value={{ user: currentUser, logout: handleLogout }}>
       <ThemeContext.Provider value={{ theme, toggleTheme }}>
-        <div className={`min-h-screen relative overflow-hidden font-sans transition-colors duration-300 ${
+        <div className={`min-h-screen relative font-sans transition-colors duration-300 ${
           isDark 
             ? 'bg-[#0f0f12] text-white selection:bg-indigo-900 selection:text-indigo-200' 
             : 'bg-slate-50 text-slate-900 selection:bg-indigo-100 selection:text-indigo-700'
@@ -251,8 +252,10 @@ const App: React.FC = () => {
               </div>
             </div>
 
-            {/* 移动端底部导航 */}
-            <BottomDock activeTab={activeTab} onTabChange={handleTabChange} />
+            {/* 移动端底部导航 - 图书馆有自己的导航，所以隐藏 */}
+            {activeTab !== NavTab.LIBRARY && (
+              <BottomDock activeTab={activeTab} onTabChange={handleTabChange} />
+            )}
           </div>
         </div>
       </ThemeContext.Provider>

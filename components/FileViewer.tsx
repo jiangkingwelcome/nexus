@@ -179,6 +179,7 @@ const FileViewer: React.FC<FileViewerProps> = ({ file, onClose }) => {
             filename={file.name} 
             initialProgress={savedProgress}
             onProgressChange={saveProgress}
+            onClose={onClose}
           />
         );
       
@@ -223,20 +224,22 @@ const FileViewer: React.FC<FileViewerProps> = ({ file, onClose }) => {
         {renderContent()}
       </div>
 
-      {/* 顶部返回按钮 - 仅在视频/音频等全屏内容时显示 */}
-      {(file.category === 'video' || file.category === 'audio' || file.category === 'image') && (
+      {/* 顶部返回按钮 - 仅在音频/图片时显示（视频播放器自带控制栏） */}
+      {(file.category === 'audio' || file.category === 'image') && (
         <button 
           onClick={onClose}
           className={`fixed top-6 left-6 z-50 w-11 h-11 rounded-full bg-black/30 backdrop-blur-md border border-white/10 text-white flex items-center justify-center shadow-lg transition-all duration-300 hover:bg-black/50 active:scale-95 ${
             controlsVisible ? 'opacity-100' : 'opacity-0 pointer-events-none'
           }`}
+          title="返回"
+          aria-label="返回"
         >
           <ArrowLeftIcon className="w-6 h-6" />
         </button>
       )}
 
-      {/* 底部文件名 - 仅在视频/音频等全屏内容时显示 */}
-      {(file.category === 'video' || file.category === 'audio' || file.category === 'image') && (
+      {/* 底部文件名 - 仅在音频/图片时显示（视频播放器自带控制栏） */}
+      {(file.category === 'audio' || file.category === 'image') && (
         <div className={`fixed bottom-0 left-0 right-0 p-6 bg-gradient-to-t from-black/80 to-transparent transition-all duration-300 ${
           controlsVisible ? 'opacity-100' : 'opacity-0'
         }`}>
@@ -256,13 +259,30 @@ interface VideoPlayerProps {
   onProgressChange?: (progress: number, position: string, total: string) => void;
 }
 
-const VideoPlayer: React.FC<VideoPlayerProps> = ({ url, filename, initialProgress, onProgressChange }) => {
+const VideoPlayer: React.FC<VideoPlayerProps & { onClose?: () => void }> = ({ url, filename, initialProgress, onProgressChange, onClose }) => {
   const videoRef = useRef<HTMLVideoElement>(null);
   const [isPlaying, setIsPlaying] = useState(false);
   const [progress, setProgress] = useState(0);
   const [duration, setDuration] = useState(0);
   const [currentTime, setCurrentTime] = useState(0);
+  const [showControls, setShowControls] = useState(true);
   const saveTimerRef = useRef<number | null>(null);
+  const hideTimer = useRef<number | null>(null);
+
+  // 控制栏自动隐藏
+  const resetHideTimer = () => {
+    setShowControls(true);
+    if (hideTimer.current) clearTimeout(hideTimer.current);
+    hideTimer.current = window.setTimeout(() => {
+      if (isPlaying) setShowControls(false);
+    }, 3000);
+  };
+
+  useEffect(() => {
+    return () => {
+      if (hideTimer.current) clearTimeout(hideTimer.current);
+    };
+  }, []);
 
   // 恢复上次播放位置
   useEffect(() => {
@@ -348,22 +368,49 @@ const VideoPlayer: React.FC<VideoPlayerProps> = ({ url, filename, initialProgres
   };
 
   return (
-    <div className="relative w-full h-full flex items-center justify-center bg-black">
+    <div 
+      className="relative w-full h-full flex items-center justify-center bg-black"
+      onMouseMove={resetHideTimer}
+      onTouchStart={resetHideTimer}
+    >
       <video
         ref={videoRef}
         src={url}
         className="max-w-full max-h-full"
         onTimeUpdate={handleTimeUpdate}
-        onPlay={() => setIsPlaying(true)}
+        onPlay={() => { setIsPlaying(true); resetHideTimer(); }}
         onPause={() => setIsPlaying(false)}
         onClick={togglePlay}
       />
+      
+      {/* 顶部控制栏 - 返回按钮和标题 */}
+      <div className={`absolute top-0 left-0 right-0 p-4 bg-gradient-to-b from-black/60 to-transparent transition-all duration-300 ${
+        showControls ? 'opacity-100' : 'opacity-0 pointer-events-none'
+      }`}>
+        <div className="flex items-center gap-3">
+          {onClose && (
+            <button 
+              onClick={onClose}
+              className="w-10 h-10 rounded-full bg-white/20 backdrop-blur-sm flex items-center justify-center hover:bg-white/30 active:scale-95 transition-all"
+              title="返回"
+              aria-label="返回"
+            >
+              <svg className="w-5 h-5 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 19l-7-7 7-7" />
+              </svg>
+            </button>
+          )}
+          <h3 className="text-white font-medium truncate flex-1">{filename}</h3>
+        </div>
+      </div>
       
       {/* 播放按钮覆盖 */}
       {!isPlaying && (
         <button 
           onClick={togglePlay}
-          className="absolute inset-0 flex items-center justify-center bg-black/20"
+          className="absolute inset-0 flex items-center justify-center"
+          title="播放"
+          aria-label="播放视频"
         >
           <div className="w-20 h-20 rounded-full bg-white/30 backdrop-blur-md flex items-center justify-center border border-white/40 hover:bg-white/40 transition-colors">
             <svg className="w-10 h-10 text-white ml-1" fill="currentColor" viewBox="0 0 24 24">
@@ -373,10 +420,12 @@ const VideoPlayer: React.FC<VideoPlayerProps> = ({ url, filename, initialProgres
         </button>
       )}
 
-      {/* 进度条 */}
-      <div className="absolute bottom-20 left-6 right-6">
+      {/* 底部控制栏 - 进度条 */}
+      <div className={`absolute bottom-0 left-0 right-0 p-6 bg-gradient-to-t from-black/60 to-transparent transition-all duration-300 ${
+        showControls ? 'opacity-100' : 'opacity-0 pointer-events-none'
+      }`}>
         <div 
-          className="h-1 bg-white/30 rounded-full cursor-pointer"
+          className="h-1 bg-white/30 rounded-full cursor-pointer mb-3"
           onClick={handleSeek}
         >
           <div 
@@ -384,7 +433,7 @@ const VideoPlayer: React.FC<VideoPlayerProps> = ({ url, filename, initialProgres
             style={{ width: `${progress}%` }}
           />
         </div>
-        <div className="flex justify-between mt-2 text-white/70 text-xs">
+        <div className="flex justify-between text-white/70 text-xs">
           <span>{formatTime(currentTime)}</span>
           <span>{formatTime(duration)}</span>
         </div>
