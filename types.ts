@@ -1,5 +1,26 @@
 import React from 'react';
 
+// ==================== 主题相关 ====================
+
+export type ThemeMode = 'light' | 'dark';
+
+export interface ThemeColors {
+  // 背景色
+  bgPrimary: string;
+  bgSecondary: string;
+  bgCard: string;
+  // 文字色
+  textPrimary: string;
+  textSecondary: string;
+  textMuted: string;
+  // 边框
+  border: string;
+  borderLight: string;
+  // 强调色
+  accent: string;
+  accentLight: string;
+}
+
 // ==================== 导航相关 ====================
 
 export enum NavTab {

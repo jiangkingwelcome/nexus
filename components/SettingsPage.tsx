@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useContext } from 'react';
 import { 
   login as alistLogin, 
   logout as alistLogout, 
@@ -10,6 +10,7 @@ import {
   AlistUserInfo
 } from '@/src/api/alist';
 import { fileCache } from '@/src/utils/fileCache';
+import { ThemeContext } from '../App';
 
 // 缓存统计类型
 interface CacheStats {
@@ -26,7 +27,7 @@ interface CacheStats {
 }
 
 // 缓存管理组件
-const CacheManagement: React.FC = () => {
+const CacheManagement: React.FC<{ isDark: boolean }> = ({ isDark }) => {
   const [cacheStats, setCacheStats] = useState<CacheStats | null>(null);
   const [isLoading, setIsLoading] = useState(false);
 
@@ -67,16 +68,16 @@ const CacheManagement: React.FC = () => {
 
   return (
     <section className="mb-8">
-      <h2 className="text-lg font-semibold text-slate-700 mb-4 flex items-center gap-2">
-        <div className="w-8 h-8 rounded-lg bg-amber-100 flex items-center justify-center">
-          <svg className="w-4 h-4 text-amber-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+      <h2 className={`text-lg font-semibold mb-4 flex items-center gap-2 ${isDark ? 'text-white' : 'text-slate-700'}`}>
+        <div className={`w-8 h-8 rounded-lg flex items-center justify-center ${isDark ? 'bg-amber-500/20' : 'bg-amber-100'}`}>
+          <svg className={`w-4 h-4 ${isDark ? 'text-amber-400' : 'text-amber-600'}`} fill="none" stroke="currentColor" viewBox="0 0 24 24">
             <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M5 8h14M5 8a2 2 0 110-4h14a2 2 0 110 4M5 8v10a2 2 0 002 2h10a2 2 0 002-2V8m-9 4h4" />
           </svg>
         </div>
         文件缓存
       </h2>
 
-      <div className="bg-white rounded-2xl border border-slate-100 p-4 space-y-4">
+      <div className={`rounded-2xl border p-4 space-y-4 ${isDark ? 'bg-white/5 border-white/10' : 'bg-white border-slate-100'}`}>
         {/* IndexedDB 缓存状态 */}
         <div className="p-3 bg-slate-50 rounded-xl">
           <div className="flex items-center justify-between mb-2">
@@ -246,22 +247,85 @@ const SettingsPage: React.FC = () => {
     setTimeout(() => setAlistSuccess(null), 3000);
   };
 
+  const { theme, toggleTheme } = useContext(ThemeContext);
+  const isDark = theme === 'dark';
+
   return (
     <div className="animate-fade-in pb-32 px-6">
-      <h1 className="text-2xl font-bold text-slate-800 mb-6">设置</h1>
+      <h1 className={`text-2xl font-bold mb-6 ${isDark ? 'text-white' : 'text-slate-800'}`}>设置</h1>
+
+      {/* 主题设置 */}
+      <section className="mb-8">
+        <h2 className={`text-lg font-semibold mb-4 flex items-center gap-2 ${isDark ? 'text-white' : 'text-slate-700'}`}>
+          <div className={`w-8 h-8 rounded-lg flex items-center justify-center ${isDark ? 'bg-indigo-500/20' : 'bg-indigo-100'}`}>
+            {isDark ? (
+              <svg className="w-4 h-4 text-indigo-400" fill="currentColor" viewBox="0 0 24 24">
+                <path d="M21.752 15.002A9.718 9.718 0 0118 15.75c-5.385 0-9.75-4.365-9.75-9.75 0-1.33.266-2.597.748-3.752A9.753 9.753 0 003 11.25C3 16.635 7.365 21 12.75 21a9.753 9.753 0 009.002-5.998z" />
+              </svg>
+            ) : (
+              <svg className="w-4 h-4 text-indigo-600" fill="currentColor" viewBox="0 0 24 24">
+                <path d="M12 2.25a.75.75 0 01.75.75v2.25a.75.75 0 01-1.5 0V3a.75.75 0 01.75-.75zM7.5 12a4.5 4.5 0 119 0 4.5 4.5 0 01-9 0zM18.894 6.166a.75.75 0 00-1.06-1.06l-1.591 1.59a.75.75 0 101.06 1.061l1.591-1.59zM21.75 12a.75.75 0 01-.75.75h-2.25a.75.75 0 010-1.5H21a.75.75 0 01.75.75zM17.834 18.894a.75.75 0 001.06-1.06l-1.59-1.591a.75.75 0 10-1.061 1.06l1.59 1.591zM12 18a.75.75 0 01.75.75V21a.75.75 0 01-1.5 0v-2.25A.75.75 0 0112 18zM7.758 17.303a.75.75 0 00-1.061-1.06l-1.591 1.59a.75.75 0 001.06 1.061l1.591-1.59zM6 12a.75.75 0 01-.75.75H3a.75.75 0 010-1.5h2.25A.75.75 0 016 12zM6.697 7.757a.75.75 0 001.06-1.06l-1.59-1.591a.75.75 0 00-1.061 1.06l1.59 1.591z" />
+              </svg>
+            )}
+          </div>
+          外观主题
+        </h2>
+
+        <div className={`rounded-2xl border p-4 ${isDark ? 'bg-white/5 border-white/10' : 'bg-white border-slate-100'}`}>
+          <div className="flex items-center justify-between">
+            <div className="flex items-center gap-3">
+              <div className={`w-12 h-12 rounded-xl flex items-center justify-center ${
+                isDark 
+                  ? 'bg-gradient-to-br from-indigo-500 to-purple-600' 
+                  : 'bg-gradient-to-br from-amber-400 to-orange-500'
+              }`}>
+                {isDark ? (
+                  <svg className="w-6 h-6 text-white" fill="currentColor" viewBox="0 0 24 24">
+                    <path d="M21.752 15.002A9.718 9.718 0 0118 15.75c-5.385 0-9.75-4.365-9.75-9.75 0-1.33.266-2.597.748-3.752A9.753 9.753 0 003 11.25C3 16.635 7.365 21 12.75 21a9.753 9.753 0 009.002-5.998z" />
+                  </svg>
+                ) : (
+                  <svg className="w-6 h-6 text-white" fill="currentColor" viewBox="0 0 24 24">
+                    <path d="M12 2.25a.75.75 0 01.75.75v2.25a.75.75 0 01-1.5 0V3a.75.75 0 01.75-.75zM7.5 12a4.5 4.5 0 119 0 4.5 4.5 0 01-9 0zM18.894 6.166a.75.75 0 00-1.06-1.06l-1.591 1.59a.75.75 0 101.06 1.061l1.591-1.59zM21.75 12a.75.75 0 01-.75.75h-2.25a.75.75 0 010-1.5H21a.75.75 0 01.75.75zM17.834 18.894a.75.75 0 001.06-1.06l-1.59-1.591a.75.75 0 10-1.061 1.06l1.59 1.591zM12 18a.75.75 0 01.75.75V21a.75.75 0 01-1.5 0v-2.25A.75.75 0 0112 18zM7.758 17.303a.75.75 0 00-1.061-1.06l-1.591 1.59a.75.75 0 001.06 1.061l1.591-1.59zM6 12a.75.75 0 01-.75.75H3a.75.75 0 010-1.5h2.25A.75.75 0 016 12zM6.697 7.757a.75.75 0 001.06-1.06l-1.59-1.591a.75.75 0 00-1.061 1.06l1.59 1.591z" />
+                  </svg>
+                )}
+              </div>
+              <div>
+                <p className={`font-semibold ${isDark ? 'text-white' : 'text-slate-800'}`}>
+                  {isDark ? '深色模式' : '浅色模式'}
+                </p>
+                <p className={`text-sm ${isDark ? 'text-white/50' : 'text-slate-500'}`}>
+                  {isDark ? '减少眼睛疲劳，适合夜间使用' : '明亮清晰，适合日间使用'}
+                </p>
+              </div>
+            </div>
+            
+            {/* 切换开关 */}
+            <button
+              onClick={toggleTheme}
+              className={`w-14 h-8 rounded-full p-1 transition-colors duration-300 ${
+                isDark ? 'bg-indigo-600' : 'bg-slate-200'
+              }`}
+            >
+              <div className={`w-6 h-6 rounded-full bg-white shadow-md transition-transform duration-300 ${
+                isDark ? 'translate-x-6' : 'translate-x-0'
+              }`} />
+            </button>
+          </div>
+        </div>
+      </section>
 
       {/* Alist 设置 */}
       <section className="mb-8">
-        <h2 className="text-lg font-semibold text-slate-700 mb-4 flex items-center gap-2">
-          <div className="w-8 h-8 rounded-lg bg-indigo-100 flex items-center justify-center">
-            <svg className="w-4 h-4 text-indigo-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+        <h2 className={`text-lg font-semibold mb-4 flex items-center gap-2 ${isDark ? 'text-white' : 'text-slate-700'}`}>
+          <div className={`w-8 h-8 rounded-lg flex items-center justify-center ${isDark ? 'bg-indigo-500/20' : 'bg-indigo-100'}`}>
+            <svg className={`w-4 h-4 ${isDark ? 'text-indigo-400' : 'text-indigo-600'}`} fill="none" stroke="currentColor" viewBox="0 0 24 24">
               <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M5 12h14M5 12a2 2 0 01-2-2V6a2 2 0 012-2h14a2 2 0 012 2v4a2 2 0 01-2 2M5 12a2 2 0 00-2 2v4a2 2 0 002 2h14a2 2 0 002-2v-4a2 2 0 00-2-2m-2-4h.01M17 16h.01" />
             </svg>
           </div>
           Alist 文件服务器
         </h2>
 
-        <div className="bg-white rounded-2xl border border-slate-100 p-4 space-y-4">
+        <div className={`rounded-2xl border p-4 space-y-4 ${isDark ? 'bg-white/5 border-white/10' : 'bg-white border-slate-100'}`}>
           {/* 服务器地址 */}
           <div>
             <label className="block text-sm font-medium text-slate-600 mb-2">服务器地址</label>
@@ -429,16 +493,16 @@ const SettingsPage: React.FC = () => {
 
       {/* PocketBase 设置 */}
       <section className="mb-8">
-        <h2 className="text-lg font-semibold text-slate-700 mb-4 flex items-center gap-2">
-          <div className="w-8 h-8 rounded-lg bg-purple-100 flex items-center justify-center">
-            <svg className="w-4 h-4 text-purple-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+        <h2 className={`text-lg font-semibold mb-4 flex items-center gap-2 ${isDark ? 'text-white' : 'text-slate-700'}`}>
+          <div className={`w-8 h-8 rounded-lg flex items-center justify-center ${isDark ? 'bg-purple-500/20' : 'bg-purple-100'}`}>
+            <svg className={`w-4 h-4 ${isDark ? 'text-purple-400' : 'text-purple-600'}`} fill="none" stroke="currentColor" viewBox="0 0 24 24">
               <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M4 7v10c0 2.21 3.582 4 8 4s8-1.79 8-4V7M4 7c0 2.21 3.582 4 8 4s8-1.79 8-4M4 7c0-2.21 3.582-4 8-4s8 1.79 8 4m0 5c0 2.21-3.582 4-8 4s-8-1.79-8-4" />
             </svg>
           </div>
           PocketBase 数据同步
         </h2>
 
-        <div className="bg-white rounded-2xl border border-slate-100 p-4 space-y-4">
+        <div className={`rounded-2xl border p-4 space-y-4 ${isDark ? 'bg-white/5 border-white/10' : 'bg-white border-slate-100'}`}>
           <div>
             <label className="block text-sm font-medium text-slate-600 mb-2">服务器地址</label>
             <input 
@@ -456,14 +520,14 @@ const SettingsPage: React.FC = () => {
       </section>
 
       {/* 缓存管理 */}
-      <CacheManagement />
+      <CacheManagement isDark={isDark} />
 
       {/* 关于 */}
       <section>
-        <div className="bg-slate-50 rounded-2xl p-4 text-center">
-          <h3 className="font-bold text-slate-800">Nexus OS</h3>
-          <p className="text-sm text-slate-500 mt-1">个人知识操作系统</p>
-          <p className="text-xs text-slate-400 mt-2">v0.1.0</p>
+        <div className={`rounded-2xl p-4 text-center ${isDark ? 'bg-white/5' : 'bg-slate-50'}`}>
+          <h3 className={`font-bold ${isDark ? 'text-white' : 'text-slate-800'}`}>Nexus OS</h3>
+          <p className={`text-sm mt-1 ${isDark ? 'text-white/60' : 'text-slate-500'}`}>个人知识操作系统</p>
+          <p className={`text-xs mt-2 ${isDark ? 'text-white/40' : 'text-slate-400'}`}>v0.1.0</p>
         </div>
       </section>
     </div>

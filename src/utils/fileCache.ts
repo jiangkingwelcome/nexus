@@ -364,6 +364,7 @@ class FileCacheService {
     // 从 IndexedDB 读取（使用只读事务，更快）
     try {
       const db = await this.getDB();
+      console.log(`🗃️ [IndexedDB] 查询路径: ${path}`);
       
       return new Promise((resolve) => {
         // 使用只读事务提高读取速度
@@ -374,15 +375,20 @@ class FileCacheService {
         request.onsuccess = () => {
           const result = request.result as CachedFile | undefined;
           if (result) {
+            console.log(`🗃️ [IndexedDB] 找到缓存! 大小: ${(result.size / 1024 / 1024).toFixed(2)}MB`);
             // 异步更新访问时间，不阻塞读取
             this.updateAccessTime(path).catch(() => {});
             resolve(result.content);
           } else {
+            console.log(`🗃️ [IndexedDB] 未找到缓存`);
             resolve(null);
           }
         };
 
-        request.onerror = () => resolve(null);
+        request.onerror = (e) => {
+          console.error(`🗃️ [IndexedDB] 读取错误:`, e);
+          resolve(null);
+        };
       });
     } catch {
       return null;
@@ -436,10 +442,11 @@ class FileCacheService {
     try {
       const db = await this.getDB();
       const size = new Blob([content]).size;
+      console.log(`🗃️ [IndexedDB] 准备写入: ${path}, 大小: ${(size / 1024 / 1024).toFixed(2)}MB`);
 
       await this.ensureSpace(size);
 
-      return new Promise((resolve, reject) => {
+      return new Promise((resolve) => {
         const transaction = db.transaction(STORE_NAME, 'readwrite');
         const store = transaction.objectStore(STORE_NAME);
 
@@ -452,13 +459,25 @@ class FileCacheService {
         };
 
         const request = store.put(cachedFile);
-        request.onsuccess = () => {
-          console.log('💾 已缓存到 IndexedDB:', path);
+        
+        // 监听事务完成（而不仅仅是 request）
+        transaction.oncomplete = () => {
+          console.log('💾 [IndexedDB] 写入成功:', path);
           resolve('success');
         };
-        request.onerror = () => {
-          console.error('IndexedDB 缓存失败:', request.error);
+        
+        transaction.onerror = () => {
+          console.error('💾 [IndexedDB] 事务错误:', transaction.error);
           resolve('error');
+        };
+        
+        transaction.onabort = () => {
+          console.error('💾 [IndexedDB] 事务中止:', transaction.error);
+          resolve('error');
+        };
+        
+        request.onerror = () => {
+          console.error('💾 [IndexedDB] 请求错误:', request.error);
         };
       });
     } catch (err) {

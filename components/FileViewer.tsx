@@ -444,11 +444,12 @@ const TextViewer: React.FC<{ filePath: string; filename: string; fileSize?: numb
       try {
         // 1. 先检查缓存
         timings.cacheCheckStart = performance.now() - startTime;
+        console.log(`🔍 [检查缓存] 路径: ${filePath}`);
         const cachedContent = await fileCache.get(filePath);
         timings.cacheCheckEnd = performance.now() - startTime;
         
         if (cachedContent && !cancelled) {
-          console.log(`📚 [缓存命中] 耗时: ${(timings.cacheCheckEnd - timings.cacheCheckStart).toFixed(0)}ms, 大小: ${(cachedContent.length / 1024 / 1024).toFixed(2)}MB`);
+          console.log(`📚 [缓存命中!] 耗时: ${(timings.cacheCheckEnd - timings.cacheCheckStart).toFixed(0)}ms, 大小: ${(cachedContent.length / 1024 / 1024).toFixed(2)}MB`);
           const pages = Math.ceil(cachedContent.length / CHARS_PER_PAGE);
           fullTextRef.current = cachedContent; // 存到 ref
           setPageContent(cachedContent.slice(0, CHARS_PER_PAGE)); // 只设置第一页
@@ -459,6 +460,8 @@ const TextViewer: React.FC<{ filePath: string; filename: string; fileSize?: numb
           setLoading(false);
           return;
         }
+        
+        console.log(`❌ [缓存未命中] 开始下载...`);
         
         // 2. 获取文件 URL
         setStatusText('正在连接...');
@@ -547,10 +550,13 @@ const TextViewer: React.FC<{ filePath: string; filename: string; fileSize?: numb
           // 7. 延迟缓存 - 使用 setTimeout 确保 UI 先更新
           setTimeout(() => {
             timings.cacheStart = performance.now() - startTime;
-            fileCache.set(filePath, text).then(() => {
+            console.log(`💾 [开始缓存] 路径: ${filePath}, 大小: ${(text.length / 1024 / 1024).toFixed(2)}MB`);
+            fileCache.set(filePath, text).then((result) => {
               timings.cacheEnd = performance.now() - startTime;
-              console.log(`💾 [缓存完成] 耗时: ${(timings.cacheEnd - timings.cacheStart).toFixed(0)}ms`);
-            }).catch(() => {});
+              console.log(`💾 [缓存结果] ${result}, 耗时: ${(timings.cacheEnd - timings.cacheStart).toFixed(0)}ms`);
+            }).catch((err) => {
+              console.error('💾 [缓存失败]', err);
+            });
           }, 100);
           
           console.log(`✅ [总耗时] ${(performance.now() - startTime).toFixed(0)}ms`);

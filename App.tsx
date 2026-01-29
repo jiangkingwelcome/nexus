@@ -1,4 +1,4 @@
-import React, { useState, useCallback, useEffect } from 'react';
+import React, { useState, useCallback, useEffect, createContext, useContext } from 'react';
 import Header from './components/Header';
 import HomeSection from './components/HomeSection';
 import FileBrowser from './components/FileBrowser';
@@ -7,10 +7,21 @@ import BottomDock from './components/BottomDock';
 import Sidebar from './components/Sidebar';
 import FileViewer from './components/FileViewer';
 import SettingsPage from './components/SettingsPage';
-import { NavTab, FileItem, FileCategory } from './types';
+import { NavTab, FileItem, FileCategory, ThemeMode } from './types';
 import { APP_ENTRIES } from './constants';
 import { PATH_CONFIG } from './src/config';
 import { fileCache } from './src/utils/fileCache';
+
+// 主题 Context
+interface ThemeContextType {
+  theme: ThemeMode;
+  toggleTheme: () => void;
+}
+
+export const ThemeContext = createContext<ThemeContextType>({
+  theme: 'light',
+  toggleTheme: () => {},
+});
 
 // 获取 Tab 对应的基础路径
 const getBasePath = (tab: NavTab): string => {
@@ -22,6 +33,21 @@ const App: React.FC = () => {
   const [activeTab, setActiveTab] = useState<NavTab>(NavTab.HOME);
   const [currentPath, setCurrentPath] = useState<string>('/');
   const [viewingFile, setViewingFile] = useState<FileItem | null>(null);
+  
+  // 主题状态
+  const [theme, setTheme] = useState<ThemeMode>(() => {
+    const saved = localStorage.getItem('nexus-theme');
+    return (saved as ThemeMode) || 'light';
+  });
+
+  // 切换主题
+  const toggleTheme = useCallback(() => {
+    setTheme(prev => {
+      const next = prev === 'light' ? 'dark' : 'light';
+      localStorage.setItem('nexus-theme', next);
+      return next;
+    });
+  }, []);
 
   // 初始化：尝试恢复本地缓存文件夹
   useEffect(() => {
@@ -113,42 +139,55 @@ const App: React.FC = () => {
     }
   };
 
+  // 主题样式
+  const isDark = theme === 'dark';
+  
   return (
-    <div className="min-h-screen bg-slate-50 relative overflow-hidden font-sans selection:bg-indigo-100 selection:text-indigo-700">
-      
-      {/* 文件查看器 */}
-      {viewingFile && (
-        <FileViewer 
-          file={viewingFile} 
-          onClose={() => setViewingFile(null)} 
-        />
-      )}
-
-      {/* 背景装饰 */}
-      <div className="fixed top-[-10%] left-[-10%] w-[50%] h-[50%] bg-indigo-100 rounded-full blur-[100px] opacity-60 pointer-events-none z-0" />
-      <div className="fixed bottom-[-10%] right-[-10%] w-[60%] h-[60%] bg-blue-100 rounded-full blur-[120px] opacity-60 pointer-events-none z-0" />
-
-      {/* 主内容容器 */}
-      <div className={`relative z-10 w-full min-h-screen transition-transform duration-300 ${viewingFile ? 'scale-95 opacity-50 pointer-events-none' : 'scale-100 opacity-100'}`}>
+    <ThemeContext.Provider value={{ theme, toggleTheme }}>
+      <div className={`min-h-screen relative overflow-hidden font-sans transition-colors duration-300 ${
+        isDark 
+          ? 'bg-[#0f0f12] text-white selection:bg-indigo-900 selection:text-indigo-200' 
+          : 'bg-slate-50 text-slate-900 selection:bg-indigo-100 selection:text-indigo-700'
+      }`}>
         
-        {/* 桌面端侧边栏 */}
-        <Sidebar activeTab={activeTab} onTabChange={handleTabChange} />
-        
-        {/* 主内容区域 */}
-        <div className="md:ml-64 min-h-screen flex flex-col">
-          <div className="w-full max-w-5xl mx-auto md:max-w-none md:mx-0">
-            <Header name="Jiangking" />
-            
-            <main className="animate-fade-in transition-opacity duration-300 min-h-[80vh] w-full max-w-5xl mx-auto md:max-w-none md:mx-0 md:px-6">
-              {renderContent()}
-            </main>
+        {/* 文件查看器 */}
+        {viewingFile && (
+          <FileViewer 
+            file={viewingFile} 
+            onClose={() => setViewingFile(null)} 
+          />
+        )}
+
+        {/* 背景装饰 */}
+        <div className={`fixed top-[-10%] left-[-10%] w-[50%] h-[50%] rounded-full blur-[100px] pointer-events-none z-0 transition-colors duration-300 ${
+          isDark ? 'bg-indigo-900/30 opacity-40' : 'bg-indigo-100 opacity-60'
+        }`} />
+        <div className={`fixed bottom-[-10%] right-[-10%] w-[60%] h-[60%] rounded-full blur-[120px] pointer-events-none z-0 transition-colors duration-300 ${
+          isDark ? 'bg-violet-900/30 opacity-40' : 'bg-blue-100 opacity-60'
+        }`} />
+
+        {/* 主内容容器 */}
+        <div className={`relative z-10 w-full min-h-screen transition-transform duration-300 ${viewingFile ? 'scale-95 opacity-50 pointer-events-none' : 'scale-100 opacity-100'}`}>
+          
+          {/* 桌面端侧边栏 */}
+          <Sidebar activeTab={activeTab} onTabChange={handleTabChange} />
+          
+          {/* 主内容区域 */}
+          <div className="md:ml-64 min-h-screen flex flex-col">
+            <div className="w-full max-w-5xl mx-auto md:max-w-none md:mx-0">
+              <Header name="Jiangking" />
+              
+              <main className="animate-fade-in transition-opacity duration-300 min-h-[80vh] w-full max-w-5xl mx-auto md:max-w-none md:mx-0 md:px-6">
+                {renderContent()}
+              </main>
+            </div>
           </div>
-        </div>
 
-        {/* 移动端底部导航 */}
-        <BottomDock activeTab={activeTab} onTabChange={handleTabChange} />
+          {/* 移动端底部导航 */}
+          <BottomDock activeTab={activeTab} onTabChange={handleTabChange} />
+        </div>
       </div>
-    </div>
+    </ThemeContext.Provider>
   );
 };
 
