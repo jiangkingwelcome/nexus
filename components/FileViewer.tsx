@@ -440,8 +440,54 @@ const isDarkTheme = (key: ThemeKey) => {
 };
 
 // ==================== 文本阅读器 ====================
-// 每页字符数（约 3-5 屏内容）
-const CHARS_PER_PAGE = 8000;
+// 章节标题正则
+const CHAPTER_REGEX = /^(第[一二三四五六七八九十百千万\d]+[章节卷部篇回集幕]|Chapter\s*\d+|卷[一二三四五六七八九十\d]+|序[章言]?|楔子|尾声|后记|前言|引子)/im;
+
+// 按章节分割文本
+function splitByChapters(text: string): string[] {
+  // 按行分割
+  const lines = text.split('\n');
+  const chapters: string[] = [];
+  let currentChapter: string[] = [];
+  let foundFirstChapter = false;
+  
+  for (const line of lines) {
+    const trimmedLine = line.trim();
+    // 检测是否是章节标题
+    const isChapterTitle = CHAPTER_REGEX.test(trimmedLine) && trimmedLine.length < 50;
+    
+    if (isChapterTitle) {
+      foundFirstChapter = true;
+      // 如果当前章节有内容，保存它
+      if (currentChapter.length > 0 && currentChapter.some(l => l.trim())) {
+        chapters.push(currentChapter.join('\n'));
+      }
+      // 开始新章节
+      currentChapter = [line];
+    } else {
+      // 如果还没找到第一个章节，把内容加到第一章
+      currentChapter.push(line);
+    }
+  }
+  
+  // 保存最后一章
+  if (currentChapter.length > 0 && currentChapter.some(l => l.trim())) {
+    chapters.push(currentChapter.join('\n'));
+  }
+  
+  // 如果没有检测到章节，把整个文本作为一章
+  if (chapters.length === 0) {
+    chapters.push(text);
+  }
+  
+  // 如果第一章内容太少（可能只是书名），合并到第二章
+  if (chapters.length > 1 && chapters[0].length < 200) {
+    chapters[1] = chapters[0] + '\n\n' + chapters[1];
+    chapters.shift();
+  }
+  
+  return chapters;
+}
 
 const TextViewer: React.FC<{ filePath: string; filename: string; fileSize?: number; onClose?: () => void }> = ({ filePath, filename, fileSize, onClose }) => {
   const [loading, setLoading] = useState(true);
@@ -457,11 +503,12 @@ const TextViewer: React.FC<{ filePath: string; filename: string; fileSize?: numb
   const [showToolbar, setShowToolbar] = useState(true);
   const [activePanel, setActivePanel] = useState<'none' | 'settings' | 'themes'>('none');
   
-  // 分页相关 - 使用 ref 存储大文本，避免 React state 处理大数据
+  // 分页相关 - 按章节分页
   const [currentPage, setCurrentPage] = useState(0);
   const [totalPages, setTotalPages] = useState(1);
-  const [pageContent, setPageContent] = useState(''); // 只存当前页内容
-  const fullTextRef = useRef<string>(''); // 用 ref 存储完整文本
+  const [pageContent, setPageContent] = useState(''); // 当前章节内容
+  const chaptersRef = useRef<string[]>([]); // 用 ref 存储章节数组
+  const fullTextRef = useRef<string>(''); // 用于缓存的完整文本
   const scrollRef = useRef<HTMLDivElement>(null);
   
   // 当前主题是否为深色
@@ -490,14 +537,16 @@ const TextViewer: React.FC<{ filePath: string; filename: string; fileSize?: numb
         
         if (cachedContent && !cancelled) {
           console.log(`📚 [缓存命中!] 耗时: ${(timings.cacheCheckEnd - timings.cacheCheckStart).toFixed(0)}ms, 大小: ${(cachedContent.length / 1024 / 1024).toFixed(2)}MB`);
-          const pages = Math.ceil(cachedContent.length / CHARS_PER_PAGE);
-          fullTextRef.current = cachedContent; // 存到 ref
-          setPageContent(cachedContent.slice(0, CHARS_PER_PAGE)); // 只设置第一页
-          setTotalPages(pages);
+          const chapters = splitByChapters(cachedContent);
+          chaptersRef.current = chapters;
+          fullTextRef.current = cachedContent;
+          setPageContent(chapters[0] || '');
+          setTotalPages(chapters.length);
           setCurrentPage(0);
           setFromCache(true);
           setLoadProgress(100);
           setLoading(false);
+          console.log(`📖 [章节分割] 共 ${chapters.length} 章`);
           return;
         }
         
@@ -576,16 +625,17 @@ const TextViewer: React.FC<{ filePath: string; filename: string; fileSize?: numb
         console.log(`📝 [解码文本] 耗时: ${(timings.decodeEnd - timings.decodeStart).toFixed(0)}ms`);
         
         if (!cancelled) {
-          // 6. 计算分页并显示（只设置第一页内容，避免卡顿）
+          // 6. 按章节分割并显示
           timings.renderStart = performance.now() - startTime;
-          const pages = Math.ceil(text.length / CHARS_PER_PAGE);
-          fullTextRef.current = text; // 存到 ref，不触发渲染
-          setPageContent(text.slice(0, CHARS_PER_PAGE)); // 只设置第一页
-          setTotalPages(pages);
+          const chapters = splitByChapters(text);
+          chaptersRef.current = chapters;
+          fullTextRef.current = text;
+          setPageContent(chapters[0] || '');
+          setTotalPages(chapters.length);
           setCurrentPage(0);
           setLoading(false);
           timings.renderEnd = performance.now() - startTime;
-          console.log(`🎨 [显示内容] 耗时: ${(timings.renderEnd - timings.renderStart).toFixed(0)}ms, 总页数: ${pages}`);
+          console.log(`🎨 [显示内容] 耗时: ${(timings.renderEnd - timings.renderStart).toFixed(0)}ms, 总章数: ${chapters.length}`);
           
           // 7. 延迟缓存 - 使用 setTimeout 确保 UI 先更新
           setTimeout(() => {
@@ -750,27 +800,10 @@ const TextViewer: React.FC<{ filePath: string; filename: string; fileSize?: numb
         </div>
       </div>
       
-      {/* 章节标题区域 */}
-      <div 
-        className={`pt-14 px-6 transition-all duration-300 ${
-          showToolbar ? 'opacity-100' : 'opacity-0'
-        }`}
-      >
-        <h2 
-          className="text-lg font-medium mb-1"
-          style={{ color: isCurrentDark ? '#e8e8e8' : '#333' }}
-        >
-          第 {currentPage + 1} 页
-        </h2>
-        <p className="text-xs" style={{ color: isCurrentDark ? '#666' : '#999' }}>
-          本页约 {pageContent.length.toLocaleString()} 字
-        </p>
-      </div>
-      
       {/* 内容区域 - 点击显示/隐藏工具栏 */}
       <div 
         ref={scrollRef} 
-        className="flex-1 overflow-auto hide-scrollbar"
+        className="flex-1 overflow-auto hide-scrollbar pt-14"
         style={{
           filter: brightness !== 100 ? `brightness(${brightness / 100})` : undefined,
         }}
@@ -784,15 +817,69 @@ const TextViewer: React.FC<{ filePath: string; filename: string; fileSize?: numb
       >
         <div className="max-w-2xl mx-auto px-6 py-4 pb-44 md:px-10">
           <article 
-            className="font-serif whitespace-pre-wrap break-words"
+            className="font-serif"
             style={{ 
               fontSize: `${fontSize}px`,
               lineHeight: lineHeight,
               color: currentTheme.text,
-              textAlign: 'justify',
             }}
           >
-            {pageContent}
+            {/* 传统排版：标题居中、正文首行缩进 */}
+            {pageContent.split(/\n+/).filter(p => p.trim()).map((paragraph, idx) => {
+              const text = paragraph.trim();
+              
+              // 检测书名和作者（如：《斗破苍穹》 天蚕土豆）
+              const isBookTitle = /^《.+》/.test(text) && text.length < 50;
+              
+              // 检测是否是章节标题
+              const isChapterTitle = /^(第[一二三四五六七八九十百千万\d]+[章节卷部篇回集幕]|Chapter\s*\d+|卷[一二三四五六七八九十\d]+|序[章言]?|楔子|尾声|后记|前言|引子)/i.test(text) 
+                && text.length < 50;
+              
+              if (isBookTitle) {
+                return (
+                  <h2 
+                    key={idx}
+                    style={{ 
+                      textAlign: 'center',
+                      margin: '1em 0 1.5em 0',
+                      fontWeight: 600,
+                      fontSize: `${fontSize + 4}px`,
+                    }}
+                  >
+                    {text}
+                  </h2>
+                );
+              }
+              
+              if (isChapterTitle) {
+                return (
+                  <h3 
+                    key={idx}
+                    style={{ 
+                      textAlign: 'center',
+                      margin: '1.5em 0 1em 0',
+                      fontWeight: 500,
+                      fontSize: `${fontSize + 2}px`,
+                    }}
+                  >
+                    {text}
+                  </h3>
+                );
+              }
+              
+              return (
+                <p 
+                  key={idx}
+                  style={{ 
+                    textIndent: '2em',
+                    textAlign: 'justify',
+                    margin: 0,
+                  }}
+                >
+                  {text}
+                </p>
+              );
+            })}
           </article>
         </div>
       </div>
@@ -947,14 +1034,14 @@ const TextViewer: React.FC<{ filePath: string; filename: string; fileSize?: numb
         
         {/* 底部功能按钮 */}
         <div className="px-4 pb-3 flex items-center justify-around">
-          {/* 上一页 */}
+          {/* 上一章 */}
           <button
             onClick={(e) => {
               e.stopPropagation();
               if (currentPage > 0) {
                 const newPage = currentPage - 1;
                 setCurrentPage(newPage);
-                setPageContent(fullTextRef.current.slice(newPage * CHARS_PER_PAGE, (newPage + 1) * CHARS_PER_PAGE));
+                setPageContent(chaptersRef.current[newPage] || '');
                 scrollRef.current?.scrollTo(0, 0);
               }
             }}
@@ -962,12 +1049,12 @@ const TextViewer: React.FC<{ filePath: string; filename: string; fileSize?: numb
             className={`flex flex-col items-center gap-1 p-2 rounded-lg transition-colors ${
               currentPage === 0 ? 'opacity-30' : 'hover:bg-white/5'
             }`}
-            title="上一页"
+            title="上一章"
           >
             <svg className="w-5 h-5" style={{ color: isCurrentDark ? 'rgba(255,255,255,0.6)' : 'rgba(0,0,0,0.6)' }} fill="none" stroke="currentColor" viewBox="0 0 24 24">
               <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 19l-7-7 7-7" />
             </svg>
-            <span className="text-[10px]" style={{ color: isCurrentDark ? 'rgba(255,255,255,0.5)' : 'rgba(0,0,0,0.5)' }}>上一页</span>
+            <span className="text-[10px]" style={{ color: isCurrentDark ? 'rgba(255,255,255,0.5)' : 'rgba(0,0,0,0.5)' }}>上一章</span>
           </button>
           
           {/* 夜间模式切换 */}
@@ -1024,14 +1111,14 @@ const TextViewer: React.FC<{ filePath: string; filename: string; fileSize?: numb
             <span className="text-[10px]" style={{ color: isCurrentDark ? 'rgba(255,255,255,0.5)' : 'rgba(0,0,0,0.5)' }}>设置</span>
           </button>
           
-          {/* 下一页按钮 - 渐变样式 */}
+          {/* 下一章按钮 - 渐变样式 */}
           <button
             onClick={(e) => {
               e.stopPropagation();
               if (currentPage < totalPages - 1) {
                 const newPage = currentPage + 1;
                 setCurrentPage(newPage);
-                setPageContent(fullTextRef.current.slice(newPage * CHARS_PER_PAGE, (newPage + 1) * CHARS_PER_PAGE));
+                setPageContent(chaptersRef.current[newPage] || '');
                 scrollRef.current?.scrollTo(0, 0);
               }
             }}
@@ -1040,9 +1127,9 @@ const TextViewer: React.FC<{ filePath: string; filename: string; fileSize?: numb
               currentPage >= totalPages - 1 ? 'opacity-30' : 'hover:opacity-90 active:scale-95'
             }`}
             style={{ background: 'linear-gradient(135deg, #ff6b6b, #ffc371)' }}
-            title="下一页"
+            title="下一章"
           >
-            <span className="text-white text-xs font-medium">下一页</span>
+            <span className="text-white text-xs font-medium">下一章</span>
           </button>
         </div>
       </div>

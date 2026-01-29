@@ -1,0 +1,407 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>文章排版风格对比</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <link href="https://fonts.googleapis.com/css2?family=Noto+Serif+SC:wght@400;500;600&family=ZCOOL+XiaoWei&family=Ma+Shan+Zheng&display=swap" rel="stylesheet">
+  <style>
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+    body { font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif; background: #0a0a0f; }
+    .phone-frame {
+      width: 375px;
+      height: 600px;
+      border-radius: 32px;
+      overflow: hidden;
+      position: relative;
+      box-shadow: 0 25px 80px rgba(0,0,0,0.5), inset 0 0 0 2px rgba(255,255,255,0.1);
+    }
+    .style-card {
+      transition: all 0.3s ease;
+      cursor: pointer;
+    }
+    .style-card:hover {
+      transform: translateY(-8px);
+    }
+    .style-card.selected {
+      outline: 3px solid #ff6b6b;
+      outline-offset: 4px;
+    }
+    .badge {
+      position: absolute;
+      top: -10px;
+      right: -10px;
+      background: linear-gradient(135deg, #ff6b6b, #ffc371);
+      color: white;
+      font-size: 11px;
+      padding: 4px 10px;
+      border-radius: 12px;
+      font-weight: 600;
+    }
+  </style>
+</head>
+<body class="min-h-screen p-8">
+  <div class="max-w-7xl mx-auto">
+    <h1 class="text-3xl font-bold text-white text-center mb-2">选择文章排版风格</h1>
+    <p class="text-gray-400 text-center mb-10">不同的排版风格适合不同的阅读场景</p>
+    
+    <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-10 justify-items-center">
+      
+      <!-- 风格1: 首行缩进（传统） -->
+      <div class="style-card selected" data-style="indent">
+        <div class="text-center mb-3">
+          <span class="text-white font-semibold text-lg">首行缩进</span>
+          <span class="text-green-400 text-sm ml-2">传统</span>
+        </div>
+        <div class="phone-frame bg-[#f5f5dc] relative">
+          <div class="badge">推荐</div>
+          <div class="p-6 h-full overflow-hidden">
+            <p style="font-family: 'Noto Serif SC', serif; font-size: 16px; line-height: 1.9; color: #333; text-indent: 2em; text-align: justify;">
+              那是一个寒冷的冬夜，风雪交加，整个城市都笼罩在一片银白之中。街道上几乎看不到行人，只有偶尔驶过的汽车留下两道深深的车辙。
+            </p>
+            <p style="font-family: 'Noto Serif SC', serif; font-size: 16px; line-height: 1.9; color: #333; text-indent: 2em; text-align: justify; margin-top: 0;">
+              李明站在窗前，望着窗外纷飞的雪花，心中却想着另一个遥远的地方。那里有温暖的阳光，有熟悉的街道，还有他日夜思念的人。
+            </p>
+            <p style="font-family: 'Noto Serif SC', serif; font-size: 16px; line-height: 1.9; color: #333; text-indent: 2em; text-align: justify; margin-top: 0;">
+              "也许明年春天，我就能回去了。"他自言自语道，呼出的热气在玻璃上凝成一层薄薄的水雾。
+            </p>
+            <p style="font-family: 'Noto Serif SC', serif; font-size: 16px; line-height: 1.9; color: #333; text-indent: 2em; text-align: justify; margin-top: 0;">
+              窗外的雪越下越大，仿佛要将整个世界都掩埋在洁白之中。
+            </p>
+          </div>
+        </div>
+        <p class="text-gray-500 text-sm text-center mt-3">每段首行缩进2字符 · 无段间距 · 两端对齐</p>
+      </div>
+
+      <!-- 风格2: 段落间距（现代） -->
+      <div class="style-card" data-style="spacing">
+        <div class="text-center mb-3">
+          <span class="text-white font-semibold text-lg">段落间距</span>
+          <span class="text-blue-400 text-sm ml-2">现代</span>
+        </div>
+        <div class="phone-frame bg-[#fafafa] relative">
+          <div class="p-6 h-full overflow-hidden">
+            <p style="font-family: -apple-system, sans-serif; font-size: 16px; line-height: 1.8; color: #333; margin-bottom: 1.2em;">
+              那是一个寒冷的冬夜，风雪交加，整个城市都笼罩在一片银白之中。街道上几乎看不到行人，只有偶尔驶过的汽车留下两道深深的车辙。
+            </p>
+            <p style="font-family: -apple-system, sans-serif; font-size: 16px; line-height: 1.8; color: #333; margin-bottom: 1.2em;">
+              李明站在窗前，望着窗外纷飞的雪花，心中却想着另一个遥远的地方。那里有温暖的阳光，有熟悉的街道，还有他日夜思念的人。
+            </p>
+            <p style="font-family: -apple-system, sans-serif; font-size: 16px; line-height: 1.8; color: #333; margin-bottom: 1.2em;">
+              "也许明年春天，我就能回去了。"他自言自语道，呼出的热气在玻璃上凝成一层薄薄的水雾。
+            </p>
+            <p style="font-family: -apple-system, sans-serif; font-size: 16px; line-height: 1.8; color: #333; margin-bottom: 1.2em;">
+              窗外的雪越下越大，仿佛要将整个世界都掩埋在洁白之中。
+            </p>
+          </div>
+        </div>
+        <p class="text-gray-500 text-sm text-center mt-3">无缩进 · 段落间有空白 · 左对齐</p>
+      </div>
+
+      <!-- 风格3: 大字间距（透气） -->
+      <div class="style-card" data-style="letter-spacing">
+        <div class="text-center mb-3">
+          <span class="text-white font-semibold text-lg">大字间距</span>
+          <span class="text-purple-400 text-sm ml-2">透气</span>
+        </div>
+        <div class="phone-frame bg-[#f8f5f0] relative">
+          <div class="p-6 h-full overflow-hidden">
+            <p style="font-family: 'Noto Serif SC', serif; font-size: 16px; line-height: 2.2; color: #444; text-indent: 2em; text-align: justify; letter-spacing: 0.1em;">
+              那是一个寒冷的冬夜，风雪交加，整个城市都笼罩在一片银白之中。街道上几乎看不到行人。
+            </p>
+            <p style="font-family: 'Noto Serif SC', serif; font-size: 16px; line-height: 2.2; color: #444; text-indent: 2em; text-align: justify; letter-spacing: 0.1em; margin-top: 0;">
+              李明站在窗前，望着窗外纷飞的雪花，心中却想着另一个遥远的地方。那里有温暖的阳光。
+            </p>
+            <p style="font-family: 'Noto Serif SC', serif; font-size: 16px; line-height: 2.2; color: #444; text-indent: 2em; text-align: justify; letter-spacing: 0.1em; margin-top: 0;">
+              "也许明年春天，我就能回去了。"他自言自语道。
+            </p>
+          </div>
+        </div>
+        <p class="text-gray-500 text-sm text-center mt-3">字符间留空 · 大行距 · 护眼阅读</p>
+      </div>
+
+      <!-- 风格4: 紧凑排版 -->
+      <div class="style-card" data-style="compact">
+        <div class="text-center mb-3">
+          <span class="text-white font-semibold text-lg">紧凑排版</span>
+          <span class="text-yellow-400 text-sm ml-2">高效</span>
+        </div>
+        <div class="phone-frame bg-white relative">
+          <div class="p-5 h-full overflow-hidden">
+            <p style="font-family: -apple-system, sans-serif; font-size: 14px; line-height: 1.6; color: #333; text-indent: 2em; text-align: justify;">
+              那是一个寒冷的冬夜，风雪交加，整个城市都笼罩在一片银白之中。街道上几乎看不到行人，只有偶尔驶过的汽车留下两道深深的车辙。
+            </p>
+            <p style="font-family: -apple-system, sans-serif; font-size: 14px; line-height: 1.6; color: #333; text-indent: 2em; text-align: justify; margin-top: 0;">
+              李明站在窗前，望着窗外纷飞的雪花，心中却想着另一个遥远的地方。那里有温暖的阳光，有熟悉的街道，还有他日夜思念的人。
+            </p>
+            <p style="font-family: -apple-system, sans-serif; font-size: 14px; line-height: 1.6; color: #333; text-indent: 2em; text-align: justify; margin-top: 0;">
+              "也许明年春天，我就能回去了。"他自言自语道，呼出的热气在玻璃上凝成一层薄薄的水雾。
+            </p>
+            <p style="font-family: -apple-system, sans-serif; font-size: 14px; line-height: 1.6; color: #333; text-indent: 2em; text-align: justify; margin-top: 0;">
+              窗外的雪越下越大，仿佛要将整个世界都掩埋在洁白之中。远处的路灯在风雪中若隐若现，像是迷失在茫茫雪原中的旅人。
+            </p>
+            <p style="font-family: -apple-system, sans-serif; font-size: 14px; line-height: 1.6; color: #333; text-indent: 2em; text-align: justify; margin-top: 0;">
+              他转身走向书桌，拿起那封已经写好却迟迟没有寄出的信。
+            </p>
+          </div>
+        </div>
+        <p class="text-gray-500 text-sm text-center mt-3">小字号 · 小行距 · 显示更多内容</p>
+      </div>
+
+      <!-- 风格5: 文艺风格 -->
+      <div class="style-card" data-style="literary">
+        <div class="text-center mb-3">
+          <span class="text-white font-semibold text-lg">文艺风格</span>
+          <span class="text-pink-400 text-sm ml-2">优雅</span>
+        </div>
+        <div class="phone-frame bg-[#fcfcf9] relative">
+          <div class="p-8 h-full overflow-hidden">
+            <p style="font-family: 'Noto Serif SC', 'Songti SC', serif; font-size: 17px; line-height: 2.4; color: #333; margin-bottom: 1.5em;">
+              那是一个寒冷的冬夜，风雪交加，整个城市都笼罩在一片银白之中。
+            </p>
+            <p style="font-family: 'Noto Serif SC', 'Songti SC', serif; font-size: 17px; line-height: 2.4; color: #333; margin-bottom: 1.5em;">
+              街道上几乎看不到行人，只有偶尔驶过的汽车留下两道深深的车辙。
+            </p>
+            <p style="font-family: 'Noto Serif SC', 'Songti SC', serif; font-size: 17px; line-height: 2.4; color: #333; margin-bottom: 1.5em;">
+              李明站在窗前，望着窗外纷飞的雪花，心中却想着另一个遥远的地方。
+            </p>
+            <p style="font-family: 'Noto Serif SC', 'Songti SC', serif; font-size: 17px; line-height: 2.4; color: #666; font-style: italic;">
+              "也许明年春天，我就能回去了。"
+            </p>
+          </div>
+        </div>
+        <p class="text-gray-500 text-sm text-center mt-3">大行距 · 段落分明 · 适合散文诗歌</p>
+      </div>
+
+      <!-- 风格6: 报刊风格 -->
+      <div class="style-card" data-style="newspaper">
+        <div class="text-center mb-3">
+          <span class="text-white font-semibold text-lg">报刊风格</span>
+          <span class="text-orange-400 text-sm ml-2">经典</span>
+        </div>
+        <div class="phone-frame bg-[#f5f0e8] relative">
+          <div class="p-5 h-full overflow-hidden">
+            <h3 style="font-family: 'Noto Serif SC', serif; font-size: 20px; font-weight: 600; color: #222; text-align: center; margin-bottom: 12px; border-bottom: 2px solid #333; padding-bottom: 8px;">
+              风雪夜归人
+            </h3>
+            <div style="column-count: 2; column-gap: 16px;">
+              <p style="font-family: 'Noto Serif SC', serif; font-size: 13px; line-height: 1.7; color: #333; text-indent: 2em; text-align: justify;">
+                那是一个寒冷的冬夜，风雪交加，整个城市都笼罩在一片银白之中。街道上几乎看不到行人，只有偶尔驶过的汽车留下两道深深的车辙。
+              </p>
+              <p style="font-family: 'Noto Serif SC', serif; font-size: 13px; line-height: 1.7; color: #333; text-indent: 2em; text-align: justify; margin-top: 0;">
+                李明站在窗前，望着窗外纷飞的雪花，心中却想着另一个遥远的地方。那里有温暖的阳光，有熟悉的街道，还有他日夜思念的人。
+              </p>
+              <p style="font-family: 'Noto Serif SC', serif; font-size: 13px; line-height: 1.7; color: #333; text-indent: 2em; text-align: justify; margin-top: 0;">
+                "也许明年春天，我就能回去了。"他自言自语道，呼出的热气在玻璃上凝成一层薄薄的水雾。
+              </p>
+            </div>
+          </div>
+        </div>
+        <p class="text-gray-500 text-sm text-center mt-3">双栏布局 · 标题居中 · 报纸杂志感</p>
+      </div>
+
+      <!-- 风格7: 暗夜护眼 -->
+      <div class="style-card" data-style="dark-eye">
+        <div class="text-center mb-3">
+          <span class="text-white font-semibold text-lg">暗夜护眼</span>
+          <span class="text-cyan-400 text-sm ml-2">护眼</span>
+        </div>
+        <div class="phone-frame bg-[#1a1a2e] relative">
+          <div class="p-6 h-full overflow-hidden">
+            <p style="font-family: 'Noto Serif SC', serif; font-size: 16px; line-height: 2; color: #a8a8b8; text-indent: 2em; text-align: justify;">
+              那是一个寒冷的冬夜，风雪交加，整个城市都笼罩在一片银白之中。街道上几乎看不到行人，只有偶尔驶过的汽车留下两道深深的车辙。
+            </p>
+            <p style="font-family: 'Noto Serif SC', serif; font-size: 16px; line-height: 2; color: #a8a8b8; text-indent: 2em; text-align: justify; margin-top: 0;">
+              李明站在窗前，望着窗外纷飞的雪花，心中却想着另一个遥远的地方。那里有温暖的阳光，有熟悉的街道，还有他日夜思念的人。
+            </p>
+            <p style="font-family: 'Noto Serif SC', serif; font-size: 16px; line-height: 2; color: #a8a8b8; text-indent: 2em; text-align: justify; margin-top: 0;">
+              "也许明年春天，我就能回去了。"他自言自语道，呼出的热气在玻璃上凝成一层薄薄的水雾。
+            </p>
+          </div>
+        </div>
+        <p class="text-gray-500 text-sm text-center mt-3">深色背景 · 柔和文字 · 夜间阅读</p>
+      </div>
+
+      <!-- 风格8: 书法风格 -->
+      <div class="style-card" data-style="calligraphy">
+        <div class="text-center mb-3">
+          <span class="text-white font-semibold text-lg">书法风格</span>
+          <span class="text-red-400 text-sm ml-2">古典</span>
+        </div>
+        <div class="phone-frame relative" style="background: linear-gradient(135deg, #f5f0e6 0%, #e8dcc8 100%);">
+          <div class="absolute inset-0" style="background: url('data:image/svg+xml,<svg xmlns=\"http://www.w3.org/2000/svg\" width=\"100\" height=\"100\"><rect fill=\"%23d4c4a8\" fill-opacity=\"0.1\" width=\"100\" height=\"100\"/></svg>');"></div>
+          <div class="p-6 h-full overflow-hidden relative">
+            <p style="font-family: 'ZCOOL XiaoWei', 'Noto Serif SC', serif; font-size: 18px; line-height: 2.2; color: #3d3225; text-indent: 2em;">
+              那是一个寒冷的冬夜，风雪交加，整个城市都笼罩在一片银白之中。街道上几乎看不到行人。
+            </p>
+            <p style="font-family: 'ZCOOL XiaoWei', 'Noto Serif SC', serif; font-size: 18px; line-height: 2.2; color: #3d3225; text-indent: 2em; margin-top: 0;">
+              李明站在窗前，望着窗外纷飞的雪花，心中却想着另一个遥远的地方。
+            </p>
+            <p style="font-family: 'ZCOOL XiaoWei', 'Noto Serif SC', serif; font-size: 18px; line-height: 2.2; color: #3d3225; text-indent: 2em; margin-top: 0;">
+              "也许明年春天，我就能回去了。"
+            </p>
+          </div>
+        </div>
+        <p class="text-gray-500 text-sm text-center mt-3">楷体字形 · 仿古纸张 · 传统书卷感</p>
+      </div>
+
+      <!-- 风格9: 极简纯净 -->
+      <div class="style-card" data-style="minimal">
+        <div class="text-center mb-3">
+          <span class="text-white font-semibold text-lg">极简纯净</span>
+          <span class="text-gray-400 text-sm ml-2">简约</span>
+        </div>
+        <div class="phone-frame bg-white relative">
+          <div class="px-10 py-8 h-full overflow-hidden flex flex-col justify-center">
+            <p style="font-family: -apple-system, 'PingFang SC', sans-serif; font-size: 15px; line-height: 2; color: #555; margin-bottom: 1.5em;">
+              那是一个寒冷的冬夜，风雪交加，整个城市都笼罩在一片银白之中。
+            </p>
+            <p style="font-family: -apple-system, 'PingFang SC', sans-serif; font-size: 15px; line-height: 2; color: #555; margin-bottom: 1.5em;">
+              街道上几乎看不到行人，只有偶尔驶过的汽车留下两道深深的车辙。
+            </p>
+            <p style="font-family: -apple-system, 'PingFang SC', sans-serif; font-size: 15px; line-height: 2; color: #555; margin-bottom: 1.5em;">
+              李明站在窗前，望着窗外纷飞的雪花。
+            </p>
+          </div>
+        </div>
+        <p class="text-gray-500 text-sm text-center mt-3">大留白 · 居中阅读 · 专注内容</p>
+      </div>
+
+    </div>
+
+    <!-- 选择说明 -->
+    <div class="mt-12 text-center">
+      <p class="text-gray-400 mb-4">点击上方任意风格进行选择</p>
+      <div class="flex justify-center gap-4">
+        <button id="confirmBtn" class="px-8 py-3 rounded-lg font-medium transition-colors text-white" style="background: linear-gradient(135deg, #ff6b6b, #ffc371);">
+          确认选择
+        </button>
+      </div>
+      <p id="selectedStyle" class="text-green-400 mt-4 hidden">已选择: <span></span></p>
+    </div>
+
+    <!-- 排版参数说明 -->
+    <div class="mt-16 max-w-3xl mx-auto">
+      <h2 class="text-xl font-bold text-white mb-6 text-center">排版参数对照表</h2>
+      <div class="bg-white/5 rounded-2xl p-6 overflow-x-auto">
+        <table class="w-full text-sm">
+          <thead>
+            <tr class="text-gray-400 border-b border-white/10">
+              <th class="text-left py-3 px-2">风格</th>
+              <th class="text-left py-3 px-2">首行缩进</th>
+              <th class="text-left py-3 px-2">段落间距</th>
+              <th class="text-left py-3 px-2">行高</th>
+              <th class="text-left py-3 px-2">字间距</th>
+              <th class="text-left py-3 px-2">对齐方式</th>
+            </tr>
+          </thead>
+          <tbody class="text-gray-300">
+            <tr class="border-b border-white/5">
+              <td class="py-3 px-2 font-medium text-white">首行缩进</td>
+              <td class="py-3 px-2">2em</td>
+              <td class="py-3 px-2">0</td>
+              <td class="py-3 px-2">1.9</td>
+              <td class="py-3 px-2">正常</td>
+              <td class="py-3 px-2">两端对齐</td>
+            </tr>
+            <tr class="border-b border-white/5">
+              <td class="py-3 px-2 font-medium text-white">段落间距</td>
+              <td class="py-3 px-2">0</td>
+              <td class="py-3 px-2">1.2em</td>
+              <td class="py-3 px-2">1.8</td>
+              <td class="py-3 px-2">正常</td>
+              <td class="py-3 px-2">左对齐</td>
+            </tr>
+            <tr class="border-b border-white/5">
+              <td class="py-3 px-2 font-medium text-white">大字间距</td>
+              <td class="py-3 px-2">2em</td>
+              <td class="py-3 px-2">0</td>
+              <td class="py-3 px-2">2.2</td>
+              <td class="py-3 px-2">0.1em</td>
+              <td class="py-3 px-2">两端对齐</td>
+            </tr>
+            <tr class="border-b border-white/5">
+              <td class="py-3 px-2 font-medium text-white">紧凑排版</td>
+              <td class="py-3 px-2">2em</td>
+              <td class="py-3 px-2">0</td>
+              <td class="py-3 px-2">1.6</td>
+              <td class="py-3 px-2">正常</td>
+              <td class="py-3 px-2">两端对齐</td>
+            </tr>
+            <tr class="border-b border-white/5">
+              <td class="py-3 px-2 font-medium text-white">文艺风格</td>
+              <td class="py-3 px-2">0</td>
+              <td class="py-3 px-2">1.5em</td>
+              <td class="py-3 px-2">2.4</td>
+              <td class="py-3 px-2">正常</td>
+              <td class="py-3 px-2">左对齐</td>
+            </tr>
+            <tr class="border-b border-white/5">
+              <td class="py-3 px-2 font-medium text-white">报刊风格</td>
+              <td class="py-3 px-2">2em</td>
+              <td class="py-3 px-2">0</td>
+              <td class="py-3 px-2">1.7</td>
+              <td class="py-3 px-2">正常</td>
+              <td class="py-3 px-2">两端对齐</td>
+            </tr>
+            <tr class="border-b border-white/5">
+              <td class="py-3 px-2 font-medium text-white">暗夜护眼</td>
+              <td class="py-3 px-2">2em</td>
+              <td class="py-3 px-2">0</td>
+              <td class="py-3 px-2">2.0</td>
+              <td class="py-3 px-2">正常</td>
+              <td class="py-3 px-2">两端对齐</td>
+            </tr>
+            <tr class="border-b border-white/5">
+              <td class="py-3 px-2 font-medium text-white">书法风格</td>
+              <td class="py-3 px-2">2em</td>
+              <td class="py-3 px-2">0</td>
+              <td class="py-3 px-2">2.2</td>
+              <td class="py-3 px-2">正常</td>
+              <td class="py-3 px-2">左对齐</td>
+            </tr>
+            <tr>
+              <td class="py-3 px-2 font-medium text-white">极简纯净</td>
+              <td class="py-3 px-2">0</td>
+              <td class="py-3 px-2">1.5em</td>
+              <td class="py-3 px-2">2.0</td>
+              <td class="py-3 px-2">正常</td>
+              <td class="py-3 px-2">左对齐</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+  </div>
+
+  <script>
+    let currentSelected = 'indent';
+    
+    document.querySelectorAll('.style-card').forEach(card => {
+      card.addEventListener('click', () => {
+        document.querySelectorAll('.style-card').forEach(c => c.classList.remove('selected'));
+        card.classList.add('selected');
+        currentSelected = card.dataset.style;
+      });
+    });
+
+    document.getElementById('confirmBtn').addEventListener('click', () => {
+      const styleNames = {
+        'indent': '首行缩进（传统）',
+        'spacing': '段落间距（现代）',
+        'letter-spacing': '大字间距（透气）',
+        'compact': '紧凑排版（高效）',
+        'literary': '文艺风格（优雅）',
+        'newspaper': '报刊风格（经典）',
+        'dark-eye': '暗夜护眼',
+        'calligraphy': '书法风格（古典）',
+        'minimal': '极简纯净'
+      };
+      document.getElementById('selectedStyle').classList.remove('hidden');
+      document.getElementById('selectedStyle').querySelector('span').textContent = styleNames[currentSelected];
+      alert(`已选择排版风格: ${styleNames[currentSelected]}\n\n请告诉我你的选择，我将应用到阅读器中！`);
+    });
+  </script>
+</body>
+</html>
