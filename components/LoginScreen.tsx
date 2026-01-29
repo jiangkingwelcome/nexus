@@ -122,11 +122,52 @@ const ConstellationLogo: React.FC = () => {
   );
 };
 
+// 常用邮箱域名
+const EMAIL_DOMAINS = [
+  'nexus.local',
+  'pocketbase.local',
+  'qq.com',
+  '163.com',
+  'gmail.com',
+  'outlook.com',
+  '126.com',
+  'sina.com',
+];
+
 const LoginScreen: React.FC<LoginScreenProps> = ({ onLoginSuccess }) => {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [error, setError] = useState('');
   const [loading, setLoading] = useState(false);
+  const [showDomainSuggestions, setShowDomainSuggestions] = useState(false);
+  const [filteredDomains, setFilteredDomains] = useState<string[]>([]);
+
+  // 处理邮箱输入变化
+  const handleEmailChange = (value: string) => {
+    setEmail(value);
+    
+    // 检查是否需要显示域名建议
+    if (value.includes('@')) {
+      const [localPart, domainPart] = value.split('@');
+      if (localPart) {
+        // 过滤匹配的域名
+        const filtered = EMAIL_DOMAINS.filter(domain => 
+          domain.toLowerCase().startsWith((domainPart || '').toLowerCase())
+        );
+        setFilteredDomains(filtered);
+        setShowDomainSuggestions(filtered.length > 0 && domainPart !== filtered[0]);
+      }
+    } else {
+      setShowDomainSuggestions(false);
+    }
+  };
+
+  // 选择域名
+  const selectDomain = (domain: string) => {
+    const localPart = email.split('@')[0];
+    setEmail(`${localPart}@${domain}`);
+    setShowDomainSuggestions(false);
+  };
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
@@ -190,17 +231,45 @@ const LoginScreen: React.FC<LoginScreenProps> = ({ onLoginSuccess }) => {
 
           {/* 表单 */}
           <form onSubmit={handleSubmit} className="space-y-4">
-            {/* 邮箱 */}
-            <div>
+            {/* 邮箱 - 带域名联想 */}
+            <div className="relative">
               <label className="block text-white/60 text-sm mb-2">邮箱</label>
               <input
                 type="email"
                 value={email}
-                onChange={(e) => setEmail(e.target.value)}
-                placeholder="your@email.com"
+                onChange={(e) => handleEmailChange(e.target.value)}
+                onFocus={() => {
+                  if (email.includes('@')) {
+                    const domainPart = email.split('@')[1] || '';
+                    const filtered = EMAIL_DOMAINS.filter(d => d.startsWith(domainPart));
+                    if (filtered.length > 0 && domainPart !== filtered[0]) {
+                      setFilteredDomains(filtered);
+                      setShowDomainSuggestions(true);
+                    }
+                  }
+                }}
+                onBlur={() => setTimeout(() => setShowDomainSuggestions(false), 200)}
+                placeholder="输入用户名后按 @"
                 required
                 className="w-full px-4 py-3 bg-white/5 border border-white/10 rounded-xl text-white placeholder-white/30 focus:outline-none focus:border-violet-500/50 focus:ring-2 focus:ring-violet-500/20 transition-all"
               />
+              
+              {/* 域名建议下拉列表 */}
+              {showDomainSuggestions && filteredDomains.length > 0 && (
+                <div className="absolute left-0 right-0 top-full mt-1 bg-[#1a1a1f] border border-white/10 rounded-xl overflow-hidden shadow-xl z-20">
+                  {filteredDomains.map((domain) => (
+                    <button
+                      key={domain}
+                      type="button"
+                      onClick={() => selectDomain(domain)}
+                      className="w-full px-4 py-2.5 text-left text-white/80 hover:bg-violet-500/20 hover:text-white transition-colors flex items-center gap-2"
+                    >
+                      <span className="text-white/40">@</span>
+                      <span>{domain}</span>
+                    </button>
+                  ))}
+                </div>
+              )}
             </div>
 
             {/* 密码 */}

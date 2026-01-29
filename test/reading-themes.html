@@ -1,0 +1,477 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>阅读主题预览 - Nexus</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <link href="https://fonts.googleapis.com/css2?family=Noto+Serif+SC:wght@400;600&family=ZCOOL+XiaoWei&display=swap" rel="stylesheet">
+  <style>
+    * { box-sizing: border-box; }
+    body { 
+      font-family: 'Noto Serif SC', serif;
+      background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+      min-height: 100vh;
+      padding: 40px 20px;
+    }
+    .theme-card {
+      transition: all 0.3s ease;
+      cursor: pointer;
+    }
+    .theme-card:hover {
+      transform: translateY(-8px);
+      box-shadow: 0 20px 40px rgba(0,0,0,0.3);
+    }
+    .theme-card.active {
+      ring: 4px solid #f59e0b;
+    }
+    .preview-text {
+      font-size: 16px;
+      line-height: 1.8;
+      text-align: justify;
+    }
+    .color-dot {
+      width: 24px;
+      height: 24px;
+      border-radius: 50%;
+      border: 2px solid rgba(255,255,255,0.3);
+    }
+    .full-preview {
+      max-width: 700px;
+      margin: 0 auto;
+      padding: 60px 50px;
+      border-radius: 12px;
+      box-shadow: 0 25px 50px rgba(0,0,0,0.25);
+      min-height: 500px;
+    }
+    .category-title {
+      background: rgba(255,255,255,0.15);
+      backdrop-filter: blur(10px);
+      padding: 12px 24px;
+      border-radius: 30px;
+      display: inline-block;
+      color: white;
+      font-weight: 600;
+      margin-bottom: 24px;
+    }
+  </style>
+</head>
+<body>
+  <div class="max-w-7xl mx-auto">
+    <!-- 标题 -->
+    <div class="text-center mb-12">
+      <h1 class="text-4xl font-bold text-white mb-4">📚 阅读主题预览</h1>
+      <p class="text-white/70 text-lg">点击任意主题卡片查看完整效果</p>
+    </div>
+
+    <!-- 当前选中主题的完整预览 -->
+    <div id="fullPreview" class="full-preview mb-16" style="background: #F5F5DC; color: #3D3D3D;">
+      <h2 class="text-2xl font-bold mb-6 text-center" id="previewTitle">羊皮纸</h2>
+      <div class="preview-text" id="previewContent">
+        　　萧炎抬起头，望着天空上那一轮明月，眸子中闪烁着复杂的神色。三年前，他还是家族中最耀眼的天才，斗之气修炼速度冠绝同龄人，被誉为萧家百年难得一见的修炼奇才。
+
+        　　然而，命运总是喜欢和人开玩笑。三年时间，他从云端跌落谷底，斗之气不进反退，从人人敬仰的天才沦为众人眼中的废物。
+
+        　　"三十年河东，三十年河西，莫欺少年穷！"萧炎紧握双拳，双眸中闪过一抹坚定。
+
+        　　正当他沉浸在回忆中时，一道苍老的声音突然在他脑海中响起："小子，想要重新崛起吗？"
+
+        　　萧炎浑身一震，猛然回头，却发现四周空无一人。"谁？"他警惕地问道。
+
+        　　"你不用找了，老夫就在你的体内。"那苍老的声音再次响起，带着一丝笑意，"老夫药尘，曾经也是这片大陆上的风云人物。如今寄居于你体内，是你的造化，也是你重新崛起的机会。"
+      </div>
+      <div class="mt-8 pt-6 border-t flex justify-center items-center gap-2 text-sm opacity-60" id="previewInfo">
+        第 1 / 128 页
+      </div>
+    </div>
+
+    <!-- ===== 经典主题 ===== -->
+    <div class="mb-12">
+      <div class="category-title">📖 经典主题</div>
+      <div class="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-5 gap-6">
+        
+        <!-- 羊皮纸 -->
+        <div class="theme-card rounded-2xl overflow-hidden shadow-xl" onclick="selectTheme('paper')" data-theme="paper">
+          <div class="p-6 h-48" style="background: #F5F5DC; color: #3D3D3D;">
+            <div class="font-bold mb-3">羊皮纸</div>
+            <p class="text-sm leading-relaxed line-clamp-4">萧炎抬起头，望着天空上那一轮明月，眸子中闪烁着复杂的神色...</p>
+          </div>
+          <div class="p-3 bg-white/90 flex items-center justify-between">
+            <span class="text-sm text-gray-600">paper</span>
+            <div class="color-dot" style="background: #F5F5DC;"></div>
+          </div>
+        </div>
+
+        <!-- 护眼绿 -->
+        <div class="theme-card rounded-2xl overflow-hidden shadow-xl" onclick="selectTheme('green')" data-theme="green">
+          <div class="p-6 h-48" style="background: #C7EDCC; color: #2D4A2D;">
+            <div class="font-bold mb-3">护眼绿</div>
+            <p class="text-sm leading-relaxed line-clamp-4">萧炎抬起头，望着天空上那一轮明月，眸子中闪烁着复杂的神色...</p>
+          </div>
+          <div class="p-3 bg-white/90 flex items-center justify-between">
+            <span class="text-sm text-gray-600">green</span>
+            <div class="color-dot" style="background: #C7EDCC;"></div>
+          </div>
+        </div>
+
+        <!-- 夜间 -->
+        <div class="theme-card rounded-2xl overflow-hidden shadow-xl" onclick="selectTheme('night')" data-theme="night">
+          <div class="p-6 h-48" style="background: #1A1A2E; color: #E8E8E8;">
+            <div class="font-bold mb-3">夜间</div>
+            <p class="text-sm leading-relaxed line-clamp-4">萧炎抬起头，望着天空上那一轮明月，眸子中闪烁着复杂的神色...</p>
+          </div>
+          <div class="p-3 bg-white/90 flex items-center justify-between">
+            <span class="text-sm text-gray-600">night</span>
+            <div class="color-dot" style="background: #1A1A2E;"></div>
+          </div>
+        </div>
+
+        <!-- 白色 -->
+        <div class="theme-card rounded-2xl overflow-hidden shadow-xl" onclick="selectTheme('white')" data-theme="white">
+          <div class="p-6 h-48" style="background: #FFFFFF; color: #333333;">
+            <div class="font-bold mb-3">纯白</div>
+            <p class="text-sm leading-relaxed line-clamp-4">萧炎抬起头，望着天空上那一轮明月，眸子中闪烁着复杂的神色...</p>
+          </div>
+          <div class="p-3 bg-white/90 flex items-center justify-between">
+            <span class="text-sm text-gray-600">white</span>
+            <div class="color-dot" style="background: #FFFFFF; border-color: #ccc;"></div>
+          </div>
+        </div>
+
+        <!-- 怀旧 -->
+        <div class="theme-card rounded-2xl overflow-hidden shadow-xl" onclick="selectTheme('sepia')" data-theme="sepia">
+          <div class="p-6 h-48" style="background: #FBF0D9; color: #5B4636;">
+            <div class="font-bold mb-3">怀旧</div>
+            <p class="text-sm leading-relaxed line-clamp-4">萧炎抬起头，望着天空上那一轮明月，眸子中闪烁着复杂的神色...</p>
+          </div>
+          <div class="p-3 bg-white/90 flex items-center justify-between">
+            <span class="text-sm text-gray-600">sepia</span>
+            <div class="color-dot" style="background: #FBF0D9;"></div>
+          </div>
+        </div>
+
+      </div>
+    </div>
+
+    <!-- ===== 清新主题 ===== -->
+    <div class="mb-12">
+      <div class="category-title">🌸 清新主题</div>
+      <div class="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-5 gap-6">
+        
+        <!-- 天空蓝 -->
+        <div class="theme-card rounded-2xl overflow-hidden shadow-xl" onclick="selectTheme('sky')" data-theme="sky">
+          <div class="p-6 h-48" style="background: #E3F2FD; color: #1565C0;">
+            <div class="font-bold mb-3">天空蓝</div>
+            <p class="text-sm leading-relaxed line-clamp-4">萧炎抬起头，望着天空上那一轮明月，眸子中闪烁着复杂的神色...</p>
+          </div>
+          <div class="p-3 bg-white/90 flex items-center justify-between">
+            <span class="text-sm text-gray-600">sky</span>
+            <div class="color-dot" style="background: #E3F2FD;"></div>
+          </div>
+        </div>
+
+        <!-- 薰衣草 -->
+        <div class="theme-card rounded-2xl overflow-hidden shadow-xl" onclick="selectTheme('lavender')" data-theme="lavender">
+          <div class="p-6 h-48" style="background: #F3E5F5; color: #6A1B9A;">
+            <div class="font-bold mb-3">薰衣草</div>
+            <p class="text-sm leading-relaxed line-clamp-4">萧炎抬起头，望着天空上那一轮明月，眸子中闪烁着复杂的神色...</p>
+          </div>
+          <div class="p-3 bg-white/90 flex items-center justify-between">
+            <span class="text-sm text-gray-600">lavender</span>
+            <div class="color-dot" style="background: #F3E5F5;"></div>
+          </div>
+        </div>
+
+        <!-- 樱花粉 -->
+        <div class="theme-card rounded-2xl overflow-hidden shadow-xl" onclick="selectTheme('sakura')" data-theme="sakura">
+          <div class="p-6 h-48" style="background: #FCE4EC; color: #AD1457;">
+            <div class="font-bold mb-3">樱花粉</div>
+            <p class="text-sm leading-relaxed line-clamp-4">萧炎抬起头，望着天空上那一轮明月，眸子中闪烁着复杂的神色...</p>
+          </div>
+          <div class="p-3 bg-white/90 flex items-center justify-between">
+            <span class="text-sm text-gray-600">sakura</span>
+            <div class="color-dot" style="background: #FCE4EC;"></div>
+          </div>
+        </div>
+
+        <!-- 薄荷 -->
+        <div class="theme-card rounded-2xl overflow-hidden shadow-xl" onclick="selectTheme('mint')" data-theme="mint">
+          <div class="p-6 h-48" style="background: #E0F2F1; color: #00695C;">
+            <div class="font-bold mb-3">薄荷</div>
+            <p class="text-sm leading-relaxed line-clamp-4">萧炎抬起头，望着天空上那一轮明月，眸子中闪烁着复杂的神色...</p>
+          </div>
+          <div class="p-3 bg-white/90 flex items-center justify-between">
+            <span class="text-sm text-gray-600">mint</span>
+            <div class="color-dot" style="background: #E0F2F1;"></div>
+          </div>
+        </div>
+
+        <!-- 柠檬 -->
+        <div class="theme-card rounded-2xl overflow-hidden shadow-xl" onclick="selectTheme('lemon')" data-theme="lemon">
+          <div class="p-6 h-48" style="background: #FFFDE7; color: #F57F17;">
+            <div class="font-bold mb-3">柠檬</div>
+            <p class="text-sm leading-relaxed line-clamp-4">萧炎抬起头，望着天空上那一轮明月，眸子中闪烁着复杂的神色...</p>
+          </div>
+          <div class="p-3 bg-white/90 flex items-center justify-between">
+            <span class="text-sm text-gray-600">lemon</span>
+            <div class="color-dot" style="background: #FFFDE7;"></div>
+          </div>
+        </div>
+
+      </div>
+    </div>
+
+    <!-- ===== 深色主题 ===== -->
+    <div class="mb-12">
+      <div class="category-title">🌙 深色主题</div>
+      <div class="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-5 gap-6">
+        
+        <!-- 深邃黑 -->
+        <div class="theme-card rounded-2xl overflow-hidden shadow-xl" onclick="selectTheme('abyss')" data-theme="abyss">
+          <div class="p-6 h-48" style="background: #0D1117; color: #C9D1D9;">
+            <div class="font-bold mb-3">深邃黑</div>
+            <p class="text-sm leading-relaxed line-clamp-4">萧炎抬起头，望着天空上那一轮明月，眸子中闪烁着复杂的神色...</p>
+          </div>
+          <div class="p-3 bg-white/90 flex items-center justify-between">
+            <span class="text-sm text-gray-600">abyss</span>
+            <div class="color-dot" style="background: #0D1117;"></div>
+          </div>
+        </div>
+
+        <!-- 暗夜紫 -->
+        <div class="theme-card rounded-2xl overflow-hidden shadow-xl" onclick="selectTheme('darkPurple')" data-theme="darkPurple">
+          <div class="p-6 h-48" style="background: #1E1E2F; color: #B794F6;">
+            <div class="font-bold mb-3">暗夜紫</div>
+            <p class="text-sm leading-relaxed line-clamp-4">萧炎抬起头，望着天空上那一轮明月，眸子中闪烁着复杂的神色...</p>
+          </div>
+          <div class="p-3 bg-white/90 flex items-center justify-between">
+            <span class="text-sm text-gray-600">darkPurple</span>
+            <div class="color-dot" style="background: #1E1E2F;"></div>
+          </div>
+        </div>
+
+        <!-- 午夜蓝 -->
+        <div class="theme-card rounded-2xl overflow-hidden shadow-xl" onclick="selectTheme('midnight')" data-theme="midnight">
+          <div class="p-6 h-48" style="background: #0F1624; color: #7DD3FC;">
+            <div class="font-bold mb-3">午夜蓝</div>
+            <p class="text-sm leading-relaxed line-clamp-4">萧炎抬起头，望着天空上那一轮明月，眸子中闪烁着复杂的神色...</p>
+          </div>
+          <div class="p-3 bg-white/90 flex items-center justify-between">
+            <span class="text-sm text-gray-600">midnight</span>
+            <div class="color-dot" style="background: #0F1624;"></div>
+          </div>
+        </div>
+
+        <!-- 墨绿 -->
+        <div class="theme-card rounded-2xl overflow-hidden shadow-xl" onclick="selectTheme('darkGreen')" data-theme="darkGreen">
+          <div class="p-6 h-48" style="background: #1A2F1A; color: #90EE90;">
+            <div class="font-bold mb-3">墨绿</div>
+            <p class="text-sm leading-relaxed line-clamp-4">萧炎抬起头，望着天空上那一轮明月，眸子中闪烁着复杂的神色...</p>
+          </div>
+          <div class="p-3 bg-white/90 flex items-center justify-between">
+            <span class="text-sm text-gray-600">darkGreen</span>
+            <div class="color-dot" style="background: #1A2F1A;"></div>
+          </div>
+        </div>
+
+        <!-- 暖夜 -->
+        <div class="theme-card rounded-2xl overflow-hidden shadow-xl" onclick="selectTheme('warmNight')" data-theme="warmNight">
+          <div class="p-6 h-48" style="background: #1F1510; color: #FBBF24;">
+            <div class="font-bold mb-3">暖夜</div>
+            <p class="text-sm leading-relaxed line-clamp-4">萧炎抬起头，望着天空上那一轮明月，眸子中闪烁着复杂的神色...</p>
+          </div>
+          <div class="p-3 bg-white/90 flex items-center justify-between">
+            <span class="text-sm text-gray-600">warmNight</span>
+            <div class="color-dot" style="background: #1F1510;"></div>
+          </div>
+        </div>
+
+      </div>
+    </div>
+
+    <!-- ===== 特色主题 ===== -->
+    <div class="mb-12">
+      <div class="category-title">✨ 特色主题</div>
+      <div class="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-5 gap-6">
+        
+        <!-- 墨香 -->
+        <div class="theme-card rounded-2xl overflow-hidden shadow-xl" onclick="selectTheme('ink')" data-theme="ink">
+          <div class="p-6 h-48" style="background: #F5F5F0; color: #2C2C2C; font-family: 'ZCOOL XiaoWei', serif;">
+            <div class="font-bold mb-3">墨香</div>
+            <p class="text-sm leading-relaxed line-clamp-4">萧炎抬起头，望着天空上那一轮明月，眸子中闪烁着复杂的神色...</p>
+          </div>
+          <div class="p-3 bg-white/90 flex items-center justify-between">
+            <span class="text-sm text-gray-600">ink</span>
+            <div class="color-dot" style="background: #F5F5F0; border-color: #ccc;"></div>
+          </div>
+        </div>
+
+        <!-- 古籍 -->
+        <div class="theme-card rounded-2xl overflow-hidden shadow-xl" onclick="selectTheme('ancient')" data-theme="ancient">
+          <div class="p-6 h-48" style="background: #E8DCC4; color: #4A3728;">
+            <div class="font-bold mb-3">古籍</div>
+            <p class="text-sm leading-relaxed line-clamp-4">萧炎抬起头，望着天空上那一轮明月，眸子中闪烁着复杂的神色...</p>
+          </div>
+          <div class="p-3 bg-white/90 flex items-center justify-between">
+            <span class="text-sm text-gray-600">ancient</span>
+            <div class="color-dot" style="background: #E8DCC4;"></div>
+          </div>
+        </div>
+
+        <!-- 摩卡 -->
+        <div class="theme-card rounded-2xl overflow-hidden shadow-xl" onclick="selectTheme('mocha')" data-theme="mocha">
+          <div class="p-6 h-48" style="background: #3E2723; color: #D7CCC8;">
+            <div class="font-bold mb-3">摩卡</div>
+            <p class="text-sm leading-relaxed line-clamp-4">萧炎抬起头，望着天空上那一轮明月，眸子中闪烁着复杂的神色...</p>
+          </div>
+          <div class="p-3 bg-white/90 flex items-center justify-between">
+            <span class="text-sm text-gray-600">mocha</span>
+            <div class="color-dot" style="background: #3E2723;"></div>
+          </div>
+        </div>
+
+        <!-- 森林 -->
+        <div class="theme-card rounded-2xl overflow-hidden shadow-xl" onclick="selectTheme('forest')" data-theme="forest">
+          <div class="p-6 h-48" style="background: #E8F5E9; color: #1B5E20;">
+            <div class="font-bold mb-3">森林</div>
+            <p class="text-sm leading-relaxed line-clamp-4">萧炎抬起头，望着天空上那一轮明月，眸子中闪烁着复杂的神色...</p>
+          </div>
+          <div class="p-3 bg-white/90 flex items-center justify-between">
+            <span class="text-sm text-gray-600">forest</span>
+            <div class="color-dot" style="background: #E8F5E9;"></div>
+          </div>
+        </div>
+
+        <!-- 海洋 -->
+        <div class="theme-card rounded-2xl overflow-hidden shadow-xl" onclick="selectTheme('ocean')" data-theme="ocean">
+          <div class="p-6 h-48" style="background: #E1F5FE; color: #01579B;">
+            <div class="font-bold mb-3">海洋</div>
+            <p class="text-sm leading-relaxed line-clamp-4">萧炎抬起头，望着天空上那一轮明月，眸子中闪烁着复杂的神色...</p>
+          </div>
+          <div class="p-3 bg-white/90 flex items-center justify-between">
+            <span class="text-sm text-gray-600">ocean</span>
+            <div class="color-dot" style="background: #E1F5FE;"></div>
+          </div>
+        </div>
+
+      </div>
+    </div>
+
+    <!-- 主题代码输出 -->
+    <div class="bg-white/10 backdrop-blur-md rounded-2xl p-6 mb-8">
+      <h3 class="text-white font-bold text-lg mb-4">📋 主题配置代码</h3>
+      <pre id="themeCode" class="bg-gray-900 text-green-400 p-4 rounded-xl overflow-x-auto text-sm">
+// 选择一个主题查看其配置代码
+const READING_THEMES = {
+  paper: { bg: '#F5F5DC', text: '#3D3D3D', name: '羊皮纸' },
+  // ...
+};
+      </pre>
+    </div>
+  </div>
+
+  <script>
+    const themes = {
+      // 经典主题
+      paper: { bg: '#F5F5DC', text: '#3D3D3D', name: '羊皮纸' },
+      green: { bg: '#C7EDCC', text: '#2D4A2D', name: '护眼绿' },
+      night: { bg: '#1A1A2E', text: '#E8E8E8', name: '夜间' },
+      white: { bg: '#FFFFFF', text: '#333333', name: '纯白' },
+      sepia: { bg: '#FBF0D9', text: '#5B4636', name: '怀旧' },
+      
+      // 清新主题
+      sky: { bg: '#E3F2FD', text: '#1565C0', name: '天空蓝' },
+      lavender: { bg: '#F3E5F5', text: '#6A1B9A', name: '薰衣草' },
+      sakura: { bg: '#FCE4EC', text: '#AD1457', name: '樱花粉' },
+      mint: { bg: '#E0F2F1', text: '#00695C', name: '薄荷' },
+      lemon: { bg: '#FFFDE7', text: '#F57F17', name: '柠檬' },
+      
+      // 深色主题
+      abyss: { bg: '#0D1117', text: '#C9D1D9', name: '深邃黑' },
+      darkPurple: { bg: '#1E1E2F', text: '#B794F6', name: '暗夜紫' },
+      midnight: { bg: '#0F1624', text: '#7DD3FC', name: '午夜蓝' },
+      darkGreen: { bg: '#1A2F1A', text: '#90EE90', name: '墨绿' },
+      warmNight: { bg: '#1F1510', text: '#FBBF24', name: '暖夜' },
+      
+      // 特色主题
+      ink: { bg: '#F5F5F0', text: '#2C2C2C', name: '墨香' },
+      ancient: { bg: '#E8DCC4', text: '#4A3728', name: '古籍' },
+      mocha: { bg: '#3E2723', text: '#D7CCC8', name: '摩卡' },
+      forest: { bg: '#E8F5E9', text: '#1B5E20', name: '森林' },
+      ocean: { bg: '#E1F5FE', text: '#01579B', name: '海洋' },
+    };
+
+    const sampleText = `　　萧炎抬起头，望着天空上那一轮明月，眸子中闪烁着复杂的神色。三年前，他还是家族中最耀眼的天才，斗之气修炼速度冠绝同龄人，被誉为萧家百年难得一见的修炼奇才。
+
+　　然而，命运总是喜欢和人开玩笑。三年时间，他从云端跌落谷底，斗之气不进反退，从人人敬仰的天才沦为众人眼中的废物。
+
+　　"三十年河东，三十年河西，莫欺少年穷！"萧炎紧握双拳，双眸中闪过一抹坚定。
+
+　　正当他沉浸在回忆中时，一道苍老的声音突然在他脑海中响起："小子，想要重新崛起吗？"
+
+　　萧炎浑身一震，猛然回头，却发现四周空无一人。"谁？"他警惕地问道。
+
+　　"你不用找了，老夫就在你的体内。"那苍老的声音再次响起，带着一丝笑意，"老夫药尘，曾经也是这片大陆上的风云人物。如今寄居于你体内，是你的造化，也是你重新崛起的机会。"`;
+
+    let currentTheme = 'paper';
+
+    function selectTheme(key) {
+      currentTheme = key;
+      const theme = themes[key];
+      
+      // 更新预览
+      const preview = document.getElementById('fullPreview');
+      preview.style.background = theme.bg;
+      preview.style.color = theme.text;
+      
+      document.getElementById('previewTitle').textContent = theme.name;
+      document.getElementById('previewContent').textContent = sampleText;
+      document.getElementById('previewInfo').style.borderColor = theme.text + '30';
+      
+      // 高亮选中的卡片
+      document.querySelectorAll('.theme-card').forEach(card => {
+        card.style.outline = card.dataset.theme === key ? '3px solid #f59e0b' : 'none';
+      });
+      
+      // 更新代码
+      updateCodeOutput();
+    }
+
+    function updateCodeOutput() {
+      const code = `const READING_THEMES = {
+  // 经典主题
+  paper: { bg: '#F5F5DC', text: '#3D3D3D', name: '羊皮纸' },
+  green: { bg: '#C7EDCC', text: '#2D4A2D', name: '护眼绿' },
+  night: { bg: '#1A1A2E', text: '#E8E8E8', name: '夜间' },
+  white: { bg: '#FFFFFF', text: '#333333', name: '纯白' },
+  sepia: { bg: '#FBF0D9', text: '#5B4636', name: '怀旧' },
+  
+  // 清新主题
+  sky: { bg: '#E3F2FD', text: '#1565C0', name: '天空蓝' },
+  lavender: { bg: '#F3E5F5', text: '#6A1B9A', name: '薰衣草' },
+  sakura: { bg: '#FCE4EC', text: '#AD1457', name: '樱花粉' },
+  mint: { bg: '#E0F2F1', text: '#00695C', name: '薄荷' },
+  lemon: { bg: '#FFFDE7', text: '#F57F17', name: '柠檬' },
+  
+  // 深色主题
+  abyss: { bg: '#0D1117', text: '#C9D1D9', name: '深邃黑' },
+  darkPurple: { bg: '#1E1E2F', text: '#B794F6', name: '暗夜紫' },
+  midnight: { bg: '#0F1624', text: '#7DD3FC', name: '午夜蓝' },
+  darkGreen: { bg: '#1A2F1A', text: '#90EE90', name: '墨绿' },
+  warmNight: { bg: '#1F1510', text: '#FBBF24', name: '暖夜' },
+  
+  // 特色主题
+  ink: { bg: '#F5F5F0', text: '#2C2C2C', name: '墨香' },
+  ancient: { bg: '#E8DCC4', text: '#4A3728', name: '古籍' },
+  mocha: { bg: '#3E2723', text: '#D7CCC8', name: '摩卡' },
+  forest: { bg: '#E8F5E9', text: '#1B5E20', name: '森林' },
+  ocean: { bg: '#E1F5FE', text: '#01579B', name: '海洋' },
+};`;
+      document.getElementById('themeCode').textContent = code;
+    }
+
+    // 初始化
+    selectTheme('paper');
+  </script>
+</body>
+</html>
