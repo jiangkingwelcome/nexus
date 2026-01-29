@@ -10,7 +10,7 @@ import {
   AlistUserInfo
 } from '@/src/api/alist';
 import { fileCache } from '@/src/utils/fileCache';
-import { ThemeContext } from '../App';
+import { ThemeContext, UserContext } from '../App';
 
 // 缓存统计类型
 interface CacheStats {
@@ -163,9 +163,6 @@ const SettingsPage: React.FC = () => {
   const [alistError, setAlistError] = useState<string | null>(null);
   const [alistSuccess, setAlistSuccess] = useState<string | null>(null);
 
-  // PocketBase 设置
-  const [pbUrl, setPbUrl] = useState(import.meta.env.VITE_PB_URL || 'http://localhost:8090');
-
   // 检查登录状态
   useEffect(() => {
     checkLoginStatus();
@@ -248,11 +245,86 @@ const SettingsPage: React.FC = () => {
   };
 
   const { theme, toggleTheme } = useContext(ThemeContext);
+  const { user, logout } = useContext(UserContext);
   const isDark = theme === 'dark';
+
+  // 退出登录
+  const handleLogout = () => {
+    if (confirm('确定要退出登录吗？')) {
+      logout();
+    }
+  };
 
   return (
     <div className="animate-fade-in pb-32 px-6">
       <h1 className={`text-2xl font-bold mb-6 ${isDark ? 'text-white' : 'text-slate-800'}`}>设置</h1>
+
+      {/* 账号管理 */}
+      <section className="mb-8">
+        <h2 className={`text-lg font-semibold mb-4 flex items-center gap-2 ${isDark ? 'text-white' : 'text-slate-700'}`}>
+          <div className={`w-8 h-8 rounded-lg flex items-center justify-center ${isDark ? 'bg-violet-500/20' : 'bg-violet-100'}`}>
+            <svg className={`w-4 h-4 ${isDark ? 'text-violet-400' : 'text-violet-600'}`} fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z" />
+            </svg>
+          </div>
+          账号管理
+        </h2>
+
+        <div className={`rounded-2xl border p-4 ${isDark ? 'bg-white/5 border-white/10' : 'bg-white border-slate-100'}`}>
+          {user ? (
+            <div className="space-y-4">
+              {/* 用户信息卡片 */}
+              <div className={`flex items-center gap-4 p-4 rounded-xl ${isDark ? 'bg-gradient-to-r from-violet-500/10 to-indigo-500/10' : 'bg-gradient-to-r from-violet-50 to-indigo-50'}`}>
+                <div className={`w-14 h-14 rounded-full flex items-center justify-center text-2xl font-bold ${
+                  isDark 
+                    ? 'bg-gradient-to-br from-violet-500 to-indigo-600 text-white' 
+                    : 'bg-gradient-to-br from-violet-400 to-indigo-500 text-white'
+                }`}>
+                  {(user.name || user.email)?.[0]?.toUpperCase() || 'U'}
+                </div>
+                <div className="flex-1 min-w-0">
+                  <p className={`font-semibold text-lg truncate ${isDark ? 'text-white' : 'text-slate-800'}`}>
+                    {user.name || '用户'}
+                  </p>
+                  <p className={`text-sm truncate ${isDark ? 'text-white/50' : 'text-slate-500'}`}>
+                    {user.email}
+                  </p>
+                </div>
+                <div className={`px-3 py-1 rounded-full text-xs font-medium ${
+                  isDark ? 'bg-green-500/20 text-green-400' : 'bg-green-100 text-green-600'
+                }`}>
+                  已登录
+                </div>
+              </div>
+
+              {/* 用户 ID */}
+              <div className={`flex items-center justify-between py-3 px-1 border-b ${isDark ? 'border-white/10' : 'border-slate-100'}`}>
+                <span className={`text-sm ${isDark ? 'text-white/60' : 'text-slate-500'}`}>用户 ID</span>
+                <span className={`text-sm font-mono ${isDark ? 'text-white/80' : 'text-slate-700'}`}>{user.id}</span>
+              </div>
+
+              {/* 退出登录按钮 */}
+              <button
+                onClick={handleLogout}
+                className={`w-full py-3 rounded-xl text-sm font-medium transition-colors flex items-center justify-center gap-2 ${
+                  isDark 
+                    ? 'bg-red-500/10 text-red-400 hover:bg-red-500/20' 
+                    : 'bg-red-50 text-red-600 hover:bg-red-100'
+                }`}
+              >
+                <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M17 16l4-4m0 0l-4-4m4 4H7m6 4v1a3 3 0 01-3 3H6a3 3 0 01-3-3V7a3 3 0 013-3h4a3 3 0 013 3v1" />
+                </svg>
+                退出登录
+              </button>
+            </div>
+          ) : (
+            <div className={`text-center py-8 ${isDark ? 'text-white/50' : 'text-slate-400'}`}>
+              <p>未登录</p>
+            </div>
+          )}
+        </div>
+      </section>
 
       {/* 主题设置 */}
       <section className="mb-8">
@@ -488,34 +560,6 @@ const SettingsPage: React.FC = () => {
               {alistSuccess}
             </div>
           )}
-        </div>
-      </section>
-
-      {/* PocketBase 设置 */}
-      <section className="mb-8">
-        <h2 className={`text-lg font-semibold mb-4 flex items-center gap-2 ${isDark ? 'text-white' : 'text-slate-700'}`}>
-          <div className={`w-8 h-8 rounded-lg flex items-center justify-center ${isDark ? 'bg-purple-500/20' : 'bg-purple-100'}`}>
-            <svg className={`w-4 h-4 ${isDark ? 'text-purple-400' : 'text-purple-600'}`} fill="none" stroke="currentColor" viewBox="0 0 24 24">
-              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M4 7v10c0 2.21 3.582 4 8 4s8-1.79 8-4V7M4 7c0 2.21 3.582 4 8 4s8-1.79 8-4M4 7c0-2.21 3.582-4 8-4s8 1.79 8 4m0 5c0 2.21-3.582 4-8 4s-8-1.79-8-4" />
-            </svg>
-          </div>
-          PocketBase 数据同步
-        </h2>
-
-        <div className={`rounded-2xl border p-4 space-y-4 ${isDark ? 'bg-white/5 border-white/10' : 'bg-white border-slate-100'}`}>
-          <div>
-            <label className="block text-sm font-medium text-slate-600 mb-2">服务器地址</label>
-            <input 
-              type="text"
-              value={pbUrl}
-              onChange={(e) => setPbUrl(e.target.value)}
-              placeholder="http://localhost:8090"
-              className="w-full px-4 py-2.5 border border-slate-200 rounded-xl text-sm focus:outline-none focus:ring-2 focus:ring-indigo-500/50"
-            />
-          </div>
-          <p className="text-xs text-slate-400">
-            PocketBase 用于同步阅读进度、笔记等数据（可选）
-          </p>
         </div>
       </section>
 

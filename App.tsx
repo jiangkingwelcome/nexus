@@ -7,10 +7,32 @@ import BottomDock from './components/BottomDock';
 import Sidebar from './components/Sidebar';
 import FileViewer from './components/FileViewer';
 import SettingsPage from './components/SettingsPage';
+import LoadingScreen from './components/LoadingScreen';
+import LoginScreen from './components/LoginScreen';
 import { NavTab, FileItem, FileCategory, ThemeMode } from './types';
 import { APP_ENTRIES } from './constants';
 import { PATH_CONFIG } from './src/config';
 import { fileCache } from './src/utils/fileCache';
+import { pb, authService } from './src/api/pocketbase';
+
+// 用户类型
+interface User {
+  id: string;
+  email: string;
+  name?: string;
+  avatar?: string;
+}
+
+// 用户 Context
+interface UserContextType {
+  user: User | null;
+  logout: () => void;
+}
+
+export const UserContext = createContext<UserContextType>({
+  user: null,
+  logout: () => {},
+});
 
 // 主题 Context
 interface ThemeContextType {
@@ -30,6 +52,8 @@ const getBasePath = (tab: NavTab): string => {
 };
 
 const App: React.FC = () => {
+  const [isLoading, setIsLoading] = useState(true);
+  const [currentUser, setCurrentUser] = useState<User | null>(null);
   const [activeTab, setActiveTab] = useState<NavTab>(NavTab.HOME);
   const [currentPath, setCurrentPath] = useState<string>('/');
   const [viewingFile, setViewingFile] = useState<FileItem | null>(null);
@@ -47,6 +71,39 @@ const App: React.FC = () => {
       localStorage.setItem('nexus-theme', next);
       return next;
     });
+  }, []);
+
+  // 加载完成回调 - 检查已有登录状态
+  const handleLoadingComplete = useCallback(() => {
+    // 检查 PocketBase 是否已有有效的认证
+    if (authService.isLoggedIn()) {
+      const user = authService.getCurrentUser();
+      if (user) {
+        setCurrentUser({
+          id: user.id,
+          email: user.email,
+          name: user.name || user.email?.split('@')[0],
+          avatar: user.avatar,
+        });
+      }
+    }
+    setIsLoading(false);
+  }, []);
+
+  // 登录成功回调
+  const handleLoginSuccess = useCallback((user: any) => {
+    setCurrentUser({
+      id: user.id,
+      email: user.email,
+      name: user.name || user.email?.split('@')[0],
+      avatar: user.avatar,
+    });
+  }, []);
+
+  // 登出
+  const handleLogout = useCallback(() => {
+    authService.logout();
+    setCurrentUser(null);
   }, []);
 
   // 初始化：尝试恢复本地缓存文件夹
@@ -141,53 +198,65 @@ const App: React.FC = () => {
 
   // 主题样式
   const isDark = theme === 'dark';
+
+  // 显示加载页面
+  if (isLoading) {
+    return <LoadingScreen onComplete={handleLoadingComplete} />;
+  }
+
+  // 未登录显示登录页面
+  if (!currentUser) {
+    return <LoginScreen onLoginSuccess={handleLoginSuccess} />;
+  }
   
   return (
-    <ThemeContext.Provider value={{ theme, toggleTheme }}>
-      <div className={`min-h-screen relative overflow-hidden font-sans transition-colors duration-300 ${
-        isDark 
-          ? 'bg-[#0f0f12] text-white selection:bg-indigo-900 selection:text-indigo-200' 
-          : 'bg-slate-50 text-slate-900 selection:bg-indigo-100 selection:text-indigo-700'
-      }`}>
-        
-        {/* 文件查看器 */}
-        {viewingFile && (
-          <FileViewer 
-            file={viewingFile} 
-            onClose={() => setViewingFile(null)} 
-          />
-        )}
-
-        {/* 背景装饰 */}
-        <div className={`fixed top-[-10%] left-[-10%] w-[50%] h-[50%] rounded-full blur-[100px] pointer-events-none z-0 transition-colors duration-300 ${
-          isDark ? 'bg-indigo-900/30 opacity-40' : 'bg-indigo-100 opacity-60'
-        }`} />
-        <div className={`fixed bottom-[-10%] right-[-10%] w-[60%] h-[60%] rounded-full blur-[120px] pointer-events-none z-0 transition-colors duration-300 ${
-          isDark ? 'bg-violet-900/30 opacity-40' : 'bg-blue-100 opacity-60'
-        }`} />
-
-        {/* 主内容容器 */}
-        <div className={`relative z-10 w-full min-h-screen transition-transform duration-300 ${viewingFile ? 'scale-95 opacity-50 pointer-events-none' : 'scale-100 opacity-100'}`}>
+    <UserContext.Provider value={{ user: currentUser, logout: handleLogout }}>
+      <ThemeContext.Provider value={{ theme, toggleTheme }}>
+        <div className={`min-h-screen relative overflow-hidden font-sans transition-colors duration-300 ${
+          isDark 
+            ? 'bg-[#0f0f12] text-white selection:bg-indigo-900 selection:text-indigo-200' 
+            : 'bg-slate-50 text-slate-900 selection:bg-indigo-100 selection:text-indigo-700'
+        }`}>
           
-          {/* 桌面端侧边栏 */}
-          <Sidebar activeTab={activeTab} onTabChange={handleTabChange} />
-          
-          {/* 主内容区域 */}
-          <div className="md:ml-64 min-h-screen flex flex-col">
-            <div className="w-full max-w-5xl mx-auto md:max-w-none md:mx-0">
-              <Header name="Jiangking" />
-              
-              <main className="animate-fade-in transition-opacity duration-300 min-h-[80vh] w-full max-w-5xl mx-auto md:max-w-none md:mx-0 md:px-6">
-                {renderContent()}
-              </main>
+          {/* 文件查看器 */}
+          {viewingFile && (
+            <FileViewer 
+              file={viewingFile} 
+              onClose={() => setViewingFile(null)} 
+            />
+          )}
+
+          {/* 背景装饰 */}
+          <div className={`fixed top-[-10%] left-[-10%] w-[50%] h-[50%] rounded-full blur-[100px] pointer-events-none z-0 transition-colors duration-300 ${
+            isDark ? 'bg-indigo-900/30 opacity-40' : 'bg-indigo-100 opacity-60'
+          }`} />
+          <div className={`fixed bottom-[-10%] right-[-10%] w-[60%] h-[60%] rounded-full blur-[120px] pointer-events-none z-0 transition-colors duration-300 ${
+            isDark ? 'bg-violet-900/30 opacity-40' : 'bg-blue-100 opacity-60'
+          }`} />
+
+          {/* 主内容容器 */}
+          <div className={`relative z-10 w-full min-h-screen transition-transform duration-300 ${viewingFile ? 'scale-95 opacity-50 pointer-events-none' : 'scale-100 opacity-100'}`}>
+            
+            {/* 桌面端侧边栏 */}
+            <Sidebar activeTab={activeTab} onTabChange={handleTabChange} />
+            
+            {/* 主内容区域 */}
+            <div className="md:ml-64 min-h-screen flex flex-col">
+              <div className="w-full max-w-5xl mx-auto md:max-w-none md:mx-0">
+                <Header name={currentUser.name || currentUser.email} />
+                
+                <main className="animate-fade-in transition-opacity duration-300 min-h-[80vh] w-full max-w-5xl mx-auto md:max-w-none md:mx-0 md:px-6">
+                  {renderContent()}
+                </main>
+              </div>
             </div>
-          </div>
 
-          {/* 移动端底部导航 */}
-          <BottomDock activeTab={activeTab} onTabChange={handleTabChange} />
+            {/* 移动端底部导航 */}
+            <BottomDock activeTab={activeTab} onTabChange={handleTabChange} />
+          </div>
         </div>
-      </div>
-    </ThemeContext.Provider>
+      </ThemeContext.Provider>
+    </UserContext.Provider>
   );
 };
 

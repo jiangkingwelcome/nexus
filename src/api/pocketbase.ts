@@ -11,6 +11,27 @@ const PB_URL = import.meta.env.VITE_PB_URL || 'http://localhost:8090';
 // 创建 PocketBase 实例
 export const pb = new PocketBase(PB_URL);
 
+// ==================== 辅助函数 ====================
+
+/**
+ * 获取当前登录用户的 ID
+ * 用于数据隔离
+ */
+function getCurrentUserId(): string | null {
+  return pb.authStore.model?.id || null;
+}
+
+/**
+ * 确保用户已登录，否则抛出错误
+ */
+function requireAuth(): string {
+  const userId = getCurrentUserId();
+  if (!userId) {
+    throw new Error('用户未登录');
+  }
+  return userId;
+}
+
 // ==================== 类型定义 ====================
 
 // 阅读进度
@@ -55,12 +76,15 @@ export interface Bookmark {
 
 export const progressService = {
   /**
-   * 获取文件的阅读进度
+   * 获取文件的阅读进度（当前用户）
    */
   async get(filePath: string): Promise<ReadingProgress | null> {
+    const userId = getCurrentUserId();
+    if (!userId) return null;
+    
     try {
       const record = await pb.collection('reading_progress').getFirstListItem(
-        `file_path = "${filePath}"`,
+        `file_path = "${filePath}" && user_id = "${userId}"`,
         { requestKey: null }
       );
       return record as unknown as ReadingProgress;
@@ -71,9 +95,11 @@ export const progressService = {
   },
 
   /**
-   * 保存/更新阅读进度
+   * 保存/更新阅读进度（当前用户）
    */
   async save(progress: ReadingProgress): Promise<ReadingProgress> {
+    const userId = requireAuth();
+    
     try {
       // 检查是否已存在
       const existing = await this.get(progress.file_path);
@@ -86,9 +112,10 @@ export const progressService = {
         });
         return updated as unknown as ReadingProgress;
       } else {
-        // 创建新记录
+        // 创建新记录（带用户 ID）
         const created = await pb.collection('reading_progress').create({
           ...progress,
+          user_id: userId,
           last_read: new Date().toISOString(),
         });
         return created as unknown as ReadingProgress;
@@ -100,11 +127,15 @@ export const progressService = {
   },
 
   /**
-   * 获取最近阅读列表
+   * 获取最近阅读列表（当前用户）
    */
   async getRecent(limit: number = 10): Promise<ReadingProgress[]> {
+    const userId = getCurrentUserId();
+    if (!userId) return [];
+    
     try {
       const records = await pb.collection('reading_progress').getList(1, limit, {
+        filter: `user_id = "${userId}"`,
         sort: '-last_read',
         requestKey: null,
       });
@@ -116,11 +147,17 @@ export const progressService = {
   },
 
   /**
-   * 实时订阅进度变化 (多端同步)
+   * 实时订阅进度变化（当前用户，多端同步）
    */
   subscribe(callback: (data: ReadingProgress) => void): () => void {
+    const userId = getCurrentUserId();
+    
     pb.collection('reading_progress').subscribe('*', (e) => {
-      callback(e.record as unknown as ReadingProgress);
+      const record = e.record as unknown as ReadingProgress;
+      // 只处理当前用户的数据
+      if (record.user_id === userId) {
+        callback(record);
+      }
     });
     
     // 返回取消订阅函数
@@ -134,12 +171,15 @@ export const progressService = {
 
 export const noteService = {
   /**
-   * 获取文件的所有笔记
+   * 获取文件的所有笔记（当前用户）
    */
   async getByFile(filePath: string): Promise<Note[]> {
+    const userId = getCurrentUserId();
+    if (!userId) return [];
+    
     try {
       const records = await pb.collection('notes').getList(1, 100, {
-        filter: `file_path = "${filePath}"`,
+        filter: `file_path = "${filePath}" && user_id = "${userId}"`,
         sort: '-created',
         requestKey: null,
       });
@@ -151,10 +191,14 @@ export const noteService = {
   },
 
   /**
-   * 创建笔记
+   * 创建笔记（当前用户）
    */
   async create(note: Note): Promise<Note> {
-    const created = await pb.collection('notes').create(note);
+    const userId = requireAuth();
+    const created = await pb.collection('notes').create({
+      ...note,
+      user_id: userId,
+    });
     return created as unknown as Note;
   },
 
@@ -162,6 +206,7 @@ export const noteService = {
    * 更新笔记
    */
   async update(id: string, content: string): Promise<Note> {
+    requireAuth();
     const updated = await pb.collection('notes').update(id, { content });
     return updated as unknown as Note;
   },
@@ -170,6 +215,7 @@ export const noteService = {
    * 删除笔记
    */
   async delete(id: string): Promise<void> {
+    requireAuth();
     await pb.collection('notes').delete(id);
   },
 };
@@ -178,12 +224,15 @@ export const noteService = {
 
 export const bookmarkService = {
   /**
-   * 获取文件的收藏状态
+   * 获取文件的收藏状态（当前用户）
    */
   async get(filePath: string): Promise<Bookmark | null> {
+    const userId = getCurrentUserId();
+    if (!userId) return null;
+    
     try {
       const record = await pb.collection('bookmarks').getFirstListItem(
-        `file_path = "${filePath}"`,
+        `file_path = "${filePath}" && user_id = "${userId}"`,
         { requestKey: null }
       );
       return record as unknown as Bookmark;
@@ -193,9 +242,10 @@ export const bookmarkService = {
   },
 
   /**
-   * 切换收藏状态
+   * 切换收藏状态（当前用户）
    */
   async toggleFavorite(filePath: string, fileName: string): Promise<boolean> {
+    const userId = requireAuth();
     const existing = await this.get(filePath);
     
     if (existing?.id) {
@@ -207,6 +257,7 @@ export const bookmarkService = {
       await pb.collection('bookmarks').create({
         file_path: filePath,
         file_name: fileName,
+        user_id: userId,
         is_favorite: true,
         tags: [],
       });
@@ -215,12 +266,15 @@ export const bookmarkService = {
   },
 
   /**
-   * 获取所有收藏
+   * 获取所有收藏（当前用户）
    */
   async getFavorites(): Promise<Bookmark[]> {
+    const userId = getCurrentUserId();
+    if (!userId) return [];
+    
     try {
       const records = await pb.collection('bookmarks').getList(1, 100, {
-        filter: 'is_favorite = true',
+        filter: `is_favorite = true && user_id = "${userId}"`,
         sort: '-created',
         requestKey: null,
       });
@@ -232,9 +286,10 @@ export const bookmarkService = {
   },
 
   /**
-   * 添加标签
+   * 添加标签（当前用户）
    */
   async addTag(filePath: string, fileName: string, tag: string): Promise<void> {
+    const userId = requireAuth();
     const existing = await this.get(filePath);
     
     if (existing?.id) {
@@ -244,6 +299,7 @@ export const bookmarkService = {
       await pb.collection('bookmarks').create({
         file_path: filePath,
         file_name: fileName,
+        user_id: userId,
         is_favorite: false,
         tags: [tag],
       });
@@ -254,6 +310,7 @@ export const bookmarkService = {
    * 移除标签
    */
   async removeTag(filePath: string, tag: string): Promise<void> {
+    requireAuth();
     const existing = await this.get(filePath);
     
     if (existing?.id) {
