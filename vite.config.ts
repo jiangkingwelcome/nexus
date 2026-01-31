@@ -23,6 +23,20 @@ export default defineConfig(({ mode }) => {
             rewrite: (path) => path.replace(/^\/baidu-pan/, ''),
             secure: true,
           },
+          // 115网盘 二维码/Token API 代理
+          '/115-qrcode': {
+            target: 'https://qrcodeapi.115.com',
+            changeOrigin: true,
+            rewrite: (path) => path.replace(/^\/115-qrcode/, ''),
+            secure: true,
+          },
+          // 115网盘 文件操作 API 代理
+          '/115-api': {
+            target: 'https://proapi.115.com',
+            changeOrigin: true,
+            rewrite: (path) => path.replace(/^\/115-api/, ''),
+            secure: true,
+          },
         },
       },
       plugins: [react()],

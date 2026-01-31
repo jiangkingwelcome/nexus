@@ -31,6 +31,18 @@ export enum NavTab {
   SETTINGS = 'settings'
 }
 
+// ==================== 网盘提供者 ====================
+
+export type StorageProviderId = 'baidu' | 'aliyun' | 'local' | 'onedrive' | '115';
+
+export interface StorageProvider {
+  id: StorageProviderId;
+  name: string;
+  icon: string;           // emoji 或图标名
+  connected: boolean;     // 是否已连接
+  description?: string;
+}
+
 // ==================== 文件系统 ====================
 
 export type FileCategory = 'video' | 'audio' | 'image' | 'document' | 'ebook' | 'folder' | 'other';
@@ -44,8 +56,14 @@ export interface FileItem {
   category: FileCategory;
   thumb?: string;
   rawUrl?: string;
+  // 网盘来源
+  provider?: StorageProviderId;
   // 百度网盘特有字段
   fs_id?: number;
+  // 115网盘特有字段
+  fid?: string;        // 文件/目录ID
+  cid?: string;        // 父目录ID
+  pick_code?: string;  // 提取码（下载用）
 }
 
 // ==================== 功能入口 ====================

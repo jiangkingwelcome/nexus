@@ -1,0 +1,311 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>115网盘 Token 获取工具</title>
+  <style>
+    * { box-sizing: border-box; }
+    body {
+      font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+      max-width: 600px;
+      margin: 0 auto;
+      padding: 40px 20px;
+      background: #f5f5f5;
+    }
+    h1 { color: #333; text-align: center; }
+    .card {
+      background: white;
+      border-radius: 12px;
+      padding: 24px;
+      margin: 20px 0;
+      box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+    }
+    .btn {
+      background: #4caf50;
+      color: white;
+      border: none;
+      padding: 14px 28px;
+      border-radius: 8px;
+      font-size: 16px;
+      cursor: pointer;
+      width: 100%;
+      margin: 10px 0;
+    }
+    .btn:hover { background: #43a047; }
+    .btn:disabled { background: #ccc; cursor: not-allowed; }
+    .btn-secondary { background: #2196f3; }
+    .btn-secondary:hover { background: #1976d2; }
+    #qrcode {
+      text-align: center;
+      padding: 20px;
+      background: white;
+      border-radius: 8px;
+      margin: 20px 0;
+    }
+    #qrcode img { max-width: 200px; }
+    #status {
+      padding: 12px;
+      border-radius: 8px;
+      margin: 10px 0;
+      text-align: center;
+    }
+    .status-waiting { background: #fff3e0; color: #e65100; }
+    .status-scanned { background: #e3f2fd; color: #1565c0; }
+    .status-success { background: #e8f5e9; color: #2e7d32; }
+    .status-error { background: #ffebee; color: #c62828; }
+    .token-box {
+      background: #f5f5f5;
+      padding: 12px;
+      border-radius: 8px;
+      font-family: monospace;
+      font-size: 12px;
+      word-break: break-all;
+      margin: 10px 0;
+      max-height: 100px;
+      overflow-y: auto;
+    }
+    label { display: block; margin: 10px 0 5px; color: #666; }
+    input {
+      width: 100%;
+      padding: 10px;
+      border: 1px solid #ddd;
+      border-radius: 6px;
+      font-size: 14px;
+    }
+    .note {
+      font-size: 13px;
+      color: #666;
+      margin: 10px 0;
+      line-height: 1.6;
+    }
+    .copy-btn {
+      background: #607d8b;
+      padding: 8px 16px;
+      font-size: 14px;
+      width: auto;
+      display: inline-block;
+    }
+  </style>
+</head>
+<body>
+  <h1>🗄️ 115网盘 Token 获取</h1>
+  
+  <div class="card">
+    <label>APP ID (可选，默认使用 AList 的)</label>
+    <input type="text" id="appId" placeholder="留空使用默认值 100195125">
+    
+    <button class="btn" id="generateBtn" onclick="generateQRCode()">
+      生成二维码
+    </button>
+  </div>
+
+  <div class="card" id="qrcodeCard" style="display:none;">
+    <div id="qrcode"></div>
+    <div id="status"></div>
+    <p class="note">请使用 115 手机APP 扫描上方二维码并确认授权</p>
+  </div>
+
+  <div class="card" id="resultCard" style="display:none;">
+    <h3>✅ 获取成功！</h3>
+    
+    <label>Refresh Token (重要！复制这个)</label>
+    <div class="token-box" id="refreshToken"></div>
+    <button class="btn copy-btn" onclick="copyToken('refreshToken')">复制 Refresh Token</button>
+    
+    <label>Access Token</label>
+    <div class="token-box" id="accessToken"></div>
+    <button class="btn copy-btn" onclick="copyToken('accessToken')">复制 Access Token</button>
+    
+    <div class="note" style="margin-top: 20px;">
+      <strong>使用方法：</strong><br>
+      1. 复制上面的 Refresh Token<br>
+      2. 打开项目的 <code>.env.local</code> 文件<br>
+      3. 设置 <code>VITE_115_REFRESH_TOKEN=你的token</code><br>
+      4. 重启开发服务器
+    </div>
+  </div>
+
+  <!-- MD5 库 -->
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/blueimp-md5/2.19.0/js/md5.min.js"></script>
+  <script>
+    // 简单的二维码生成
+    function generateQRCodeImage(text, size) {
+      return `https://api.qrserver.com/v1/create-qr-code/?size=${size}x${size}&data=${encodeURIComponent(text)}`;
+    }
+    
+    // 计算 MD5 并 base64 编码（用于 PKCE）
+    function md5Base64(str) {
+      // md5库返回hex字符串，需要转为bytes再base64
+      const hex = md5(str);
+      const bytes = [];
+      for (let i = 0; i < hex.length; i += 2) {
+        bytes.push(parseInt(hex.substr(i, 2), 16));
+      }
+      return btoa(String.fromCharCode.apply(null, bytes));
+    }
+  </script>
+  <script>
+    // 通过 Vite 代理访问
+    const API_BASE = '/115-qrcode';
+    const DEFAULT_APP_ID = '100195125';
+    
+    // PKCE 参数
+    const CODE_VERIFIER = '0'.repeat(64);
+    
+    let pollingTimer = null;
+    let qrcodeToken = null;
+
+    async function generateQRCode() {
+      const btn = document.getElementById('generateBtn');
+      const qrcodeCard = document.getElementById('qrcodeCard');
+      const resultCard = document.getElementById('resultCard');
+      
+      btn.disabled = true;
+      btn.textContent = '生成中...';
+      resultCard.style.display = 'none';
+      
+      try {
+        const appId = document.getElementById('appId').value || DEFAULT_APP_ID;
+        
+        // 计算 code_challenge
+        const codeChallenge = md5Base64(CODE_VERIFIER);
+        console.log('CODE_VERIFIER:', CODE_VERIFIER);
+        console.log('code_challenge:', codeChallenge);
+        
+        // 获取二维码token
+        const response = await fetch(`${API_BASE}/open/authDeviceCode`, {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
+          body: `client_id=${appId}&code_challenge=${encodeURIComponent(codeChallenge)}&code_challenge_method=md5`
+        });
+        
+        const data = await response.json();
+        
+        if (data.code || !data.data) {
+          throw new Error(data.error || data.message || '获取二维码失败');
+        }
+        
+        qrcodeToken = data.data;
+        
+        // 生成二维码
+        const qrcodeDiv = document.getElementById('qrcode');
+        qrcodeDiv.innerHTML = '';
+        
+        const qrUrl = qrcodeToken.qrcode || `https://115.com/scan/dg-${qrcodeToken.uid}`;
+        const img = document.createElement('img');
+        img.src = generateQRCodeImage(qrUrl, 200);
+        img.alt = '扫码登录';
+        img.style.width = '200px';
+        img.style.height = '200px';
+        qrcodeDiv.appendChild(img);
+        
+        qrcodeCard.style.display = 'block';
+        updateStatus('waiting', '等待扫码...');
+        
+        // 开始轮询状态
+        startPolling();
+        
+      } catch (error) {
+        alert('错误: ' + error.message);
+        console.error(error);
+      } finally {
+        btn.disabled = false;
+        btn.textContent = '生成二维码';
+      }
+    }
+
+    function updateStatus(type, text) {
+      const statusDiv = document.getElementById('status');
+      statusDiv.className = `status-${type}`;
+      statusDiv.textContent = text;
+    }
+
+    function startPolling() {
+      if (pollingTimer) clearInterval(pollingTimer);
+      
+      pollingTimer = setInterval(async () => {
+        try {
+          const params = new URLSearchParams({
+            uid: qrcodeToken.uid,
+            time: qrcodeToken.time,
+            sign: qrcodeToken.sign
+          });
+          
+          const response = await fetch(`${API_BASE}/get/status/?${params}`);
+          const data = await response.json();
+          
+          const status = data.data?.status;
+          
+          switch (status) {
+            case 0:
+              updateStatus('waiting', '等待扫码...');
+              break;
+            case 1:
+              updateStatus('scanned', '已扫码，请在手机上确认授权');
+              break;
+            case 2:
+              updateStatus('success', '授权成功！正在获取Token...');
+              clearInterval(pollingTimer);
+              await getAccessToken();
+              break;
+            case -1:
+              updateStatus('error', '二维码已过期，请重新生成');
+              clearInterval(pollingTimer);
+              break;
+            case -2:
+              updateStatus('error', '已取消授权');
+              clearInterval(pollingTimer);
+              break;
+          }
+        } catch (error) {
+          console.error('轮询错误:', error);
+        }
+      }, 2000);
+    }
+
+    async function getAccessToken() {
+      try {
+        const response = await fetch(`${API_BASE}/open/deviceCodeToToken`, {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
+          body: `uid=${qrcodeToken.uid}&code_verifier=${CODE_VERIFIER}`
+        });
+        
+        const data = await response.json();
+        
+        if (data.code || !data.data) {
+          throw new Error(data.error || '获取Token失败');
+        }
+        
+        // 显示结果
+        document.getElementById('refreshToken').textContent = data.data.refresh_token;
+        document.getElementById('accessToken').textContent = data.data.access_token;
+        document.getElementById('resultCard').style.display = 'block';
+        
+        updateStatus('success', '✅ Token 获取成功！');
+        
+      } catch (error) {
+        updateStatus('error', '获取Token失败: ' + error.message);
+        console.error(error);
+      }
+    }
+
+    function copyToken(id) {
+      const text = document.getElementById(id).textContent;
+      navigator.clipboard.writeText(text).then(() => {
+        alert('已复制到剪贴板！');
+      }).catch(() => {
+        // 降级方案
+        const textarea = document.createElement('textarea');
+        textarea.value = text;
+        document.body.appendChild(textarea);
+        textarea.select();
+        document.execCommand('copy');
+        document.body.removeChild(textarea);
+        alert('已复制到剪贴板！');
+      });
+    }
+  </script>
+</body>
+</html>

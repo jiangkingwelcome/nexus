@@ -1,6 +1,16 @@
-import React, { useState, useEffect } from 'react';
-import { FileItem, FileCategory } from '../types';
-import { listFiles, getFileCategory, formatFileSize, formatDate, FileListItem } from '@/src/api/files';
+import React, { useState, useEffect, useRef } from 'react';
+import { FileItem, FileCategory, StorageProvider, StorageProviderId } from '../types';
+import { 
+  listFiles, 
+  getFileCategory, 
+  formatFileSize, 
+  formatDate, 
+  FileListItem,
+  getStorageProviders,
+  getCurrentProviderId,
+  setCurrentProvider,
+  isProviderConnected,
+} from '@/src/api/files';
 import { SearchIcon, GridIcon, ListIcon } from './Icons';
 
 interface FileBrowserProps {
@@ -29,18 +39,63 @@ const FileBrowser: React.FC<FileBrowserProps> = ({
   const [error, setError] = useState<string | null>(null);
   const [viewMode, setViewMode] = useState<'grid' | 'list'>('grid');
   const [searchQuery, setSearchQuery] = useState('');
+  
+  // 115网盘目录导航（使用cid而非路径）
+  const [currentCid, setCurrentCid] = useState<string>('0');
+  const [cidHistory, setCidHistory] = useState<Array<{cid: string; name: string}>>([{cid: '0', name: '根目录'}]);
+  
+  // 网盘选择器状态
+  const [providers] = useState<StorageProvider[]>(getStorageProviders);
+  const [currentProvider, setCurrentProviderState] = useState<StorageProviderId>(getCurrentProviderId);
+  const [showProviderDropdown, setShowProviderDropdown] = useState(false);
+  const providerDropdownRef = useRef<HTMLDivElement>(null);
+
+  // 点击外部关闭下拉菜单
+  useEffect(() => {
+    const handleClickOutside = (event: MouseEvent) => {
+      if (providerDropdownRef.current && !providerDropdownRef.current.contains(event.target as Node)) {
+        setShowProviderDropdown(false);
+      }
+    };
+    document.addEventListener('mousedown', handleClickOutside);
+    return () => document.removeEventListener('mousedown', handleClickOutside);
+  }, []);
+
+  // 切换网盘
+  const handleProviderChange = (providerId: StorageProviderId) => {
+    // 检查是否已连接
+    if (!isProviderConnected(providerId)) {
+      // 暂不支持的网盘，显示提示
+      return;
+    }
+    setCurrentProvider(providerId);
+    setCurrentProviderState(providerId);
+    setShowProviderDropdown(false);
+    // 切换网盘后重置状态
+    if (providerId === '115') {
+      // 115网盘：重置为根目录
+      setCurrentCid('0');
+      setCidHistory([{cid: '0', name: '根目录'}]);
+    }
+    // 切换网盘后重置路径并重新加载
+    onNavigateTo(basePath);
+  };
+
+  // 获取当前网盘信息
+  const activeProvider = providers.find(p => p.id === currentProvider);
 
   // 加载文件列表
   useEffect(() => {
     loadFiles();
-  }, [path]);
+  }, [path, currentProvider, currentCid]);
 
   const loadFiles = async () => {
     setLoading(true);
     setError(null);
     
     try {
-      const fileList = await listFiles(path);
+      // 115网盘使用cid，其他网盘使用path
+      const fileList = await listFiles(path, currentProvider === '115' ? currentCid : undefined);
       const items: FileItem[] = fileList.map((f: FileListItem) => ({
         name: f.name,
         path: f.path || `${path === '/' ? '' : path}/${f.name}`,
@@ -50,6 +105,11 @@ const FileBrowser: React.FC<FileBrowserProps> = ({
         category: getFileCategory(f.name, f.is_dir),
         thumb: f.thumb,
         fs_id: f.fs_id,
+        // 115网盘特有字段
+        fid: f.fid,
+        cid: f.cid,
+        pick_code: f.pick_code,
+        provider: f.provider,
       }));
 
       // 按类型过滤
@@ -74,6 +134,40 @@ const FileBrowser: React.FC<FileBrowserProps> = ({
     } finally {
       setLoading(false);
     }
+  };
+
+  // 处理文件/目录点击
+  const handleItemClick = (file: FileItem) => {
+    if (file.isDir) {
+      // 目录点击
+      if (currentProvider === '115' && file.fid) {
+        // 115网盘：使用fid作为新的cid
+        setCidHistory(prev => [...prev, { cid: file.fid!, name: file.name }]);
+        setCurrentCid(file.fid);
+      } else {
+        // 其他网盘：使用路径导航
+        onNavigateTo(file.path);
+      }
+    } else {
+      // 文件点击：传递给外部处理
+      onFileClick(file);
+    }
+  };
+
+  // 115网盘：返回上级目录
+  const handleNavigateUp115 = () => {
+    if (cidHistory.length > 1) {
+      const newHistory = cidHistory.slice(0, -1);
+      setCidHistory(newHistory);
+      setCurrentCid(newHistory[newHistory.length - 1].cid);
+    }
+  };
+
+  // 115网盘：点击面包屑导航
+  const handleBreadcrumbClick115 = (index: number) => {
+    const newHistory = cidHistory.slice(0, index + 1);
+    setCidHistory(newHistory);
+    setCurrentCid(newHistory[newHistory.length - 1].cid);
   };
 
   // 搜索过滤
@@ -159,9 +253,76 @@ const FileBrowser: React.FC<FileBrowserProps> = ({
     <section className="animate-fade-in pb-32">
       {/* 顶部工具栏 */}
       <div className="sticky top-[110px] z-20 px-6 py-4 bg-slate-50/95 backdrop-blur-xl border-b border-slate-100">
-        {/* 标题和搜索 */}
+        {/* 网盘选择器和标题 */}
         <div className="flex items-center justify-between mb-3">
-          <h2 className="text-lg font-bold text-slate-800">{title}</h2>
+          <div className="flex items-center gap-3">
+            {/* 网盘选择器 */}
+            <div className="relative" ref={providerDropdownRef}>
+              <button
+                onClick={() => setShowProviderDropdown(!showProviderDropdown)}
+                className="flex items-center gap-2 px-3 py-2 bg-white border border-slate-200 rounded-xl hover:border-indigo-300 hover:shadow-sm transition-all"
+              >
+                <span className="text-lg">{activeProvider?.icon || '☁️'}</span>
+                <span className="text-sm font-medium text-slate-700">{activeProvider?.name || '选择网盘'}</span>
+                <svg 
+                  className={`w-4 h-4 text-slate-400 transition-transform ${showProviderDropdown ? 'rotate-180' : ''}`} 
+                  fill="none" 
+                  stroke="currentColor" 
+                  viewBox="0 0 24 24"
+                >
+                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 9l-7 7-7-7" />
+                </svg>
+              </button>
+
+              {/* 下拉菜单 */}
+              {showProviderDropdown && (
+                <div className="absolute top-full left-0 mt-2 w-56 bg-white rounded-xl shadow-lg border border-slate-100 py-2 z-50 animate-fade-in">
+                  <div className="px-3 py-2 text-xs font-medium text-slate-400 uppercase tracking-wider">
+                    选择网盘
+                  </div>
+                  {providers.map((provider) => (
+                    <button
+                      key={provider.id}
+                      onClick={() => handleProviderChange(provider.id)}
+                      disabled={!provider.connected}
+                      className={`w-full flex items-center gap-3 px-3 py-2.5 text-left transition-colors ${
+                        provider.connected 
+                          ? 'hover:bg-slate-50 cursor-pointer' 
+                          : 'opacity-50 cursor-not-allowed'
+                      } ${currentProvider === provider.id ? 'bg-indigo-50' : ''}`}
+                    >
+                      <span className="text-xl">{provider.icon}</span>
+                      <div className="flex-1 min-w-0">
+                        <div className="flex items-center gap-2">
+                          <span className={`text-sm font-medium ${
+                            currentProvider === provider.id ? 'text-indigo-600' : 'text-slate-700'
+                          }`}>
+                            {provider.name}
+                          </span>
+                          {currentProvider === provider.id && (
+                            <svg className="w-4 h-4 text-indigo-500" fill="currentColor" viewBox="0 0 20 20">
+                              <path fillRule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clipRule="evenodd" />
+                            </svg>
+                          )}
+                        </div>
+                        <span className="text-xs text-slate-400">
+                          {provider.connected ? '已连接' : provider.description || '未连接'}
+                        </span>
+                      </div>
+                      {!provider.connected && (
+                        <span className="text-xs px-2 py-0.5 bg-slate-100 text-slate-500 rounded-full">
+                          待开发
+                        </span>
+                      )}
+                    </button>
+                  ))}
+                </div>
+              )}
+            </div>
+
+            <h2 className="text-lg font-bold text-slate-800">{title}</h2>
+          </div>
+          
           <div className="flex bg-white border border-slate-200 rounded-lg p-0.5">
             <button 
               onClick={() => setViewMode('grid')}
@@ -197,9 +358,9 @@ const FileBrowser: React.FC<FileBrowserProps> = ({
         {/* 面包屑导航 */}
         <div className="flex items-center gap-2 text-xs font-medium text-slate-500 overflow-x-auto hide-scrollbar">
           {/* 返回按钮 */}
-          {canNavigateUp && (
+          {(currentProvider === '115' ? cidHistory.length > 1 : canNavigateUp) && (
             <button
-              onClick={onNavigateUp}
+              onClick={currentProvider === '115' ? handleNavigateUp115 : onNavigateUp}
               className="flex items-center gap-1 px-2 py-1 rounded-lg bg-slate-100 hover:bg-slate-200 text-slate-600 transition-colors mr-2"
             >
               <svg className="w-3 h-3" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -209,19 +370,36 @@ const FileBrowser: React.FC<FileBrowserProps> = ({
             </button>
           )}
           
-          {breadcrumbs.map((crumb, index) => (
-            <React.Fragment key={crumb.path}>
-              {index > 0 && <span className="text-slate-300">/</span>}
-              <button
-                onClick={() => onNavigateTo(crumb.path)}
-                className={`whitespace-nowrap hover:text-indigo-600 transition-colors ${
-                  index === breadcrumbs.length - 1 ? 'text-slate-800 font-semibold' : ''
-                }`}
-              >
-                {crumb.name}
-              </button>
-            </React.Fragment>
-          ))}
+          {/* 115网盘使用cidHistory面包屑 */}
+          {currentProvider === '115' ? (
+            cidHistory.map((crumb, index) => (
+              <React.Fragment key={crumb.cid}>
+                {index > 0 && <span className="text-slate-300">/</span>}
+                <button
+                  onClick={() => handleBreadcrumbClick115(index)}
+                  className={`whitespace-nowrap hover:text-indigo-600 transition-colors ${
+                    index === cidHistory.length - 1 ? 'text-slate-800 font-semibold' : ''
+                  }`}
+                >
+                  {crumb.name}
+                </button>
+              </React.Fragment>
+            ))
+          ) : (
+            breadcrumbs.map((crumb, index) => (
+              <React.Fragment key={crumb.path}>
+                {index > 0 && <span className="text-slate-300">/</span>}
+                <button
+                  onClick={() => onNavigateTo(crumb.path)}
+                  className={`whitespace-nowrap hover:text-indigo-600 transition-colors ${
+                    index === breadcrumbs.length - 1 ? 'text-slate-800 font-semibold' : ''
+                  }`}
+                >
+                  {crumb.name}
+                </button>
+              </React.Fragment>
+            ))
+          )}
         </div>
       </div>
 
@@ -261,8 +439,8 @@ const FileBrowser: React.FC<FileBrowserProps> = ({
           <div className="grid grid-cols-2 md:grid-cols-4 lg:grid-cols-5 gap-4">
             {filteredFiles.map((file) => (
               <button
-                key={file.path}
-                onClick={() => onFileClick(file)}
+                key={file.fid || file.path}
+                onClick={() => handleItemClick(file)}
                 className="group flex flex-col bg-white rounded-2xl p-3 border border-slate-100 shadow-sm hover:shadow-md hover:border-indigo-100 transition-all active:scale-95"
               >
                 {/* 图标/缩略图 */}
@@ -292,8 +470,8 @@ const FileBrowser: React.FC<FileBrowserProps> = ({
           <div className="flex flex-col gap-2">
             {filteredFiles.map((file) => (
               <button
-                key={file.path}
-                onClick={() => onFileClick(file)}
+                key={file.fid || file.path}
+                onClick={() => handleItemClick(file)}
                 className="group flex items-center gap-4 bg-white rounded-xl p-3 border border-slate-100 hover:shadow-sm hover:border-indigo-100 transition-all"
               >
                 <div className="w-10 h-10 rounded-lg bg-slate-50 flex items-center justify-center flex-shrink-0">

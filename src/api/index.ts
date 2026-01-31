@@ -9,6 +9,10 @@ export * from './files';
 export * from './baidu';
 export { default as baidu } from './baidu';
 
+// 115网盘 API
+export * from './115';
+export { default as pan115 } from './115';
+
 // PocketBase 数据中心
 export * from './pocketbase';
 export { default as pocketbase } from './pocketbase';
