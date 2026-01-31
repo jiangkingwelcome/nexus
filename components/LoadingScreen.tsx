@@ -1,12 +1,10 @@
 import React, { useEffect, useState } from 'react';
-import { isLoggedIn as checkAlistLogin, getCurrentUser } from '../src/api/alist';
 
 // 连接状态类型
 type ConnectionStatus = 'pending' | 'connecting' | 'success' | 'error';
 
 interface ConnectionState {
   pocketbase: ConnectionStatus;
-  alist: ConnectionStatus;
   message: string;
 }
 
@@ -150,17 +148,14 @@ const StatusIndicator: React.FC<{ status: ConnectionStatus; label: string }> = (
 const LoadingScreen: React.FC<LoadingScreenProps> = ({ onComplete }) => {
   const [state, setState] = useState<ConnectionState>({
     pocketbase: 'pending',
-    alist: 'pending',
     message: '正在初始化...',
   });
 
   useEffect(() => {
     const connect = async () => {
-      // 步骤 1: 检测 PocketBase 服务
       setState(prev => ({ ...prev, pocketbase: 'connecting', message: '正在连接数据中心...' }));
-      
+
       try {
-        // 只检测服务是否可用，不自动登录
         const response = await fetch(`${import.meta.env.VITE_PB_URL || 'http://localhost:8090'}/api/health`);
         if (response.ok) {
           setState(prev => ({ ...prev, pocketbase: 'success', message: '数据中心已连接' }));
@@ -172,45 +167,16 @@ const LoadingScreen: React.FC<LoadingScreenProps> = ({ onComplete }) => {
         setState(prev => ({ ...prev, pocketbase: 'error', message: '数据中心连接失败（离线模式）' }));
       }
 
-      // 短暂延迟，让用户看到状态变化
       await new Promise(resolve => setTimeout(resolve, 500));
-
-      // 步骤 2: 检测 AList 服务
-      setState(prev => ({ ...prev, alist: 'connecting', message: '正在连接文件网关...' }));
-      
-      try {
-        // 检查 AList 连接
-        const isAlistOk = await checkAlistLogin();
-        if (isAlistOk) {
-          const user = await getCurrentUser();
-          setState(prev => ({ 
-            ...prev, 
-            alist: 'success', 
-            message: `文件网关已连接 (${user?.username || '已登录'})` 
-          }));
-        } else {
-          // AList 未登录，但服务可能可用
-          setState(prev => ({ ...prev, alist: 'success', message: '文件网关已连接' }));
-        }
-      } catch (error) {
-        console.error('AList 连接失败:', error);
-        setState(prev => ({ ...prev, alist: 'error', message: '文件网关连接失败' }));
-      }
-
-      // 短暂延迟后完成
-      await new Promise(resolve => setTimeout(resolve, 800));
-      
-      // 完成加载
       setState(prev => ({ ...prev, message: '准备就绪' }));
       await new Promise(resolve => setTimeout(resolve, 500));
-      
       onComplete();
     };
 
     connect();
   }, [onComplete]);
 
-  const isConnecting = state.pocketbase === 'connecting' || state.alist === 'connecting';
+  const isConnecting = state.pocketbase === 'connecting';
 
   return (
     <div className="fixed inset-0 z-50 flex flex-col items-center justify-center bg-[#050510] overflow-hidden px-4">
@@ -251,7 +217,6 @@ const LoadingScreen: React.FC<LoadingScreenProps> = ({ onComplete }) => {
       {/* 连接状态 */}
       <div className="relative z-10 w-full max-w-[280px] sm:max-w-xs space-y-2 sm:space-y-3 mb-4 sm:mb-6 md:mb-8">
         <StatusIndicator status={state.pocketbase} label="数据中心 (PocketBase)" />
-        <StatusIndicator status={state.alist} label="文件网关 (AList)" />
       </div>
 
       {/* 状态消息 */}
@@ -265,8 +230,7 @@ const LoadingScreen: React.FC<LoadingScreenProps> = ({ onComplete }) => {
           className="h-full bg-gradient-to-r from-amber-400 via-pink-500 to-violet-500 rounded-full transition-all duration-500"
           style={{ 
             width: state.pocketbase === 'pending' ? '0%' :
-                   state.alist === 'pending' ? '33%' :
-                   state.alist === 'connecting' ? '66%' : '100%'
+                   state.pocketbase === 'connecting' ? '50%' : '100%'
           }}
         />
       </div>

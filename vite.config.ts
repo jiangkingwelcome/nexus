@@ -4,31 +4,24 @@ import react from '@vitejs/plugin-react';
 
 export default defineConfig(({ mode }) => {
     const env = loadEnv(mode, '.', '');
-    const alistUrl = env.VITE_ALIST_URL || 'https://jiangking.v3cu.com:3004';
-    
     return {
       server: {
         port: 3000,
         host: '0.0.0.0',
         proxy: {
-          // 代理 Alist API 请求
-          '/api': {
-            target: alistUrl,
+          // 百度 OAuth API 代理
+          '/baidu-oauth': {
+            target: 'https://openapi.baidu.com',
             changeOrigin: true,
-            secure: false,
-            rewrite: (path) => path,
+            rewrite: (path) => path.replace(/^\/baidu-oauth/, ''),
+            secure: true,
           },
-          // 代理 Alist 文件下载
-          '/d': {
-            target: alistUrl,
+          // 百度网盘 API 代理
+          '/baidu-pan': {
+            target: 'https://pan.baidu.com',
             changeOrigin: true,
-            secure: false,
-          },
-          // 代理 Alist 文件预览（直接返回内容，不重定向）
-          '/p': {
-            target: alistUrl,
-            changeOrigin: true,
-            secure: false,
+            rewrite: (path) => path.replace(/^\/baidu-pan/, ''),
+            secure: true,
           },
         },
       },

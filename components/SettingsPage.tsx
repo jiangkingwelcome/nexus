@@ -1,16 +1,7 @@
 import React, { useState, useEffect, useContext } from 'react';
-import { 
-  login as alistLogin, 
-  logout as alistLogout, 
-  isLoggedIn as checkAlistLogin,
-  getCurrentUser,
-  setBaseUrl,
-  getBaseUrl,
-  saveToken,
-  AlistUserInfo
-} from '@/src/api/alist';
 import { fileCache } from '@/src/utils/fileCache';
 import { ThemeContext, UserContext } from '../App';
+import * as baiduApi from '@/src/api/baidu';
 
 // 缓存统计类型
 interface CacheStats {
@@ -151,99 +142,294 @@ const CacheManagement: React.FC<{ isDark: boolean }> = ({ isDark }) => {
   );
 };
 
-const SettingsPage: React.FC = () => {
-  // Alist 设置
-  const [alistUrl, setAlistUrl] = useState(getBaseUrl());
-  const [authMode, setAuthMode] = useState<'token' | 'password'>('token');
-  const [token, setToken] = useState('');
-  const [username, setUsername] = useState('');
-  const [password, setPassword] = useState('');
-  const [alistUser, setAlistUser] = useState<AlistUserInfo['data'] | null>(null);
-  const [alistLoading, setAlistLoading] = useState(false);
-  const [alistError, setAlistError] = useState<string | null>(null);
-  const [alistSuccess, setAlistSuccess] = useState<string | null>(null);
+// 百度网盘连接组件
+const BaiduConnection: React.FC<{ isDark: boolean }> = ({ isDark }) => {
+  const [isConnected, setIsConnected] = useState(false);
+  const [userInfo, setUserInfo] = useState<baiduApi.BaiduUserInfo | null>(null);
+  const [isLoading, setIsLoading] = useState(false);
+  const [error, setError] = useState<string | null>(null);
+  const [showConfig, setShowConfig] = useState(false);
+  const [appKey, setAppKey] = useState('');
+  const [secretKey, setSecretKey] = useState('');
+  const [manualToken, setManualToken] = useState('');
 
-  // 检查登录状态
+  // 检查连接状态
   useEffect(() => {
-    checkLoginStatus();
+    checkConnection();
+    // 监听来自授权回调的消息
+    const handleMessage = (event: MessageEvent) => {
+      if (event.data?.type === 'baidu_auth_success') {
+        checkConnection();
+      }
+    };
+    window.addEventListener('message', handleMessage);
+    return () => window.removeEventListener('message', handleMessage);
   }, []);
 
-  const checkLoginStatus = async () => {
-    const loggedIn = await checkAlistLogin();
+  const checkConnection = async () => {
+    const loggedIn = baiduApi.isLoggedIn();
+    setIsConnected(loggedIn);
     if (loggedIn) {
-      const user = await getCurrentUser();
-      setAlistUser(user);
-    }
-  };
-
-  // 使用 Token 认证
-  const handleTokenAuth = async () => {
-    setAlistLoading(true);
-    setAlistError(null);
-    setAlistSuccess(null);
-
-    try {
-      // 先保存 URL
-      setBaseUrl(alistUrl);
-      
-      // 保存 Token
-      saveToken(token);
-      
-      // 验证 Token 是否有效
-      const user = await getCurrentUser();
-      if (user) {
-        setAlistUser(user);
-        setAlistSuccess('连接成功！');
-        setToken('');
+      // 尝试获取用户信息
+      const cached = baiduApi.getCachedUserInfo();
+      if (cached) {
+        setUserInfo(cached);
       } else {
-        throw new Error('Token 无效，请检查后重试');
+        try {
+          const info = await baiduApi.getUserInfo();
+          setUserInfo(info);
+        } catch (err) {
+          console.error('获取百度用户信息失败:', err);
+        }
       }
-    } catch (err) {
-      setAlistError(err instanceof Error ? err.message : '验证失败');
-    } finally {
-      setAlistLoading(false);
     }
   };
 
-  // Alist 用户名密码登录
-  const handleAlistLogin = async () => {
-    setAlistLoading(true);
-    setAlistError(null);
-    setAlistSuccess(null);
+  const handleConnect = () => {
+    if (!baiduApi.isBaiduConfigured()) {
+      setShowConfig(true);
+      setError('请先配置百度应用信息');
+      return;
+    }
+    // 打开授权页面
+    const authUrl = baiduApi.getAuthUrl();
+    window.open(authUrl, 'baidu_auth', 'width=600,height=700');
+  };
 
+  const handleDisconnect = () => {
+    if (confirm('确定要断开百度网盘连接吗？')) {
+      baiduApi.clearTokens();
+      setIsConnected(false);
+      setUserInfo(null);
+    }
+  };
+
+  const handleSaveConfig = () => {
+    if (!appKey || !secretKey) {
+      setError('请填写完整的应用信息');
+      return;
+    }
+    baiduApi.setBaiduConfig(appKey, secretKey);
+    setShowConfig(false);
+    setError(null);
+  };
+
+  const handleImportToken = async () => {
+    if (!manualToken.trim()) {
+      setError('请输入 refresh_token');
+      return;
+    }
+    if (!appKey || !secretKey) {
+      setError('请先填写 App Key 和 Secret Key');
+      return;
+    }
+    setIsLoading(true);
+    setError(null);
     try {
-      // 先保存 URL
-      setBaseUrl(alistUrl);
-      
-      // 登录
-      await alistLogin(username, password);
-      
-      // 获取用户信息
-      const user = await getCurrentUser();
-      setAlistUser(user);
-      setAlistSuccess('登录成功！');
-      setPassword('');
+      baiduApi.setBaiduConfig(appKey, secretKey);
+      baiduApi.setRefreshToken(manualToken.trim());
+      await baiduApi.refreshAccessToken(); // 验证 token 是否有效
+      await checkConnection();
+      setShowConfig(false);
+      setManualToken('');
     } catch (err) {
-      setAlistError(err instanceof Error ? err.message : '登录失败');
+      setError(err instanceof Error ? err.message : '导入失败，请检查 token 是否正确');
     } finally {
-      setAlistLoading(false);
+      setIsLoading(false);
     }
   };
 
-  // Alist 登出
-  const handleAlistLogout = () => {
-    alistLogout();
-    setAlistUser(null);
-    setAlistSuccess('已退出登录');
+  const handleRefreshToken = async () => {
+    setIsLoading(true);
+    setError(null);
+    try {
+      await baiduApi.refreshAccessToken();
+      await checkConnection();
+    } catch (err) {
+      setError(err instanceof Error ? err.message : '刷新失败');
+    } finally {
+      setIsLoading(false);
+    }
   };
 
-  // 保存 URL 设置
-  const handleSaveUrl = () => {
-    setBaseUrl(alistUrl);
-    setAlistSuccess('服务器地址已保存');
-    setTimeout(() => setAlistSuccess(null), 3000);
-  };
+  // 加载已保存的配置
+  useEffect(() => {
+    const savedKey = localStorage.getItem('baidu_app_key') || '';
+    const savedSecret = localStorage.getItem('baidu_secret_key') || '';
+    setAppKey(savedKey);
+    setSecretKey(savedSecret);
+  }, []);
 
+  return (
+    <section className="mb-8">
+      <h2 className={`text-lg font-semibold mb-4 flex items-center gap-2 ${isDark ? 'text-white' : 'text-slate-700'}`}>
+        <div className={`w-8 h-8 rounded-lg flex items-center justify-center ${isDark ? 'bg-blue-500/20' : 'bg-blue-100'}`}>
+          <svg className={`w-4 h-4 ${isDark ? 'text-blue-400' : 'text-blue-600'}`} viewBox="0 0 24 24" fill="currentColor">
+            <path d="M5.5 7.5c0-2.485 2.015-4.5 4.5-4.5s4.5 2.015 4.5 4.5c0 1.792-1.048 3.339-2.564 4.064C13.5 12.207 15 14.205 15 16.5V21H3v-4.5c0-2.295 1.5-4.293 3.064-4.936C4.548 10.839 3.5 9.292 3.5 7.5h2zm14.5 9c0-1.657-1.343-3-3-3s-3 1.343-3 3v1.5h6V16.5zm-3-10.5c1.105 0 2 .895 2 2s-.895 2-2 2-2-.895-2-2 .895-2 2-2z"/>
+          </svg>
+        </div>
+        百度网盘
+      </h2>
+
+      <div className={`rounded-2xl border p-4 space-y-4 ${isDark ? 'bg-white/5 border-white/10' : 'bg-white border-slate-100'}`}>
+        {isConnected && userInfo ? (
+          <>
+            {/* 已连接状态 */}
+            <div className={`p-4 rounded-xl ${isDark ? 'bg-blue-500/10' : 'bg-blue-50'}`}>
+              <div className="flex items-center gap-4">
+                {userInfo.avatar_url ? (
+                  <img src={userInfo.avatar_url} alt="头像" className="w-12 h-12 rounded-full" />
+                ) : (
+                  <div className={`w-12 h-12 rounded-full flex items-center justify-center text-xl font-bold ${isDark ? 'bg-blue-500 text-white' : 'bg-blue-500 text-white'}`}>
+                    {userInfo.netdisk_name?.[0] || 'B'}
+                  </div>
+                )}
+                <div className="flex-1 min-w-0">
+                  <p className={`font-semibold truncate ${isDark ? 'text-white' : 'text-slate-800'}`}>
+                    {userInfo.netdisk_name || userInfo.baidu_name}
+                  </p>
+                  <p className={`text-sm ${isDark ? 'text-white/50' : 'text-slate-500'}`}>
+                    {userInfo.vip_type > 0 ? '会员用户' : '普通用户'}
+                  </p>
+                </div>
+                <div className={`px-3 py-1 rounded-full text-xs font-medium ${isDark ? 'bg-green-500/20 text-green-400' : 'bg-green-100 text-green-600'}`}>
+                  已连接
+                </div>
+              </div>
+            </div>
+
+            {/* 操作按钮 */}
+            <div className="flex gap-2">
+              <button
+                onClick={handleRefreshToken}
+                disabled={isLoading}
+                className={`flex-1 py-2.5 rounded-xl text-sm font-medium transition-colors ${
+                  isDark ? 'bg-white/10 text-white hover:bg-white/20' : 'bg-slate-100 text-slate-700 hover:bg-slate-200'
+                } disabled:opacity-50`}
+              >
+                {isLoading ? '刷新中...' : '刷新 Token'}
+              </button>
+              <button
+                onClick={handleDisconnect}
+                className={`flex-1 py-2.5 rounded-xl text-sm font-medium transition-colors ${
+                  isDark ? 'bg-red-500/10 text-red-400 hover:bg-red-500/20' : 'bg-red-50 text-red-600 hover:bg-red-100'
+                }`}
+              >
+                断开连接
+              </button>
+            </div>
+          </>
+        ) : (
+          <>
+            {/* 未连接状态 */}
+            <div className={`text-center py-6 ${isDark ? 'text-white/50' : 'text-slate-400'}`}>
+              <div className={`w-16 h-16 rounded-full mx-auto mb-4 flex items-center justify-center ${isDark ? 'bg-white/5' : 'bg-slate-100'}`}>
+                <svg className="w-8 h-8" viewBox="0 0 24 24" fill="currentColor">
+                  <path d="M19.35 10.04C18.67 6.59 15.64 4 12 4 9.11 4 6.6 5.64 5.35 8.04 2.34 8.36 0 10.91 0 14c0 3.31 2.69 6 6 6h13c2.76 0 5-2.24 5-5 0-2.64-2.05-4.78-4.65-4.96zM14 13v4h-4v-4H7l5-5 5 5h-3z"/>
+                </svg>
+              </div>
+              <p className="font-medium mb-1">未连接百度网盘</p>
+              <p className="text-sm">连接后可访问您的网盘文件</p>
+            </div>
+
+            {/* 连接按钮 */}
+            <button
+              onClick={handleConnect}
+              className="w-full py-3 bg-blue-500 text-white rounded-xl font-medium hover:bg-blue-600 transition-colors flex items-center justify-center gap-2"
+            >
+              <svg className="w-5 h-5" viewBox="0 0 24 24" fill="currentColor">
+                <path d="M19.35 10.04C18.67 6.59 15.64 4 12 4 9.11 4 6.6 5.64 5.35 8.04 2.34 8.36 0 10.91 0 14c0 3.31 2.69 6 6 6h13c2.76 0 5-2.24 5-5 0-2.64-2.05-4.78-4.65-4.96z"/>
+              </svg>
+              连接百度网盘
+            </button>
+
+            {/* 配置区域 */}
+            {showConfig && (
+              <div className={`mt-4 p-4 rounded-xl space-y-4 ${isDark ? 'bg-white/5' : 'bg-slate-50'}`}>
+                <p className={`text-sm font-medium ${isDark ? 'text-white' : 'text-slate-700'}`}>
+                  百度应用配置
+                </p>
+                <input
+                  type="text"
+                  value={appKey}
+                  onChange={(e) => setAppKey(e.target.value)}
+                  placeholder="App Key (客户端ID)"
+                  className={`w-full px-4 py-2.5 rounded-xl text-sm ${
+                    isDark ? 'bg-white/10 text-white placeholder:text-white/30' : 'bg-white border border-slate-200'
+                  }`}
+                />
+                <input
+                  type="password"
+                  value={secretKey}
+                  onChange={(e) => setSecretKey(e.target.value)}
+                  placeholder="Secret Key (客户端密钥)"
+                  className={`w-full px-4 py-2.5 rounded-xl text-sm ${
+                    isDark ? 'bg-white/10 text-white placeholder:text-white/30' : 'bg-white border border-slate-200'
+                  }`}
+                />
+                
+                {/* 分隔线 */}
+                <div className={`border-t ${isDark ? 'border-white/10' : 'border-slate-200'}`} />
+                
+                {/* 直接导入 Token */}
+                <p className={`text-sm font-medium ${isDark ? 'text-white' : 'text-slate-700'}`}>
+                  直接导入 Token（推荐）
+                </p>
+                <input
+                  type="text"
+                  value={manualToken}
+                  onChange={(e) => setManualToken(e.target.value)}
+                  placeholder="Refresh Token (刷新令牌)"
+                  className={`w-full px-4 py-2.5 rounded-xl text-sm font-mono ${
+                    isDark ? 'bg-white/10 text-white placeholder:text-white/30' : 'bg-white border border-slate-200'
+                  }`}
+                />
+                <p className={`text-xs ${isDark ? 'text-white/40' : 'text-slate-400'}`}>
+                  如果已有 refresh_token，填入后点击"导入并连接"即可
+                </p>
+                
+                <div className="flex gap-2">
+                  <button
+                    onClick={handleImportToken}
+                    disabled={isLoading}
+                    className="flex-1 py-2.5 rounded-xl text-sm font-medium bg-blue-500 text-white hover:bg-blue-600 disabled:opacity-50"
+                  >
+                    {isLoading ? '连接中...' : '导入并连接'}
+                  </button>
+                  <button
+                    onClick={handleSaveConfig}
+                    className={`flex-1 py-2.5 rounded-xl text-sm font-medium ${
+                      isDark ? 'bg-white/10 text-white hover:bg-white/20' : 'bg-slate-200 text-slate-700 hover:bg-slate-300'
+                    }`}
+                  >
+                    仅保存配置
+                  </button>
+                </div>
+              </div>
+            )}
+
+            {/* 展开/收起配置 */}
+            <button
+              onClick={() => setShowConfig(!showConfig)}
+              className={`w-full py-2 text-sm ${isDark ? 'text-white/50 hover:text-white/70' : 'text-slate-400 hover:text-slate-600'}`}
+            >
+              {showConfig ? '收起配置' : '配置百度应用 (首次使用)'}
+            </button>
+          </>
+        )}
+
+        {/* 错误提示 */}
+        {error && (
+          <div className={`p-3 rounded-xl text-sm ${isDark ? 'bg-red-500/10 text-red-400' : 'bg-red-50 text-red-600'}`}>
+            {error}
+          </div>
+        )}
+      </div>
+    </section>
+  );
+};
+
+const SettingsPage: React.FC = () => {
   const { theme, toggleTheme } = useContext(ThemeContext);
   const { user, logout } = useContext(UserContext);
   const isDark = theme === 'dark';
@@ -386,182 +572,8 @@ const SettingsPage: React.FC = () => {
         </div>
       </section>
 
-      {/* Alist 设置 */}
-      <section className="mb-8">
-        <h2 className={`text-lg font-semibold mb-4 flex items-center gap-2 ${isDark ? 'text-white' : 'text-slate-700'}`}>
-          <div className={`w-8 h-8 rounded-lg flex items-center justify-center ${isDark ? 'bg-indigo-500/20' : 'bg-indigo-100'}`}>
-            <svg className={`w-4 h-4 ${isDark ? 'text-indigo-400' : 'text-indigo-600'}`} fill="none" stroke="currentColor" viewBox="0 0 24 24">
-              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M5 12h14M5 12a2 2 0 01-2-2V6a2 2 0 012-2h14a2 2 0 012 2v4a2 2 0 01-2 2M5 12a2 2 0 00-2 2v4a2 2 0 002 2h14a2 2 0 002-2v-4a2 2 0 00-2-2m-2-4h.01M17 16h.01" />
-            </svg>
-          </div>
-          Alist 文件服务器
-        </h2>
-
-        <div className={`rounded-2xl border p-4 space-y-4 ${isDark ? 'bg-white/5 border-white/10' : 'bg-white border-slate-100'}`}>
-          {/* 服务器地址 */}
-          <div>
-            <label className="block text-sm font-medium text-slate-600 mb-2">服务器地址</label>
-            <div className="flex gap-2">
-              <input 
-                type="text"
-                value={alistUrl}
-                onChange={(e) => setAlistUrl(e.target.value)}
-                placeholder="https://your-alist-server.com"
-                className="flex-1 px-4 py-2.5 border border-slate-200 rounded-xl text-sm focus:outline-none focus:ring-2 focus:ring-indigo-500/50"
-              />
-              <button
-                onClick={handleSaveUrl}
-                className="px-4 py-2.5 bg-slate-100 text-slate-600 rounded-xl text-sm font-medium hover:bg-slate-200 transition-colors"
-              >
-                保存
-              </button>
-            </div>
-          </div>
-
-          {/* 登录状态 */}
-          {alistUser ? (
-            <div className="bg-green-50 rounded-xl p-4">
-              <div className="flex items-center justify-between">
-                <div className="flex items-center gap-3">
-                  <div className="w-10 h-10 rounded-full bg-green-100 flex items-center justify-center">
-                    <svg className="w-5 h-5 text-green-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M5 13l4 4L19 7" />
-                    </svg>
-                  </div>
-                  <div>
-                    <p className="font-medium text-green-800">已连接</p>
-                    <p className="text-sm text-green-600">用户: {alistUser.username}</p>
-                  </div>
-                </div>
-                <button
-                  onClick={handleAlistLogout}
-                  className="px-4 py-2 text-sm font-medium text-red-600 hover:bg-red-50 rounded-lg transition-colors"
-                >
-                  断开连接
-                </button>
-              </div>
-            </div>
-          ) : (
-            <>
-              {/* 认证方式切换 */}
-              <div className="flex gap-2 p-1 bg-slate-100 rounded-lg">
-                <button
-                  onClick={() => setAuthMode('token')}
-                  className={`flex-1 py-2 text-sm font-medium rounded-md transition-colors ${
-                    authMode === 'token' 
-                      ? 'bg-white text-slate-800 shadow-sm' 
-                      : 'text-slate-500 hover:text-slate-700'
-                  }`}
-                >
-                  使用 Token（推荐）
-                </button>
-                <button
-                  onClick={() => setAuthMode('password')}
-                  className={`flex-1 py-2 text-sm font-medium rounded-md transition-colors ${
-                    authMode === 'password' 
-                      ? 'bg-white text-slate-800 shadow-sm' 
-                      : 'text-slate-500 hover:text-slate-700'
-                  }`}
-                >
-                  用户名密码
-                </button>
-              </div>
-
-              {authMode === 'token' ? (
-                <>
-                  {/* Token 输入 */}
-                  <div>
-                    <label className="block text-sm font-medium text-slate-600 mb-2">
-                      Token 令牌
-                    </label>
-                    <input 
-                      type="password"
-                      value={token}
-                      onChange={(e) => setToken(e.target.value)}
-                      placeholder="粘贴从 Alist 管理后台获取的 Token"
-                      className="w-full px-4 py-2.5 border border-slate-200 rounded-xl text-sm focus:outline-none focus:ring-2 focus:ring-indigo-500/50"
-                    />
-                    <p className="text-xs text-slate-400 mt-2">
-                      获取方式：Alist 管理后台 → 设置 → 其他 → 令牌
-                    </p>
-                  </div>
-
-                  {/* Token 登录按钮 */}
-                  <button
-                    onClick={handleTokenAuth}
-                    disabled={alistLoading || !token}
-                    className="w-full py-3 bg-indigo-500 text-white rounded-xl font-medium hover:bg-indigo-600 transition-colors disabled:opacity-50 disabled:cursor-not-allowed flex items-center justify-center gap-2"
-                  >
-                    {alistLoading ? (
-                      <>
-                        <div className="w-4 h-4 border-2 border-white/30 border-t-white rounded-full animate-spin" />
-                        验证中...
-                      </>
-                    ) : (
-                      '使用 Token 连接'
-                    )}
-                  </button>
-                </>
-              ) : (
-                <>
-                  {/* 用户名 */}
-                  <div>
-                    <label className="block text-sm font-medium text-slate-600 mb-2">用户名</label>
-                    <input 
-                      type="text"
-                      value={username}
-                      onChange={(e) => setUsername(e.target.value)}
-                      placeholder="输入 Alist 用户名"
-                      className="w-full px-4 py-2.5 border border-slate-200 rounded-xl text-sm focus:outline-none focus:ring-2 focus:ring-indigo-500/50"
-                    />
-                  </div>
-
-                  {/* 密码 */}
-                  <div>
-                    <label className="block text-sm font-medium text-slate-600 mb-2">密码</label>
-                    <input 
-                      type="password"
-                      value={password}
-                      onChange={(e) => setPassword(e.target.value)}
-                      placeholder="输入密码"
-                      className="w-full px-4 py-2.5 border border-slate-200 rounded-xl text-sm focus:outline-none focus:ring-2 focus:ring-indigo-500/50"
-                      onKeyDown={(e) => e.key === 'Enter' && handleAlistLogin()}
-                    />
-                  </div>
-
-                  {/* 密码登录按钮 */}
-                  <button
-                    onClick={handleAlistLogin}
-                    disabled={alistLoading || !username || !password}
-                    className="w-full py-3 bg-indigo-500 text-white rounded-xl font-medium hover:bg-indigo-600 transition-colors disabled:opacity-50 disabled:cursor-not-allowed flex items-center justify-center gap-2"
-                  >
-                    {alistLoading ? (
-                      <>
-                        <div className="w-4 h-4 border-2 border-white/30 border-t-white rounded-full animate-spin" />
-                        登录中...
-                      </>
-                    ) : (
-                      '登录'
-                    )}
-                  </button>
-                </>
-              )}
-            </>
-          )}
-
-          {/* 提示信息 */}
-          {alistError && (
-            <div className="p-3 bg-red-50 text-red-600 text-sm rounded-xl">
-              {alistError}
-            </div>
-          )}
-          {alistSuccess && (
-            <div className="p-3 bg-green-50 text-green-600 text-sm rounded-xl">
-              {alistSuccess}
-            </div>
-          )}
-        </div>
-      </section>
+      {/* 百度网盘连接 */}
+      <BaiduConnection isDark={isDark} />
 
       {/* 缓存管理 */}
       <CacheManagement isDark={isDark} />

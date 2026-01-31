@@ -85,7 +85,50 @@
 
 ---
 
-## 4. 快速创建脚本
+## 4. system_settings - 系统设置表
+
+用于存储后台管理的系统配置。
+
+### 字段设计
+
+| 字段名 | 类型 | 必填 | 说明 |
+|--------|------|------|------|
+| `library_base_path` | Text | ✅ | 图书馆根路径 |
+| `library_bookshelf_path` | Text | ✅ | 书城路径 |
+| `cinema_base_path` | Text | ✅ | 电影院根路径 |
+| `files_base_path` | Text | ✅ | 文件管理根路径 |
+| `app_name` | Text | ✅ | 应用名称 |
+| `default_user_name` | Text | ✅ | 默认用户名 |
+| `book_formats` | Text | ✅ | 支持的电子书格式 |
+| `video_formats` | Text | ✅ | 支持的视频格式 |
+| `enable_registration` | Bool | ✅ | 是否开放注册 |
+| `max_recent_items` | Number | ✅ | 最近访问数量 |
+| `auto_save_interval` | Number | ✅ | 自动保存间隔(秒) |
+
+### API 规则
+
+```javascript
+// List/View 规则 - 任何登录用户可读
+@request.auth.id != ""
+
+// Create/Update/Delete 规则 - 仅管理员可写
+@request.auth.role = "admin"
+```
+
+---
+
+## 5. users 表扩展
+
+在默认的 users 表基础上，需要添加以下字段：
+
+| 字段名 | 类型 | 必填 | 说明 |
+|--------|------|------|------|
+| `role` | Select | ❌ | 用户角色: `user`, `admin` |
+| `name` | Text | ❌ | 用户显示名称 |
+
+---
+
+## 6. 快速创建脚本
 
 在 PocketBase 管理面板的 **Settings > Import collections** 中导入：
 
@@ -123,44 +166,61 @@
       { "name": "is_favorite", "type": "bool", "required": true },
       { "name": "tags", "type": "json", "required": true }
     ]
+  },
+  {
+    "name": "system_settings",
+    "type": "base",
+    "schema": [
+      { "name": "library_base_path", "type": "text", "required": true },
+      { "name": "library_bookshelf_path", "type": "text", "required": true },
+      { "name": "cinema_base_path", "type": "text", "required": true },
+      { "name": "files_base_path", "type": "text", "required": true },
+      { "name": "app_name", "type": "text", "required": true },
+      { "name": "default_user_name", "type": "text", "required": true },
+      { "name": "book_formats", "type": "text", "required": true },
+      { "name": "video_formats", "type": "text", "required": true },
+      { "name": "enable_registration", "type": "bool", "required": true },
+      { "name": "max_recent_items", "type": "number", "required": true, "options": { "min": 5, "max": 50 } },
+      { "name": "auto_save_interval", "type": "number", "required": true, "options": { "min": 10, "max": 300 } }
+    ]
   }
 ]
 ```
 
 ---
 
-## 5. 数据流示意
+## 7. 数据流示意
 
 ```
 ┌─────────────────────────────────────────────────────────────┐
 │                      Nexus OS 客户端                         │
 └─────────────────────────────────────────────────────────────┘
                               │
-              ┌───────────────┴───────────────┐
-              ▼                               ▼
-┌─────────────────────────┐    ┌─────────────────────────────┐
-│        Alist            │    │        PocketBase            │
-│      (文件网关)          │    │        (数据中心)             │
-├─────────────────────────┤    ├─────────────────────────────┤
-│                         │    │                             │
-│  • 文件列表              │    │  reading_progress 表         │
-│  • 文件直链              │    │  ├─ 视频播放进度              │
-│  • 网盘聚合              │    │  ├─ PDF 阅读页码              │
-│                         │    │  └─ 电子书位置                │
-│                         │    │                             │
-│                         │    │  notes 表                    │
-│                         │    │  └─ 文件笔记                  │
-│                         │    │                             │
-│                         │    │  bookmarks 表                │
-│                         │    │  ├─ 收藏夹                    │
-│                         │    │  └─ 标签分类                  │
-│                         │    │                             │
-└─────────────────────────┘    └─────────────────────────────┘
+                              │
+                              ▼
+            ┌─────────────────────────────────────┐
+            │           PocketBase                 │
+            │           (数据中心)                  │
+            ├─────────────────────────────────────┤
+            │                                     │
+            │  reading_progress 表                 │
+            │  ├─ 视频播放进度                      │
+            │  ├─ PDF 阅读页码                      │
+            │  └─ 电子书位置                        │
+            │                                     │
+            │  notes 表                            │
+            │  └─ 文件笔记                          │
+            │                                     │
+            │  bookmarks 表                        │
+            │  ├─ 收藏夹                            │
+            │  └─ 标签分类                          │
+            │                                     │
+            └─────────────────────────────────────┘
 ```
 
 ---
 
-## 6. 多端同步机制
+## 8. 多端同步机制
 
 ```
 设备 A (手机)                    PocketBase                    设备 B (电脑)

@@ -1,6 +1,6 @@
 import React, { useState, useEffect, useRef } from 'react';
 import { FileItem } from '../types';
-import { getFileUrl, getPreviewUrl, getProxyUrl } from '@/src/api/alist';
+import { getFileUrl, getProxyUrl } from '@/src/api/files';
 import { progressService, ReadingProgress } from '@/src/api/pocketbase';
 import { fileCache } from '@/src/utils/fileCache';
 import { ArrowLeftIcon, MoreHorizontalIcon } from './Icons';
@@ -29,9 +29,9 @@ const FileViewer: React.FC<FileViewerProps> = ({ file, onClose }) => {
         try {
           // 对于文档和电子书，使用代理 URL
           if (file.category === 'document' || file.category === 'ebook') {
-            return await getProxyUrl(file.path);
+            return await getProxyUrl(file.path, file.fs_id);
           } else {
-            return await getFileUrl(file.path);
+            return await getFileUrl(file.path, file.fs_id);
           }
         } catch (err) {
           throw err;
@@ -46,9 +46,6 @@ const FileViewer: React.FC<FileViewerProps> = ({ file, onClose }) => {
         if (progress) setSavedProgress(progress);
       } catch (err) {
         setError(err instanceof Error ? err.message : '获取文件失败');
-        if (file.category === 'video') {
-          setFileUrl('https://www.w3schools.com/html/mov_bbb.mp4');
-        }
       } finally {
         setLoading(false);
       }

@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { createPortal } from 'react-dom';
 import { FileItem, FileCategory } from '../types';
-import { listFiles, getFileCategory, AlistFile } from '@/src/api/alist';
+import { listFiles, getFileCategory, FileListItem } from '@/src/api/files';
 
 interface BookShelfProps {
   path: string;
@@ -100,15 +100,16 @@ const BookShelf: React.FC<BookShelfProps> = ({
     setLoading(true);
     setError(null);
     try {
-      const alistFiles = await listFiles(path);
-      const items: FileItem[] = alistFiles.map((f: AlistFile) => ({
+      const fileList = await listFiles(path);
+      const items: FileItem[] = fileList.map((f: FileListItem) => ({
         name: f.name,
-        path: `${path === '/' ? '' : path}/${f.name}`,
+        path: f.path || `${path === '/' ? '' : path}/${f.name}`,
         size: f.size,
         isDir: f.is_dir,
         modified: f.modified,
         category: getFileCategory(f.name, f.is_dir),
         thumb: f.thumb,
+        fs_id: f.fs_id,
       }));
 
       const bookCategories: FileCategory[] = ['document', 'ebook'];
@@ -534,7 +535,7 @@ const BookShelf: React.FC<BookShelfProps> = ({
             </div>
             <div className="flex-1">
               <h3 className="text-sm font-medium text-emerald-800">已连接</h3>
-              <p className="text-xs text-emerald-600">Alist 服务器</p>
+              <p className="text-xs text-emerald-600">文件源（待自建接口）</p>
             </div>
             <button onClick={loadFiles} className="px-3 py-1.5 bg-emerald-500 text-white text-xs font-medium rounded-lg hover:bg-emerald-600 transition-colors">
               刷新

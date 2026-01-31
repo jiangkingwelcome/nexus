@@ -44,6 +44,8 @@ export interface FileItem {
   category: FileCategory;
   thumb?: string;
   rawUrl?: string;
+  // 百度网盘特有字段
+  fs_id?: number;
 }
 
 // ==================== 功能入口 ====================

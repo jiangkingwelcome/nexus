@@ -6,33 +6,26 @@
 // ==================== 路径配置 ====================
 
 export const PATH_CONFIG = {
-  // 图书馆
+  // 图书馆（阿里云盘）
   library: {
-    basePath: '/百度网盘/电子书',      // 图书馆入口路径
-    bookShelfPath: '/百度网盘/电子书/书城',  // 书城路径（微信读书风格展示）
+    basePath: '/阿里云盘/电子书',           // 图书馆入口路径
+    bookShelfPath: '/阿里云盘/电子书',      // 书城路径（目录即分类）
   },
   
-  // 电影院
+  // 电影院（百度网盘）
   cinema: {
-    basePath: '/百度网盘/电影',        // 电影院入口路径
+    basePath: '/百度网盘/电影',             // 电影院入口路径
   },
   
   // 文件管理
   files: {
-    basePath: '/百度网盘',             // 文件管理入口路径
+    basePath: '/',                          // 文件管理入口路径（根目录，可看所有网盘）
   },
 };
 
 // ==================== API 配置 ====================
 
 export const API_CONFIG = {
-  // Alist 服务器（从环境变量读取）
-  alist: {
-    baseUrl: import.meta.env.VITE_ALIST_URL || 'http://localhost:5244',
-    token: import.meta.env.VITE_ALIST_TOKEN || '',
-  },
-  
-  // PocketBase 服务器（从环境变量读取）
   pocketbase: {
     baseUrl: import.meta.env.VITE_PB_URL || 'http://localhost:8090',
   },

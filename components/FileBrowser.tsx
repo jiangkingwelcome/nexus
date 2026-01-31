@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { FileItem, FileCategory } from '../types';
-import { listFiles, getFileCategory, formatFileSize, formatDate, AlistFile } from '@/src/api/alist';
+import { listFiles, getFileCategory, formatFileSize, formatDate, FileListItem } from '@/src/api/files';
 import { SearchIcon, GridIcon, ListIcon } from './Icons';
 
 interface FileBrowserProps {
@@ -40,17 +40,16 @@ const FileBrowser: React.FC<FileBrowserProps> = ({
     setError(null);
     
     try {
-      const alistFiles = await listFiles(path);
-      
-      // 转换为 FileItem 格式
-      const items: FileItem[] = alistFiles.map((f: AlistFile) => ({
+      const fileList = await listFiles(path);
+      const items: FileItem[] = fileList.map((f: FileListItem) => ({
         name: f.name,
-        path: `${path === '/' ? '' : path}/${f.name}`,
+        path: f.path || `${path === '/' ? '' : path}/${f.name}`,
         size: f.size,
         isDir: f.is_dir,
         modified: f.modified,
         category: getFileCategory(f.name, f.is_dir),
         thumb: f.thumb,
+        fs_id: f.fs_id,
       }));
 
       // 按类型过滤
@@ -71,8 +70,7 @@ const FileBrowser: React.FC<FileBrowserProps> = ({
       setFiles(filteredItems);
     } catch (err) {
       setError(err instanceof Error ? err.message : '加载失败');
-      // 使用 Mock 数据作为演示
-      setFiles(MOCK_FILES);
+      setFiles([]);
     } finally {
       setLoading(false);
     }
@@ -320,14 +318,5 @@ const FileBrowser: React.FC<FileBrowserProps> = ({
     </section>
   );
 };
-
-// Mock 数据 (Alist 未连接时使用)
-const MOCK_FILES: FileItem[] = [
-  { name: '我的图书', path: '/我的图书', size: 0, isDir: true, modified: '2024-01-15', category: 'folder' },
-  { name: '电影收藏', path: '/电影收藏', size: 0, isDir: true, modified: '2024-01-14', category: 'folder' },
-  { name: '代码整洁之道.pdf', path: '/代码整洁之道.pdf', size: 15728640, isDir: false, modified: '2024-01-10', category: 'document' },
-  { name: '星际穿越.mkv', path: '/星际穿越.mkv', size: 4294967296, isDir: false, modified: '2024-01-08', category: 'video' },
-  { name: 'React进阶.epub', path: '/React进阶.epub', size: 5242880, isDir: false, modified: '2024-01-05', category: 'ebook' },
-];
 
 export default FileBrowser;

@@ -56,7 +56,7 @@
 
 | 类别 | 技术选型 | 用途 |
 |------|---------|------|
-| **HTTP Client** | Axios | Alist 文件接口 |
+| **HTTP Client** | Axios | 文件接口 |
 | **Backend SDK** | PocketBase SDK | 数据同步 |
 | **Local Storage** | localForage | IndexedDB 封装 |
 
@@ -76,8 +76,8 @@
 
 ```text
 src/
-├── api/                    # Alist Axios 封装
-│   ├── alist.ts            # Alist API 接口
+├── api/                    # API 封装
+│   ├── files.ts            # 文件接口（自建）
 │   └── types.ts            # 类型定义
 ├── services/               # PocketBase 服务封装
 │   ├── pb.ts               # PocketBase 客户端
@@ -187,33 +187,29 @@ const viewerComponent = computed(() => {
 </template>
 ```
 
-### 4.3 Alist API 封装
+### 4.3 文件 API 封装
 
 ```typescript
-// api/alist.ts
-import axios from 'axios'
-import type { AlistFile, AlistResponse } from './types'
+// api/files.ts
+// 文件接口桩，后续接入自建 API（直接对接各网盘 API）
 
-const alist = axios.create({
-  baseURL: import.meta.env.VITE_ALIST_URL,
-  timeout: 30000,
-})
-
-// 获取目录列表
-export async function listFiles(path: string): Promise<AlistFile[]> {
-  const { data } = await alist.post<AlistResponse<{ content: AlistFile[] }>>('/api/fs/list', {
-    path,
-    refresh: false,
-  })
-  return data.data.content || []
+export interface FileListItem {
+  name: string
+  size: number
+  is_dir: boolean
+  modified: string
 }
 
-// 获取文件直链
+// 获取目录列表（待实现）
+export async function listFiles(path: string): Promise<FileListItem[]> {
+  // TODO: 对接自建文件接口
+  return []
+}
+
+// 获取文件直链（待实现）
 export async function getFileUrl(path: string): Promise<string> {
-  const { data } = await alist.post<AlistResponse<{ raw_url: string }>>('/api/fs/get', {
-    path,
-  })
-  return data.data.raw_url
+  // TODO: 对接自建文件接口
+  throw new Error('文件接口待实现')
 }
 ```
 
@@ -297,10 +293,10 @@ import { CacheFirst, NetworkFirst } from 'workbox-strategies'
 // 预缓存静态资源
 precacheAndRoute(self.__WB_MANIFEST)
 
-// Alist 文件请求 - 网络优先
+// 文件请求 - 网络优先
 registerRoute(
-  ({ url }) => url.pathname.startsWith('/api/fs'),
-  new NetworkFirst({ cacheName: 'alist-api' })
+  ({ url }) => url.pathname.startsWith('/api/files'),
+  new NetworkFirst({ cacheName: 'files-api' })
 )
 
 // 媒体文件 - 缓存优先

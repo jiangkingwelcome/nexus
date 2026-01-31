@@ -9,6 +9,8 @@ import FileViewer from './components/FileViewer';
 import SettingsPage from './components/SettingsPage';
 import LoadingScreen from './components/LoadingScreen';
 import LoginScreen from './components/LoginScreen';
+import BaiduCallback from './components/BaiduCallback';
+import { AdminPage } from './components/admin';
 import { NavTab, FileItem, FileCategory, ThemeMode } from './types';
 import { APP_ENTRIES } from './constants';
 import { PATH_CONFIG } from './src/config';
@@ -52,6 +54,63 @@ const getBasePath = (tab: NavTab): string => {
 };
 
 const App: React.FC = () => {
+  // 检查是否是管理后台路由
+  const [isAdminRoute, setIsAdminRoute] = useState(() => {
+    return window.location.hash === '#/admin' || window.location.pathname === '/admin';
+  });
+
+  // 检查是否是百度 OAuth 回调
+  const [isBaiduCallback, setIsBaiduCallback] = useState(() => {
+    const params = new URLSearchParams(window.location.search);
+    return params.has('code') && (window.location.pathname.includes('baidu') || params.has('state'));
+  });
+
+  // 监听路由变化
+  useEffect(() => {
+    const handleHashChange = () => {
+      setIsAdminRoute(window.location.hash === '#/admin' || window.location.pathname === '/admin');
+    };
+    window.addEventListener('hashchange', handleHashChange);
+    window.addEventListener('popstate', handleHashChange);
+    return () => {
+      window.removeEventListener('hashchange', handleHashChange);
+      window.removeEventListener('popstate', handleHashChange);
+    };
+  }, []);
+
+  // 如果是管理后台路由，直接渲染管理页面
+  if (isAdminRoute) {
+    return <AdminPage />;
+  }
+
+  // 如果是百度 OAuth 回调，渲染回调处理页面
+  if (isBaiduCallback) {
+    return (
+      <BaiduCallback
+        onSuccess={() => {
+          // 通知父窗口（如果是弹窗打开的）
+          if (window.opener) {
+            window.opener.postMessage({ type: 'baidu_auth_success' }, '*');
+            window.close();
+          } else {
+            // 清除 URL 参数并刷新
+            window.location.href = window.location.origin + window.location.pathname;
+          }
+        }}
+        onError={(error) => {
+          console.error('百度授权失败:', error);
+          setTimeout(() => {
+            if (window.opener) {
+              window.close();
+            } else {
+              window.location.href = window.location.origin + window.location.pathname;
+            }
+          }, 3000);
+        }}
+      />
+    );
+  }
+
   const [isLoading, setIsLoading] = useState(true);
   const [currentUser, setCurrentUser] = useState<User | null>(null);
   const [activeTab, setActiveTab] = useState<NavTab>(NavTab.HOME);
